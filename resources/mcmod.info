@@ -1,0 +1,16 @@
+[
+{
+  "modid": "randomloot",
+  "name": "Random Loot Mod",
+  "description": "A new way to get loot from enemies and dungeons.",
+  "version": "1.3",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["milomaz1"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
