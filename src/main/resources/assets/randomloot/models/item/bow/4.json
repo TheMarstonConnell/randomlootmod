@@ -1,5 +1,5 @@
 {
- "parent": "randomloot:item/bow",
+ "parent": "randomloot:item/rl_bow",
  "textures": {
  "layer0": "randomloot:items/bow/4"
 }

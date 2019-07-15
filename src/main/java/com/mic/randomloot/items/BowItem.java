@@ -45,8 +45,8 @@ public class BowItem extends ItemBow {
 	public BowItem(int numBows) {
 		bows = numBows;
 		setCreativeTab(RandomLoot.randomlootTab);
-		setRegistryName(new ResourceLocation(RandomLoot.MODID, "bow"));
-		setUnlocalizedName("bow");
+		setRegistryName(new ResourceLocation(RandomLoot.MODID, "rl_bow"));
+		setUnlocalizedName("rl_bow");
 		ModItems.ITEMS.add(this);
 
 		this.addPropertyOverride(new ResourceLocation("model"), new IItemPropertyGetter() {
@@ -346,8 +346,8 @@ public class BowItem extends ItemBow {
 						stack.damageItem(1, entityplayer);
 
 						if (flag1 || entityplayer.capabilities.isCreativeMode
-								&& (itemstack.getItem() == Items.SPECTRAL_ARROW
-										|| itemstack.getItem() == Items.TIPPED_ARROW)) {
+								&& (itemstack.getItem() == Items.ARROW
+										|| itemstack.getItem() == Items.ARROW)) {
 							entityarrow.pickupStatus = EntityArrow.PickupStatus.CREATIVE_ONLY;
 						}
 

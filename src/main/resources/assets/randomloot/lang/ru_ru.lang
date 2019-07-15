@@ -10,7 +10,7 @@ item.sword.name=Случайный меч
 item.pickaxe.name=Случайная кирка
 item.shovel.name=Случайная лопата
 item.axe.name=Случайный топор
-item.bow.name=Случайный лук
+item.rl_bow.name=Случайный лук
 
 //armor
 //item.chestplate.name=Нагрудник

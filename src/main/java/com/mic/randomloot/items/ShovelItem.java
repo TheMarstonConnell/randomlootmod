@@ -38,7 +38,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ShovelItem extends ItemSpade{
 
 	static int shovels;
-	static int tCount = 0;
+	static int tCount = 11;
 
 	public ShovelItem(ToolMaterial material, int shovels) {
 		super(material);
