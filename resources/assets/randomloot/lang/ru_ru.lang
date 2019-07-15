@@ -1,0 +1,20 @@
+//misc
+itemGroup.randomlootTab=Random Loot Mod
+
+
+//items
+item.basic_case.name=Основная сумка
+item.golden_case.name=§6Золотая сумка
+item.titan_case.name=§dТитановая сумка
+item.sword.name=Случайный меч
+item.pickaxe.name=Случайная кирка
+item.shovel.name=Случайная лопата
+item.axe.name=Случайный топор
+item.bow.name=Случайный лук
+
+//armor
+//item.chestplate.name=Нагрудник
+
+//blocks
+//tile.block.name=Блок
+
