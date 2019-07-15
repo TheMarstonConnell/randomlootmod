@@ -1,0 +1,158 @@
+{
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "randomloot:items/sword"
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"model": 1
+			},
+			"model": "randomloot:item/sword/1"
+		},
+		{
+			"predicate": {
+				"model": 2
+			},
+			"model": "randomloot:item/sword/2"
+		},
+		{
+			"predicate": {
+				"model": 3
+			},
+			"model": "randomloot:item/sword/3"
+		},
+		{
+			"predicate": {
+				"model": 4
+			},
+			"model": "randomloot:item/sword/4"
+		},
+		{
+			"predicate": {
+				"model": 5
+			},
+			"model": "randomloot:item/sword/5"
+		},
+		{
+			"predicate": {
+				"model": 6
+			},
+			"model": "randomloot:item/sword/6"
+		},
+		{
+			"predicate": {
+				"model": 7
+			},
+			"model": "randomloot:item/sword/7"
+		},
+		{
+			"predicate": {
+				"model": 8
+			},
+			"model": "randomloot:item/sword/8"
+		},
+		{
+			"predicate": {
+				"model": 9
+			},
+			"model": "randomloot:item/sword/9"
+		},
+		{
+			"predicate": {
+				"model": 10
+			},
+			"model": "randomloot:item/sword/10"
+		},
+		{
+			"predicate": {
+				"model": 11
+			},
+			"model": "randomloot:item/sword/11"
+		},
+		{
+			"predicate": {
+				"model": 12
+			},
+			"model": "randomloot:item/sword/12"
+		},
+		{
+			"predicate": {
+				"model": 13
+			},
+			"model": "randomloot:item/sword/13"
+		},
+		{
+			"predicate": {
+				"model": 14
+			},
+			"model": "randomloot:item/sword/14"
+		},
+		{
+			"predicate": {
+				"model": 15
+			},
+			"model": "randomloot:item/sword/15"
+		},
+		{
+			"predicate": {
+				"model": 16
+			},
+			"model": "randomloot:item/sword/16"
+		},
+		{
+			"predicate": {
+				"model": 17
+			},
+			"model": "randomloot:item/sword/17"
+		},
+		{
+			"predicate": {
+				"model": 18
+			},
+			"model": "randomloot:item/sword/18"
+		},
+		{
+			"predicate": {
+				"model": 19
+			},
+			"model": "randomloot:item/sword/19"
+		},
+		{
+			"predicate": {
+				"model": 20
+			},
+			"model": "randomloot:item/sword/20"
+		},
+		{
+			"predicate": {
+				"model": 21
+			},
+			"model": "randomloot:item/sword/21"
+		},
+		{
+			"predicate": {
+				"model": 22
+			},
+			"model": "randomloot:item/sword/22"
+		},
+		{
+			"predicate": {
+				"model": 23
+			},
+			"model": "randomloot:item/sword/23"
+		},
+		{
+			"predicate": {
+				"model": 24
+			},
+			"model": "randomloot:item/sword/24"
+		},
+		{
+			"predicate": {
+				"model": 25
+			},
+			"model": "randomloot:item/sword/25"
+		}
+	]
+}

@@ -1,0 +1,6 @@
+{
+	"parent": "randomloot:item/bow/1",
+	"textures": {
+		"layer0": "randomloot:items/bow/1_pulling_2"
+	}
+}

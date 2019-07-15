@@ -1,0 +1,80 @@
+{
+	"parent": "item/handheld",
+	"textures": {
+		"layer0": "randomloot:items/pickaxe"
+	},
+	"overrides": [
+		{
+			"predicate": {
+				"model": 1
+			},
+			"model": "randomloot:item/pickaxe/1"
+		},
+		{
+			"predicate": {
+				"model": 2
+			},
+			"model": "randomloot:item/pickaxe/2"
+		},
+		{
+			"predicate": {
+				"model": 3
+			},
+			"model": "randomloot:item/pickaxe/3"
+		},
+		{
+			"predicate": {
+				"model": 4
+			},
+			"model": "randomloot:item/pickaxe/4"
+		},
+		{
+			"predicate": {
+				"model": 5
+			},
+			"model": "randomloot:item/pickaxe/5"
+		},
+		{
+			"predicate": {
+				"model": 6
+			},
+			"model": "randomloot:item/pickaxe/6"
+		},
+		{
+			"predicate": {
+				"model": 7
+			},
+			"model": "randomloot:item/pickaxe/7"
+		},
+		{
+			"predicate": {
+				"model": 8
+			},
+			"model": "randomloot:item/pickaxe/8"
+		},
+		{
+			"predicate": {
+				"model": 9
+			},
+			"model": "randomloot:item/pickaxe/9"
+		},
+		{
+			"predicate": {
+				"model": 10
+			},
+			"model": "randomloot:item/pickaxe/10"
+		},
+		{
+			"predicate": {
+				"model": 11
+			},
+			"model": "randomloot:item/pickaxe/11"
+		},
+		{
+			"predicate": {
+				"model": 12
+			},
+            "model": "randomloot:item/pickaxe/12"
+		}
+	]
+}
