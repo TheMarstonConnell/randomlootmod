@@ -3,12 +3,12 @@ package com.mic.randomloot.util.handlers.messages;
 import io.netty.buffer.ByteBuf;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
-public class ItemMessage implements IMessage {
+public class BaseMessage implements IMessage {
 	  // A default constructor is always required
-	  public ItemMessage(){}
+	  public BaseMessage(){}
 
 	  int toSend;
-	  public ItemMessage(int toSend) {
+	  public BaseMessage(int toSend) {
 	    this.toSend = toSend;
 	  }
 

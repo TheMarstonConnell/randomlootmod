@@ -302,17 +302,17 @@ public class ItemFields {
 			PickaxeItem i = (PickaxeItem) stack.getItem();
 			float num = (float) (rand.nextFloat() + 0.3);
 			i.addSpeed(num, stack);
-			i.setLore(stack);
+			i.setLore(stack, player);
 		} else if (stack.getItem().equals(ModItems.RL_SHOVEL)) {
 			ShovelItem i = (ShovelItem) stack.getItem();
 			float num = (float) (rand.nextFloat() + 0.3);
 			i.addSpeed(num, stack);
-			i.setLore(stack);
+			i.setLore(stack, player);
 		} else if (stack.getItem().equals(ModItems.RL_AXE)) {
 			AxeItem i = (AxeItem) stack.getItem();
 			float num = (float) (rand.nextFloat() + 0.3);
 			i.addSpeed(num, stack);
-			i.setLore(stack);
+			i.setLore(stack, player);
 		} else if (stack.getItem().equals(ModItems.RL_BOW)) {
 			BowItem i = (BowItem) stack.getItem();
 			Random rand = new Random();
@@ -343,7 +343,7 @@ public class ItemFields {
 				break;
 
 			}
-			i.setLore(stack);
+			i.setLore(stack, player);
 
 		}
 

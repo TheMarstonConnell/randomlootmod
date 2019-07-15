@@ -1,0 +1,32 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern":
+    [
+        "xxx",
+        " y ",
+        "bbb"
+    ],
+    "key":
+    {
+        "x":
+        {
+            "type": "forge:ore_dict",
+            "ore": "blockGold"
+        },
+        "y":
+        {
+            "type": "forge:ore_dict",
+            "ore": "gemDiamond"
+        },
+		"b":
+        {
+            "type": "forge:ore_dict",
+            "ore": "ingotGold"
+        }
+    },
+    "result":
+    {
+        "item": "randomloot:random_anvil",
+        "count": 1
+    }
+}

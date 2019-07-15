@@ -1,0 +1,8 @@
+{
+    "parent": "minecraft:block/anvil",
+    "textures": {
+        "particle": "randomloot:blocks/random_anvil_base",
+        "body": "randomloot:blocks/random_anvil_base",
+        "top": "randomloot:blocks/random_anvil_top"
+    }
+}

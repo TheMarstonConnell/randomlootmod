@@ -9,6 +9,7 @@ import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.util.IHasModel;
+import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.block.material.Material;
@@ -35,7 +36,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ShovelItem extends ItemSpade{
+public class ShovelItem extends ItemSpade implements IReforgeable{
 
 	static int shovels;
 	static int tCount = 11;
@@ -58,6 +59,21 @@ public class ShovelItem extends ItemSpade{
 				return model;
 			}
 		});
+	}
+	
+	public static ItemStack chooseTexture(ItemStack stack) {
+		Random rand = new Random();
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+		nbt.setInteger("Texture", rand.nextInt(shovels) + 1);
+		stack.setTagCompound(nbt);
+		
+		return stack;
+
 	}
 
 	@Override
@@ -147,7 +163,7 @@ public class ShovelItem extends ItemSpade{
 		}
 
 		stack.setTagCompound(nbt);
-		setLore(stack);
+		setLore(stack, entityLiving);
 
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}
@@ -162,7 +178,7 @@ public class ShovelItem extends ItemSpade{
 
 	}
 
-	public void setLore(ItemStack stack) {
+	public void setLore(ItemStack stack, EntityLivingBase player) {
 
 		// System.out.println(digSpeed);
 
@@ -351,6 +367,54 @@ public class ShovelItem extends ItemSpade{
 	public void addSpeed(float num, ItemStack stack) {
 		setDigSpeed(getDigSpeed(stack) + num, stack);
 
+	}
+
+	@Override
+	public ItemStack reforge(ItemStack stack) {
+		Random rand = new Random();
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+
+		int t1 = 0, t2 = 0, t3 = 0, traits = 0;
+
+		nbt.setBoolean("Unbreakable", false);
+
+		nbt.setInteger("T1", t1);
+		nbt.setInteger("T2", t2);
+		nbt.setInteger("T3", t3);
+
+		nbt.setInteger("Lvl", 1);
+		nbt.setInteger("lvlXp", 256);
+		nbt.setInteger("Xp", 0);
+		nbt.setInteger("HideFlags", 2);
+
+		int rarity = nbt.getInteger("rarity");
+		System.out.println("Item rarity: "  + rarity);
+		
+		assignType(stack);
+		
+		
+		ShovelItem shov = (ShovelItem) stack.getItem();
+		switch (rarity) {
+		case 1:
+			shov.setDigSpeed(7 + rand.nextInt(6), stack);
+			break;
+		case 2:
+			shov.setDigSpeed(13 + rand.nextInt(5), stack);
+			break;
+		case 3:
+			shov.setDigSpeed(18 + rand.nextInt(5), stack);
+			break;
+
+		}
+
+		nbt.setString("name", ModItems.ITEM_FIELDS.nameItem("shovel"));
+
+		return stack;
 	}
 
 }

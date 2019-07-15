@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 import com.mic.randomloot.RandomLoot;
+import com.mic.randomloot.commands.ReforgeCommand;
+import com.mic.randomloot.init.ModBlocks;
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.items.CaseItem;
 import com.mic.randomloot.util.IHasModel;
@@ -40,7 +42,9 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
@@ -198,11 +202,11 @@ public class RegistryHandler {
 		for (Item item : ModItems.ITEMS) {
 			RandomLoot.proxy.registerItemRenderer(item, 0, "inventory");
 		}
-		// for (Block block : ModBlocks.BLOCKS) {
-		// if (block instanceof IHasModel) {
-		// ((IHasModel) block).registerModels();
-		// }
-		// }
+		for (Block block : ModBlocks.BLOCKS) {
+			if (block instanceof IHasModel) {
+				((IHasModel) block).registerModels();
+			}
+		}
 	}
 
 	public static void preInitRegistries(FMLPreInitializationEvent event) {

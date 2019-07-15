@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -37,7 +38,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BowItem extends ItemBow {
+public class BowItem extends ItemBow implements IReforgeable{
 	static int bows;
 	private static int useTime = 72000;
 	static int tCount = 11;
@@ -81,6 +82,21 @@ public class BowItem extends ItemBow {
 				return entity != null && entity.isHandActive() && entity.getActiveItemStack() == stack ? 1.0F : 0.0F;
 			}
 		});
+	}
+	
+	public static ItemStack chooseTexture(ItemStack stack) {
+		Random rand = new Random();
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+		nbt.setInteger("Texture", rand.nextInt(bows) + 1);
+		stack.setTagCompound(nbt);
+		
+		return stack;
+
 	}
 	
 	@Override
@@ -247,7 +263,7 @@ public class BowItem extends ItemBow {
 		int t3 = nbt.getInteger("T3");
 
 		stack.setTagCompound(nbt);
-		setLore(stack);
+		setLore(stack, entityLiving);
 
 		if (entityLiving instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
@@ -397,7 +413,7 @@ public class BowItem extends ItemBow {
 		return 72000 - compound.getInteger("velo");
     }
 	
-	public static void setLore(ItemStack stack) {
+	public void setLore(ItemStack stack, EntityLivingBase player) {
 
 
 		NBTTagCompound compound;
@@ -479,4 +495,58 @@ public class BowItem extends ItemBow {
 		stack.setStackDisplayName(color + compound.getString("name"));
 
 	}
+
+	@Override
+	public ItemStack reforge(ItemStack stack) {
+		Random rand = new Random();
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+
+		int t1 = 0, t2 = 0, t3 = 0, traits = 0;
+
+		nbt.setBoolean("Unbreakable", false);
+
+		nbt.setInteger("T1", t1);
+		nbt.setInteger("T2", t2);
+		nbt.setInteger("T3", t3);
+
+		nbt.setInteger("Lvl", 1);
+		nbt.setInteger("lvlXp", 256);
+		nbt.setInteger("Xp", 0);
+		nbt.setInteger("HideFlags", 2);
+
+		int rarity = nbt.getInteger("rarity");
+		System.out.println("Item rarity: "  + rarity);
+		
+		assignType(stack);
+		
+		
+		BowItem bow = (BowItem) stack.getItem();
+		int max = Items.BOW.getMaxItemUseDuration(new ItemStack(Items.BOW));
+
+		switch (rarity) {
+		case 1:
+			bow.setVelo(max / 100 * 2 + rand.nextInt(max / 100 * 20), stack);
+			break;
+		case 2:
+			bow.setVelo(max / 100 * 30 + rand.nextInt(max / 100 * 20), stack);
+			break;
+		case 3:
+			bow.setVelo(max / 100 * 50 + rand.nextInt(max / 100 * 40), stack);
+			break;
+
+		}
+		System.out.println(bow.getVelo(stack));
+		nbt.setFloat("velo", bow.getVelo(stack));
+		nbt.setString("name", ModItems.ITEM_FIELDS.nameItem("bow"));
+
+
+		return stack;
+	}
+
+	
 }

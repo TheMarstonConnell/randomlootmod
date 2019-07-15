@@ -9,6 +9,7 @@ import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.util.IHasModel;
+import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.client.Minecraft;
@@ -19,6 +20,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.Potion;
@@ -30,11 +33,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class SwordItem extends ItemSword{
+public class SwordItem extends ItemSword implements IReforgeable {
 
 	private static int swords;
 	private static int tCount = 11;
-	
 
 	public SwordItem(ToolMaterial material, int swords) {
 		super(material);
@@ -62,13 +64,13 @@ public class SwordItem extends ItemSword{
 		// TODO Auto-generated method stub
 		return super.setNoRepair();
 	}
-	
+
 	@Override
 	public boolean isRepairable() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	public static int getTexture(ItemStack stack) {
 		int value = 0;
 
@@ -100,10 +102,10 @@ public class SwordItem extends ItemSword{
 		} else {
 			nbt.setInteger("Xp", 1);
 		}
-		
+
 		if (xp >= lvlXp) {
 			ModItems.ITEM_FIELDS.upgrade(stack, attacker);
-			
+
 		}
 
 		int t1 = nbt.getInteger("T1");
@@ -141,13 +143,12 @@ public class SwordItem extends ItemSword{
 			attacker.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 5 * 20, 1));
 		}
 
-		
 		stack.setTagCompound(nbt);
 		setLore(stack, attacker);
 		return super.hitEntity(stack, target, attacker);
 	}
 
-	public static void setLore(ItemStack stack, EntityLivingBase player) {
+	public void setLore(ItemStack stack, EntityLivingBase player) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -287,7 +288,6 @@ public class SwordItem extends ItemSword{
 		nbt.setInteger("lvlXp", 256);
 		nbt.setInteger("Xp", 0);
 		rand.setSeed(rand.nextInt(256));
-		nbt.setInteger("Texture", rand.nextInt(swords) + 1);
 		nbt.setInteger("HideFlags", 2);
 
 		stack.setTagCompound(nbt);
@@ -295,11 +295,94 @@ public class SwordItem extends ItemSword{
 
 		return stack;
 	}
-//
-//	@Override
-//	public void registerModels() {
-//		RandomLoot.proxy.registerItemRenderer(this, 0, "inventory");
-//
-//	}
+
+	public static ItemStack chooseTexture(ItemStack stack) {
+		Random rand = new Random();
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+		nbt.setInteger("Texture", rand.nextInt(swords) + 1);
+		stack.setTagCompound(nbt);
+
+		return stack;
+
+	}
+	//
+	// @Override
+	// public void registerModels() {
+	// RandomLoot.proxy.registerItemRenderer(this, 0, "inventory");
+	//
+	// }
+
+	@Override
+	public ItemStack reforge(ItemStack stack) {
+
+		System.out.println("Reforging Sword");
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+
+		int t1 = 0, t2 = 0, t3 = 0, traits = 0;
+
+		nbt.setBoolean("Unbreakable", false);
+
+		nbt.setInteger("T1", t1);
+		nbt.setInteger("T2", t2);
+		nbt.setInteger("T3", t3);
+
+		nbt.setInteger("Lvl", 1);
+		nbt.setInteger("lvlXp", 256);
+		nbt.setInteger("Xp", 0);
+		nbt.setInteger("HideFlags", 2);
+
+		int rarity = nbt.getInteger("rarity");
+		System.out.println("Item rarity: " + rarity);
+
+		NBTTagCompound damage = new NBTTagCompound();
+		damage.setTag("AttributeName", new NBTTagString("generic.attackDamage"));
+		damage.setTag("Name", new NBTTagString("generic.attackDamage"));
+		int dmg = (int) ModItems.ITEM_FIELDS.calcDamage(rarity);
+		damage.setTag("Amount", new NBTTagInt(dmg));
+		damage.setTag("Operation", new NBTTagInt(0));
+		damage.setTag("UUIDLeast", new NBTTagInt(3));
+		damage.setTag("UUIDMost", new NBTTagInt(4));
+		damage.setTag("Slot", new NBTTagString("mainhand"));
+
+		// speed
+		NBTTagCompound speed = new NBTTagCompound();
+		speed.setTag("AttributeName", new NBTTagString("generic.attackSpeed"));
+		speed.setTag("Name", new NBTTagString("generic.attackSpeed"));
+
+		double spd = ModItems.ITEM_FIELDS.calcSpeed(rarity) * -1;
+		speed.setTag("Amount", new NBTTagDouble(spd));
+		speed.setTag("Operation", new NBTTagInt(0));
+		speed.setTag("UUIDLeast", new NBTTagInt(1));
+		speed.setTag("UUIDMost", new NBTTagInt(2));
+		speed.setTag("Slot", new NBTTagString("mainhand"));
+		nbt.setInteger("damage", dmg);
+		nbt.setDouble("speed", spd);
+
+		NBTTagList modifiers = new NBTTagList();
+
+		modifiers.appendTag(damage);
+		modifiers.appendTag(speed);
+		nbt.setString("name", ModItems.ITEM_FIELDS.nameItem("sword"));
+
+		nbt.setTag("AttributeModifiers", modifiers);
+
+		stack.setTagCompound(nbt);
+		// TextComponentString("Assigned NBT"));
+		assignType(stack);
+		System.out.println("reforged sword");
+
+		return stack;
+
+	}
 
 }

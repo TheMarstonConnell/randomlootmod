@@ -172,6 +172,7 @@ public class CaseItem extends ItemBase {
 		ItemStack item = new ItemStack(iChoice);
 		if (iChoice instanceof SwordItem) {
 			item = SwordItem.assignType(item);
+			item = SwordItem.chooseTexture(item);
 
 		} else if (iChoice instanceof AxeItem) {
 			item = AxeItem.assignType(item);
@@ -201,10 +202,16 @@ public class CaseItem extends ItemBase {
 		// rarirty of 1-3
 		int rarity = rollRarity(i);
 
+		
+		
+		
 		// nbt
 		NBTTagCompound compound = (item.hasTagCompound()) ? item.getTagCompound() : new NBTTagCompound();
 		NBTTagList modifiers = new NBTTagList();
 
+		compound.setInteger("rarity", rarity);
+		
+		
 		if (iChoice.equals(ModItems.RL_SWORD)) {
 
 			// damage
@@ -315,13 +322,13 @@ public class CaseItem extends ItemBase {
 		if (iChoice.equals(ModItems.RL_SWORD))
 			((SwordItem) iChoice).setLore(item, player);
 		else if (iChoice.equals(ModItems.RL_PICKAXE))
-			((PickaxeItem) iChoice).setLore(item);
+			((PickaxeItem) iChoice).setLore(item, player);
 		else if (iChoice.equals(ModItems.RL_SHOVEL))
-			((ShovelItem) iChoice).setLore(item);
+			((ShovelItem) iChoice).setLore(item, player);
 		else if (iChoice.equals(ModItems.RL_AXE))
-			((AxeItem) iChoice).setLore(item);
+			((AxeItem) iChoice).setLore(item, player);
 		else if (iChoice.equals(ModItems.RL_BOW))
-			((BowItem) iChoice).setLore(item);
+			((BowItem) iChoice).setLore(item, player);
 		return item;
 
 	}

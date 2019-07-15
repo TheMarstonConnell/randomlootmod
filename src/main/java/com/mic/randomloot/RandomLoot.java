@@ -10,11 +10,13 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import java.io.File;
 
 import org.apache.logging.log4j.Logger;
 
+import com.mic.randomloot.commands.ReforgeCommand;
 import com.mic.randomloot.proxy.CommonProxy;
 import com.mic.randomloot.util.ModTab;
 import com.mic.randomloot.util.handlers.RegistryHandler;
@@ -48,6 +50,15 @@ public class RandomLoot {
 		Launch.classLoader.addTransformerExclusion("org.apache.commons.lang3");
 	}
 
+	@EventHandler
+	public void serverLoad(FMLServerStartingEvent event)
+	{
+	    // register server commands
+		System.out.println("REGISTERING REFORGE COMMAND **************");
+
+	event.registerServerCommand(new ReforgeCommand());
+	}
+	
 	// Event Handlers
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event) {
