@@ -35,7 +35,7 @@ public class ModItems {
 
 	
 	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 25);
-	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 12);
+	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 13);
 	public static final Item RL_SHOVEL = new ShovelItem(ToolMaterial.DIAMOND, 8);
 	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 6);
 	

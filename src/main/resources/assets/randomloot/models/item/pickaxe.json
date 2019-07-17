@@ -75,6 +75,12 @@
 				"model": 12
 			},
             "model": "randomloot:item/pickaxe/12"
+		},
+		{
+			"predicate": {
+				"model": 13
+			},
+            "model": "randomloot:item/pickaxe/13"
 		}
 	]
 }
