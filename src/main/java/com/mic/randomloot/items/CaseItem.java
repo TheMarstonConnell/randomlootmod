@@ -14,6 +14,7 @@ import com.google.common.collect.Multimap;
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 import com.mic.randomloot.util.handlers.NetworkHandler;
 
@@ -120,54 +121,27 @@ public class CaseItem extends ItemBase {
 
 	public static ItemStack getItem(World worldIn, EntityLivingBase player, Item i) {
 		Random rand = new Random();
-		boolean needsItem = true;
 		int iType = 0;
-		Item iChoice = null;
-		while (needsItem) {
-			rand.setSeed(rand.nextLong());
-			iType = rand.nextInt(14);
-			switch (iType) {
-			case 0:
-			case 1:
-			case 2:
-			case 3:
-				if (ConfigHandler.swords) {
-					iChoice = ModItems.RL_SWORD;
-					needsItem = false;
-				}
-				break;
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-				if (ConfigHandler.pickaxes) {
-					iChoice = ModItems.RL_PICKAXE;
-					needsItem = false;
-				}
-				break;
-			case 8:
-				if (ConfigHandler.shovels) {
-					iChoice = ModItems.RL_SHOVEL;
-					needsItem = false;
-				}
-				break;
-			case 9:
-			case 10:
-				if (ConfigHandler.axes) {
-					iChoice = ModItems.RL_AXE;
-					needsItem = false;
-				}
-				break;
-			case 11:
-			case 12:
-			case 13:
-				if (ConfigHandler.bows) {
-					iChoice = ModItems.RL_BOW;
-					needsItem = false;
-				}
-				break;
-			}
+		
+		
+		WeightedChooser<Item> wc = new WeightedChooser<Item>();
+		if (ConfigHandler.swords) {
+			wc.addChoice(ModItems.RL_SWORD, ConfigHandler.swordWeight);
 		}
+		if (ConfigHandler.pickaxes) {
+			wc.addChoice(ModItems.RL_PICKAXE, ConfigHandler.pickWeight);
+		}
+		if (ConfigHandler.axes) {
+			wc.addChoice(ModItems.RL_AXE, ConfigHandler.axeWeight);
+		}
+		if (ConfigHandler.shovels) {
+			wc.addChoice(ModItems.RL_SHOVEL, ConfigHandler.shovelWeight);
+		}
+		if (ConfigHandler.bows) {
+			wc.addChoice(ModItems.RL_BOW, ConfigHandler.bowWeight);
+		}
+		
+		Item iChoice = wc.getRandomObject();
 
 		ItemStack item = new ItemStack(iChoice);
 		if (iChoice instanceof SwordItem) {
@@ -176,15 +150,20 @@ public class CaseItem extends ItemBase {
 
 		} else if (iChoice instanceof AxeItem) {
 			item = AxeItem.assignType(item);
+			item = AxeItem.chooseTexture(item);
+
 
 		} else if (iChoice instanceof PickaxeItem) {
 			item = PickaxeItem.assignType(item);
+			item = PickaxeItem.chooseTexture(item);
 
 		} else if (iChoice instanceof ShovelItem) {
 			item = ShovelItem.assignType(item);
+			item = ShovelItem.chooseTexture(item);
 
 		} else if (iChoice instanceof BowItem) {
 			item = BowItem.assignType(item);
+			item = BowItem.chooseTexture(item);
 
 		}
 
@@ -310,7 +289,7 @@ public class CaseItem extends ItemBase {
 				break;
 
 			}
-			System.out.println(bow.getVelo(item));
+//			System.out.println(bow.getVelo(item));
 			compound.setFloat("velo", bow.getVelo(item));
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("bow"));
 		}

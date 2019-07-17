@@ -1,0 +1,7 @@
+{
+    "parent": "block/cube_column",
+    "textures": {
+        "end": "randomloot:blocks/repair_station_top",
+        "side": "randomloot:blocks/repair_station_side"
+    }
+}

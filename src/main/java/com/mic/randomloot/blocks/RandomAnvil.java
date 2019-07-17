@@ -11,6 +11,7 @@ import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ModBlocks;
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.util.IReforgeable;
+import com.mic.randomloot.util.handlers.ConfigHandler;
 import com.mic.randomloot.util.handlers.NetworkHandler;
 
 import net.minecraft.block.Block;
@@ -60,7 +61,7 @@ public class RandomAnvil extends BlockFalling {
 		super(Material.ANVIL);
 		this.setDefaultState(this.blockState.getBaseState().withProperty(FACING, EnumFacing.NORTH));
 		setUnlocalizedName(name); // Used for localization (en_US.lang)
-		setRegistryName(new ResourceLocation(RandomLoot.MODID, name));
+		setRegistryName(name);
 		this.setLightOpacity(0);
 		setCreativeTab(tab);
 		this.blockSoundType = SoundType.ANVIL;
@@ -71,23 +72,20 @@ public class RandomAnvil extends BlockFalling {
 		ModBlocks.BLOCKS.add(this);
 		ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(name));
 	}
-	
-//	@Override
-//	public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-//		// TODO Auto-generated method stub
-//		return new ItemBlock(this);
-//	}
-	
-	
+
+	// @Override
+	// public Item getItemDropped(IBlockState state, Random rand, int fortune) {
+	// // TODO Auto-generated method stub
+	// return new ItemBlock(this);
+	// }
 
 	@Override
 	public void getDrops(NonNullList<ItemStack> drops, IBlockAccess world, BlockPos pos, IBlockState state,
 			int fortune) {
 
-//		drops.add(new ItemStack(this));
+		// drops.add(new ItemStack(this));
 		super.getDrops(drops, world, pos, state, fortune);
 	}
-	
 
 	public boolean isFullCube(IBlockState state) {
 		return false;
@@ -191,16 +189,23 @@ public class RandomAnvil extends BlockFalling {
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 		if (hand.equals(EnumHand.MAIN_HAND)) {
 			if (worldIn.isRemote) {
-				System.out.println("Runnign reforge Command");
 
 				if (playerIn.inventory.getCurrentItem().getItem() instanceof IReforgeable) {
 					ItemStack offHand = playerIn.getHeldItem(EnumHand.OFF_HAND);
-					if (offHand.getItem().equals(Items.BLAZE_POWDER) && offHand.getCount() > 12) {
+
+					int count = ConfigHandler.reforgeItemCount;
+					String itemName = ConfigHandler.reforgeItemName;
+					Item itemToUse = Item.REGISTRY
+							.getObject(new ResourceLocation(itemName.substring(0, itemName.indexOf(":")),
+									itemName.substring(itemName.indexOf(':') + 1)));
+					if ((offHand.getItem().equals(itemToUse) && offHand.getCount() > count) || count == 0) {
 						NetworkHandler.reforge();
 						playerIn.sendMessage(new TextComponentString("Item reforged."));
 						return true;
 					} else {
-						playerIn.sendMessage(new TextComponentString("Not enough blaze powder in off-hand."));
+						playerIn.sendMessage(new TextComponentString(
+								"Not enough " + itemName.substring(itemName.indexOf(':') + 1).replaceAll("_", " ")
+										+ " in off-hand."));
 						return true;
 					}
 
@@ -216,10 +221,11 @@ public class RandomAnvil extends BlockFalling {
 		// hitX, hitY, hitZ);
 		return true;
 	}
-	
-	@SideOnly(Side.CLIENT)
-    public void initModel() {
-        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0, new ModelResourceLocation(getRegistryName(), "inventory"));
-    }
+
+//	@SideOnly(Side.CLIENT)
+//	public void initModel() {
+//		ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0,
+//				new ModelResourceLocation(getRegistryName(), "inventory"));
+//	}
 
 }

@@ -39,6 +39,18 @@
 				"model": 6
 			},
 			"model": "randomloot:item/shovel/6"
+		},
+		{
+			"predicate": {
+				"model": 7
+			},
+			"model": "randomloot:item/shovel/7"
+		},
+		{
+			"predicate": {
+				"model": 8
+			},
+			"model": "randomloot:item/shovel/8"
 		}
 	]
 }

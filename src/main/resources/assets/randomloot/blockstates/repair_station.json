@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "normal": { "model": "randomloot:repair_station" }
+    }
+}

@@ -36,7 +36,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class SwordItem extends ItemSword implements IReforgeable {
 
 	private static int swords;
-	private static int tCount = 11;
+	public static int tCount = 11;
 
 	public SwordItem(ToolMaterial material, int swords) {
 		super(material);
@@ -59,6 +59,8 @@ public class SwordItem extends ItemSword implements IReforgeable {
 
 	}
 
+	
+	
 	@Override
 	public Item setNoRepair() {
 		// TODO Auto-generated method stub
@@ -278,6 +280,16 @@ public class SwordItem extends ItemSword implements IReforgeable {
 
 		if ((t1 == 9 || t2 == 9 || t3 == 9) && ConfigHandler.unbreakable) {
 			nbt.setBoolean("Unbreakable", true);
+		}
+		
+		if(t1 == t2) {
+			t2 = 0;
+		}
+		if(t1 == t3) {
+			t3 = 0;
+		}
+		if(t2 == t3) {
+			t3 = 0;
 		}
 
 		nbt.setInteger("T1", t1);

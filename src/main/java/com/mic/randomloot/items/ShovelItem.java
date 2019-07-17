@@ -39,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ShovelItem extends ItemSpade implements IReforgeable{
 
 	static int shovels;
-	static int tCount = 11;
+	public static int tCount = 11;
 
 	public ShovelItem(ToolMaterial material, int shovels) {
 		super(material);
@@ -69,9 +69,10 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 		} else {
 			nbt = new NBTTagCompound();
 		}
-		nbt.setInteger("Texture", rand.nextInt(shovels) + 1);
+		int randomNum = rand.nextInt(shovels) + 1;
+		nbt.setInteger("Texture", randomNum);
 		stack.setTagCompound(nbt);
-		
+		System.out.println("Shovel Variant: " + randomNum);
 		return stack;
 
 	}

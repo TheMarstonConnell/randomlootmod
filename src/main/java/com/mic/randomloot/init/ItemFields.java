@@ -93,7 +93,6 @@ public class ItemFields {
 	 * @return tier (normal, rare, epic)
 	 */
 	public int rollRarity(Item i) {
-		System.out.println("Drop type = " + ConfigHandler.dropType);
 		int tier = 0;
 
 		// Defaults
@@ -109,8 +108,7 @@ public class ItemFields {
 		} else if (i.equals(ModItems.TITAN_CASE)) {
 			caseType = 3;
 		}
-		
-		System.out.println(caseType);
+
 		int[] chance = null;
 		switch (caseType) {
 		case 1:
@@ -261,12 +259,31 @@ public class ItemFields {
 		if (stack.getItem().equals(ModItems.RL_SWORD)) {
 			int dmg = compound.getInteger("damage");
 			double spd = compound.getDouble("speed");
-			switch (rand.nextInt(2) + 1) {
+			switch (rand.nextInt(3) + 1) {
 			case 1:
 				dmg++;
 				break;
 			case 2:
 				spd = spd + 0.05;
+				break;
+			case 3:
+				if (!(compound.getInteger("T1") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T1", rand.nextInt(SwordItem.tCount) + 1);
+					}
+				}
+				if (!(compound.getInteger("T2") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T2", rand.nextInt(SwordItem.tCount) + 1);
+
+					}
+				}
+				if (!(compound.getInteger("T3") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T3", rand.nextInt(SwordItem.tCount) + 1);
+
+					}
+				}
 				break;
 
 			}
@@ -300,18 +317,90 @@ public class ItemFields {
 			modifiers.appendTag(speed);
 		} else if (stack.getItem().equals(ModItems.RL_PICKAXE)) {
 			PickaxeItem i = (PickaxeItem) stack.getItem();
-			float num = (float) (rand.nextFloat() + 0.3);
-			i.addSpeed(num, stack);
+			Random rand = new Random();
+			switch (rand.nextInt(2) + 1) {
+			case 1:
+				if (!(compound.getInteger("T1") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T1", rand.nextInt(PickaxeItem.tCount) + 1);
+					}
+				}
+				if (!(compound.getInteger("T2") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T2", rand.nextInt(PickaxeItem.tCount) + 1);
+
+					}
+				}
+				if (!(compound.getInteger("T3") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T3", rand.nextInt(PickaxeItem.tCount) + 1);
+
+					}
+				}
+				break;
+			case 2:
+				float num = (float) (rand.nextFloat() + 0.3);
+				i.addSpeed(num, stack);
+				break;
+			}
 			i.setLore(stack, player);
 		} else if (stack.getItem().equals(ModItems.RL_SHOVEL)) {
 			ShovelItem i = (ShovelItem) stack.getItem();
-			float num = (float) (rand.nextFloat() + 0.3);
-			i.addSpeed(num, stack);
+			Random rand = new Random();
+			switch (rand.nextInt(2) + 1) {
+			case 1:
+				if (!(compound.getInteger("T1") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T1", rand.nextInt(ShovelItem.tCount) + 1);
+					}
+				}
+				if (!(compound.getInteger("T2") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T2", rand.nextInt(ShovelItem.tCount) + 1);
+
+					}
+				}
+				if (!(compound.getInteger("T3") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T3", rand.nextInt(ShovelItem.tCount) + 1);
+
+					}
+				}
+				break;
+			case 2:
+				float num = (float) (rand.nextFloat() + 0.3);
+				i.addSpeed(num, stack);
+				break;
+			}
 			i.setLore(stack, player);
 		} else if (stack.getItem().equals(ModItems.RL_AXE)) {
 			AxeItem i = (AxeItem) stack.getItem();
-			float num = (float) (rand.nextFloat() + 0.3);
-			i.addSpeed(num, stack);
+			Random rand = new Random();
+			switch (rand.nextInt(2) + 1) {
+			case 1:
+				if (!(compound.getInteger("T1") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T1", rand.nextInt(AxeItem.tCount) + 1);
+					}
+				}
+				if (!(compound.getInteger("T2") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T2", rand.nextInt(AxeItem.tCount) + 1);
+
+					}
+				}
+				if (!(compound.getInteger("T3") > 0)) {
+					if (rand.nextInt(10) == 9) {
+						compound.setInteger("T3", rand.nextInt(AxeItem.tCount) + 1);
+
+					}
+				}
+				break;
+			case 2:
+				float num = (float) (rand.nextFloat() + 0.3);
+				i.addSpeed(num, stack);
+				break;
+			}
 			i.setLore(stack, player);
 		} else if (stack.getItem().equals(ModItems.RL_BOW)) {
 			BowItem i = (BowItem) stack.getItem();

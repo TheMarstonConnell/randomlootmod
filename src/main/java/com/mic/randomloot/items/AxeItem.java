@@ -39,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class AxeItem extends ItemAxe implements IReforgeable{
 
 	static int axes;
-	static int tCount = 11;
+	public static int tCount = 11;
 
 	public AxeItem(ToolMaterial material, int axes) {
 		super(material);

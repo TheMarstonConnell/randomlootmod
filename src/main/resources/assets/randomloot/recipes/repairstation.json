@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "___",
+        "OAO",
+        "ODO"
+    ],
+    "key": {
+        "_": {
+            "item": "minecraft:stone_slab",
+			"data": 0
+        },
+        "O": {
+            "item": "minecraft:log",
+			"data": 0
+        },
+        "A": {
+            "item": "minecraft:anvil",
+			"data": 0
+        },
+        "D": {
+            "type": "forge:ore_dict",
+            "ore": "gemDiamond"
+        }
+    },
+    "result": {
+        "item": "randomloot:repair_station",
+		"data": 0,
+        "count": 1
+    }
+}

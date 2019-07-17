@@ -31,6 +31,23 @@ public class ConfigHandler {
 	public static boolean dropFromMobs = true;
 	public static boolean spawnInChests = true;
 	public static int chestSpawnRate = 100;
+	public static int reforgeItemCount = 12;
+	
+	
+
+	public static String reforgeItemName = "blaze_powder";
+
+	public static int shovelWeight;
+
+	public static int swordWeight;
+
+	public static int pickWeight;
+
+	public static int axeWeight;
+
+	public static int bowWeight;
+
+	public static int repairStationCooldown;
 	
 	public static void init(File file){
 		
@@ -58,6 +75,7 @@ public class ConfigHandler {
 		pickaxes = config.getBoolean("Pickaxes Enabled", category, true, "Enables or disables the item");
 		shovels = config.getBoolean("Shovels Enabled", category, true, "Enables or disables the item");
 		
+		
 		//Damage settings
 		category = "Variables";
 		tierOneDamageMin = config.getInt("Tier One Minimum Damage", category, 7, 0, 99, "Sets the minimum damage of the weapons.");
@@ -67,6 +85,18 @@ public class ConfigHandler {
 		tierThreeDamageMin = config.getInt("Tier Three Minimum Damage", category, 15, 0, 99, "Sets the minimum damage of the weapons.");
 		tierThreeDamageMax = config.getInt("Tier Three Maximum Damage", category, 22, 0, 100, "Sets the maximum damage of the weapons.");
 		unbreakable = config.getBoolean("Unbreakable Tools Allowed", category, true, "False turns off the 'unbreakable' trait.");
+		
+		reforgeItemCount = config.getInt("Reforge Item Count", category, 12, 0, 64, "How many of the item you need in the offhand to reforge (0 to disable)");
+		reforgeItemName = config.getString("Reforge Item", category, "minecraft:blaze_powder", "item to use in offhand to reforge");
+		
+		shovelWeight = config.getInt("Shovel Weighting", category, 10, 1, 100, "How often you recieve shovels from the cases.");
+		swordWeight = config.getInt("Sword Weighting", category, 40, 1, 100, "How often you recieve swords from the cases.");
+		pickWeight = config.getInt("Pickaxe Weighting", category, 25, 1, 100, "How often you recieve pickaxes from the cases.");
+		axeWeight = config.getInt("Axe Weighting", category, 18, 1, 100, "How often you recieve axes from the cases.");
+		bowWeight = config.getInt("Bow Weighting", category, 10, 1, 100, "How often you recieve bows from the cases.");
+		
+		repairStationCooldown = config.getInt("Repair Station cooldown", category, 20, 1, 1000, "How many ticks in between a durability repair.");
+
 		
 		config.save();
 		

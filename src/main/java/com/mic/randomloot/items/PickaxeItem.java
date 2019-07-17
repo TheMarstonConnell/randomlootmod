@@ -39,7 +39,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class PickaxeItem extends ItemPickaxe implements IReforgeable{
 
 	static int pickaxes;
-	static int tCount = 11;
+	public static int tCount = 11;
 
 	public PickaxeItem(ToolMaterial material, int pickaxes) {
 		super(material);
@@ -496,6 +496,8 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable{
 
 		return stack;
 	}
+	
+	
 
 
 }
