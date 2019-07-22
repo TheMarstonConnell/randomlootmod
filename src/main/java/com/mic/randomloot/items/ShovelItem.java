@@ -1,6 +1,7 @@
 package com.mic.randomloot.items;
 
 import java.text.DecimalFormat;
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -16,6 +17,7 @@ import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -30,6 +32,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -134,7 +137,10 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 
 		}
 		if (t1 == 6 || t2 == 6 || t3 == 6) {
-
+			List<EntityItem> entities = worldIn.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1));
+			for(EntityItem item : entities) {
+				item.setPositionAndUpdate(entityLiving.posX, entityLiving.posY, entityLiving.posZ);
+			}
 		}
 		if (t1 == 7 || t2 == 7 || t3 == 7) {
 			// PotionEffect(MobEffects.SATURATION, 30 * 20, 0));
@@ -234,8 +240,8 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 			// "Starving"));
 		}
 		if (t1 == 6 || t2 == 6 || t3 == 6) {
-			// lore.appendTag(new NBTTagString(TextFormatting.GOLD +
-			// "Levitating"));
+			lore.appendTag(new NBTTagString(TextFormatting.AQUA +
+					 "Phasing"));
 		}
 		if (t1 == 7 || t2 == 7 || t3 == 7) {
 			lore.appendTag(new NBTTagString(TextFormatting.DARK_GREEN + "Filling"));

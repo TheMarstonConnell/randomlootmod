@@ -34,10 +34,10 @@ public class ModItems {
 	public static final CaseItem TITAN_CASE = new CaseItem("titan_case", 3);
 
 	
-	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 25);
-	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 13);
+	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 28);
+	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 17);
 	public static final Item RL_SHOVEL = new ShovelItem(ToolMaterial.DIAMOND, 8);
-	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 6);
+	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 10);
 	
 	public static final Item RL_BOW = new BowItem(6);
 	

@@ -81,6 +81,54 @@
 				"model": 13
 			},
             "model": "randomloot:item/pickaxe/13"
+		},
+		{
+			"predicate": {
+				"model": 14
+			},
+            "model": "randomloot:item/pickaxe/14"
+		},
+		{
+			"predicate": {
+				"model": 15
+			},
+            "model": "randomloot:item/pickaxe/15"
+		},
+		{
+			"predicate": {
+				"model": 16
+			},
+            "model": "randomloot:item/pickaxe/16"
+		},
+		{
+			"predicate": {
+				"model": 17
+			},
+            "model": "randomloot:item/pickaxe/17"
+		},
+		{
+			"predicate": {
+				"model": 18
+			},
+            "model": "randomloot:item/pickaxe/18"
+		},
+		{
+			"predicate": {
+				"model": 19
+			},
+            "model": "randomloot:item/pickaxe/19"
+		},
+		{
+			"predicate": {
+				"model": 20
+			},
+            "model": "randomloot:item/pickaxe/20"
+		},
+		{
+			"predicate": {
+				"model": 21
+			},
+            "model": "randomloot:item/pickaxe/21"
 		}
 	]
 }

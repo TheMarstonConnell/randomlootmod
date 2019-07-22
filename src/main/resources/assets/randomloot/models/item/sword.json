@@ -153,6 +153,42 @@
 				"model": 25
 			},
 			"model": "randomloot:item/sword/25"
+		},
+		{
+			"predicate": {
+				"model": 26
+			},
+			"model": "randomloot:item/sword/26"
+		},
+		{
+			"predicate": {
+				"model": 27
+			},
+			"model": "randomloot:item/sword/27"
+		},
+		{
+			"predicate": {
+				"model": 28
+			},
+			"model": "randomloot:item/sword/28"
+		},
+		{
+			"predicate": {
+				"model": 29
+			},
+			"model": "randomloot:item/sword/29"
+		},
+		{
+			"predicate": {
+				"model": 30
+			},
+			"model": "randomloot:item/sword/30"
+		},
+		{
+			"predicate": {
+				"model": 31
+			},
+			"model": "randomloot:item/sword/31"
 		}
 	]
 }

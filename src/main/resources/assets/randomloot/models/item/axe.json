@@ -39,6 +39,42 @@
 				"model": 6
 			},
 			"model": "randomloot:item/axe/6"
+		},
+		{
+			"predicate": {
+				"model": 7
+			},
+			"model": "randomloot:item/axe/7"
+		},
+		{
+			"predicate": {
+				"model": 8
+			},
+			"model": "randomloot:item/axe/8"
+		},
+		{
+			"predicate": {
+				"model": 9
+			},
+			"model": "randomloot:item/axe/9"
+		},
+		{
+			"predicate": {
+				"model": 10
+			},
+			"model": "randomloot:item/axe/10"
+		},
+		{
+			"predicate": {
+				"model": 11
+			},
+			"model": "randomloot:item/axe/11"
+		},
+		{
+			"predicate": {
+				"model": 12
+			},
+			"model": "randomloot:item/axe/12"
 		}
 	]
 }
