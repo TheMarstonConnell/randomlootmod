@@ -9,6 +9,10 @@ item.pickaxe.name=Random Pickaxe
 item.shovel.name=Random Shovel
 item.axe.name=Random Axe
 item.rl_bow.name=Random Bow
+item.heavy_helmet.name=Random Helmet
+item.heavy_chest.name=Random Chestplate
+item.heavy_legs.name=Random Leggings
+item.heavy_boots.name=Random Boots
 
 tile.random_anvil.name=Golden Anvil
 tile.repair_station.name=Repair Station

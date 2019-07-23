@@ -38,7 +38,14 @@ public class ItemFields {
 	public static String[] adjectivesBows;
 	public static String[] nounsBows;
 	private static Random rand = new Random();
-
+	private static String[] adjectivesBoots;
+	private static String[] nounsBoots;
+	private static String[] adjectivesLegs;
+	private static String[] nounsLegs;
+	private static String[] adjectivesChest;
+	private static String[] nounsChest;
+	private static String[] adjectivesHelmet;
+	private static String[] nounsHelmet;
 	public ItemFields() {
 
 		String[] adjectivesUniversal = { "Blazing", "Dark", "Dainty", "Jewel Encrusted", "Light", "Heavy", "Serious",
@@ -74,7 +81,17 @@ public class ItemFields {
 		String[] nounsSwords = { "Blade", "Sword", "Slasher", "Titan", "Killer", "Cleaver", "Knife", "Cutlass",
 				"Nightmare", "Glaive", "Machete", "Saber", "Claymore", "Doomblade", "Defender", "Striker", "Crusader",
 				"Skewer", "Chaos", "Infinity", "Broadsword", "Shortsword", "Architect", "Lance", "Bat" };
-
+		
+		
+		String[] nounsBoots = { "Boots", "Booties", "Feet", "Runners", "Tires", "Shoes"};
+		String[] adjectivesBoots = { "Swift", "Fast"};
+		String[] nounsLegs = { "Leggings", "Pants", "Shorts", "Knickers", "Trousers", "Drawers", "Briefs", "Chaps", "Jeans"};
+		String[] adjectivesLegs = { "Thick", "Sweaty"};
+		String[] nounsChest = { "Chestplate", "Breastplate", "Shirt", "Chest", "Armor Piece", "Shell"};
+		String[] adjectivesChest = { "Heavy", "Blast-Resistant"};
+		String[] nounsHelmet = { "Helmet", "Helm", "Hat", "Hard Hat", "Head Protector", "Skull"};
+		String[] adjectivesHelmet = { "Upright", "Weighted"};
+		
 		this.adjectivesUniversal = adjectivesUniversal;
 		this.adjectivesPickaxes = adjectivesPickaxes;
 		this.nounsPickaxes = nounsPickaxes;
@@ -86,6 +103,14 @@ public class ItemFields {
 		this.nounsAxes = nounsAxes;
 		this.adjectivesBows = adjectivesBows;
 		this.nounsBows = nounsBows;
+		this.adjectivesBoots = adjectivesBoots;
+		this.nounsBoots = nounsBoots;
+		this.adjectivesChest = adjectivesChest;
+		this.nounsChest = nounsChest;
+		this.adjectivesLegs = adjectivesLegs;
+		this.nounsLegs = nounsLegs;
+		this.adjectivesHelmet = adjectivesHelmet;
+		this.nounsHelmet = nounsHelmet;
 	}
 
 	/**
@@ -173,6 +198,26 @@ public class ItemFields {
 			String[] adjs = mergeArrs(adjectivesBows, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
 			nn = nounsBows[rand.nextInt(nounsBows.length)];
+		} else if(type.equals("boots")) {
+			String[] adjs = mergeArrs(adjectivesUniversal, adjectivesBoots);
+			adj = adjs[rand.nextInt(adjs.length)];
+			nn = nounsBoots[rand.nextInt(nounsBoots.length)];
+
+		}else if(type.equals("legs")) {
+			String[] adjs = mergeArrs(adjectivesUniversal, adjectivesLegs);
+			adj = adjs[rand.nextInt(adjs.length)];
+			nn = nounsLegs[rand.nextInt(nounsLegs.length)];
+
+		}else if(type.equals("chest")) {
+			String[] adjs = mergeArrs(adjectivesUniversal, adjectivesChest);
+			adj = adjs[rand.nextInt(adjs.length)];
+			nn = nounsChest[rand.nextInt(nounsChest.length)];
+
+		}else if(type.equals("helmet")) {
+			String[] adjs = mergeArrs(adjectivesUniversal, adjectivesHelmet);
+			adj = adjs[rand.nextInt(adjs.length)];
+			nn = nounsHelmet[rand.nextInt(nounsHelmet.length)];
+
 		}
 		return adj + " " + nn;
 	}

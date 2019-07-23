@@ -20,7 +20,8 @@ public class ConfigHandler {
 	public static boolean pickaxes = true;
 	public static boolean shovels = true;
 	public static boolean bows = true;
-	
+	public static boolean armor = true;
+
 	public static int tierOneDamageMin = 7;
 	public static int tierOneDamageMax = 11;
 	public static int tierTwoDamageMin = 10;
@@ -46,6 +47,8 @@ public class ConfigHandler {
 	public static int axeWeight;
 
 	public static int bowWeight;
+	
+	public static int armorWeight;
 
 	public static int repairStationCooldown;
 	
@@ -74,7 +77,7 @@ public class ConfigHandler {
 		bows = config.getBoolean("Bows Enabled", category, true, "Enables or disables the item");
 		pickaxes = config.getBoolean("Pickaxes Enabled", category, true, "Enables or disables the item");
 		shovels = config.getBoolean("Shovels Enabled", category, true, "Enables or disables the item");
-		
+		armor = config.getBoolean("Armor Enabled", category, true, "Enables or disables armor");
 		
 		//Damage settings
 		category = "Variables";
@@ -94,7 +97,8 @@ public class ConfigHandler {
 		pickWeight = config.getInt("Pickaxe Weighting", category, 25, 1, 100, "How often you recieve pickaxes from the cases.");
 		axeWeight = config.getInt("Axe Weighting", category, 18, 1, 100, "How often you recieve axes from the cases.");
 		bowWeight = config.getInt("Bow Weighting", category, 10, 1, 100, "How often you recieve bows from the cases.");
-		
+		armorWeight = config.getInt("Armor Weighting", category, 10, 1, 100, "How often you recieve armor from the cases.");
+
 		repairStationCooldown = config.getInt("Repair Station cooldown", category, 20, 1, 1000, "How many ticks in between a durability repair.");
 
 		

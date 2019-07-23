@@ -140,7 +140,13 @@ public class CaseItem extends ItemBase {
 		if (ConfigHandler.bows) {
 			wc.addChoice(ModItems.RL_BOW, ConfigHandler.bowWeight);
 		}
-		
+		if (ConfigHandler.armor) {
+			wc.addChoice(ModItems.RANDOM_BOOTS, ConfigHandler.armorWeight / 4);
+			wc.addChoice(ModItems.RANDOM_CHEST, ConfigHandler.armorWeight / 4);
+			wc.addChoice(ModItems.RANDOM_LEGS, ConfigHandler.armorWeight / 4);
+			wc.addChoice(ModItems.RANDOM_HELMET, ConfigHandler.armorWeight / 4);
+
+		}
 		Item iChoice = wc.getRandomObject();
 
 		ItemStack item = new ItemStack(iChoice);
@@ -165,6 +171,8 @@ public class CaseItem extends ItemBase {
 			item = BowItem.assignType(item);
 			item = BowItem.chooseTexture(item);
 
+		}else if (iChoice instanceof RandomArmor) {
+			item = RandomArmor.assignType(item);
 		}
 
 		item.getItem().addPropertyOverride(new ResourceLocation("model"), new IItemPropertyGetter() {
@@ -292,6 +300,18 @@ public class CaseItem extends ItemBase {
 //			System.out.println(bow.getVelo(item));
 			compound.setFloat("velo", bow.getVelo(item));
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("bow"));
+		}else if(iChoice.equals(ModItems.RANDOM_BOOTS)) {
+			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("boots"));
+
+		}else if(iChoice.equals(ModItems.RANDOM_CHEST)) {
+			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("chest"));
+
+		}else if(iChoice.equals(ModItems.RANDOM_HELMET)) {
+			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("helmet"));
+
+		}else if(iChoice.equals(ModItems.RANDOM_LEGS)) {
+			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("legs"));
+
 		}
 
 		compound.setInteger("rarity", rarity);
@@ -308,6 +328,8 @@ public class CaseItem extends ItemBase {
 			((AxeItem) iChoice).setLore(item, player);
 		else if (iChoice.equals(ModItems.RL_BOW))
 			((BowItem) iChoice).setLore(item, player);
+		else if (iChoice instanceof RandomArmor)
+			((RandomArmor) iChoice).setLore(item, player);
 		return item;
 
 	}

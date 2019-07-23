@@ -221,4 +221,16 @@ public class RegistryHandler {
 		// GuiHandler());
 
 	}
+	
+//	@SubscribeEvent
+//	public void playerTickEvent(PlayerTickEvent event, EntityPlayer player) //CHOOSE THE EVENT THAT BEST SUITS YOUR NEEDS
+//	{
+//	    List<ItemStack> armor = (List<ItemStack>) player.getArmorInventoryList();
+//	    if(!armor.get(2).getItem().equals(ModItems.CHESTPLATE_GODLY)){
+//	    	System.out.println("no fly");
+//	    	player.capabilities.allowFlying = false;
+//	    	player.capabilities.isFlying = false;
+//	    	
+//	    }
+//	}
 }
