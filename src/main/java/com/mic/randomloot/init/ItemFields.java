@@ -26,64 +26,66 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
 
 public class ItemFields {
-	public static String[] adjectivesU;
-	public static String[] adjectivesS;
-	public static String[] nounsS;
-	public static String[] adjectivesSh;
-	public static String[] nounsSh;
-	public static String[] adjectivesP;
-	public static String[] nounsP;
-	public static String[] adjectivesA;
-	public static String[] nounsA;
-	public static String[] adjectivesB;
-	public static String[] nounsB;
+	public static String[] adjectivesUniversal;
+	public static String[] adjectivesShovels;
+	public static String[] nounsSwords;
+	public static String[] adjectivesSwords;
+	public static String[] nounsShovels;
+	public static String[] adjectivesPickaxes;
+	public static String[] nounsPickaxes;
+	public static String[] adjectivesAxes;
+	public static String[] nounsAxes;
+	public static String[] adjectivesBows;
+	public static String[] nounsBows;
 	private static Random rand = new Random();
 
 	public ItemFields() {
 
-		String[] adjectivesU = { "Blazing", "Dark", "Dainty", "Jewel Encrusted", "Light", "Heavy", "Serious",
+		String[] adjectivesUniversal = { "Blazing", "Dark", "Dainty", "Jewel Encrusted", "Light", "Heavy", "Serious",
 				"Enlightened", "Swift", "Titanic", "Crude", "Icy", "Mythic", "Epic", "Legendary", "Awesome",
 				"Incredible", "Shocking", "Iron", "Titanium", "Soft", "Pretty", "Sweet", "Steel", "Elder", "Ancient",
-				"Advanced", "Dreadful" };
+				"Advanced", "Dreadful", "Shiny", "Alien", "Twisted", "Necro", "Molten", "crimson", "Shadow",
+				"Fossilized", "Platinum", "Galactic", "Ripe", "Stary", "Vortex", "Nightmarish", "Spectre", "Nebula" };
 
-		String[] adjectivesS = { "Fearsome", "Brutal", "Terrifying", "Harsh", "Barbaric", "Bloodthirsty", "Heartless",
-				"Merciless", "Ruthless", "Savage", "Cold-Blooded", "Fearsome" };
+		String[] adjectivesSwords = { "Fearsome", "Brutal", "Terrifying", "Harsh", "Barbaric", "Bloodthirsty",
+				"Heartless", "Merciless", "Ruthless", "Savage", "Cold-Blooded", "Fearsome" };
 
-		String[] adjectivesSh = { "Rusty", "Filthy", "Shining", "Powerful", "Ground-Breaking", "Sharpened",
+		String[] adjectivesShovels = { "Rusty", "Filthy", "Shining", "Powerful", "Ground-Breaking", "Sharpened",
 				"Crackling" };
 
-		String[] adjectivesP = { "Rusty", "Reliable", "Gritty", "Powerful", "Terra", "Hammering", "Sturdy" };
+		String[] adjectivesPickaxes = { "Rusty", "Reliable", "Gritty", "Powerful", "Terra", "Hammering", "Sturdy",
+				"Crystaline", "Pointy" };
 
-		String[] nounsP = { "Digger", "Terrablade", "Harbringer", "Earth Shatterer", "Crust-Breaker", "Hole-Puncher",
-				"Point", "Swinger", "Mountain Mover", "Pickaxe", "Pick", "Gold Digger" };
+		String[] nounsPickaxes = { "Digger", "Terrablade", "Harbringer", "Earth Shatterer", "Crust-Breaker",
+				"Hole-Puncher", "Point", "Swinger", "Mountain Mover", "Pickaxe", "Pick", "Gold Digger", "Jackhammer" };
 
-		String[] adjectivesB = { "Quivering", "Heavy-Bolted", "Venomous", "Whistling", "Atuned", "Starstruck" };
+		String[] adjectivesBows = { "Quivering", "Heavy-Bolted", "Venomous", "Whistling", "Atuned", "Starstruck" };
 
-		String[] nounsB = { "Bow", "Fletcher", "Slinger", "Bolt-Tosser", "Warp-Bow", "Piercer", "Hunting Bow",
+		String[] nounsBows = { "Bow", "Fletcher", "Slinger", "Bolt-Tosser", "Warp-Bow", "Piercer", "Hunting Bow",
 				"Crossbow", "Basilisk", "Launcher" };
 
-		String[] adjectivesA = { "Towering", "Wooden", "Fireman's", "Gracious", "Lumber", "Felling", "Swinging" };
+		String[] adjectivesAxes = { "Towering", "Wooden", "Fireman's", "Gracious", "Lumbering", "Felling", "Swinging" };
 
-		String[] nounsA = { "Chopper", "Axe", "Hatchet", "Splitter", "Tomahawk", "Tremor", "Greataxe", "War Axe",
-				"Broadaxe", "Ravager", "Reaver", "Halberd" };
+		String[] nounsAxes = { "Chopper", "Axe", "Hatchet", "Splitter", "Tomahawk", "Tremor", "Greataxe", "War Axe",
+				"Broadaxe", "Ravager", "Reaver", "Halberd", "Hacker", "Battle Axe", "Lumber Axe" };
 
-		String[] nounsSh = { "Spade", "Shovel", "Shatter", "Trowel", "Scoop", "Gravedigger", "Spoon" };
+		String[] nounsShovels = { "Spade", "Shovel", "Shatter", "Trowel", "Scoop", "Gravedigger", "Spoon" };
 
-		String[] nounsS = { "Blade", "Sword", "Slasher", "Titan", "Killer", "Cleaver", "Knife", "Cutlass", "Nightmare",
-				"Glaive", "Machete", "Saber", "Claymore", "Doomblade", "Defender", "Striker", "Crusader", "Skewer",
-				"Chaos", "Infinity", "Broadsword", "Shortsword", "Architect", "Lance" };
+		String[] nounsSwords = { "Blade", "Sword", "Slasher", "Titan", "Killer", "Cleaver", "Knife", "Cutlass",
+				"Nightmare", "Glaive", "Machete", "Saber", "Claymore", "Doomblade", "Defender", "Striker", "Crusader",
+				"Skewer", "Chaos", "Infinity", "Broadsword", "Shortsword", "Architect", "Lance", "Bat" };
 
-		this.adjectivesU = adjectivesU;
-		this.adjectivesP = adjectivesP;
-		this.nounsP = nounsP;
-		this.adjectivesS = adjectivesS;
-		this.nounsS = nounsS;
-		this.adjectivesSh = adjectivesSh;
-		this.nounsSh = nounsSh;
-		this.adjectivesA = adjectivesA;
-		this.nounsA = nounsA;
-		this.adjectivesB = adjectivesB;
-		this.nounsB = nounsB;
+		this.adjectivesUniversal = adjectivesUniversal;
+		this.adjectivesPickaxes = adjectivesPickaxes;
+		this.nounsPickaxes = nounsPickaxes;
+		this.adjectivesShovels = adjectivesShovels;
+		this.nounsShovels = nounsShovels;
+		this.adjectivesSwords = adjectivesSwords;
+		this.nounsSwords = nounsSwords;
+		this.adjectivesAxes = adjectivesAxes;
+		this.nounsAxes = nounsAxes;
+		this.adjectivesBows = adjectivesBows;
+		this.nounsBows = nounsBows;
 	}
 
 	/**
@@ -152,25 +154,25 @@ public class ItemFields {
 		String nn = null;
 
 		if (type.equals("pickaxe")) {
-			String[] adjs = mergeArrs(adjectivesP, adjectivesU);
+			String[] adjs = mergeArrs(adjectivesPickaxes, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
-			nn = nounsP[rand.nextInt(nounsP.length)];
+			nn = nounsPickaxes[rand.nextInt(nounsPickaxes.length)];
 		} else if (type.equals("sword")) {
-			String[] adjs = mergeArrs(adjectivesS, adjectivesU);
+			String[] adjs = mergeArrs(adjectivesSwords, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
-			nn = nounsS[rand.nextInt(nounsS.length)];
+			nn = nounsSwords[rand.nextInt(nounsSwords.length)];
 		} else if (type.equals("shovel")) {
-			String[] adjs = mergeArrs(adjectivesSh, adjectivesU);
+			String[] adjs = mergeArrs(adjectivesShovels, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
-			nn = nounsSh[rand.nextInt(nounsSh.length)];
+			nn = nounsShovels[rand.nextInt(nounsShovels.length)];
 		} else if (type.equals("axe")) {
-			String[] adjs = mergeArrs(adjectivesA, adjectivesU);
+			String[] adjs = mergeArrs(adjectivesAxes, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
-			nn = nounsA[rand.nextInt(nounsA.length)];
+			nn = nounsAxes[rand.nextInt(nounsAxes.length)];
 		} else if (type.equals("bow")) {
-			String[] adjs = mergeArrs(adjectivesB, adjectivesU);
+			String[] adjs = mergeArrs(adjectivesBows, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
-			nn = nounsB[rand.nextInt(nounsB.length)];
+			nn = nounsBows[rand.nextInt(nounsBows.length)];
 		}
 		return adj + " " + nn;
 	}
