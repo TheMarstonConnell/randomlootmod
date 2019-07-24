@@ -1,6 +1,7 @@
 package com.mic.randomloot.proxy;
 
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -26,33 +27,33 @@ public class ClientProxy extends CommonProxy {
 
 	@SubscribeEvent
 	public void onPlayerJoin(TickEvent.PlayerTickEvent event) {
-		System.out.println("Player Joined, sending wlecome message.");
-		if (event.player.world.isRemote && event.player == FMLClientHandler.instance().getClientPlayerEntity())
-        {
+		// System.out.println("Player Joined, sending wlecome message.");
+		if (event.player.world.isRemote && event.player == FMLClientHandler.instance().getClientPlayerEntity()) {
 			MinecraftForge.EVENT_BUS.unregister(this);
-			
-			event.player.sendMessage(new TextComponentString(TextFormatting.GOLD + "Thank you for installing Random Loot by milomaz1, follow me on twitter @MarstonConnell for updates!"));
-			event.player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 2.5F, 1.0F);
-        }
+			if (ConfigHandler.doWelcomeMessage) {
+				event.player.sendMessage(new TextComponentString(TextFormatting.GOLD
+						+ "Thank you for installing Random Loot by milomaz1, follow me on twitter @MarstonConnell for updates!"));
+				event.player.playSound(SoundEvents.ENTITY_PLAYER_LEVELUP, 2.5F, 1.0F);
+			}
+		}
 
 	}
-	
+
 	@Override
 	public String localize(String unlocalized, Object... args) {
 		return I18n.format(unlocalized, args);
 	}
-	
+
 	@SubscribeEvent
-	public static void registerModels(ModelRegistryEvent event)
-	{
-//		ModItems.registerModels();
+	public static void registerModels(ModelRegistryEvent event) {
+		// ModItems.registerModels();
 	}
-	
+
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
 		System.out.println("PreInit Success");
-//		ModItems.registerModels();
+		// ModItems.registerModels();
 
 	}
 

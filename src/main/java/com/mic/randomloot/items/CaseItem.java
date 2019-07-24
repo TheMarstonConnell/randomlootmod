@@ -122,8 +122,7 @@ public class CaseItem extends ItemBase {
 	public static ItemStack getItem(World worldIn, EntityLivingBase player, Item i) {
 		Random rand = new Random();
 		int iType = 0;
-		
-		
+
 		WeightedChooser<Item> wc = new WeightedChooser<Item>();
 		if (ConfigHandler.swords) {
 			wc.addChoice(ModItems.RL_SWORD, ConfigHandler.swordWeight);
@@ -141,11 +140,14 @@ public class CaseItem extends ItemBase {
 			wc.addChoice(ModItems.RL_BOW, ConfigHandler.bowWeight);
 		}
 		if (ConfigHandler.armor) {
-			wc.addChoice(ModItems.RANDOM_BOOTS, ConfigHandler.armorWeight / 4);
-			wc.addChoice(ModItems.RANDOM_CHEST, ConfigHandler.armorWeight / 4);
-			wc.addChoice(ModItems.RANDOM_LEGS, ConfigHandler.armorWeight / 4);
-			wc.addChoice(ModItems.RANDOM_HELMET, ConfigHandler.armorWeight / 4);
-
+			wc.addChoice(ModItems.RANDOM_BOOTS, ConfigHandler.armorWeight);
+			wc.addChoice(ModItems.RANDOM_CHEST, ConfigHandler.armorWeight);
+			wc.addChoice(ModItems.RANDOM_LEGS, ConfigHandler.armorWeight);
+			wc.addChoice(ModItems.RANDOM_HELMET, ConfigHandler.armorWeight);
+			wc.addChoice(ModItems.TITANIUM_BOOTS, ConfigHandler.armorWeight);
+			wc.addChoice(ModItems.TITANIUM_CHEST, ConfigHandler.armorWeight);
+			wc.addChoice(ModItems.TITANIUM_LEGS, ConfigHandler.armorWeight);
+			wc.addChoice(ModItems.TITANIUM_HELMET, ConfigHandler.armorWeight);
 		}
 		Item iChoice = wc.getRandomObject();
 
@@ -157,7 +159,6 @@ public class CaseItem extends ItemBase {
 		} else if (iChoice instanceof AxeItem) {
 			item = AxeItem.assignType(item);
 			item = AxeItem.chooseTexture(item);
-
 
 		} else if (iChoice instanceof PickaxeItem) {
 			item = PickaxeItem.assignType(item);
@@ -171,7 +172,7 @@ public class CaseItem extends ItemBase {
 			item = BowItem.assignType(item);
 			item = BowItem.chooseTexture(item);
 
-		}else if (iChoice instanceof RandomArmor) {
+		} else if (iChoice instanceof RandomArmor) {
 			item = RandomArmor.assignType(item);
 		}
 
@@ -189,16 +190,12 @@ public class CaseItem extends ItemBase {
 		// rarirty of 1-3
 		int rarity = rollRarity(i);
 
-		
-		
-		
 		// nbt
 		NBTTagCompound compound = (item.hasTagCompound()) ? item.getTagCompound() : new NBTTagCompound();
 		NBTTagList modifiers = new NBTTagList();
 
 		compound.setInteger("rarity", rarity);
-		
-		
+
 		if (iChoice.equals(ModItems.RL_SWORD)) {
 
 			// damage
@@ -297,19 +294,19 @@ public class CaseItem extends ItemBase {
 				break;
 
 			}
-//			System.out.println(bow.getVelo(item));
+			// System.out.println(bow.getVelo(item));
 			compound.setFloat("velo", bow.getVelo(item));
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("bow"));
-		}else if(iChoice.equals(ModItems.RANDOM_BOOTS)) {
+		} else if (iChoice.equals(ModItems.RANDOM_BOOTS) || iChoice.equals(ModItems.TITANIUM_BOOTS)) {
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("boots"));
 
-		}else if(iChoice.equals(ModItems.RANDOM_CHEST)) {
+		} else if (iChoice.equals(ModItems.RANDOM_CHEST) || iChoice.equals(ModItems.TITANIUM_CHEST)) {
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("chest"));
 
-		}else if(iChoice.equals(ModItems.RANDOM_HELMET)) {
+		} else if (iChoice.equals(ModItems.RANDOM_HELMET) || iChoice.equals(ModItems.TITANIUM_HELMET)) {
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("helmet"));
 
-		}else if(iChoice.equals(ModItems.RANDOM_LEGS)) {
+		} else if (iChoice.equals(ModItems.RANDOM_LEGS) || iChoice.equals(ModItems.TITANIUM_LEGS)) {
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("legs"));
 
 		}

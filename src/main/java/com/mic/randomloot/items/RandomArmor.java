@@ -45,7 +45,7 @@ public class RandomArmor extends ItemArmor {
 			if (tags.get(i) instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tags.get(i);
 				eTag.runEffect(itemStack, world, player);
-				System.out.println(eTag.name);
+//				System.out.println(eTag.name);
 			}
 		}
 

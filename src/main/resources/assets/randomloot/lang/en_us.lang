@@ -13,6 +13,10 @@ item.heavy_helmet.name=Random Helmet
 item.heavy_chest.name=Random Chestplate
 item.heavy_legs.name=Random Leggings
 item.heavy_boots.name=Random Boots
+item.titanium_helmet.name=Random Helmet
+item.titanium_chest.name=Random Chestplate
+item.titanium_legs.name=Random Leggings
+item.titanium_boots.name=Random Boots
 
 tile.random_anvil.name=Golden Anvil
 tile.repair_station.name=Repair Station

@@ -52,6 +52,13 @@ public class ModItems {
 	public static final Item RANDOM_LEGS = new RandomArmor("heavy_legs", HEAVY, 2, EntityEquipmentSlot.LEGS);
 	public static final Item RANDOM_BOOTS = new RandomArmor("heavy_boots", HEAVY, 1, EntityEquipmentSlot.FEET);
 
+	public static final ArmorMaterial TITANIUM = EnumHelper.addArmorMaterial("titanium", RandomLoot.MODID + ":titanium", 36,
+			new int[] { 4, 5, 7, 4 }, 7, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.3F);
+	public static final Item TITANIUM_HELMET = new RandomArmor("titanium_helmet", TITANIUM, 1, EntityEquipmentSlot.HEAD);
+	public static final Item TITANIUM_CHEST = new RandomArmor("titanium_chest", TITANIUM, 1, EntityEquipmentSlot.CHEST);
+	public static final Item TITANIUM_LEGS = new RandomArmor("titanium_legs", TITANIUM, 2, EntityEquipmentSlot.LEGS);
+	public static final Item TITANIUM_BOOTS = new RandomArmor("titanium_boots", TITANIUM, 1, EntityEquipmentSlot.FEET);
+	
 	// @SideOnly(Side.CLIENT)
 	// public static void registerModels()
 	// {
