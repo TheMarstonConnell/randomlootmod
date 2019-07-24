@@ -1,0 +1,22 @@
+itemGroup.randomlootTab=Random Loot Mod
+
+
+item.basic_case.name=Basit Çanta
+item.golden_case.name=§6Altın Çanta
+item.titan_case.name=§dTitan Çanta
+item.sword.name=Rastgele Kılıç
+item.pickaxe.name=Rastgele Kazma
+item.shovel.name=Rastgele Kürek
+item.axe.name=Rastgele Balta
+item.rl_bow.name=Rastgele Yay
+item.heavy_helmet.name=Rastgele Kask
+item.heavy_chest.name=Rastgele Göğüslük
+item.heavy_legs.name=Rastgele Pantolon
+item.heavy_boots.name=Rastgele Bot
+item.titanium_helmet.name=Rastgele Kask
+item.titanium_chest.name=Rastgele Göğüslük
+item.titanium_legs.name=Rastgele Pantolon
+item.titanium_boots.name=Rastgele Bot
+
+tile.random_anvil.name=Altın Örs
+tile.repair_station.name=Tamir İstasyonu
