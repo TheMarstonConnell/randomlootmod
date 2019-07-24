@@ -1,0 +1,11 @@
+{
+  "itemGroup.randomlootTab": "Random Loot Mod",
+
+  "item.randomloot.basic_case": "Основная сумка",
+  "item.randomloot.golden_case": "§6Золотая сумка",
+  "item.randomloot.titan_case": "§dТитановая сумка",
+  "item.randomloot.sword": "Случайный меч",
+  "item.randomloot.pickaxe": "Случайная кирка",
+  "item.randomloot.shovel": "Случайная лопата",
+  "item.randomloot.axe": "Случайный топор"
+}
