@@ -29,6 +29,7 @@ public class RandomArmor extends ItemArmor {
 
 	public RandomArmor(String name, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
 		super(materialIn, renderIndexIn, equipmentSlotIn);
+		
 		setCreativeTab(RandomLoot.randomlootTab);
 		setRegistryName(new ResourceLocation(RandomLoot.MODID, name));
 		setUnlocalizedName(name);
@@ -39,6 +40,8 @@ public class RandomArmor extends ItemArmor {
 	@Override
 	public void onArmorTick(final World world, final EntityPlayer player, final ItemStack itemStack) {
 
+		super.onArmorTick(world, player, itemStack);
+//		System.out.println(this.damageReduceAmount);
 		List<BasicTag> tags = TagHelper.getAllTags(itemStack);
 
 		for (int i = 0; i < tags.size(); i++) {
@@ -95,9 +98,22 @@ public class RandomArmor extends ItemArmor {
 			break;
 
 		}
+		NBTTagCompound display;
 
-		NBTTagList lore = new NBTTagList();
+		if(compound.hasKey("display")) {
+			display = compound.getCompoundTag("display");
+		}else {
+			display = new NBTTagCompound();
 
+		}
+
+		NBTTagList lore;
+		if(display.hasKey("Lore")) {
+			lore = display.getTagList("Lore", 8);
+		}else {
+			lore = new NBTTagList();
+
+		}
 		DecimalFormat f = new DecimalFormat("#0.00");
 		lore.appendTag(new NBTTagString(""));
 		
@@ -118,7 +134,7 @@ public class RandomArmor extends ItemArmor {
 		lore.appendTag(new NBTTagString(
 				TextFormatting.GRAY + "" + compound.getInteger("Xp") + "/" + compound.getInteger("lvlXp") + " Xp"));
 
-		NBTTagCompound display = new NBTTagCompound();
+		
 		display.setTag("Lore", lore);
 		compound.setTag("display", display);
 

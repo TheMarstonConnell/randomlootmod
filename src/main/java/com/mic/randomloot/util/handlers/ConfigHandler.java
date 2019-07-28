@@ -34,8 +34,14 @@ public class ConfigHandler {
 	public static int chestSpawnRate = 100;
 	public static int reforgeItemCount = 12;
 	
+	public static int tierOneMaxArmor = 2;
+	public static int tierTwoMaxArmor = 4;
+	public static int tierThreeMaxArmor = 6;
+	public static int tierOneMinArmor = 1;
+	public static int tierTwoMinArmor = 2;
+	public static int tierThreeMinArmor = 4;
 	
-
+	
 	public static String reforgeItemName = "blaze_powder";
 
 	public static int shovelWeight;
@@ -89,6 +95,14 @@ public class ConfigHandler {
 		tierTwoDamageMax = config.getInt("Tier Two Maximum Damage", category, 16, 0, 100, "Sets the maximum damage of the weapons.");
 		tierThreeDamageMin = config.getInt("Tier Three Minimum Damage", category, 15, 0, 99, "Sets the minimum damage of the weapons.");
 		tierThreeDamageMax = config.getInt("Tier Three Maximum Damage", category, 22, 0, 100, "Sets the maximum damage of the weapons.");
+		
+		category = "Armors";
+		tierOneMaxArmor = config.getInt("Tier One Maximum Armor", category, 4, 1, 99, "Sets the maximum reductions of the armor.");
+		tierTwoMaxArmor = config.getInt("Tier Two Maximum Armor", category, 7, 1, 99, "Sets the maximum reductions of the armor.");
+		tierThreeMaxArmor = config.getInt("Tier Three Maximum Armor", category, 12, 1, 99, "Sets the maximum reductions of the armor.");
+		tierOneMinArmor = config.getInt("Tier One minimum Armor", category, 2, 1, 99, "Sets the minimum reductions of the armor.");
+		tierTwoMinArmor = config.getInt("Tier Two minimum Armor", category, 4, 1, 99, "Sets the minimum reductions of the armor.");
+		tierThreeMinArmor = config.getInt("Tier Three minimum Armor", category, 7, 1, 99, "Sets the minimum reductions of the armor.");
 		
 		category = "Basic Variables";
 		unbreakable = config.getBoolean("Unbreakable Tools Allowed", category, true, "False turns off the 'unbreakable' trait.");

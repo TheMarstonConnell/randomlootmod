@@ -34,6 +34,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagDouble;
+import net.minecraft.nbt.NBTTagFloat;
 import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
@@ -173,7 +174,7 @@ public class CaseItem extends ItemBase {
 			item = BowItem.chooseTexture(item);
 
 		} else if (iChoice instanceof RandomArmor) {
-			item = RandomArmor.assignType(item);
+//			item = RandomArmor.assignType(item);
 		}
 
 		item.getItem().addPropertyOverride(new ResourceLocation("model"), new IItemPropertyGetter() {
@@ -192,7 +193,13 @@ public class CaseItem extends ItemBase {
 
 		// nbt
 		NBTTagCompound compound = (item.hasTagCompound()) ? item.getTagCompound() : new NBTTagCompound();
-		NBTTagList modifiers = new NBTTagList();
+		
+		NBTTagList modifiers;
+		if(compound.hasKey("AttributeModifiers")) {
+			modifiers = compound.getTagList("AttributeModifiers", 10);
+		}else {
+			modifiers = new NBTTagList();
+		}
 
 		compound.setInteger("rarity", rarity);
 
@@ -298,21 +305,131 @@ public class CaseItem extends ItemBase {
 			compound.setFloat("velo", bow.getVelo(item));
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("bow"));
 		} else if (iChoice.equals(ModItems.RANDOM_BOOTS) || iChoice.equals(ModItems.TITANIUM_BOOTS)) {
+			double arm = 4;
+
+			switch(rarity) {
+			case 1:
+				arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor) + ConfigHandler.tierOneMinArmor;
+				break;
+			case 2:
+				arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor) + ConfigHandler.tierTwoMinArmor;
+
+				break;
+			case 3:
+				arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor) + ConfigHandler.tierThreeMinArmor;
+
+				break;
+				
+			}
+			arm = arm * 0.8;
+			NBTTagCompound armor = new NBTTagCompound();
+			armor.setTag("AttributeName", new NBTTagString("generic.armor"));
+			armor.setTag("Name", new NBTTagString("generic.armor"));
+			armor.setTag("Amount", new NBTTagDouble(arm));
+			armor.setTag("Operation", new NBTTagInt(0));
+			armor.setTag("UUIDLeast", new NBTTagInt(3));
+			armor.setTag("UUIDMost", new NBTTagInt(4));
+			armor.setTag("Slot", new NBTTagString("feet"));
+			modifiers.appendTag(armor);
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("boots"));
 
 		} else if (iChoice.equals(ModItems.RANDOM_CHEST) || iChoice.equals(ModItems.TITANIUM_CHEST)) {
+			double arm = 4;
+
+			switch(rarity) {
+			case 1:
+				arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor) + ConfigHandler.tierOneMinArmor;
+				break;
+			case 2:
+				arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor) + ConfigHandler.tierTwoMinArmor;
+
+				break;
+			case 3:
+				arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor) + ConfigHandler.tierThreeMinArmor;
+
+				break;
+				
+			}
+			arm = arm * 1;
+			NBTTagCompound armor = new NBTTagCompound();
+			armor.setTag("AttributeName", new NBTTagString("generic.armor"));
+			armor.setTag("Name", new NBTTagString("generic.armor"));
+			armor.setTag("Amount", new NBTTagDouble(arm));
+			armor.setTag("Operation", new NBTTagInt(0));
+			armor.setTag("UUIDLeast", new NBTTagInt(5));
+			armor.setTag("UUIDMost", new NBTTagInt(6));
+			armor.setTag("Slot", new NBTTagString("chest"));
+			modifiers.appendTag(armor);
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("chest"));
 
 		} else if (iChoice.equals(ModItems.RANDOM_HELMET) || iChoice.equals(ModItems.TITANIUM_HELMET)) {
+			double arm = 4;
+
+			switch(rarity) {
+			case 1:
+				arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor) + ConfigHandler.tierOneMinArmor;
+				break;
+			case 2:
+				arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor) + ConfigHandler.tierTwoMinArmor;
+
+				break;
+			case 3:
+				arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor) + ConfigHandler.tierThreeMinArmor;
+
+				break;
+				
+			}
+			arm = arm * 0.8;
+			NBTTagCompound armor = new NBTTagCompound();
+			armor.setTag("AttributeName", new NBTTagString("generic.armor"));
+			armor.setTag("Name", new NBTTagString("generic.armor"));
+			armor.setTag("Amount", new NBTTagDouble(arm));
+			armor.setTag("Operation", new NBTTagInt(0));
+			armor.setTag("UUIDLeast", new NBTTagInt(7));
+			armor.setTag("UUIDMost", new NBTTagInt(8));
+			armor.setTag("Slot", new NBTTagString("head"));
+			modifiers.appendTag(armor);
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("helmet"));
 
 		} else if (iChoice.equals(ModItems.RANDOM_LEGS) || iChoice.equals(ModItems.TITANIUM_LEGS)) {
+			double arm = 4;
+
+			switch(rarity) {
+			case 1:
+				arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor) + ConfigHandler.tierOneMinArmor;
+				break;
+			case 2:
+				arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor) + ConfigHandler.tierTwoMinArmor;
+
+				break;
+			case 3:
+				arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor) + ConfigHandler.tierThreeMinArmor;
+
+				break;
+				
+			}
+			arm = arm * 0.9;
+			NBTTagCompound armor = new NBTTagCompound();
+			armor.setTag("AttributeName", new NBTTagString("generic.armor"));
+			armor.setTag("Name", new NBTTagString("generic.armor"));
+			armor.setTag("Amount", new NBTTagDouble(arm));
+			armor.setTag("Operation", new NBTTagInt(0));
+			armor.setTag("UUIDLeast", new NBTTagInt(9));
+			armor.setTag("UUIDMost", new NBTTagInt(10));
+			armor.setTag("Slot", new NBTTagString("legs"));
+			modifiers.appendTag(armor);
 			compound.setString("name", ModItems.ITEM_FIELDS.nameItem("legs"));
+
+		}
+		
+		if(iChoice instanceof RandomArmor) {
+			
 
 		}
 
 		compound.setInteger("rarity", rarity);
 		compound.setTag("AttributeModifiers", modifiers);
+
 		item.setTagCompound(compound);
 
 		if (iChoice.equals(ModItems.RL_SWORD))
