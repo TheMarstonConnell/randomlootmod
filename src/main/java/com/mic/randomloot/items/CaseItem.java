@@ -174,7 +174,7 @@ public class CaseItem extends ItemBase {
 			item = BowItem.chooseTexture(item);
 
 		} else if (iChoice instanceof RandomArmor) {
-//			item = RandomArmor.assignType(item);
+			item = RandomArmor.assignType(item);
 		}
 
 		item.getItem().addPropertyOverride(new ResourceLocation("model"), new IItemPropertyGetter() {
