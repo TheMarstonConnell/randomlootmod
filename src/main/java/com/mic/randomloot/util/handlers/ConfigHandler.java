@@ -41,6 +41,8 @@ public class ConfigHandler {
 	public static int tierTwoMinArmor = 2;
 	public static int tierThreeMinArmor = 4;
 	
+	public static int chanceToDrop = 100;
+	
 	
 	public static String reforgeItemName = "blaze_powder";
 
@@ -59,6 +61,10 @@ public class ConfigHandler {
 	public static int repairStationCooldown;
 
 	public static boolean doWelcomeMessage;
+
+	public static boolean paxels;
+
+	public static int paxelWeight;
 	
 	public static void init(File file){
 		
@@ -72,7 +78,8 @@ public class ConfigHandler {
 		animalChance = config.getInt("Animal Chance", category, 50, 0, 1000, "0 for never and 1000 for every time, default is 50");
 		bossChance = config.getInt("Boss Chance", category, 50, 0, 1000, "0 for never and 1000 for every time, default is 50");
 		playerChance = config.getInt("Player Chance", category, 50, 0, 1000, "0 for never and 1000 for every time, default is 50");
-		
+		chanceToDrop = config.getInt("Chance For Loot To Drop From Case", category, 100, 0, 100, "0 for never and 100 for every time, default is 100");
+
 		//Tweaking
 		category = "Item Values";
 		
@@ -84,6 +91,7 @@ public class ConfigHandler {
 		axes = config.getBoolean("Axes Enabled", category, true, "Enables or disables the item");
 		bows = config.getBoolean("Bows Enabled", category, true, "Enables or disables the item");
 		pickaxes = config.getBoolean("Pickaxes Enabled", category, true, "Enables or disables the item");
+		paxels = config.getBoolean("Paxels Enabled", category, true, "Enables or disables the item");
 		shovels = config.getBoolean("Shovels Enabled", category, true, "Enables or disables the item");
 		armor = config.getBoolean("Armor Enabled", category, true, "Enables or disables armor");
 		
@@ -114,6 +122,7 @@ public class ConfigHandler {
 		shovelWeight = config.getInt("Shovel Weighting", category, 10, 1, 100, "How often you recieve shovels from the cases.");
 		swordWeight = config.getInt("Sword Weighting", category, 40, 1, 100, "How often you recieve swords from the cases.");
 		pickWeight = config.getInt("Pickaxe Weighting", category, 25, 1, 100, "How often you recieve pickaxes from the cases.");
+		paxelWeight = config.getInt("Paxel Weighting", category, 6, 1, 100, "How often you recieve paxels from the cases.");
 		axeWeight = config.getInt("Axe Weighting", category, 18, 1, 100, "How often you recieve axes from the cases.");
 		bowWeight = config.getInt("Bow Weighting", category, 10, 1, 100, "How often you recieve bows from the cases.");
 		armorWeight = config.getInt("Armor Weighting", category, 6, 1, 100, "How often you recieve armor from the cases.");

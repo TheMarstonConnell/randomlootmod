@@ -52,6 +52,8 @@ public class ItemFields {
 	private static String[] nounsChest;
 	private static String[] adjectivesHelmet;
 	private static String[] nounsHelmet;
+	private static String[] nounsPaxels;
+
 
 	public ItemFields() {
 
@@ -82,6 +84,8 @@ public class ItemFields {
 
 		String[] nounsAxes = { "Chopper", "Axe", "Hatchet", "Splitter", "Tomahawk", "Tremor", "Greataxe", "War Axe",
 				"Broadaxe", "Ravager", "Reaver", "Halberd", "Hacker", "Battle Axe", "Lumber Axe" };
+		
+		String[] nounsPaxels = { "Spiker", "Chop-Digger", "Pick-Logger", "Brute" };
 
 		String[] nounsShovels = { "Spade", "Shovel", "Shatter", "Trowel", "Scoop", "Gravedigger", "Spoon" };
 
@@ -118,6 +122,8 @@ public class ItemFields {
 		this.nounsLegs = nounsLegs;
 		this.adjectivesHelmet = adjectivesHelmet;
 		this.nounsHelmet = nounsHelmet;
+		this.nounsPaxels = nounsPaxels;
+
 	}
 
 	/**
@@ -201,6 +207,11 @@ public class ItemFields {
 			String[] adjs = mergeArrs(adjectivesAxes, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
 			nn = nounsAxes[rand.nextInt(nounsAxes.length)];
+		} else if (type.equals("paxel")) {
+			String[] adjs = mergeArrs(adjectivesAxes, adjectivesUniversal);
+			adjs = mergeArrs(adjs, adjectivesPickaxes);
+			adj = adjs[rand.nextInt(adjs.length)];
+			nn = nounsPaxels[rand.nextInt(nounsPaxels.length)];
 		} else if (type.equals("bow")) {
 			String[] adjs = mergeArrs(adjectivesBows, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];

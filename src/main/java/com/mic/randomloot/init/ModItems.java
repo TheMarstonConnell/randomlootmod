@@ -10,6 +10,7 @@ import com.mic.randomloot.items.AxeItem;
 import com.mic.randomloot.items.BowItem;
 import com.mic.randomloot.items.CaseItem;
 import com.mic.randomloot.items.ClickItem;
+import com.mic.randomloot.items.PaxelItem;
 import com.mic.randomloot.items.PickaxeItem;
 import com.mic.randomloot.items.RandomArmor;
 import com.mic.randomloot.items.ShovelItem;
@@ -41,7 +42,8 @@ public class ModItems {
 	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 28);
 	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 17);
 	public static final Item RL_SHOVEL = new ShovelItem(ToolMaterial.DIAMOND, 8);
-	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 10);
+	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 11);
+	public static final Item RL_PAXEL = new PaxelItem(ToolMaterial.DIAMOND, 3);
 
 	public static final Item RL_BOW = new BowItem(6);
 
