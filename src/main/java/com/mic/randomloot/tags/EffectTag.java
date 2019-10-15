@@ -13,11 +13,13 @@ public class EffectTag extends BasicTag{
 
 	PotionEffect effect;
 	public boolean offensive = false;
+	public boolean forTools = false;
 	
-	public EffectTag(String name, TextFormatting color, PotionEffect effect, boolean offensive) {
+	public EffectTag(String name, TextFormatting color, PotionEffect effect, boolean offensive, boolean forTools) {
 		super(name, color);
 		this.effect = effect;
 		this.offensive = offensive;
+		this.forTools = forTools;
 	}
 	
 	public void runEffect(ItemStack stack, World worldIn,

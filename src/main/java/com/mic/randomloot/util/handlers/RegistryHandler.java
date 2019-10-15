@@ -10,6 +10,7 @@ import com.mic.randomloot.commands.ReforgeCommand;
 import com.mic.randomloot.init.ModBlocks;
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.items.CaseItem;
+import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.util.IHasModel;
 
 import net.minecraft.block.Block;
@@ -139,6 +140,7 @@ public class RegistryHandler {
 			tools.add(ModItems.RL_AXE);
 			tools.add(ModItems.RL_PICKAXE);
 			tools.add(ModItems.RL_SHOVEL);
+			tools.add(ModItems.RL_PAXEL);
 
 			ItemStack item = player.getHeldItemMainhand();
 
@@ -154,11 +156,7 @@ public class RegistryHandler {
 						smelted.add(drop.copy());
 				}
 
-				NBTTagCompound compound = (item.hasTagCompound()) ? item.getTagCompound() : new NBTTagCompound();
-				int t1 = compound.getInteger("T1");
-				int t2 = compound.getInteger("T2");
-				int t3 = compound.getInteger("T3");
-				if (t1 == 8 || t2 == 8 || t3 == 8) {
+				if(TagHelper.checkForTag(item, TagHelper.AUTOSMELT)) {
 
 					event.getDrops().clear();
 					event.getDrops().addAll(smelted);

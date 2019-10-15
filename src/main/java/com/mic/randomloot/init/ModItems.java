@@ -10,6 +10,7 @@ import com.mic.randomloot.items.AxeItem;
 import com.mic.randomloot.items.BowItem;
 import com.mic.randomloot.items.CaseItem;
 import com.mic.randomloot.items.ClickItem;
+import com.mic.randomloot.items.ItemBase;
 import com.mic.randomloot.items.PaxelItem;
 import com.mic.randomloot.items.PickaxeItem;
 import com.mic.randomloot.items.RandomArmor;
@@ -38,13 +39,14 @@ public class ModItems {
 	public static final CaseItem BASIC_CASE = new CaseItem("basic_case", 1);
 	public static final CaseItem GOLDEN_CASE = new CaseItem("golden_case", 2);
 	public static final CaseItem TITAN_CASE = new CaseItem("titan_case", 3);
+	
+	public static final Item RANDOM_SHARD = new ItemBase("random_shard");
 
 	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 28);
 	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 17);
 	public static final Item RL_SHOVEL = new ShovelItem(ToolMaterial.DIAMOND, 8);
 	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 11);
 	public static final Item RL_PAXEL = new PaxelItem(ToolMaterial.DIAMOND, 3);
-
 	public static final Item RL_BOW = new BowItem(6);
 
 	public static final ArmorMaterial HEAVY = EnumHelper.addArmorMaterial("heavy", RandomLoot.MODID + ":heavy", 33,
@@ -60,23 +62,7 @@ public class ModItems {
 	public static final Item TITANIUM_CHEST = new RandomArmor("titanium_chest", TITANIUM, 1, EntityEquipmentSlot.CHEST);
 	public static final Item TITANIUM_LEGS = new RandomArmor("titanium_legs", TITANIUM, 2, EntityEquipmentSlot.LEGS);
 	public static final Item TITANIUM_BOOTS = new RandomArmor("titanium_boots", TITANIUM, 1, EntityEquipmentSlot.FEET);
-	
-	// @SideOnly(Side.CLIENT)
-	// public static void registerModels()
-	// {
-	// System.out.println("Registering Models");
-	//
-	// for (final Item item : ITEMS)
-	// {
-	// ModelLoader.setCustomModelResourceLocation(item, 0, new
-	// ModelResourceLocation(item.getRegistryName(), "inventory"));
-	// System.out.println(item.getRegistryName());
-	//
-	// // ModelLoader.setCustomModelResourceLocation(item, 0, new
-	// ModelResourceLocation(RandomLoot.MODID + ":" + item.getUnlocalizedName(),
-	// "inventory"));
-	// }
-	// }
+
 
 	@Mod.EventBusSubscriber(modid = RandomLoot.MODID)
 	public static class ItemRegistry {
@@ -84,7 +70,7 @@ public class ModItems {
 
 		@SubscribeEvent
 		public static void newRegistry(final RegistryEvent.NewRegistry event) {
-			;
+			
 		}
 
 		@SubscribeEvent
@@ -93,11 +79,7 @@ public class ModItems {
 
 			for (final Item item : ITEMS) {
 				registry.register(item);
-//				if (item instanceof RandomArmor) {
-//					ModelLoader.setCustomModelResourceLocation(item, 0,
-//							new ModelResourceLocation(RandomLoot.MODID + ":" + item.getUnlocalizedName(), "inventory"));
-//
-//				}
+				
 				ITEM_SET.add(item);
 			}
 

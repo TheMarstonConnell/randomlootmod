@@ -18,9 +18,4 @@ public class ItemBase extends Item{
 
 	}
 
-//	@Override
-//	public void registerModels() {
-//		RandomLoot.proxy.registerItemRenderer(this, 0, "inventory");
-//	}
-
 }

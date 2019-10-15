@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 
 import java.io.File;
+import java.util.Random;
 
 import org.apache.logging.log4j.Logger;
 
@@ -43,10 +44,12 @@ public class RandomLoot {
 
 	public static final ModTab randomlootTab = new ModTab();
 
+	public static Random rand;
+
 	private static Logger logger;
 
 	public RandomLoot() {
-
+		rand = new Random();
 		Launch.classLoader.addTransformerExclusion("org.apache.commons.lang3");
 	}
 

@@ -44,21 +44,19 @@ public class RandomArmor extends ItemArmor {
 	public void onArmorTick(final World world, final EntityPlayer player, final ItemStack itemStack) {
 
 		super.onArmorTick(world, player, itemStack);
-//		System.out.println(this.damageReduceAmount);
 		List<BasicTag> tags = TagHelper.getAllTags(itemStack);
 
 		for (int i = 0; i < tags.size(); i++) {
 			if (tags.get(i) instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tags.get(i);
 				eTag.runEffect(itemStack, world, player);
-//				System.out.println(eTag.name);
 			}
 		}
 
 	}
 
 	public static ItemStack assignType(ItemStack item) {
-		Random rand = new Random();
+		
 		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 		for (BasicTag tag : TagHelper.allTags) {
 			if (tag instanceof EffectTag) {
@@ -69,9 +67,9 @@ public class RandomArmor extends ItemArmor {
 			}
 		}
 
-		int totalTags = rand.nextInt(3);
+		int totalTags = RandomLoot.rand.nextInt(3);
 		for (int i = 0; i < totalTags; i++) {
-			TagHelper.addTag(item, allowedTags.get(rand.nextInt(allowedTags.size())).name);
+			TagHelper.addTag(item, allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size())).name);
 		}
 
 		return item;
