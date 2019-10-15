@@ -16,6 +16,7 @@ import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.tags.WorldInteractTag;
 import com.mic.randomloot.util.IHasModel;
 import com.mic.randomloot.util.IReforgeable;
+import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.block.material.Material;
@@ -143,21 +144,19 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 
 		}
 
-		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 
 		for (int i = 0; i < tags.size(); i++) {
 			if (tags.get(i) instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tags.get(i);
 				eTag.runEffect(stack, worldIn, entityLiving);
-			}else if(tags.get(i) instanceof WorldInteractTag) {
+			} else if (tags.get(i) instanceof WorldInteractTag) {
 				WorldInteractTag wTag = (WorldInteractTag) tags.get(i);
 				wTag.runEffect(stack, worldIn, entityLiving, state, pos);
 			}
 		}
-		
+
 		setLore(stack, entityLiving);
-		
 
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}
@@ -264,8 +263,6 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 			nbt = new NBTTagCompound();
 		}
 
-		
-
 		nbt.setInteger("Lvl", 1);
 		nbt.setInteger("lvlXp", 256);
 		nbt.setInteger("Xp", 0);
@@ -284,15 +281,24 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
 				allowedTags.add(eTag);
-
 			}
-		}
 
-		int totalTags = RandomLoot.rand.nextInt(3);
+			allowedTags.add(TagHelper.AUTOSMELT);
+			allowedTags.add(TagHelper.UNBREAKABLE);
+
+		}
+		
+		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
+		wc.addChoice(1, 6);
+		wc.addChoice(2, 3);
+		wc.addChoice(3, 1);
+		
+		
+		int totalTags = wc.getRandomObject();
 		System.out.println("Total tags to be applied: " + totalTags);
 		for (int i = 0; i < totalTags; i++) {
 			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-			while(TagHelper.checkForTag(stack, toAdd)) {
+			while (TagHelper.checkForTag(stack, toAdd)) {
 				toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 			}
 			TagHelper.addTag(stack, toAdd.name);
@@ -302,7 +308,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
 			nbt.setBoolean("Unbreakable", true);
 		}
-		
+
 		return stack;
 	}
 
