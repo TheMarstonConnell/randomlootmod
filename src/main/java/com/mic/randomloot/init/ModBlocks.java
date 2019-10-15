@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.mic.randomloot.RandomLoot;
+import com.mic.randomloot.blocks.CaseOpener;
 import com.mic.randomloot.blocks.RandomAnvil;
 import com.mic.randomloot.blocks.RepairStation;
 import com.mic.randomloot.blocks.tileentities.RepairTileEntity;
@@ -23,6 +24,7 @@ public class ModBlocks {
 	public static final List<Block> BLOCKS = new ArrayList<Block>();
 	public static final Block RANDOM_ANVIL = new RandomAnvil("random_anvil", RandomLoot.randomlootTab);
 	public static final Block REPAIR_STATION = new RepairStation("repair_station");
+	public static final Block OPENER = new CaseOpener("case_opener");
 
 	@Mod.EventBusSubscriber(modid = RandomLoot.MODID)
 	public static class BlockRegistry {

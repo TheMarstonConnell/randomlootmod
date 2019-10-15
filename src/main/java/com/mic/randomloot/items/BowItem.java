@@ -175,16 +175,16 @@ public class BowItem extends ItemBow implements IReforgeable{
 		} else if (traits == 2) {
 			t1 = rand.nextInt(tCount) + 1;
 
-			rand.setSeed(t1);
+//			rand.setSeed(t1);
 			t2 = rand.nextInt(tCount) + 1;
 
 		} else if (traits == 3) {
 			t1 = rand.nextInt(tCount) + 1;
 
-			rand.setSeed(t1);
+//			rand.setSeed(t1);
 			t2 = rand.nextInt(tCount) + 1;
 
-			rand.setSeed(t2);
+//			rand.setSeed(t2);
 			t3 = rand.nextInt(tCount) + 1;
 
 		}
@@ -412,7 +412,31 @@ public class BowItem extends ItemBow implements IReforgeable{
 		
 		return 72000 - compound.getInteger("velo");
     }
-	
+	public static void setName(ItemStack stack){
+		NBTTagCompound compound;
+		if (stack.hasTagCompound()) {
+			compound = stack.getTagCompound();
+		} else {
+			compound = new NBTTagCompound();
+		}
+
+		TextFormatting color = null;
+		switch (compound.getInteger("rarity")) {
+			case 1:
+				color = TextFormatting.WHITE;
+				break;
+			case 2:
+				color = TextFormatting.GOLD;
+				break;
+			case 3:
+				color = TextFormatting.LIGHT_PURPLE;
+				break;
+
+		}
+		stack.setStackDisplayName(color + compound.getString("name"));
+
+	}
+
 	public void setLore(ItemStack stack, EntityLivingBase player) {
 
 
@@ -492,7 +516,7 @@ public class BowItem extends ItemBow implements IReforgeable{
 		display.setTag("Lore", lore);
 		compound.setTag("display", display);
 
-		stack.setStackDisplayName(color + compound.getString("name"));
+//		stack.setStackDisplayName(color + compound.getString("name"));
 
 	}
 

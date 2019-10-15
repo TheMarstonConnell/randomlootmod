@@ -1,25 +1,47 @@
 package com.mic.randomloot.blocks.tileentities;
 
+import java.util.List;
+import java.util.Random;
+
 import com.mic.randomloot.RandomLoot;
-import com.mic.randomloot.blocks.containers.RepairContainer;
+import com.mic.randomloot.blocks.containers.OpenerContainer;
+import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.items.CaseItem;
+import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityLockableLoot;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ITickable;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.wrapper.CombinedInvWrapper;
 
-public class RepairTileEntity extends TileEntityLockableLoot implements ITickable {
+public class OpenerTileEntity extends TileEntityLockableLoot implements ITickable {
 	private NonNullList<ItemStack> chestContents = NonNullList.<ItemStack>withSize(1, ItemStack.EMPTY);
 	public boolean activated = false;
 	int coolDown = 0;
+
+	EntityPlayer lastActive;
 
 	@Override
 	public int getSizeInventory() {
@@ -43,6 +65,8 @@ public class RepairTileEntity extends TileEntityLockableLoot implements ITickabl
 
 	public void addItem(EntityPlayer playerIn, ItemStack item) {
 
+		lastActive = playerIn;
+
 		if (chestContents.get(0).getItem().equals(Items.AIR)) {
 			System.out.println("Chest is empty");
 			if (!item.getItem().equals(Items.AIR)) {
@@ -50,6 +74,7 @@ public class RepairTileEntity extends TileEntityLockableLoot implements ITickabl
 				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, new ItemStack(Items.AIR));
 				System.out.println("Giving item to repair station");
 				this.activated = true;
+
 			}
 		} else {
 			System.out.println("Chest isn't empty");
@@ -59,7 +84,7 @@ public class RepairTileEntity extends TileEntityLockableLoot implements ITickabl
 				chestContents.set(0, new ItemStack(Items.AIR));
 				System.out.println("Getting item from repair station");
 				playerIn.inventory.setInventorySlotContents(playerIn.inventory.currentItem, ret);
-				this.activated = false;
+				this.activated = true;
 			} else {
 				playerIn.sendMessage(new TextComponentString("Station is full."));
 
@@ -70,7 +95,7 @@ public class RepairTileEntity extends TileEntityLockableLoot implements ITickabl
 
 	@Override
 	public String getName() {
-		return this.hasCustomName() ? this.customName : "container.repair_station";
+		return this.hasCustomName() ? this.customName : "container.case_opener";
 	}
 
 	@Override
@@ -98,12 +123,13 @@ public class RepairTileEntity extends TileEntityLockableLoot implements ITickabl
 
 	@Override
 	public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn) {
-		return new RepairContainer(playerInventory, this, playerIn);
+		lastActive = playerIn;
+		return new OpenerContainer(playerInventory, this, playerIn);
 	}
 
 	@Override
 	public String getGuiID() {
-		return RandomLoot.MODID + ":repair_station";
+		return RandomLoot.MODID + ":case_opener";
 	}
 
 	@Override
@@ -115,29 +141,20 @@ public class RepairTileEntity extends TileEntityLockableLoot implements ITickabl
 	public void update() {
 		if (this.world.isBlockPowered(this.getPos())) {
 
-			this.coolDown++;
-			if (coolDown > ConfigHandler.repairStationCooldown) {
-				coolDown = 0;
-				if (chestContents.get(0).getItem().isDamageable()) {
-					ItemStack stack = chestContents.get(0);
+			if (chestContents.get(0).getItem().equals(ModItems.BASIC_CASE)
+					|| chestContents.get(0).getItem().equals(ModItems.GOLDEN_CASE)
+					|| chestContents.get(0).getItem().equals(ModItems.TITAN_CASE)) {
+				ItemStack stack = chestContents.get(0);
 
-					int damage = stack.getItemDamage();
-					int max = stack.getMaxDamage();
-					// System.out.println("Tools damage is " + (max - damage) + "/" + max);
+				CaseItem caseItem = (CaseItem) chestContents.get(0).getItem();
 
-					if ((max - damage) < max) {
+				chestContents.set(0, CaseItem.getItem(this.world, lastActive, caseItem));
 
-						stack.setItemDamage(damage - 1);
-						chestContents.set(0, stack);
-
-					}else {
-						this.activated = false;
-					}
-
-				}
+			} else {
+				this.activated = false;
 			}
-		}
 
+		}
 	}
 
 	@Override

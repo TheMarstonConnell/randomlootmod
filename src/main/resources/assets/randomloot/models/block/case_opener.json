@@ -1,0 +1,12 @@
+{
+    "parent": "block/cube",
+    "textures": {
+        "particle": "randomloot:blocks/case_opener_side",
+        "down": "blocks/planks_oak",
+        "up": "randomloot:blocks/case_opener_top",
+        "north": "randomloot:blocks/case_opener_side",
+        "east": "randomloot:blocks/case_opener_side",
+        "south": "randomloot:blocks/case_opener_side",
+        "west": "randomloot:blocks/case_opener_side"
+    }
+}

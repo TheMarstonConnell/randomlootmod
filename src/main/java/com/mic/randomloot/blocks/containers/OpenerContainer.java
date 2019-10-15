@@ -1,16 +1,18 @@
 package com.mic.randomloot.blocks.containers;
 
+import com.mic.randomloot.blocks.tileentities.OpenerTileEntity;
 import com.mic.randomloot.blocks.tileentities.RepairTileEntity;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
+import net.minecraft.item.ItemStack;
 
-public class RepairContainer extends Container {
-	private final RepairTileEntity chestInventory;
+public class OpenerContainer extends Container {
+	private final OpenerTileEntity chestInventory;
 
-	public RepairContainer(InventoryPlayer playerInv, RepairTileEntity tileEntity, EntityPlayer player) {
+	public OpenerContainer(InventoryPlayer playerInv, OpenerTileEntity tileEntity, EntityPlayer player) {
 		this.chestInventory = tileEntity;
 		tileEntity.openInventory(player);
 
@@ -66,7 +68,7 @@ public class RepairContainer extends Container {
 	// return itemstack;
 	// }
 
-	public RepairTileEntity getChestInventory() {
+	public OpenerTileEntity getChestInventory() {
 		return this.chestInventory;
 	}
 }
