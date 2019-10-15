@@ -109,7 +109,9 @@ public class CaseOpener extends BlockContainer {
 				OpenerTileEntity tileentity = (OpenerTileEntity) worldIn.getTileEntity(pos);
 				tileentity.addItem(playerIn, playerIn.inventory.getCurrentItem());
 			} else {
-				playerIn.sendMessage(new TextComponentString("Not a case item."));
+
+				if (worldIn.isRemote)
+					playerIn.sendMessage(new TextComponentString("Not a case item."));
 
 			}
 		}
