@@ -2,6 +2,7 @@ package com.mic.randomloot.util.handlers.messages;
 
 import com.mic.randomloot.items.CaseItem;
 import com.mic.randomloot.items.SwordItem;
+import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.util.IReforgeable;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -28,7 +29,7 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 				serverPlayer.inventory.getCurrentItem().shrink(1);
 
 				serverPlayer.inventory
-						.addItemStackToInventory(CaseItem.getItem(serverPlayer.getServerWorld(), serverPlayer, i));
+				.addItemStackToInventory(CaseItem.getItem(serverPlayer.getServerWorld(), serverPlayer, i));
 			});
 
 			// serverPlayer.inventory.currentItem,
@@ -41,25 +42,62 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 
 			// This is the player the packet was sent to the server from
 			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
-			
+
 			serverPlayer.getServerWorld().addScheduledTask(() -> {
 				ItemStack heldItem = serverPlayer.inventory.getCurrentItem();
 				IReforgeable item = (IReforgeable) heldItem.getItem();
 				ItemStack newItem = item.reforge(heldItem);
-				
+
 				ItemStack offHand = serverPlayer.getHeldItem(EnumHand.OFF_HAND);
 				offHand.shrink(12);
-				
-				
-//				serverPlayer.inventory.getCurrentItem().shrink(1);
+
+
+				//				serverPlayer.inventory.getCurrentItem().shrink(1);
 				item.setLore(newItem, serverPlayer);
 				serverPlayer.inventory.addItemStackToInventory(newItem);
 			});
 
 			return null;
-		} else {
-			return null;
-		}
+		} else if (message.toSend == 2) {
+			System.out.println("Adding trait to Item");
 
+			// This is the player the packet was sent to the server from
+			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+
+			serverPlayer.getServerWorld().addScheduledTask(() -> {
+				ItemStack heldItem = serverPlayer.inventory.getCurrentItem();
+				IReforgeable item = (IReforgeable) heldItem.getItem();
+
+				TagHelper.addTag(heldItem, message.strSend.trim());
+
+				// serverPlayer.inventory.getCurrentItem().shrink(1);
+				item.setLore(heldItem, serverPlayer);
+				serverPlayer.inventory.addItemStackToInventory(heldItem);
+			});
+
+			return null;
+		} else if (message.toSend == 3) {
+			System.out.println("Taking trait from Item");
+
+			// This is the player the packet was sent to the server from
+			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+
+			serverPlayer.getServerWorld().addScheduledTask(() -> {
+				ItemStack heldItem = serverPlayer.inventory.getCurrentItem();
+				IReforgeable item = (IReforgeable) heldItem.getItem();
+
+				TagHelper.removeTag(heldItem, message.strSend.trim());
+
+				// serverPlayer.inventory.getCurrentItem().shrink(1);
+				item.setLore(heldItem, serverPlayer);
+				serverPlayer.inventory.addItemStackToInventory(heldItem);
+			});
+
+			return null;
+		}else {
+		}
+		return null;
 	}
+
+
 }

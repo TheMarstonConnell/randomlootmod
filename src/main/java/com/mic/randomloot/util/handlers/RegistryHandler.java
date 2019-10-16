@@ -214,7 +214,7 @@ public class RegistryHandler {
 
 	public static void initRegistries() {
 		NetworkHandler net = new NetworkHandler();
-
+//		StringNetworkHandler strnet = new StringNetworkHandler();
 		// NetworkRegistry.INSTANCE.registerGuiHandler(Biocraft.instance, new
 		// GuiHandler());
 

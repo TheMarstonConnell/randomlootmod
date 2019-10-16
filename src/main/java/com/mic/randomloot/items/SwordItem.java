@@ -1,6 +1,8 @@
 package com.mic.randomloot.items;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -8,8 +10,13 @@ import javax.annotation.Nullable;
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.tags.BasicTag;
+import com.mic.randomloot.tags.EffectTag;
+import com.mic.randomloot.tags.TagHelper;
+import com.mic.randomloot.tags.WorldInteractTag;
 import com.mic.randomloot.util.IHasModel;
 import com.mic.randomloot.util.IReforgeable;
+import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.client.Minecraft;
@@ -59,8 +66,6 @@ public class SwordItem extends ItemSword implements IReforgeable {
 
 	}
 
-	
-	
 	@Override
 	public Item setNoRepair() {
 		// TODO Auto-generated method stub
@@ -110,42 +115,24 @@ public class SwordItem extends ItemSword implements IReforgeable {
 
 		}
 
-		int t1 = nbt.getInteger("T1");
-		int t2 = nbt.getInteger("T2");
-		int t3 = nbt.getInteger("T3");
-
-		if (t1 == 1 || t2 == 1 || t3 == 1) {
-			target.addPotionEffect(new PotionEffect(MobEffects.POISON, 5 * 20, 0));
-		}
-		if (t1 == 2 || t2 == 2 || t3 == 2) {
-			target.addPotionEffect(new PotionEffect(MobEffects.WEAKNESS, 5 * 20, 1));
-		}
-		if (t1 == 3 || t2 == 3 || t3 == 3) {
-			target.addPotionEffect(new PotionEffect(MobEffects.WITHER, 5 * 20, 0));
-		}
-		if (t1 == 4 || t2 == 4 || t3 == 4) {
-			target.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 8 * 20, 0));
-		}
-		if (t1 == 5 || t2 == 5 || t3 == 5) {
-			target.addPotionEffect(new PotionEffect(MobEffects.HUNGER, 10 * 20, 0));
-		}
-		if (t1 == 6 || t2 == 6 || t3 == 6) {
-			target.addPotionEffect(new PotionEffect(MobEffects.LEVITATION, 10 * 20, 0));
-		}
-		if (t1 == 7 || t2 == 7 || t3 == 7) {
-			target.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 10 * 20, 0));
-		}
-		if (t1 == 8 || t2 == 8 || t3 == 8) {
-			target.addPotionEffect(new PotionEffect(MobEffects.GLOWING, 10 * 20, 0));
-		}
-		if (t1 == 10 || t2 == 10 || t3 == 10) {
-			attacker.addPotionEffect(new PotionEffect(MobEffects.INSTANT_HEALTH, 1, (int) (target.getHealth() * 0.1)));
-		}
-		if (t1 == 11 || t2 == 11 || t3 == 11) {
-			attacker.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE, 5 * 20, 1));
-		}
-
 		stack.setTagCompound(nbt);
+
+		List<BasicTag> tags = TagHelper.getAllTags(stack);
+
+		for (int i = 0; i < tags.size(); i++) {
+			if (tags.get(i) instanceof EffectTag) {
+				EffectTag eTag = (EffectTag) tags.get(i);
+				if (eTag.offensive) {
+					System.out.println(eTag.name);
+					eTag.runEffect(stack, attacker.world, target);
+				} else {
+					System.out.println(eTag.name);
+					eTag.runEffect(stack, attacker.world, attacker);
+
+				}
+			}
+		}
+
 		setLore(stack, attacker);
 		return super.hitEntity(stack, target, attacker);
 	}
@@ -179,44 +166,50 @@ public class SwordItem extends ItemSword implements IReforgeable {
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Attack Speed: "
 				+ f.format(ModItems.ITEM_FIELDS.displaySpeed(compound.getDouble("speed"), player))));
 		lore.appendTag(new NBTTagString(""));
-		int t1 = compound.getInteger("T1");
-		int t2 = compound.getInteger("T2");
-		int t3 = compound.getInteger("T3");
 
-		if (t1 == 1 || t2 == 1 || t3 == 1) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_GREEN + "Poisonous"));
-		}
-		if (t1 == 2 || t2 == 2 || t3 == 2) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_GRAY + "Weakening"));
-		}
-		if (t1 == 3 || t2 == 3 || t3 == 3) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_GRAY + "Withering"));
-		}
-		if (t1 == 4 || t2 == 4 || t3 == 4) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_PURPLE + "Blinding"));
-		}
-		if (t1 == 5 || t2 == 5 || t3 == 5) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_RED + "Starving"));
-		}
-		if (t1 == 6 || t2 == 6 || t3 == 6) {
-			lore.appendTag(new NBTTagString(TextFormatting.GOLD + "Levitating"));
-		}
-		if (t1 == 7 || t2 == 7 || t3 == 7) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_BLUE + "Slowing"));
-		}
-		if (t1 == 8 || t2 == 8 || t3 == 8) {
-			lore.appendTag(new NBTTagString(TextFormatting.YELLOW + "Glowing"));
-		}
-		if ((t1 == 9 || t2 == 9 || t3 == 9) && ConfigHandler.unbreakable) {
-			lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Fortified"));
-		}
-		if (t1 == 10 || t2 == 10 || t3 == 10) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_RED + "Leaching"));
-		}
-		if (t1 == 11 || t2 == 11 || t3 == 11) {
-			lore.appendTag(new NBTTagString(TextFormatting.LIGHT_PURPLE + "Bezerker"));
-		}
+//		if (t1 == 1 || t2 == 1 || t3 == 1) {
+//			lore.appendTag(new NBTTagString(TextFormatting.DARK_GREEN + "Poisonous"));
+//		}
+//		if (t1 == 2 || t2 == 2 || t3 == 2) {
+//			lore.appendTag(new NBTTagString(TextFormatting.DARK_GRAY + "Weakening"));
+//		}
+//		if (t1 == 3 || t2 == 3 || t3 == 3) {
+//			lore.appendTag(new NBTTagString(TextFormatting.DARK_GRAY + "Withering"));
+//		}
+//		if (t1 == 4 || t2 == 4 || t3 == 4) {
+//			lore.appendTag(new NBTTagString(TextFormatting.DARK_PURPLE + "Blinding"));
+//		}
+//		if (t1 == 5 || t2 == 5 || t3 == 5) {
+//			lore.appendTag(new NBTTagString(TextFormatting.DARK_RED + "Starving"));
+//		}
+//		if (t1 == 6 || t2 == 6 || t3 == 6) {
+//			lore.appendTag(new NBTTagString(TextFormatting.GOLD + "Levitating"));
+//		}
+//		if (t1 == 7 || t2 == 7 || t3 == 7) {
+//			lore.appendTag(new NBTTagString(TextFormatting.DARK_BLUE + "Slowing"));
+//		}
+//		if (t1 == 8 || t2 == 8 || t3 == 8) {
+//			lore.appendTag(new NBTTagString(TextFormatting.YELLOW + "Glowing"));
+//		}
+//		if ((t1 == 9 || t2 == 9 || t3 == 9) && ConfigHandler.unbreakable) {
+//			lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Fortified"));
+//		}
+//		if (t1 == 10 || t2 == 10 || t3 == 10) {
+//			lore.appendTag(new NBTTagString(TextFormatting.DARK_RED + "Leaching"));
+//		}
+//		if (t1 == 11 || t2 == 11 || t3 == 11) {
+//			lore.appendTag(new NBTTagString(TextFormatting.LIGHT_PURPLE + "Bezerker"));
+//		}
 
+		
+		List<BasicTag> tags = TagHelper.getAllTags(stack);
+		for (int i = 0; i < tags.size(); i++) {
+
+			String name = tags.get(i).name.replaceAll("_", " ");
+			name = TagHelper.convertToTitleCaseIteratingChars(name);
+			lore.appendTag(new NBTTagString(tags.get(i).color + name));
+		}
+		
 		lore.appendTag(new NBTTagString(""));
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Level " + compound.getInteger("Lvl")));
 		lore.appendTag(new NBTTagString(
@@ -226,11 +219,17 @@ public class SwordItem extends ItemSword implements IReforgeable {
 		display.setTag("Lore", lore);
 		compound.setTag("display", display);
 
-//		stack.setStackDisplayName(color + compound.getString("name"));
+		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+			compound.setBoolean("Unbreakable", true);
+		}else {
+			compound.setBoolean("Unbreakable", false);
+		}
+		
+		// stack.setStackDisplayName(color + compound.getString("name"));
 
 	}
 
-	public static void setName(ItemStack stack){
+	public static void setName(ItemStack stack) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -240,20 +239,21 @@ public class SwordItem extends ItemSword implements IReforgeable {
 
 		TextFormatting color = null;
 		switch (compound.getInteger("rarity")) {
-			case 1:
-				color = TextFormatting.WHITE;
-				break;
-			case 2:
-				color = TextFormatting.GOLD;
-				break;
-			case 3:
-				color = TextFormatting.LIGHT_PURPLE;
-				break;
+		case 1:
+			color = TextFormatting.WHITE;
+			break;
+		case 2:
+			color = TextFormatting.GOLD;
+			break;
+		case 3:
+			color = TextFormatting.LIGHT_PURPLE;
+			break;
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
 
 	}
+
 	public static ItemStack assignType(ItemStack stack) {
 		Random rand = new Random();
 		NBTTagCompound nbt;
@@ -263,62 +263,7 @@ public class SwordItem extends ItemSword implements IReforgeable {
 			nbt = new NBTTagCompound();
 		}
 
-		int t1 = 0, t2 = 0, t3 = 0, traits = 0;
-		int ts = rand.nextInt(8);
-		switch (ts) {
-		case 0:
-		case 1:
-			break;
-		case 2:
-		case 3:
-		case 4:
-			traits = 1;
-			break;
-		case 5:
-		case 6:
-			traits = 2;
-			break;
-		case 7:
-			traits = 3;
-			break;
-		}
-
-		if (traits == 1) {
-			t1 = rand.nextInt(tCount) + 1;
-		} else if (traits == 2) {
-			t1 = rand.nextInt(tCount) + 1;
-
-//			rand.setSeed(t1);
-			t2 = rand.nextInt(tCount) + 1;
-
-		} else if (traits == 3) {
-			t1 = rand.nextInt(tCount) + 1;
-
-//			rand.setSeed(t1);
-			t2 = rand.nextInt(tCount) + 1;
-
-//			rand.setSeed(t2);
-			t3 = rand.nextInt(tCount) + 1;
-
-		}
-
-		if ((t1 == 9 || t2 == 9 || t3 == 9) && ConfigHandler.unbreakable) {
-			nbt.setBoolean("Unbreakable", true);
-		}
 		
-		if(t1 == t2) {
-			t2 = 0;
-		}
-		if(t1 == t3) {
-			t3 = 0;
-		}
-		if(t2 == t3) {
-			t3 = 0;
-		}
-
-		nbt.setInteger("T1", t1);
-		nbt.setInteger("T2", t2);
-		nbt.setInteger("T3", t3);
 
 		nbt.setInteger("Lvl", 1);
 		nbt.setInteger("lvlXp", 256);
@@ -327,9 +272,47 @@ public class SwordItem extends ItemSword implements IReforgeable {
 		nbt.setInteger("HideFlags", 2);
 
 		stack.setTagCompound(nbt);
-		// TextComponentString("Assigned NBT"));
 
+		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+		for (BasicTag tag : TagHelper.allTags) {
+			if (tag instanceof EffectTag) {
+				EffectTag eTag = (EffectTag) tag;
+				if (eTag.forWeapons) {
+					allowedTags.add(eTag);
+				}
+			}
 
+			
+
+		}
+		
+		allowedTags.add(TagHelper.UNBREAKABLE);
+		allowedTags.add(TagHelper.REPLENISH);
+
+		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
+		wc.addChoice(1, 6);
+		wc.addChoice(2, 3);
+		wc.addChoice(3, 1);
+		
+//		for(int i = 0; i < allowedTags.size(); i ++) {
+//			System.out.println(allowedTags.get(i).name);
+//		}
+		
+		int totalTags = wc.getRandomObject();
+//		System.out.println("Total tags to be applied: " + totalTags);
+		for (int i = 0; i < totalTags; i++) {
+			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+			while (TagHelper.checkForTag(stack, toAdd)) {
+				toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
+			}
+			TagHelper.addTag(stack, toAdd.name);
+			System.out.println("Adding tag: " + toAdd.name);
+		}
+
+		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+			nbt.setBoolean("Unbreakable", true);
+		}
 
 		return stack;
 	}
@@ -369,10 +352,6 @@ public class SwordItem extends ItemSword implements IReforgeable {
 		int t1 = 0, t2 = 0, t3 = 0, traits = 0;
 
 		nbt.setBoolean("Unbreakable", false);
-
-		nbt.setInteger("T1", t1);
-		nbt.setInteger("T2", t2);
-		nbt.setInteger("T3", t3);
 
 		nbt.setInteger("Lvl", 1);
 		nbt.setInteger("lvlXp", 256);

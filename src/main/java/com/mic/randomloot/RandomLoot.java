@@ -1,11 +1,9 @@
 package com.mic.randomloot;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -17,6 +15,7 @@ import java.util.Random;
 
 import org.apache.logging.log4j.Logger;
 
+import com.mic.randomloot.commands.AddTraitCommand;
 import com.mic.randomloot.commands.ReforgeCommand;
 import com.mic.randomloot.proxy.CommonProxy;
 import com.mic.randomloot.util.ModTab;
@@ -35,7 +34,7 @@ public class RandomLoot {
 	public static final String COMMON_PROXY_CLASS = "com.mic.randomloot.proxy.CommonProxy";
 
 	static RegistryHandler eventHandler;
-	
+
 	@Mod.Instance(RandomLoot.MODID)
 	public static RandomLoot instance;
 
@@ -46,22 +45,21 @@ public class RandomLoot {
 
 	public static Random rand;
 
-	private static Logger logger;
-
 	public RandomLoot() {
 		rand = new Random();
 		Launch.classLoader.addTransformerExclusion("org.apache.commons.lang3");
 	}
 
 	@EventHandler
-	public void serverLoad(FMLServerStartingEvent event)
-	{
-	    // register server commands
+	public void serverLoad(FMLServerStartingEvent event) {
+		// register server commands
 		System.out.println("REGISTERING REFORGE COMMAND **************");
 
-	event.registerServerCommand(new ReforgeCommand());
+		event.registerServerCommand(new ReforgeCommand());
+		event.registerServerCommand(new AddTraitCommand());
+
 	}
-	
+
 	// Event Handlers
 	@EventHandler
 	public void PreInit(FMLPreInitializationEvent event) {
@@ -70,17 +68,17 @@ public class RandomLoot {
 
 		MinecraftForge.EVENT_BUS.register(eventHandler);
 
-		logger = event.getModLog();
-		eventHandler.preInitRegistries(event);
+		event.getModLog();
+		RegistryHandler.preInitRegistries(event);
 		proxy.preInit(event);
 	}
 
 	@EventHandler
 	public static void init(FMLInitializationEvent event) {
 
-		eventHandler.initRegistries();
+		RegistryHandler.initRegistries();
 		proxy.init(event);
-		
+
 	}
 
 	@EventHandler

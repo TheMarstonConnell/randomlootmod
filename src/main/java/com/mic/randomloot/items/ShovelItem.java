@@ -1,6 +1,7 @@
 package com.mic.randomloot.items;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -9,8 +10,13 @@ import javax.annotation.Nullable;
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.tags.BasicTag;
+import com.mic.randomloot.tags.EffectTag;
+import com.mic.randomloot.tags.TagHelper;
+import com.mic.randomloot.tags.WorldInteractTag;
 import com.mic.randomloot.util.IHasModel;
 import com.mic.randomloot.util.IReforgeable;
+import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.block.material.Material;
@@ -117,59 +123,21 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 
 		}
 
-		int t1 = nbt.getInteger("T1");
-		int t2 = nbt.getInteger("T2");
-		int t3 = nbt.getInteger("T3");
-
-		if (t1 == 1 || t2 == 1 || t3 == 1) {
-
-		}
-		if (t1 == 2 || t2 == 2 || t3 == 2) {
-
-		}
-		if (t1 == 3 || t2 == 3 || t3 == 3) {
-
-		}
-		if (t1 == 4 || t2 == 4 || t3 == 4) {
-
-		}
-		if (t1 == 5 || t2 == 5 || t3 == 5) {
-
-		}
-		if (t1 == 6 || t2 == 6 || t3 == 6) {
-			List<EntityItem> entities = worldIn.getEntitiesWithinAABB(EntityItem.class, new AxisAlignedBB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1));
-			for(EntityItem item : entities) {
-				item.setPositionAndUpdate(entityLiving.posX, entityLiving.posY, entityLiving.posZ);
-			}
-		}
-		if (t1 == 7 || t2 == 7 || t3 == 7) {
-			// PotionEffect(MobEffects.SATURATION, 30 * 20, 0));
-			Random rand = new Random();
-			switch (rand.nextInt(6)) {
-			case 4:
-			case 5:
-				((EntityPlayer) entityLiving).getFoodStats().addStats((ItemFood) Items.BEETROOT,
-						new ItemStack(Items.BEETROOT));
-			}
-
-		}
-		if (t1 == 8 || t2 == 8 || t3 == 8) {
-
-		}
-		if (t1 == 10 || t2 == 10 || t3 == 10) {
-
-			if (!worldIn.isRemote) {
-				float f = 4.0F;
-				worldIn.createExplosion(entityLiving, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true);
-
-			}
-
-		}
-		if (t1 == 11 || t2 == 11 || t3 == 11) {
-			entityLiving.addPotionEffect(new PotionEffect(MobEffects.HASTE, 5 * 20, 1));
-		}
-
 		stack.setTagCompound(nbt);
+
+		
+		List<BasicTag> tags = TagHelper.getAllTags(stack);
+
+		for (int i = 0; i < tags.size(); i++) {
+			if (tags.get(i) instanceof EffectTag) {
+				EffectTag eTag = (EffectTag) tags.get(i);
+				eTag.runEffect(stack, worldIn, entityLiving);
+			} else if (tags.get(i) instanceof WorldInteractTag) {
+				WorldInteractTag wTag = (WorldInteractTag) tags.get(i);
+				wTag.runEffect(stack, worldIn, entityLiving, state, pos);
+			}
+		}
+
 		setLore(stack, entityLiving);
 
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
@@ -239,50 +207,15 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 		DecimalFormat f = new DecimalFormat("#0.00");
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Mining Speed: " + f.format(getDigSpeed(stack))));
 		lore.appendTag(new NBTTagString(""));
-		int t1 = compound.getInteger("T1");
-		int t2 = compound.getInteger("T2");
-		int t3 = compound.getInteger("T3");
+		List<BasicTag> tags = TagHelper.getAllTags(stack);
+		System.out.println("Amount of tags on item: " + tags.size());
+		for (int i = 0; i < tags.size(); i++) {
 
-		if (t1 == 1 || t2 == 1 || t3 == 1) {
-			// lore.appendTag(new NBTTagString(TextFormatting.DARK_GREEN +
-			// "Poisonous"));
+			String name = tags.get(i).name.replaceAll("_", " ");
+			name = TagHelper.convertToTitleCaseIteratingChars(name);
+			System.out.println("Writing new tag to lore...");
+			lore.appendTag(new NBTTagString(tags.get(i).color + name));
 		}
-		if (t1 == 2 || t2 == 2 || t3 == 2) {
-			// lore.appendTag(new NBTTagString(TextFormatting.DARK_GRAY +
-			// "Weakening"));
-		}
-		if (t1 == 3 || t2 == 3 || t3 == 3) {
-			// lore.appendTag(new NBTTagString(TextFormatting.DARK_GRAY +
-			// "Withering"));
-		}
-		if (t1 == 4 || t2 == 4 || t3 == 4) {
-			// lore.appendTag(new NBTTagString(TextFormatting.DARK_GRAY +
-			// "Blinding"));
-		}
-		if (t1 == 5 || t2 == 5 || t3 == 5) {
-			// lore.appendTag(new NBTTagString(TextFormatting.DARK_RED +
-			// "Starving"));
-		}
-		if (t1 == 6 || t2 == 6 || t3 == 6) {
-			lore.appendTag(new NBTTagString(TextFormatting.AQUA +
-					 "Phasing"));
-		}
-		if (t1 == 7 || t2 == 7 || t3 == 7) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_GREEN + "Filling"));
-		}
-		if (t1 == 8 || t2 == 8 || t3 == 8) {
-			lore.appendTag(new NBTTagString(TextFormatting.DARK_RED + "Auto-Smelt"));
-		}
-		if ((t1 == 9 || t2 == 9 || t3 == 9) && ConfigHandler.unbreakable) {
-			lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Fortified"));
-		}
-		if (t1 == 10 || t2 == 10 || t3 == 10) {
-			lore.appendTag(new NBTTagString(TextFormatting.RED + "Explosive"));
-		}
-		if (t1 == 11 || t2 == 11 || t3 == 11) {
-			lore.appendTag(new NBTTagString(TextFormatting.YELLOW + "Hasty"));
-		}
-
 		lore.appendTag(new NBTTagString(""));
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Level " + compound.getInteger("Lvl")));
 		lore.appendTag(new NBTTagString(
@@ -292,6 +225,12 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 		display.setTag("Lore", lore);
 		compound.setTag("display", display);
 
+		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+			compound.setBoolean("Unbreakable", true);
+		}else {
+			compound.setBoolean("Unbreakable", false);
+		}
+		
 //		stack.setStackDisplayName(color + compound.getString("name"));
 
 	}
@@ -305,53 +244,6 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 			nbt = new NBTTagCompound();
 		}
 
-		int t1 = 0, t2 = 0, t3 = 0, traits = 0;
-		int ts = rand.nextInt(8);
-		switch (ts) {
-		case 0:
-		case 1:
-			break;
-		case 2:
-		case 3:
-		case 4:
-			traits = 1;
-			break;
-		case 5:
-		case 6:
-			traits = 2;
-			break;
-		case 7:
-			traits = 3;
-			break;
-		}
-
-		if (traits == 1) {
-			t1 = rand.nextInt(tCount) + 1;
-		} else if (traits == 2) {
-			t1 = rand.nextInt(tCount) + 1;
-
-//			rand.setSeed(t1);
-			t2 = rand.nextInt(tCount) + 1;
-
-		} else if (traits == 3) {
-			t1 = rand.nextInt(tCount) + 1;
-
-//			rand.setSeed(t1);
-			t2 = rand.nextInt(tCount) + 1;
-
-//			rand.setSeed(t2);
-			t3 = rand.nextInt(tCount) + 1;
-
-		}
-
-		if ((t1 == 9 || t2 == 9 || t3 == 9) && ConfigHandler.unbreakable) {
-			nbt.setBoolean("Unbreakable", true);
-		}
-
-		nbt.setInteger("T1", t1);
-		nbt.setInteger("T2", t2);
-		nbt.setInteger("T3", t3);
-
 		nbt.setInteger("Lvl", 1);
 		nbt.setInteger("lvlXp", 256);
 		nbt.setInteger("Xp", 0);
@@ -360,6 +252,53 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 		nbt.setInteger("HideFlags", 2);
 
 		stack.setTagCompound(nbt);
+		
+		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+		for (BasicTag tag : TagHelper.allTags) {
+			if (tag instanceof EffectTag) {
+				EffectTag eTag = (EffectTag) tag;
+				if (eTag.forTools) {
+					allowedTags.add(eTag);
+				}
+			} else if (tag instanceof WorldInteractTag) {
+				WorldInteractTag eTag = (WorldInteractTag) tag;
+				allowedTags.add(eTag);
+				
+			}
+
+			
+
+		}
+		
+		allowedTags.add(TagHelper.AUTOSMELT);
+		allowedTags.add(TagHelper.UNBREAKABLE);
+		
+		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
+		wc.addChoice(1, 6);
+		wc.addChoice(2, 3);
+		wc.addChoice(3, 1);
+		
+		for(int i = 0; i < allowedTags.size(); i ++) {
+			System.out.println(allowedTags.get(i).name);
+		}
+		
+		int totalTags = wc.getRandomObject();
+		System.out.println("Total tags to be applied: " + totalTags);
+		for (int i = 0; i < totalTags; i++) {
+			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+			while (TagHelper.checkForTag(stack, toAdd)) {
+				toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
+			}
+			TagHelper.addTag(stack, toAdd.name);
+			System.out.println("Adding tag: " + toAdd.name);
+		}
+
+		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+			nbt.setBoolean("Unbreakable", true);
+		}
+
+		
 
 		return stack;
 	}
@@ -414,9 +353,6 @@ public class ShovelItem extends ItemSpade implements IReforgeable{
 
 		nbt.setBoolean("Unbreakable", false);
 
-		nbt.setInteger("T1", t1);
-		nbt.setInteger("T2", t2);
-		nbt.setInteger("T3", t3);
 
 		nbt.setInteger("Lvl", 1);
 		nbt.setInteger("lvlXp", 256);

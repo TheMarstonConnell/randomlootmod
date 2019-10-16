@@ -144,6 +144,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 
 		}
 
+		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 
 		for (int i = 0; i < tags.size(); i++) {
@@ -224,6 +225,12 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 		NBTTagCompound display = new NBTTagCompound();
 		display.setTag("Lore", lore);
 		compound.setTag("display", display);
+		
+		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+			compound.setBoolean("Unbreakable", true);
+		}else {
+			compound.setBoolean("Unbreakable", false);
+		}
 
 		// stack.setStackDisplayName(color + compound.getString("name"));
 
@@ -281,18 +288,24 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
 				allowedTags.add(eTag);
+				
 			}
 
-			allowedTags.add(TagHelper.AUTOSMELT);
-			allowedTags.add(TagHelper.UNBREAKABLE);
+			
 
 		}
+		
+		allowedTags.add(TagHelper.AUTOSMELT);
+		allowedTags.add(TagHelper.UNBREAKABLE);
 		
 		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
 		wc.addChoice(1, 6);
 		wc.addChoice(2, 3);
 		wc.addChoice(3, 1);
 		
+		for(int i = 0; i < allowedTags.size(); i ++) {
+			System.out.println(allowedTags.get(i).name);
+		}
 		
 		int totalTags = wc.getRandomObject();
 		System.out.println("Total tags to be applied: " + totalTags);
@@ -300,6 +313,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 			while (TagHelper.checkForTag(stack, toAdd)) {
 				toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
 			}
 			TagHelper.addTag(stack, toAdd.name);
 			System.out.println("Adding tag: " + toAdd.name);
