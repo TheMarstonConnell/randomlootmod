@@ -123,10 +123,12 @@ public class SwordItem extends ItemSword implements IReforgeable {
 			if (tags.get(i) instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tags.get(i);
 				if (eTag.offensive) {
-					System.out.println(eTag.name);
+//					System.out.println(eTag.name);
+//					System.out.println(target.getName());
 					eTag.runEffect(stack, attacker.world, target);
 				} else {
-					System.out.println(eTag.name);
+//					System.out.println(eTag.name);
+//					System.out.println(attacker.getName());
 					eTag.runEffect(stack, attacker.world, attacker);
 
 				}

@@ -18,72 +18,72 @@ public class TagHelper {
 	public static List<BasicTag> allTags = new ArrayList<BasicTag>();
 
 	// public static final EffectTag HEALTH_BOOST = new EffectTag("health_boost",
-	// TextFormatting.RED, new PotionEffect(MobEffects.HEALTH_BOOST, 1, 2, false,
+	// TextFormatting.RED, new PotionEffect(MobEffects.HEALTH_BOOST, 120, 3, false,
 	// false), false);
 	// public static final EffectTag empty = new EffectTag("empty", COLOR, new
 	// PoitionEffect(), offensive, forTools, forWeapons)
 	
 	//HELPFUL EFFECTS
 	public static final EffectTag SPEED_ONE = new EffectTag("speedy", TextFormatting.AQUA,
-			new PotionEffect(MobEffects.SPEED, 6, 0), false, false, true);
+			new PotionEffect(MobEffects.SPEED, 100, 0), false, false, true);
 	public static final EffectTag SPEED_TWO = new EffectTag("speedier", TextFormatting.AQUA,
-			new PotionEffect(MobEffects.SPEED, 6, 1), false, false, true);
+			new PotionEffect(MobEffects.SPEED, 100, 1), false, false, true);
 	public static final EffectTag JUMP_ONE = new EffectTag("bouncy", TextFormatting.GREEN,
-			new PotionEffect(MobEffects.JUMP_BOOST, 6, 0), false, false, false);
+			new PotionEffect(MobEffects.JUMP_BOOST, 100, 0), false, false, false);
 	public static final EffectTag JUMP_TWO = new EffectTag("bouncier", TextFormatting.GREEN,
-			new PotionEffect(MobEffects.JUMP_BOOST, 6, 1), false, false, false);
+			new PotionEffect(MobEffects.JUMP_BOOST, 100, 1), false, false, false);
 	public static final EffectTag RESISTANCE_ONE = new EffectTag("resistant", TextFormatting.GRAY,
-			new PotionEffect(MobEffects.RESISTANCE, 6, 0), false, false, true);
+			new PotionEffect(MobEffects.RESISTANCE, 100, 0), false, false, true);
 	public static final EffectTag RESISTANCE_TWO = new EffectTag("more_resistant", TextFormatting.GRAY,
-			new PotionEffect(MobEffects.RESISTANCE, 6, 1), false, false, true);
+			new PotionEffect(MobEffects.RESISTANCE, 100, 1), false, false, true);
 	public static final EffectTag FIRE_RESISTANCE_ONE = new EffectTag("fire_resistant", TextFormatting.YELLOW,
-			new PotionEffect(MobEffects.FIRE_RESISTANCE, 6, 0), false, false, false);
+			new PotionEffect(MobEffects.FIRE_RESISTANCE, 100, 0), false, false, false);
 	public static final EffectTag FIRE_RESISTANCE_TWO = new EffectTag("more_fire_resistant", TextFormatting.YELLOW,
-			new PotionEffect(MobEffects.FIRE_RESISTANCE, 6, 1), false, false, false);
+			new PotionEffect(MobEffects.FIRE_RESISTANCE, 100, 1), false, false, false);
 	public static final EffectTag HASTE_ONE = new EffectTag("hastey", TextFormatting.YELLOW,
-			new PotionEffect(MobEffects.HASTE, 6, 0), false, true, false);
+			new PotionEffect(MobEffects.HASTE, 100, 0), false, true, false);
 	public static final EffectTag HASTE_TWO = new EffectTag("hastier", TextFormatting.YELLOW,
-			new PotionEffect(MobEffects.HASTE, 6, 1), false, true, false);
+			new PotionEffect(MobEffects.HASTE, 100, 1), false, true, false);
 	public static final EffectTag LUCK_ONE = new EffectTag("lucky", TextFormatting.GREEN,
-			new PotionEffect(MobEffects.LUCK, 6, 0), false, true, false);
+			new PotionEffect(MobEffects.LUCK, 100, 0), false, true, false);
 	public static final EffectTag LUCK_TWO = new EffectTag("super_lucky", TextFormatting.GREEN,
-			new PotionEffect(MobEffects.LUCK, 6, 1), false, true, false);
+			new PotionEffect(MobEffects.LUCK, 100, 1), false, true, false);
 	public static final EffectTag STRENGTH_ONE = new EffectTag("strong", TextFormatting.DARK_RED,
-			new PotionEffect(MobEffects.STRENGTH, 6, 0), false, false, true);
+			new PotionEffect(MobEffects.STRENGTH, 100, 0), false, false, true);
 	public static final EffectTag STRENGTH_TWO = new EffectTag("stronger", TextFormatting.DARK_RED,
-			new PotionEffect(MobEffects.STRENGTH, 6, 1), false, false, true);
+			new PotionEffect(MobEffects.STRENGTH, 100, 1), false, false, true);
 	public static final EffectTag NIGHT_VISION = new EffectTag("insightful", TextFormatting.BLUE,
-			new PotionEffect(MobEffects.NIGHT_VISION, 6, 0), false, false, false);
+			new PotionEffect(MobEffects.NIGHT_VISION, 100, 0), false, false, false);
 	public static final EffectTag WATER_BREATHING = new EffectTag("deep_breathing", TextFormatting.DARK_BLUE,
-			new PotionEffect(MobEffects.WATER_BREATHING, 6, 0), false, false, false);
+			new PotionEffect(MobEffects.WATER_BREATHING, 100, 0), false, false, false);
 	public static final EffectTag REGENERATION = new EffectTag("regenerating", TextFormatting.RED,
-			new PotionEffect(MobEffects.REGENERATION, 6, 0), false, false, true);
+			new PotionEffect(MobEffects.REGENERATION, 100, 0), false, false, true);
 
 	//ATTACKING EFFECTS
 	public static final EffectTag POISON_ONE = new EffectTag("poisonous", TextFormatting.DARK_GREEN,
-			new PotionEffect(MobEffects.POISON, 6, 0), true, false, true);
+			new PotionEffect(MobEffects.POISON, 100, 0), true, false, true);
 	public static final EffectTag POISON_TWO = new EffectTag("very_poisonous", TextFormatting.DARK_GREEN,
-			new PotionEffect(MobEffects.POISON, 6, 1), true, false, true);
+			new PotionEffect(MobEffects.POISON, 100, 1), true, false, true);
 	public static final EffectTag WITHER_ONE = new EffectTag("withering", TextFormatting.DARK_GRAY,
-			new PotionEffect(MobEffects.WITHER, 5, 0), true, false, true);
+			new PotionEffect(MobEffects.WITHER, 100, 0), true, false, true);
 	public static final EffectTag WITHER_TWO = new EffectTag("very_withering", TextFormatting.DARK_GRAY,
-			new PotionEffect(MobEffects.WITHER, 5, 1), true, false, true);
+			new PotionEffect(MobEffects.WITHER, 100, 1), true, false, true);
 	public static final EffectTag SLOWING_ONE = new EffectTag("webbed", TextFormatting.WHITE,
-			new PotionEffect(MobEffects.SLOWNESS, 6, 0), true, false, true);
+			new PotionEffect(MobEffects.SLOWNESS, 100, 0), true, false, true);
 	public static final EffectTag SLOWING_TWO = new EffectTag("double_webbed", TextFormatting.WHITE,
-			new PotionEffect(MobEffects.SLOWNESS, 8, 1), true, false, true);
+			new PotionEffect(MobEffects.SLOWNESS, 160, 1), true, false, true);
 	public static final EffectTag BLINDING = new EffectTag("blinding", TextFormatting.DARK_PURPLE,
-			new PotionEffect(MobEffects.BLINDNESS, 6, 0), true, false, true);
+			new PotionEffect(MobEffects.BLINDNESS, 100, 0), true, false, true);
 	public static final EffectTag GLOWING = new EffectTag("glittering", TextFormatting.GOLD,
-			new PotionEffect(MobEffects.GLOWING, 6, 0), true, false, true);
+			new PotionEffect(MobEffects.GLOWING, 100, 0), true, false, true);
 	public static final EffectTag DAMAGE_ONE = new EffectTag("damage+", TextFormatting.DARK_RED,
-			new PotionEffect(MobEffects.INSTANT_DAMAGE, 1, 1), true, false, true);
+			new PotionEffect(MobEffects.INSTANT_DAMAGE, 120, 1), true, false, true);
 	public static final EffectTag DAMAGE_TWO = new EffectTag("damage++", TextFormatting.DARK_RED,
-			new PotionEffect(MobEffects.INSTANT_DAMAGE, 1, 2), true, false, true);
+			new PotionEffect(MobEffects.INSTANT_DAMAGE, 120, 2), true, false, true);
 	public static final EffectTag WEAKNESS_ONE = new EffectTag("weakening", TextFormatting.GRAY,
-			new PotionEffect(MobEffects.WEAKNESS, 6, 0), true, false, true);
+			new PotionEffect(MobEffects.WEAKNESS, 100, 0), true, false, true);
 	public static final EffectTag WEAKNESS_TWO = new EffectTag("very_weakening", TextFormatting.GRAY,
-			new PotionEffect(MobEffects.WEAKNESS, 6, 2), true, false, true);
+			new PotionEffect(MobEffects.WEAKNESS, 100, 2), true, false, true);
 	
 	//WORLD INTERACT EFFECTS
 	public static final WorldInteractTag EXPLOSION = new WorldInteractTag("explosive", TextFormatting.RED,

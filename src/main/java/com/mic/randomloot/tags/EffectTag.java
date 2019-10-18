@@ -22,18 +22,20 @@ public class EffectTag extends BasicTag {
 		this.forWeapons = forWeapons;
 		this.forTools = forTools;
 	}
+	
+	public PotionEffect copyEffect(PotionEffect effect) {
+		return new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier());
+	}
 
 	public void runEffect(ItemStack stack, World worldIn, EntityLivingBase entityLiving) {
 
-		if (effect.getPotion().equals(MobEffects.NIGHT_VISION)) {
+		// if (!entityLiving.isPotionActive(effect.getPotion())) { // If the Potion
+		// isn't currently active,
+		PotionEffect copy = copyEffect(effect);
+//		System.out.println("Applying " + copy.getEffectName() + " level " + copy.getAmplifier() + " to " + entityLiving.getName() + " for " + copy.getDuration() + " ticks.");
+		entityLiving.addPotionEffect(copy);
+		// }
 
-			if (!entityLiving.isPotionActive(effect.getPotion())) { // If the Potion isn't currently active,
-				entityLiving.addPotionEffect(effect);
-			}
-		} else {
-			entityLiving.addPotionEffect(effect);
-
-		}
 	}
 
 }
