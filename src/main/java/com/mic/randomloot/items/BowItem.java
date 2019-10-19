@@ -8,6 +8,7 @@ import javax.annotation.Nullable;
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.util.IRandomTool;
 import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
@@ -38,7 +39,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class BowItem extends ItemBow implements IReforgeable{
+public class BowItem extends ItemBow implements IReforgeable, IRandomTool {
 	static int bows;
 	private static int useTime = 72000;
 	static int tCount = 11;
@@ -412,7 +413,7 @@ public class BowItem extends ItemBow implements IReforgeable{
 		
 		return 72000 - compound.getInteger("velo");
     }
-	public static void setName(ItemStack stack){
+	public void setName(ItemStack stack){
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();

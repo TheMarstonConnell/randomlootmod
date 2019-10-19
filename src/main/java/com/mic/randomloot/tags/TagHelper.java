@@ -84,6 +84,8 @@ public class TagHelper {
 			new PotionEffect(MobEffects.WEAKNESS, 100, 0), true, false, true);
 	public static final EffectTag WEAKNESS_TWO = new EffectTag("very_weakening", TextFormatting.GRAY,
 			new PotionEffect(MobEffects.WEAKNESS, 100, 2), true, false, true);
+	public static final EffectTag FLOATING = new EffectTag("floating", TextFormatting.AQUA,
+			new PotionEffect(MobEffects.LEVITATION, 100, 0), true, false, true);
 	
 	//WORLD INTERACT EFFECTS
 	public static final WorldInteractTag EXPLOSION = new WorldInteractTag("explosive", TextFormatting.RED,

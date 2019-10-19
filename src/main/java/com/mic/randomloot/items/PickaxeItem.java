@@ -15,7 +15,9 @@ import com.mic.randomloot.tags.EffectTag;
 import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.tags.WorldInteractTag;
 import com.mic.randomloot.util.IHasModel;
+import com.mic.randomloot.util.IRandomTool;
 import com.mic.randomloot.util.IReforgeable;
+import com.mic.randomloot.util.TagUpdater;
 import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
@@ -45,7 +47,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class PickaxeItem extends ItemPickaxe implements IReforgeable {
+public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomTool {
 
 	static int pickaxes;
 	public static int tCount = 11;
@@ -101,6 +103,9 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
 			EntityLivingBase entityLiving) {
 
+		stack = TagUpdater.update(stack, (EntityPlayer)entityLiving);
+
+		
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
@@ -236,7 +241,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable {
 
 	}
 
-	public static void setName(ItemStack stack) {
+	public  void setName(ItemStack stack) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();

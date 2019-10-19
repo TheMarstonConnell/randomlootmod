@@ -12,6 +12,8 @@ import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.items.CaseItem;
 import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.util.IHasModel;
+import com.mic.randomloot.util.IRandomTool;
+import com.mic.randomloot.util.TagUpdater;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -222,15 +224,13 @@ public class RegistryHandler {
 
 
 	
-//	@SubscribeEvent
-//	public void playerTickEvent(PlayerTickEvent event, EntityPlayer player) //CHOOSE THE EVENT THAT BEST SUITS YOUR NEEDS
-//	{
-//	    List<ItemStack> armor = (List<ItemStack>) player.getArmorInventoryList();
-//	    if(!armor.get(2).getItem().equals(ModItems.CHESTPLATE_GODLY)){
-//	    	System.out.println("no fly");
-//	    	player.capabilities.allowFlying = false;
-//	    	player.capabilities.isFlying = false;
-//	    	
+	@SubscribeEvent
+	public void playerTickEvent(PlayerTickEvent event) //CHOOSE THE EVENT THAT BEST SUITS YOUR NEEDS
+	{
+//		EntityPlayer player = event.player;
+//		ItemStack stack = player.getHeldItemMainhand();
+//	    if(stack.getItem() instanceof IRandomTool) {
+//	    	TagUpdater.update(stack, player);
 //	    }
-//	}
+	}
 }
