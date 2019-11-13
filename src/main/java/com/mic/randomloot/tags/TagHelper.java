@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mic.randomloot.tags.worldinteract.ExplosionEvent;
+import com.mic.randomloot.tags.worldinteract.FindEntitiesEvent;
 import com.mic.randomloot.tags.worldinteract.ReplenishEvent;
 import com.mic.randomloot.tags.worldinteract.TeleportItemsEvent;
 
@@ -16,6 +17,7 @@ import net.minecraft.util.text.TextFormatting;
 public class TagHelper {
 
 	public static List<BasicTag> allTags = new ArrayList<BasicTag>();
+	public static List<String> tagNames = new ArrayList<String>();
 
 	// public static final EffectTag HEALTH_BOOST = new EffectTag("health_boost",
 	// TextFormatting.RED, new PotionEffect(MobEffects.HEALTH_BOOST, 120, 3, false,
@@ -89,11 +91,13 @@ public class TagHelper {
 	
 	//WORLD INTERACT EFFECTS
 	public static final WorldInteractTag EXPLOSION = new WorldInteractTag("explosive", TextFormatting.RED,
-			new ExplosionEvent());
+			new ExplosionEvent(), true, false, false);
 	public static final WorldInteractTag REPLENISH = new WorldInteractTag("filling", TextFormatting.DARK_GREEN,
-			new ReplenishEvent());
+			new ReplenishEvent(), true, false, true);
 	public static final WorldInteractTag TELEPORT_ITEMS = new WorldInteractTag("phasing", TextFormatting.AQUA,
-			new TeleportItemsEvent());
+			new TeleportItemsEvent(), true, false, false);
+	public static final WorldInteractTag FIND_ENTITIES = new WorldInteractTag("soul_searching", TextFormatting.YELLOW,
+			new FindEntitiesEvent(), false, true, false);
 
 	//PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE);

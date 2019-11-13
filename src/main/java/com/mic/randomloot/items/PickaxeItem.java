@@ -24,6 +24,7 @@ import com.mic.randomloot.util.handlers.ConfigHandler;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
@@ -98,20 +99,9 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		// TODO Auto-generated method stub
 		return super.setNoRepair();
 	}
-
-	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
-			EntityLivingBase entityLiving) {
-
-		stack = TagUpdater.update(stack, (EntityPlayer)entityLiving);
-
+	
+	public void xpUp(ItemStack stack, EntityLivingBase entityLiving, NBTTagCompound nbt) {
 		
-		NBTTagCompound nbt;
-		if (stack.hasTagCompound()) {
-			nbt = stack.getTagCompound();
-		} else {
-			nbt = new NBTTagCompound();
-		}
 
 		int xp = nbt.getInteger("Xp");
 		int lvlXp = nbt.getInteger("lvlXp");
@@ -128,15 +118,24 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		}
 
 		stack.setTagCompound(nbt);
-		NBTTagCompound compound;
-		if (stack.hasTagCompound()) {
-			compound = stack.getTagCompound();
-		} else {
-			compound = new NBTTagCompound();
-		}
+	}
 
+	@Override
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
+			EntityLivingBase entityLiving) {
+
+		stack = TagUpdater.update(stack, (EntityPlayer)entityLiving);
+		NBTTagCompound nbt;
+		
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+		xpUp(stack, entityLiving, nbt);
+		
 		TextFormatting color = null;
-		switch (compound.getInteger("rarity")) {
+		switch (nbt.getInteger("rarity")) {
 		case 1:
 			color = TextFormatting.WHITE;
 			break;
@@ -292,7 +291,9 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 				}
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
-				allowedTags.add(eTag);
+				if (eTag.forTools) {
+					allowedTags.add(eTag);
+				}
 				
 			}
 

@@ -267,7 +267,9 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 				}
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
-				allowedTags.add(eTag);
+				if (eTag.forTools) {
+					allowedTags.add(eTag);
+				}
 				
 			}
 

@@ -11,9 +11,16 @@ public class WorldInteractTag extends BasicTag{
 
 	WorldInteractEvent wie;
 	
-	public WorldInteractTag(String name, TextFormatting color, WorldInteractEvent event) {
+	public boolean forTools = false;
+	public boolean forWeapons = false;
+	public boolean forArmor = false;
+	
+	public WorldInteractTag(String name, TextFormatting color, WorldInteractEvent event, boolean forTools, boolean forArmor, boolean forWeapons) {
 		super(name, color);
 		wie = event;
+		this.forTools = forTools;
+		this.forWeapons = forWeapons;
+		this.forArmor = forArmor;
 
 	}
 	

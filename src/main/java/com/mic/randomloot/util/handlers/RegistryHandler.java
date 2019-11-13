@@ -2,6 +2,7 @@ package com.mic.randomloot.util.handlers;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -10,6 +11,7 @@ import com.mic.randomloot.commands.ReforgeCommand;
 import com.mic.randomloot.init.ModBlocks;
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.items.CaseItem;
+import com.mic.randomloot.items.RandomArmor;
 import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.util.IHasModel;
 import com.mic.randomloot.util.IRandomTool;
@@ -18,6 +20,7 @@ import com.mic.randomloot.util.TagUpdater;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.IMob;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -41,6 +44,7 @@ import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -220,6 +224,21 @@ public class RegistryHandler {
 		// NetworkRegistry.INSTANCE.registerGuiHandler(Biocraft.instance, new
 		// GuiHandler());
 
+	}
+	
+	@SubscribeEvent
+	public void playerHurt(LivingHurtEvent event) {
+		System.out.println("Entity Hurt");
+		Iterator<ItemStack> armor = event.getEntity().getArmorInventoryList().iterator();
+		while(armor.hasNext()) {
+			ItemStack armorPiece = armor.next();
+			if(armorPiece.getItem() instanceof RandomArmor) {
+				System.out.println("Levelling up armor piece");
+				RandomArmor piece = (RandomArmor) armorPiece.getItem();
+				piece.xpUp(armorPiece, event.getEntityLiving());
+				
+			}
+		}
 	}
 
 

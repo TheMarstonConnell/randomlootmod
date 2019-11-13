@@ -291,9 +291,12 @@ public class AxeItem extends ItemAxe implements IReforgeable, IRandomTool{
 					allowedTags.add(eTag);
 				}
 			} else if (tag instanceof WorldInteractTag) {
-				WorldInteractTag eTag = (WorldInteractTag) tag;
-				allowedTags.add(eTag);
 				
+				WorldInteractTag eTag = (WorldInteractTag) tag;
+				if (eTag.forTools) {
+
+				allowedTags.add(eTag);
+				}
 			}
 
 			

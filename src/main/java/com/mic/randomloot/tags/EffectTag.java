@@ -21,6 +21,7 @@ public class EffectTag extends BasicTag {
 		this.offensive = offensive;
 		this.forWeapons = forWeapons;
 		this.forTools = forTools;
+		
 	}
 	
 	public PotionEffect copyEffect(PotionEffect effect) {

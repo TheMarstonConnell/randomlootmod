@@ -128,9 +128,8 @@ public class PaxelItem extends ItemTool implements IReforgeable, IRandomTool {
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
 			EntityLivingBase entityLiving) {
 
-		stack = TagUpdater.update(stack, (EntityPlayer)entityLiving);
+		stack = TagUpdater.update(stack, (EntityPlayer) entityLiving);
 
-		
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
@@ -304,7 +303,9 @@ public class PaxelItem extends ItemTool implements IReforgeable, IRandomTool {
 				}
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
-				allowedTags.add(eTag);
+				if (eTag.forTools) {
+					allowedTags.add(eTag);
+				}
 
 			}
 

@@ -12,5 +12,6 @@ public class BasicTag {
 		this.name = name;
 		this.color = color;
 		TagHelper.allTags.add(this);
+		TagHelper.tagNames.add(name);
 	}
 }

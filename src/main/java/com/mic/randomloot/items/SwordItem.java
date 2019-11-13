@@ -288,6 +288,11 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 				if (eTag.forWeapons) {
 					allowedTags.add(eTag);
 				}
+			}else if(tag instanceof WorldInteractTag) {
+				WorldInteractTag eTag = (WorldInteractTag) tag;
+				if (eTag.forWeapons) {
+					allowedTags.add(eTag);
+				}
 			}
 
 			

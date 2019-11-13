@@ -1,14 +1,18 @@
 package com.mic.randomloot.commands;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.util.handlers.NetworkHandler;
 import com.mic.randomloot.util.handlers.StringNetworkHandler;
 
+import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -56,7 +60,7 @@ public class AddTraitCommand implements ICommand {
 	@Override
 	public String getUsage(ICommandSender sender) {
 		// TODO Auto-generated method stub
-		return "trait";
+		return "trait <add/remove> <trait>";
 	}
 
 	@Override
@@ -93,7 +97,15 @@ public class AddTraitCommand implements ICommand {
 	@Override
 	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args,
 			BlockPos targetPos) {
-		// TODO Auto-generated method stub
-		return null;
+		if (args.length == 1)
+        {
+            return CommandBase.getListOfStringsMatchingLastWord(args, new String[] {"add", "remove"});
+        }
+        else
+        {
+        	
+            return args.length == 2 ? CommandBase.getListOfStringsMatchingLastWord(args, TagHelper.tagNames) : Collections.emptyList();
+        }
+		
 	}
 }
