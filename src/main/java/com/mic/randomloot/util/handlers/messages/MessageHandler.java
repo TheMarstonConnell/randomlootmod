@@ -20,7 +20,7 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 	@Override
 	public IMessage onMessage(BaseMessage message, MessageContext ctx) {
 		if (message.toSend == 1) {
-			System.out.println("Giving Item");
+//			System.out.println("Giving Item");
 
 			// This is the player the packet was sent to the server from
 			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
@@ -38,7 +38,7 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 			return null;
 		} else if (message.toSend == 0) {
 
-			System.out.println("Reforging Item");
+//			System.out.println("Reforging Item");
 
 			// This is the player the packet was sent to the server from
 			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
@@ -59,7 +59,7 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 
 			return null;
 		} else if (message.toSend == 2) {
-			System.out.println("Adding trait to Item");
+//			System.out.println("Adding trait to Item");
 
 			// This is the player the packet was sent to the server from
 			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
@@ -78,7 +78,7 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 
 			return null;
 		} else if (message.toSend == 3) {
-			System.out.println("Taking trait from Item");
+//			System.out.println("Taking trait from Item");
 
 			// This is the player the packet was sent to the server from
 			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;

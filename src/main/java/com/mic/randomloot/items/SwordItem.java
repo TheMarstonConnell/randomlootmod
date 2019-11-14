@@ -320,7 +320,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
 			}
 			TagHelper.addTag(stack, toAdd.name);
-			System.out.println("Adding tag: " + toAdd.name);
+//			System.out.println("Adding tag: " + toAdd.name);
 		}
 
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
@@ -354,7 +354,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 	@Override
 	public ItemStack reforge(ItemStack stack) {
 
-		System.out.println("Reforging Sword");
+//		System.out.println("Reforging Sword");
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
@@ -372,7 +372,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 		nbt.setInteger("HideFlags", 2);
 
 		int rarity = nbt.getInteger("rarity");
-		System.out.println("Item rarity: " + rarity);
+//		System.out.println("Item rarity: " + rarity);
 
 		NBTTagCompound damage = new NBTTagCompound();
 		damage.setTag("AttributeName", new NBTTagString("generic.attackDamage"));
@@ -409,7 +409,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 		stack.setTagCompound(nbt);
 		// TextComponentString("Assigned NBT"));
 		assignType(stack);
-		System.out.println("reforged sword");
+//		System.out.println("reforged sword");
 
 		return stack;
 

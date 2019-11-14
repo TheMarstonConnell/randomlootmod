@@ -52,7 +52,7 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void preInit(FMLPreInitializationEvent event) {
 		MinecraftForge.EVENT_BUS.register(this);
-		System.out.println("PreInit Success");
+//		System.out.println("PreInit Success");
 		// ModItems.registerModels();
 
 	}

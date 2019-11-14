@@ -25,9 +25,9 @@ public class WeightedChooser<E> {
 			Integer i = entryIterator.next();
 			totalEntries += i;
 		}
-		System.out.print(totalEntries + " -> ");
+//		System.out.print(totalEntries + " -> ");
 		totalEntries = rnd.nextInt(totalEntries);
-		System.out.println(totalEntries);
+//		System.out.println(totalEntries);
 		
 		Iterator<E> choiceIterator = choices.keySet().iterator();
 		while(choiceIterator.hasNext()) {

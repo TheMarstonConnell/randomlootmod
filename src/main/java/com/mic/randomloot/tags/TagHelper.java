@@ -115,12 +115,12 @@ public class TagHelper {
 		while (!nbt.getString(index + "").equals("")) {
 			System.out.println(index);
 			if (nbt.getString(index + "").equals(tagName)) {
-				System.out.println("Tag already used on this item.");
+//				System.out.println("Tag already used on this item.");
 				return stack;
 			}
 			index++;
 			if (index > 10) {
-				System.out.println("No availible slots left on this item.");
+//				System.out.println("No availible slots left on this item.");
 				return stack;
 			}
 
@@ -141,14 +141,14 @@ public class TagHelper {
 
 		int index = 0;
 		while (!nbt.getString(index + "").equals("")) {
-			System.out.println(index);
+//			System.out.println(index);
 			if (nbt.getString(index + "").equals(tagName)) {
 				nbt.setString(index + "", "");
 				return stack;
 			}
 			index++;
 			if (index > 10) {
-				System.out.println("Trait not found.");
+//				System.out.println("Trait not found.");
 				return stack;
 			}
 

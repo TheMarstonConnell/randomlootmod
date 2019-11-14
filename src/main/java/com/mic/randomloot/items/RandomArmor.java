@@ -68,7 +68,7 @@ public class RandomArmor extends ItemArmor implements IReforgeable {
 		int lvlXp = nbt.getInteger("lvlXp");
 
 		if (nbt.hasKey("Xp")) {
-			System.out.println(xp + "/" + lvlXp);
+//			System.out.println(xp + "/" + lvlXp);
 			nbt.setInteger("Xp",  xp + 1);
 		} else {
 			nbt.setInteger("Xp", 1);
@@ -125,8 +125,6 @@ public class RandomArmor extends ItemArmor implements IReforgeable {
 
 	public void setLore(ItemStack item, EntityLivingBase player) {
 
-		// System.out.println(digSpeed);
-
 		NBTTagCompound compound;
 		if (item.hasTagCompound()) {
 			compound = item.getTagCompound();
@@ -162,12 +160,12 @@ public class RandomArmor extends ItemArmor implements IReforgeable {
 		lore.appendTag(new NBTTagString(""));
 
 		List<BasicTag> tags = TagHelper.getAllTags(item);
-		System.out.println("Amount of tags on item: " + tags.size());
+//		System.out.println("Amount of tags on item: " + tags.size());
 		for (int i = 0; i < tags.size(); i++) {
 
 			String name = tags.get(i).name.replaceAll("_", " ");
 			name = TagHelper.convertToTitleCaseIteratingChars(name);
-			System.out.println("Writing new tag to lore...");
+//			System.out.println("Writing new tag to lore...");
 			lore.appendTag(new NBTTagString(tags.get(i).color + name));
 		}
 

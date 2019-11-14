@@ -409,7 +409,7 @@ public class BowItem extends ItemBow implements IReforgeable, IRandomTool {
 		} else {
 			compound = new NBTTagCompound();
 		}
-		System.out.println(72000 - compound.getInteger("velo"));
+//		System.out.println(72000 - compound.getInteger("velo"));
 		
 		return 72000 - compound.getInteger("velo");
     }
@@ -463,8 +463,8 @@ public class BowItem extends ItemBow implements IReforgeable, IRandomTool {
 
 		NBTTagList lore = new NBTTagList();
 		int increase = (int)((getVelo(stack) / 72000.0) * 100);
-		System.out.println(increase);
-		System.out.println(increase + "%");
+//		System.out.println(increase);
+//		System.out.println(increase + "%");
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Bonus Speed: " + increase + "%"));
 		DecimalFormat f = new DecimalFormat("##.00");
 		// lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Mining Speed:
@@ -545,7 +545,7 @@ public class BowItem extends ItemBow implements IReforgeable, IRandomTool {
 		nbt.setInteger("HideFlags", 2);
 
 		int rarity = nbt.getInteger("rarity");
-		System.out.println("Item rarity: "  + rarity);
+//		System.out.println("Item rarity: "  + rarity);
 		
 		assignType(stack);
 		
@@ -565,7 +565,7 @@ public class BowItem extends ItemBow implements IReforgeable, IRandomTool {
 			break;
 
 		}
-		System.out.println(bow.getVelo(stack));
+//		System.out.println(bow.getVelo(stack));
 		nbt.setFloat("velo", bow.getVelo(stack));
 		nbt.setString("name", ModItems.ITEM_FIELDS.nameItem("bow"));
 

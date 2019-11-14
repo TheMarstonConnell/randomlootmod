@@ -228,12 +228,10 @@ public class RegistryHandler {
 	
 	@SubscribeEvent
 	public void playerHurt(LivingHurtEvent event) {
-		System.out.println("Entity Hurt");
 		Iterator<ItemStack> armor = event.getEntity().getArmorInventoryList().iterator();
 		while(armor.hasNext()) {
 			ItemStack armorPiece = armor.next();
 			if(armorPiece.getItem() instanceof RandomArmor) {
-				System.out.println("Levelling up armor piece");
 				RandomArmor piece = (RandomArmor) armorPiece.getItem();
 				piece.xpUp(armorPiece, event.getEntityLiving());
 				

@@ -2,7 +2,6 @@ package com.mic.randomloot.util.handlers;
 
 import com.mic.randomloot.util.handlers.messages.BaseMessage;
 import com.mic.randomloot.util.handlers.messages.MessageHandler;
-import com.mic.randomloot.util.handlers.messages.StringMessage;
 
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;

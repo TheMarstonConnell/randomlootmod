@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.util.handlers.NetworkHandler;
-import com.mic.randomloot.util.handlers.StringNetworkHandler;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -67,10 +66,10 @@ public class AddTraitCommand implements ICommand {
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
 		if (sender instanceof EntityPlayer) {
-			System.out.println("Starting trait command");
+//			System.out.println("Starting trait command");
 			EntityPlayer player = (EntityPlayer) sender;
 
-			System.out.println("Trait: " + args[1]);
+//			System.out.println("Trait: " + args[1]);
 
 			if (args[0].equals("add")) {
 

@@ -66,7 +66,7 @@ public class ReforgeCommand implements ICommand {
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 
 		if (sender instanceof EntityPlayer) {
-			System.out.println("Runnign reforge Command");
+//			System.out.println("Runnign reforge Command");
 			EntityPlayer player = (EntityPlayer) sender;
 			if (player.getHeldItemMainhand().getItem() instanceof IReforgeable) {
 

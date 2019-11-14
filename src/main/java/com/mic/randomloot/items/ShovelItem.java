@@ -83,7 +83,7 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 		int randomNum = rand.nextInt(shovels) + 1;
 		nbt.setInteger("Texture", randomNum);
 		stack.setTagCompound(nbt);
-		System.out.println("Shovel Variant: " + randomNum);
+//		System.out.println("Shovel Variant: " + randomNum);
 		return stack;
 
 	}
@@ -213,12 +213,12 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Mining Speed: " + f.format(getDigSpeed(stack))));
 		lore.appendTag(new NBTTagString(""));
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
-		System.out.println("Amount of tags on item: " + tags.size());
+//		System.out.println("Amount of tags on item: " + tags.size());
 		for (int i = 0; i < tags.size(); i++) {
 
 			String name = tags.get(i).name.replaceAll("_", " ");
 			name = TagHelper.convertToTitleCaseIteratingChars(name);
-			System.out.println("Writing new tag to lore...");
+//			System.out.println("Writing new tag to lore...");
 			lore.appendTag(new NBTTagString(tags.get(i).color + name));
 		}
 		lore.appendTag(new NBTTagString(""));
@@ -286,11 +286,11 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 		wc.addChoice(3, 1);
 		
 		for(int i = 0; i < allowedTags.size(); i ++) {
-			System.out.println(allowedTags.get(i).name);
+//			System.out.println(allowedTags.get(i).name);
 		}
 		
 		int totalTags = wc.getRandomObject();
-		System.out.println("Total tags to be applied: " + totalTags);
+//		System.out.println("Total tags to be applied: " + totalTags);
 		for (int i = 0; i < totalTags; i++) {
 			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 			while (TagHelper.checkForTag(stack, toAdd)) {
@@ -298,7 +298,7 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
 			}
 			TagHelper.addTag(stack, toAdd.name);
-			System.out.println("Adding tag: " + toAdd.name);
+//			System.out.println("Adding tag: " + toAdd.name);
 		}
 
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
@@ -367,7 +367,7 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 		nbt.setInteger("HideFlags", 2);
 
 		int rarity = nbt.getInteger("rarity");
-		System.out.println("Item rarity: "  + rarity);
+//		System.out.println("Item rarity: "  + rarity);
 		
 		assignType(stack);
 		

@@ -66,7 +66,7 @@ public class RepairStation extends BlockContainer {
 		
 		
 		if (rte.activated && worldIn.isBlockPowered(pos)) {
-			System.out.println("Active");
+//			System.out.println("Active");
 			for (int countparticles = 0; countparticles <= 25; ++countparticles) {
 				worldIn.spawnParticle(EnumParticleTypes.CRIT, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
 						0.1D * getNegOrPos(), 0.1D * getNegOrPos(), 0.1D * getNegOrPos());
@@ -106,10 +106,10 @@ public class RepairStation extends BlockContainer {
 			EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ) {
 //		if (!worldIn.isRemote) {
 			if (hand.equals(EnumHand.MAIN_HAND)) {
-				System.out.println("Activating repair station");
+//				System.out.println("Activating repair station");
 				if (playerIn.inventory.getCurrentItem().getItem().isDamageable()
 						|| playerIn.inventory.getCurrentItem().getItem().equals(Items.AIR)) {
-					System.out.println("Putting item in");
+//					System.out.println("Putting item in");
 
 					RepairTileEntity tileentity = (RepairTileEntity) worldIn.getTileEntity(pos);
 					tileentity.addItem(playerIn, playerIn.inventory.getCurrentItem());
