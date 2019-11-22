@@ -10,7 +10,9 @@ import com.mic.randomloot.blocks.Breaker;
 import com.mic.randomloot.blocks.CaseOpener;
 import com.mic.randomloot.blocks.RandomAnvil;
 import com.mic.randomloot.blocks.RepairStation;
+import com.mic.randomloot.blocks.tileentities.OpenerTileEntity;
 import com.mic.randomloot.blocks.tileentities.RepairTileEntity;
+import com.mic.randomloot.blocks.tileentities.TileEntityBreaker;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
@@ -45,6 +47,8 @@ public class ModBlocks {
 		public static void register(final RegistryEvent.Register<Block> event) {
 			
 			GameRegistry.registerTileEntity(RepairTileEntity.class, new ResourceLocation(RandomLoot.MODID + ":repair_station"));
+			GameRegistry.registerTileEntity(OpenerTileEntity.class, new ResourceLocation(RandomLoot.MODID + ":case_opener"));
+			GameRegistry.registerTileEntity(TileEntityBreaker.class, new ResourceLocation(RandomLoot.MODID + ":breaker"));
 
 			final IForgeRegistry<Block> registry = event.getRegistry();
 

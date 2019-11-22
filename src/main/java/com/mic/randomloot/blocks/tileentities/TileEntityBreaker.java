@@ -120,7 +120,7 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
      */
     public String getName()
     {
-        return this.hasCustomName() ? this.breakerCustomName : "container.furnace";
+        return this.hasCustomName() ? this.breakerCustomName : "container.breaker";
     }
 
     /**
@@ -146,7 +146,7 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
         super.readFromNBT(compound);
         this.breakerItemStacks = NonNullList.<ItemStack>withSize(this.getSizeInventory(), ItemStack.EMPTY);
         ItemStackHelper.loadAllItems(compound, this.breakerItemStacks);
-        this.breakerBreakTime = compound.getInteger("BurnTime");
+        this.breakerBreakTime = compound.getInteger("breakerBreakTime");
         this.breakTime = compound.getInteger("breakTime");
         this.totalbreakTime = compound.getInteger("breakTimeTotal");
         this.currentItemBreakTime = getItemBurnTime(this.breakerItemStacks.get(1));
@@ -160,7 +160,7 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
     public NBTTagCompound writeToNBT(NBTTagCompound compound)
     {
         super.writeToNBT(compound);
-        compound.setInteger("BurnTime", (short)this.breakerBreakTime);
+        compound.setInteger("breakerBreakTime", (short)this.breakerBreakTime);
         compound.setInteger("breakTime", (short)this.breakTime);
         compound.setInteger("breakTimeTotal", (short)this.totalbreakTime);
         ItemStackHelper.saveAllItems(compound, this.breakerItemStacks);
@@ -526,10 +526,6 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
         {
             Item item = stack.getItem();
 
-            if (item != Items.WATER_BUCKET && item != Items.BUCKET)
-            {
-                return false;
-            }
         }
 
         return true;
@@ -537,7 +533,7 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
 
     public String getGuiID()
     {
-        return "minecraft:furnace";
+        return "randomloot:breaker";
     }
 
     public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)

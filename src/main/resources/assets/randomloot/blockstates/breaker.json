@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model": "randomloot:breaker" },
+        "facing=south": { "model": "randomloot:breaker", "y": 180 },
+        "facing=west":  { "model": "randomloot:breaker", "y": 270 },
+        "facing=east":  { "model": "randomloot:breaker", "y": 90 }
+    }
+}
