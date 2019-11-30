@@ -214,6 +214,8 @@ public class RegistryHandler {
 	}
 
 	public static void preInitRegistries(FMLPreInitializationEvent event) {
+		NetworkRegistry.INSTANCE.registerGuiHandler(RandomLoot.instance, new GuiHandler());
+
 		ConfigHandler.registerConfig(event);
 
 	}

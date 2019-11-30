@@ -2,9 +2,11 @@ package com.mic.randomloot.blocks;
 
 import java.util.Random;
 
+import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.blocks.tileentities.TileEntityBreaker;
 import com.mic.randomloot.init.ModBlocks;
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.util.handlers.GuiHandler;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockHorizontal;
@@ -145,21 +147,12 @@ public class Breaker extends BlockContainer
      */
     public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
     {
-        if (worldIn.isRemote)
-        {
-            return true;
-        }
-        else
-        {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
-
-            if (tileentity instanceof TileEntityBreaker)
-            {
-                playerIn.displayGUIChest((TileEntityBreaker)tileentity);
-            }
-
-            return true;
-        }
+    	if(!worldIn.isRemote)
+		{
+			playerIn.openGui(RandomLoot.instance, GuiHandler.GUI_BREAKER, worldIn, pos.getX(), pos.getY(), pos.getZ());
+		}
+		
+		return true;
     }
 
     public static void setState(boolean active, World worldIn, BlockPos pos)

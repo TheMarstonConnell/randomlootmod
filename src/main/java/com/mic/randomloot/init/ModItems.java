@@ -42,7 +42,7 @@ public class ModItems {
 	
 	public static final Item RANDOM_SHARD = new ItemBase("random_shard");
 
-	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 28);
+	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 33);
 	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 17);
 	public static final Item RL_SHOVEL = new ShovelItem(ToolMaterial.DIAMOND, 8);
 	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 11);
