@@ -9,6 +9,7 @@ import java.util.Random;
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.commands.ReforgeCommand;
 import com.mic.randomloot.init.ModBlocks;
+import com.mic.randomloot.init.ModEntities;
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.items.CaseItem;
 import com.mic.randomloot.items.RandomArmor;
@@ -179,6 +180,8 @@ public class RegistryHandler {
 		// Enchantment[0]));
 	}
 
+	
+	
 	@SideOnly(Side.CLIENT)
 	@SubscribeEvent
 	public void onLootTableLoad(LootTableLoadEvent event) {
@@ -218,6 +221,9 @@ public class RegistryHandler {
 
 		ConfigHandler.registerConfig(event);
 
+		
+		ModEntities.registerEntities();
+		RenderHandler.registerEntityRenders();
 	}
 
 	public static void initRegistries() {

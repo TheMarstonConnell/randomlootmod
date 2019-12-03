@@ -16,6 +16,7 @@ import com.mic.randomloot.items.PickaxeItem;
 import com.mic.randomloot.items.RandomArmor;
 import com.mic.randomloot.items.ShovelItem;
 import com.mic.randomloot.items.SwordItem;
+import com.mic.randomloot.items.ThrowableWeapon;
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.init.SoundEvents;
@@ -63,6 +64,8 @@ public class ModItems {
 	public static final Item TITANIUM_LEGS = new RandomArmor("titanium_legs", TITANIUM, 2, EntityEquipmentSlot.LEGS);
 	public static final Item TITANIUM_BOOTS = new RandomArmor("titanium_boots", TITANIUM, 1, EntityEquipmentSlot.FEET);
 
+	
+	public static final Item TESTING_THROWABLE = new ThrowableWeapon("throwing_star");
 
 	@Mod.EventBusSubscriber(modid = RandomLoot.MODID)
 	public static class ItemRegistry {

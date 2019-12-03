@@ -65,6 +65,8 @@ public class ConfigHandler {
 	public static boolean paxels;
 
 	public static int paxelWeight;
+
+	public static int throwingID;
 	
 	public static void init(File file){
 		
@@ -129,6 +131,9 @@ public class ConfigHandler {
 
 		category = "Cosmetic";
 		doWelcomeMessage = config.getBoolean("Do Welcome Message", category, true, "Whether or not you want to see the welcome message at startup.");
+		
+		category = "Advanced";
+		throwingID = config.getInt("Throwable Entity ID", category, 69, 1, 1000, "DO NOT CHANGE UNLESS YOU KNOW WHAT YOURE DOING!");
 		
 		config.save();
 		
