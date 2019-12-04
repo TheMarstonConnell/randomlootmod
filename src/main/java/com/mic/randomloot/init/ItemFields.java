@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.items.AxeItem;
 import com.mic.randomloot.items.BowItem;
 import com.mic.randomloot.items.PickaxeItem;
@@ -13,6 +14,8 @@ import com.mic.randomloot.items.SwordItem;
 import com.mic.randomloot.tags.BasicTag;
 import com.mic.randomloot.tags.EffectTag;
 import com.mic.randomloot.tags.TagHelper;
+import com.mic.randomloot.tags.WorldInteractTag;
+import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.client.Minecraft;
@@ -53,7 +56,8 @@ public class ItemFields {
 	private static String[] adjectivesHelmet;
 	private static String[] nounsHelmet;
 	private static String[] nounsPaxels;
-
+	private static String[] nounsThrowables;
+	private static String[] adjectivesThrowables;
 
 	public ItemFields() {
 
@@ -84,7 +88,7 @@ public class ItemFields {
 
 		String[] nounsAxes = { "Chopper", "Axe", "Hatchet", "Splitter", "Tomahawk", "Tremor", "Greataxe", "War Axe",
 				"Broadaxe", "Ravager", "Reaver", "Halberd", "Hacker", "Battle Axe", "Lumber Axe" };
-		
+
 		String[] nounsPaxels = { "Spiker", "Chop-Digger", "Pick-Logger", "Brute" };
 
 		String[] nounsShovels = { "Spade", "Shovel", "Shatter", "Trowel", "Scoop", "Gravedigger", "Spoon" };
@@ -103,26 +107,32 @@ public class ItemFields {
 		String[] nounsHelmet = { "Helmet", "Helm", "Hat", "Hard Hat", "Head Protector", "Skull" };
 		String[] adjectivesHelmet = { "Upright", "Weighted" };
 
-		this.adjectivesUniversal = adjectivesUniversal;
-		this.adjectivesPickaxes = adjectivesPickaxes;
-		this.nounsPickaxes = nounsPickaxes;
-		this.adjectivesShovels = adjectivesShovels;
-		this.nounsShovels = nounsShovels;
-		this.adjectivesSwords = adjectivesSwords;
-		this.nounsSwords = nounsSwords;
-		this.adjectivesAxes = adjectivesAxes;
-		this.nounsAxes = nounsAxes;
-		this.adjectivesBows = adjectivesBows;
-		this.nounsBows = nounsBows;
-		this.adjectivesBoots = adjectivesBoots;
-		this.nounsBoots = nounsBoots;
-		this.adjectivesChest = adjectivesChest;
-		this.nounsChest = nounsChest;
-		this.adjectivesLegs = adjectivesLegs;
-		this.nounsLegs = nounsLegs;
-		this.adjectivesHelmet = adjectivesHelmet;
-		this.nounsHelmet = nounsHelmet;
-		this.nounsPaxels = nounsPaxels;
+		String[] adjectivesThrowables = { "Throwable", "Tossable", "Throwing", "Gliding", "Floating", "Whizzing",
+				"Zipping", "Flying", "Zooming", "Chuckable" };
+		String[] nounsThrowables = { "Hammer", "Star", "Hatchet", "Object", "Boomerang", "Knife", "Weapon", "Stick" };
+
+		ItemFields.adjectivesUniversal = adjectivesUniversal;
+		ItemFields.adjectivesPickaxes = adjectivesPickaxes;
+		ItemFields.nounsPickaxes = nounsPickaxes;
+		ItemFields.adjectivesShovels = adjectivesShovels;
+		ItemFields.nounsShovels = nounsShovels;
+		ItemFields.adjectivesSwords = adjectivesSwords;
+		ItemFields.nounsSwords = nounsSwords;
+		ItemFields.adjectivesAxes = adjectivesAxes;
+		ItemFields.nounsAxes = nounsAxes;
+		ItemFields.adjectivesBows = adjectivesBows;
+		ItemFields.nounsBows = nounsBows;
+		ItemFields.adjectivesBoots = adjectivesBoots;
+		ItemFields.nounsBoots = nounsBoots;
+		ItemFields.adjectivesChest = adjectivesChest;
+		ItemFields.nounsChest = nounsChest;
+		ItemFields.adjectivesLegs = adjectivesLegs;
+		ItemFields.nounsLegs = nounsLegs;
+		ItemFields.adjectivesHelmet = adjectivesHelmet;
+		ItemFields.nounsHelmet = nounsHelmet;
+		ItemFields.nounsPaxels = nounsPaxels;
+		ItemFields.nounsThrowables = nounsThrowables;
+		ItemFields.adjectivesThrowables = adjectivesThrowables;
 
 	}
 
@@ -236,6 +246,11 @@ public class ItemFields {
 			adj = adjs[rand.nextInt(adjs.length)];
 			nn = nounsHelmet[rand.nextInt(nounsHelmet.length)];
 
+		} else if (type.equals("throwable")) {
+			String[] adjs = mergeArrs(adjectivesUniversal, adjectivesThrowables);
+			adj = adjs[rand.nextInt(adjs.length)];
+			nn = nounsThrowables[rand.nextInt(nounsThrowables.length)];
+
 		}
 		return adj + " " + nn;
 	}
@@ -332,24 +347,33 @@ public class ItemFields {
 				spd = spd + 0.05;
 				break;
 			case 3:
-				if (!(compound.getInteger("T1") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T1", rand.nextInt(SwordItem.tCount) + 1);
+				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+				for (BasicTag tag : TagHelper.allTags) {
+					if (tag instanceof EffectTag) {
+						EffectTag eTag = (EffectTag) tag;
+						if (eTag.forWeapons) {
+							allowedTags.add(eTag);
+						}
+					} else if (tag instanceof WorldInteractTag) {
+						WorldInteractTag eTag = (WorldInteractTag) tag;
+						if (eTag.forWeapons) {
+							allowedTags.add(eTag);
+						}
 					}
-				}
-				if (!(compound.getInteger("T2") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T2", rand.nextInt(SwordItem.tCount) + 1);
 
-					}
 				}
-				if (!(compound.getInteger("T3") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T3", rand.nextInt(SwordItem.tCount) + 1);
 
-					}
+				allowedTags.add(TagHelper.UNBREAKABLE);
+				allowedTags.add(TagHelper.REPLENISH);
+				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				while (TagHelper.checkForTag(stack, toAdd)) {
+					toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 				}
-				break;
+				TagHelper.addTag(stack, toAdd.name);
+
+				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+					compound.setBoolean("Unbreakable", true);
+				}
 
 			}
 
@@ -385,22 +409,34 @@ public class ItemFields {
 			Random rand = new Random();
 			switch (rand.nextInt(2) + 1) {
 			case 1:
-				if (!(compound.getInteger("T1") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T1", rand.nextInt(PickaxeItem.tCount) + 1);
-					}
-				}
-				if (!(compound.getInteger("T2") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T2", rand.nextInt(PickaxeItem.tCount) + 1);
+				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+				for (BasicTag tag : TagHelper.allTags) {
+					if (tag instanceof EffectTag) {
+						EffectTag eTag = (EffectTag) tag;
+						if (eTag.forTools) {
+							allowedTags.add(eTag);
+						}
+					} else if (tag instanceof WorldInteractTag) {
+						WorldInteractTag eTag = (WorldInteractTag) tag;
+						if (eTag.forTools) {
+							allowedTags.add(eTag);
+						}
 
 					}
-				}
-				if (!(compound.getInteger("T3") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T3", rand.nextInt(PickaxeItem.tCount) + 1);
 
-					}
+				}
+
+				allowedTags.add(TagHelper.AUTOSMELT);
+				allowedTags.add(TagHelper.UNBREAKABLE);
+
+				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				while (TagHelper.checkForTag(stack, toAdd)) {
+					toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				}
+				TagHelper.addTag(stack, toAdd.name);
+
+				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+					compound.setBoolean("Unbreakable", true);
 				}
 				break;
 			case 2:
@@ -414,22 +450,39 @@ public class ItemFields {
 			Random rand = new Random();
 			switch (rand.nextInt(2) + 1) {
 			case 1:
-				if (!(compound.getInteger("T1") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T1", rand.nextInt(ShovelItem.tCount) + 1);
-					}
-				}
-				if (!(compound.getInteger("T2") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T2", rand.nextInt(ShovelItem.tCount) + 1);
+				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+				for (BasicTag tag : TagHelper.allTags) {
+					if (tag instanceof EffectTag) {
+						EffectTag eTag = (EffectTag) tag;
+						if (eTag.forTools) {
+							allowedTags.add(eTag);
+						}
+					} else if (tag instanceof WorldInteractTag) {
+						WorldInteractTag eTag = (WorldInteractTag) tag;
+						if (eTag.forTools) {
+							allowedTags.add(eTag);
+						}
 
 					}
-				}
-				if (!(compound.getInteger("T3") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T3", rand.nextInt(ShovelItem.tCount) + 1);
 
-					}
+				}
+
+				allowedTags.add(TagHelper.AUTOSMELT);
+				allowedTags.add(TagHelper.UNBREAKABLE);
+
+				WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
+				wc.addChoice(1, 6);
+				wc.addChoice(2, 3);
+				wc.addChoice(3, 1);
+
+				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				while (TagHelper.checkForTag(stack, toAdd)) {
+					toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				}
+				TagHelper.addTag(stack, toAdd.name);
+
+				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+					compound.setBoolean("Unbreakable", true);
 				}
 				break;
 			case 2:
@@ -443,22 +496,35 @@ public class ItemFields {
 			Random rand = new Random();
 			switch (rand.nextInt(2) + 1) {
 			case 1:
-				if (!(compound.getInteger("T1") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T1", rand.nextInt(AxeItem.tCount) + 1);
-					}
-				}
-				if (!(compound.getInteger("T2") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T2", rand.nextInt(AxeItem.tCount) + 1);
+				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+				for (BasicTag tag : TagHelper.allTags) {
+					if (tag instanceof EffectTag) {
+						EffectTag eTag = (EffectTag) tag;
+						if (eTag.forTools) {
+							allowedTags.add(eTag);
+						}
+					} else if (tag instanceof WorldInteractTag) {
 
-					}
-				}
-				if (!(compound.getInteger("T3") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T3", rand.nextInt(AxeItem.tCount) + 1);
+						WorldInteractTag eTag = (WorldInteractTag) tag;
+						if (eTag.forTools) {
 
+							allowedTags.add(eTag);
+						}
 					}
+
+				}
+
+				allowedTags.add(TagHelper.AUTOSMELT);
+				allowedTags.add(TagHelper.UNBREAKABLE);
+
+				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				while (TagHelper.checkForTag(stack, toAdd)) {
+					toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+				}
+				TagHelper.addTag(stack, toAdd.name);
+
+				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+					compound.setBoolean("Unbreakable", true);
 				}
 				break;
 			case 2:
@@ -491,8 +557,8 @@ public class ItemFields {
 				}
 				break;
 			case 2:
-				i.setVelo(i.getVelo(stack) + rand.nextInt(9500), stack);
-				compound.setFloat("velo", i.getVelo(stack));
+				i.setVelo(BowItem.getVelo(stack) + rand.nextInt(9500), stack);
+				compound.setFloat("velo", BowItem.getVelo(stack));
 
 				break;
 
@@ -514,6 +580,35 @@ public class ItemFields {
 			int totalTags = rand.nextInt(3);
 
 			TagHelper.addTag(stack, allowedTags.get(rand.nextInt(allowedTags.size())).name);
+
+		} else if (stack.getItem().equals(ModItems.THROWABLE)) {
+			List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+			for (BasicTag tag : TagHelper.allTags) {
+				if (tag instanceof EffectTag) {
+					EffectTag eTag = (EffectTag) tag;
+					if (eTag.forWeapons) {
+						allowedTags.add(eTag);
+					}
+				} else if (tag instanceof WorldInteractTag) {
+					WorldInteractTag eTag = (WorldInteractTag) tag;
+					if (eTag.forWeapons) {
+						allowedTags.add(eTag);
+					}
+				}
+
+			}
+
+			allowedTags.add(TagHelper.UNBREAKABLE);
+			allowedTags.add(TagHelper.REPLENISH);
+			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+			while (TagHelper.checkForTag(stack, toAdd)) {
+				toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+			}
+			TagHelper.addTag(stack, toAdd.name);
+
+			if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+				compound.setBoolean("Unbreakable", true);
+			}
 
 		}
 

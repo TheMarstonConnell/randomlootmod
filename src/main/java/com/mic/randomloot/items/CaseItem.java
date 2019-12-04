@@ -188,6 +188,7 @@ public class CaseItem extends ItemBase {
 
 			} else if (iChoice instanceof RandomArmor) {
 				item = RandomArmor.assignType(item);
+
 			} else if (iChoice instanceof ThrowableWeapon) {
 				item = ThrowableWeapon.assignType(item);
 				item = ThrowableWeapon.chooseTexture(item);
@@ -203,8 +204,6 @@ public class CaseItem extends ItemBase {
 					return model;
 				}
 			});
-			
-			
 
 			// rarirty of 1-3
 			int rarity = rollRarity(i);
@@ -255,15 +254,15 @@ public class CaseItem extends ItemBase {
 
 				PickaxeItem pick = (PickaxeItem) item.getItem();
 				switch (rarity) {
-					case 1:
-						pick.setDigSpeed(7 + rand.nextInt(6), item);
-						break;
-					case 2:
-						pick.setDigSpeed(13 + rand.nextInt(5), item);
-						break;
-					case 3:
-						pick.setDigSpeed(18 + rand.nextInt(5), item);
-						break;
+				case 1:
+					pick.setDigSpeed(7 + rand.nextInt(6), item);
+					break;
+				case 2:
+					pick.setDigSpeed(13 + rand.nextInt(5), item);
+					break;
+				case 3:
+					pick.setDigSpeed(18 + rand.nextInt(5), item);
+					break;
 
 				}
 
@@ -272,15 +271,15 @@ public class CaseItem extends ItemBase {
 
 				PaxelItem pick = (PaxelItem) item.getItem();
 				switch (rarity) {
-					case 1:
-						pick.setDigSpeed(7 + rand.nextInt(6), item);
-						break;
-					case 2:
-						pick.setDigSpeed(13 + rand.nextInt(5), item);
-						break;
-					case 3:
-						pick.setDigSpeed(18 + rand.nextInt(5), item);
-						break;
+				case 1:
+					pick.setDigSpeed(7 + rand.nextInt(6), item);
+					break;
+				case 2:
+					pick.setDigSpeed(13 + rand.nextInt(5), item);
+					break;
+				case 3:
+					pick.setDigSpeed(18 + rand.nextInt(5), item);
+					break;
 
 				}
 
@@ -289,15 +288,15 @@ public class CaseItem extends ItemBase {
 
 				ShovelItem shov = (ShovelItem) item.getItem();
 				switch (rarity) {
-					case 1:
-						shov.setDigSpeed(7 + rand.nextInt(6), item);
-						break;
-					case 2:
-						shov.setDigSpeed(13 + rand.nextInt(5), item);
-						break;
-					case 3:
-						shov.setDigSpeed(18 + rand.nextInt(5), item);
-						break;
+				case 1:
+					shov.setDigSpeed(7 + rand.nextInt(6), item);
+					break;
+				case 2:
+					shov.setDigSpeed(13 + rand.nextInt(5), item);
+					break;
+				case 3:
+					shov.setDigSpeed(18 + rand.nextInt(5), item);
+					break;
 
 				}
 
@@ -306,15 +305,15 @@ public class CaseItem extends ItemBase {
 
 				AxeItem axe = (AxeItem) item.getItem();
 				switch (rarity) {
-					case 1:
-						axe.setDigSpeed(7 + rand.nextInt(6), item);
-						break;
-					case 2:
-						axe.setDigSpeed(13 + rand.nextInt(5), item);
-						break;
-					case 3:
-						axe.setDigSpeed(18 + rand.nextInt(5), item);
-						break;
+				case 1:
+					axe.setDigSpeed(7 + rand.nextInt(6), item);
+					break;
+				case 2:
+					axe.setDigSpeed(13 + rand.nextInt(5), item);
+					break;
+				case 3:
+					axe.setDigSpeed(18 + rand.nextInt(5), item);
+					break;
 
 				}
 
@@ -325,15 +324,15 @@ public class CaseItem extends ItemBase {
 				int max = Items.BOW.getMaxItemUseDuration(new ItemStack(Items.BOW));
 
 				switch (rarity) {
-					case 1:
-						bow.setVelo(max / 100 * 2 + rand.nextInt(max / 100 * 20), item);
-						break;
-					case 2:
-						bow.setVelo(max / 100 * 30 + rand.nextInt(max / 100 * 20), item);
-						break;
-					case 3:
-						bow.setVelo(max / 100 * 50 + rand.nextInt(max / 100 * 40), item);
-						break;
+				case 1:
+					bow.setVelo(max / 100 * 2 + rand.nextInt(max / 100 * 20), item);
+					break;
+				case 2:
+					bow.setVelo(max / 100 * 30 + rand.nextInt(max / 100 * 20), item);
+					break;
+				case 3:
+					bow.setVelo(max / 100 * 50 + rand.nextInt(max / 100 * 40), item);
+					break;
 
 				}
 				// System.out.println(bow.getVelo(item));
@@ -343,20 +342,20 @@ public class CaseItem extends ItemBase {
 				double arm = 4;
 
 				switch (rarity) {
-					case 1:
-						arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
-								+ ConfigHandler.tierOneMinArmor;
-						break;
-					case 2:
-						arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
-								+ ConfigHandler.tierTwoMinArmor;
+				case 1:
+					arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
+							+ ConfigHandler.tierOneMinArmor;
+					break;
+				case 2:
+					arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
+							+ ConfigHandler.tierTwoMinArmor;
 
-						break;
-					case 3:
-						arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
-								+ ConfigHandler.tierThreeMinArmor;
+					break;
+				case 3:
+					arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
+							+ ConfigHandler.tierThreeMinArmor;
 
-						break;
+					break;
 
 				}
 				arm = arm * 0.8;
@@ -375,20 +374,20 @@ public class CaseItem extends ItemBase {
 				double arm = 4;
 
 				switch (rarity) {
-					case 1:
-						arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
-								+ ConfigHandler.tierOneMinArmor;
-						break;
-					case 2:
-						arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
-								+ ConfigHandler.tierTwoMinArmor;
+				case 1:
+					arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
+							+ ConfigHandler.tierOneMinArmor;
+					break;
+				case 2:
+					arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
+							+ ConfigHandler.tierTwoMinArmor;
 
-						break;
-					case 3:
-						arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
-								+ ConfigHandler.tierThreeMinArmor;
+					break;
+				case 3:
+					arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
+							+ ConfigHandler.tierThreeMinArmor;
 
-						break;
+					break;
 
 				}
 				arm = arm * 1;
@@ -407,20 +406,20 @@ public class CaseItem extends ItemBase {
 				double arm = 4;
 
 				switch (rarity) {
-					case 1:
-						arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
-								+ ConfigHandler.tierOneMinArmor;
-						break;
-					case 2:
-						arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
-								+ ConfigHandler.tierTwoMinArmor;
+				case 1:
+					arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
+							+ ConfigHandler.tierOneMinArmor;
+					break;
+				case 2:
+					arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
+							+ ConfigHandler.tierTwoMinArmor;
 
-						break;
-					case 3:
-						arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
-								+ ConfigHandler.tierThreeMinArmor;
+					break;
+				case 3:
+					arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
+							+ ConfigHandler.tierThreeMinArmor;
 
-						break;
+					break;
 
 				}
 				arm = arm * 0.8;
@@ -439,20 +438,20 @@ public class CaseItem extends ItemBase {
 				double arm = 4;
 
 				switch (rarity) {
-					case 1:
-						arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
-								+ ConfigHandler.tierOneMinArmor;
-						break;
-					case 2:
-						arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
-								+ ConfigHandler.tierTwoMinArmor;
+				case 1:
+					arm = rand.nextDouble() * (ConfigHandler.tierOneMaxArmor - ConfigHandler.tierOneMinArmor)
+							+ ConfigHandler.tierOneMinArmor;
+					break;
+				case 2:
+					arm = rand.nextDouble() * (ConfigHandler.tierTwoMaxArmor - ConfigHandler.tierTwoMinArmor)
+							+ ConfigHandler.tierTwoMinArmor;
 
-						break;
-					case 3:
-						arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
-								+ ConfigHandler.tierThreeMinArmor;
+					break;
+				case 3:
+					arm = rand.nextDouble() * (ConfigHandler.tierThreeMaxArmor - ConfigHandler.tierThreeMinArmor)
+							+ ConfigHandler.tierThreeMinArmor;
 
-						break;
+					break;
 
 				}
 				arm = arm * 0.9;
@@ -467,9 +466,30 @@ public class CaseItem extends ItemBase {
 				modifiers.appendTag(armor);
 				compound.setString("name", ModItems.ITEM_FIELDS.nameItem("legs"));
 
-			}
+			} else if (iChoice.equals(ModItems.THROWABLE)) {
+				double dam = 4;
 
-			if (iChoice instanceof RandomArmor) {
+				switch (rarity) {
+				case 1:
+					dam = rand.nextDouble() * (ConfigHandler.tierOneDamageMax - ConfigHandler.tierOneDamageMin)
+							+ ConfigHandler.tierOneDamageMax;
+					break;
+				case 2:
+					dam = rand.nextDouble() * (ConfigHandler.tierTwoDamageMax - ConfigHandler.tierTwoDamageMin)
+							+ ConfigHandler.tierTwoDamageMin;
+
+					break;
+				case 3:
+					dam = rand.nextDouble()
+							* (ConfigHandler.tierThreeDamageMax - ConfigHandler.tierThreeDamageMin)
+							+ ConfigHandler.tierThreeDamageMin;
+
+					break;
+
+				}
+
+				compound.setFloat("damageToDeal", (float) (dam * 0.75));
+				compound.setString("name", ModItems.ITEM_FIELDS.nameItem("throwable"));
 
 			}
 
@@ -494,17 +514,21 @@ public class CaseItem extends ItemBase {
 				((ShovelItem) iChoice).setLore(item, player);
 				((ShovelItem) iChoice).setName(item);
 
-			}else if (iChoice.equals(ModItems.RL_AXE)) {
+			} else if (iChoice.equals(ModItems.RL_AXE)) {
 				((AxeItem) iChoice).setLore(item, player);
 				((AxeItem) iChoice).setName(item);
 
-			}else if (iChoice.equals(ModItems.RL_BOW)) {
+			} else if (iChoice.equals(ModItems.RL_BOW)) {
 				((BowItem) iChoice).setLore(item, player);
 				((BowItem) iChoice).setName(item);
 
-			}else if (iChoice instanceof RandomArmor) {
+			} else if (iChoice instanceof RandomArmor) {
 				((RandomArmor) iChoice).setLore(item, player);
 				((RandomArmor) iChoice).setName(item);
+
+			} else if (iChoice.equals(ModItems.THROWABLE)) {
+				((ThrowableWeapon) iChoice).setLore(item, player);
+				((ThrowableWeapon) iChoice).setName(item);
 
 			}
 

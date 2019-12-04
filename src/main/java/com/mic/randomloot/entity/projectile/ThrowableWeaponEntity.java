@@ -1,6 +1,12 @@
 package com.mic.randomloot.entity.projectile;
 
+import java.util.List;
+
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.items.ThrowableWeapon;
+import com.mic.randomloot.tags.BasicTag;
+import com.mic.randomloot.tags.EffectTag;
+import com.mic.randomloot.tags.TagHelper;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
@@ -21,21 +27,18 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class ThrowableWeaponEntity extends EntityThrowable {
 
 	float damageToDeal = 1.0f;
-	private Item thisAsItem;
+	private ItemStack thisAsItem;
 
 	public ThrowableWeaponEntity(World worldIn) {
 		super(worldIn);
-		this.setThisAsItem(ModItems.THROWABLE);
+		
+		this.setThisAsItem(new ItemStack(ModItems.THROWABLE));
 	}
 
 	public void setDamageToDeal(float damageToDeal) {
 		this.damageToDeal = damageToDeal;
 	}
 	
-	public ThrowableWeaponEntity(World worldIn, Item asItem) {
-		super(worldIn);
-		this.setThisAsItem(asItem);
-	}
 
 	public ThrowableWeaponEntity(World worldIn, EntityLivingBase throwerIn) {
 		super(worldIn, throwerIn);
@@ -61,7 +64,7 @@ public class ThrowableWeaponEntity extends EntityThrowable {
 				this.world.spawnParticle(EnumParticleTypes.ITEM_CRACK, this.posX, this.posY, this.posZ,
 						((double) this.rand.nextFloat() - 0.5D) * 0.08D,
 						((double) this.rand.nextFloat() - 0.5D) * 0.08D,
-						((double) this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(this.getThisAsItem()));
+						((double) this.rand.nextFloat() - 0.5D) * 0.08D, Item.getIdFromItem(this.getThisAsItem().getItem()));
 			}
 		}
 	}
@@ -71,24 +74,49 @@ public class ThrowableWeaponEntity extends EntityThrowable {
 	 */
 	protected void onImpact(RayTraceResult result) {
 		if (result.entityHit != null) {
+			
+			List<BasicTag> tags = TagHelper.getAllTags(this.getThisAsItem());
+
+			for (int i = 0; i < tags.size(); i++) {
+				if (tags.get(i) instanceof EffectTag) {
+					EffectTag eTag = (EffectTag) tags.get(i);
+					if (eTag.offensive) {
+//						System.out.println(eTag.name);
+//						System.out.println(target.getName());
+						eTag.runEffect(this.getThisAsItem(), this.getEntityWorld(), (EntityLivingBase)result.entityHit);
+					} else {
+//						System.out.println(eTag.name);
+//						System.out.println(attacker.getName());
+						eTag.runEffect(this.getThisAsItem(), this.getEntityWorld(), this.getThrower());
+
+					}
+				}
+			}
+
+			if (this.getThisAsItem().getItem().equals(ModItems.THROWABLE)){
+				ItemStack item = this.getThisAsItem();
+				ThrowableWeapon throwable = (ThrowableWeapon) item.getItem();
+				throwable.setLore(this.getThisAsItem(), (EntityPlayer) this.getThrower());
+			}
+			
+			
+			
 			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()),
 					this.damageToDeal);
 		}
 
 		if (!this.world.isRemote) {
 
-			this.dropItem(this.thisAsItem, 1);
-
 			this.world.setEntityState(this, (byte) 3);
 			this.setDead();
 		}
 	}
 
-	public Item getThisAsItem() {
+	public ItemStack getThisAsItem() {
 		return thisAsItem;
 	}
 
-	public void setThisAsItem(Item thisAsItem) {
+	public void setThisAsItem(ItemStack thisAsItem) {
 		this.thisAsItem = thisAsItem;
 	}
 }

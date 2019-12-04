@@ -16,6 +16,8 @@ import com.mic.randomloot.tags.BasicTag;
 import com.mic.randomloot.tags.EffectTag;
 import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.tags.WorldInteractTag;
+import com.mic.randomloot.util.IRandomTool;
+import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
@@ -39,11 +41,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ThrowableWeapon extends ItemBase{
+public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTool{
 
 	static int numThrowables = 1;
 	int maxDamage = 60;
-	private float damageToDeal = 6.0f;
 	
 	public ThrowableWeapon(String name, int throwables) {
 		super(name);
@@ -112,9 +113,6 @@ public class ThrowableWeapon extends ItemBase{
 		NBTTagList lore = new NBTTagList();
 
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Attack Damage: " + compound.getInteger("damage")));
-		DecimalFormat f = new DecimalFormat("##.00");
-		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Attack Speed: "
-				+ f.format(ModItems.ITEM_FIELDS.displaySpeed(compound.getDouble("speed"), player))));
 		lore.appendTag(new NBTTagString(""));
 
 
@@ -173,6 +171,7 @@ public class ThrowableWeapon extends ItemBase{
 
 	}
 
+	
 	public static ItemStack assignType(ItemStack stack) {
 		Random rand = new Random();
 		NBTTagCompound nbt;
@@ -182,7 +181,7 @@ public class ThrowableWeapon extends ItemBase{
 			nbt = new NBTTagCompound();
 		}
 
-		nbt.setInteger("damageToDeal", rand.nextInt(8) + 4);
+//		nbt.setInteger("damageToDeal", rand.nextInt(8) + 4);
 
 
 		nbt.setInteger("Lvl", 1);
@@ -260,8 +259,9 @@ public class ThrowableWeapon extends ItemBase{
 			nbt = new NBTTagCompound();
 		}
 
-		damageToDeal = nbt.getInteger("damageToDeal");
+		float damageToDeal = nbt.getFloat("damageToDeal");
         
+        System.out.println("Damge to deal from throwable is: " + damageToDeal);
         
         if (!playerIn.capabilities.isCreativeMode)
         {
@@ -274,6 +274,7 @@ public class ThrowableWeapon extends ItemBase{
         {
             ThrowableWeaponEntity ent = new ThrowableWeaponEntity(worldIn, playerIn);
             ent.setDamageToDeal(damageToDeal);
+            ent.setThisAsItem(itemstack);
             ent.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
             worldIn.spawnEntity(ent);
         }
@@ -281,5 +282,41 @@ public class ThrowableWeapon extends ItemBase{
         playerIn.addStat(StatList.getObjectUseStats(this));
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
     }
+
+	@Override
+	public ItemStack reforge(ItemStack stack) {
+		Random rand = new Random();
+		NBTTagCompound compound = (stack.hasTagCompound()) ? stack.getTagCompound() : new NBTTagCompound();
+
+		double dam = 4;
+		
+		int rarity = compound.getInteger("rarity");
+
+
+		switch (rarity) {
+		case 1:
+			dam = rand.nextDouble() * (ConfigHandler.tierOneDamageMax - ConfigHandler.tierOneDamageMin)
+					+ ConfigHandler.tierOneDamageMax;
+			break;
+		case 2:
+			dam = rand.nextDouble() * (ConfigHandler.tierTwoDamageMax - ConfigHandler.tierTwoDamageMin)
+					+ ConfigHandler.tierTwoDamageMin;
+
+			break;
+		case 3:
+			dam = rand.nextDouble()
+					* (ConfigHandler.tierThreeDamageMax - ConfigHandler.tierThreeDamageMin)
+					+ ConfigHandler.tierThreeDamageMin;
+
+			break;
+
+		}
+
+		compound.setFloat("damageToDeal", (float) (dam * 0.75));
+		compound.setString("name", ModItems.ITEM_FIELDS.nameItem("throwable"));
+		
+		stack.setTagCompound(compound);
+		return stack;
+	}
 
 }
