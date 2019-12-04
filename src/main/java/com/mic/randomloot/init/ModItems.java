@@ -65,7 +65,7 @@ public class ModItems {
 	public static final Item TITANIUM_BOOTS = new RandomArmor("titanium_boots", TITANIUM, 1, EntityEquipmentSlot.FEET);
 
 	
-	public static final Item TESTING_THROWABLE = new ThrowableWeapon("throwing_star");
+	public static final Item THROWABLE = new ThrowableWeapon("throwable", 1);
 
 	@Mod.EventBusSubscriber(modid = RandomLoot.MODID)
 	public static class ItemRegistry {

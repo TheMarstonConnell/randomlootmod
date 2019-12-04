@@ -19,7 +19,7 @@ public class RenderHandler
 			@Override
 			public Render<? super ThrowableWeaponEntity> createRenderFor(RenderManager manager) 
 			{
-				return new RenderSnowball<ThrowableWeaponEntity>(manager, ModItems.RANDOM_BOOTS, Minecraft.getMinecraft().getRenderItem());
+				return new RenderSnowball<ThrowableWeaponEntity>(manager, ModItems.THROWABLE, Minecraft.getMinecraft().getRenderItem());
 				
 			}
 		});

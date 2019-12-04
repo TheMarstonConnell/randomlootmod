@@ -15,12 +15,15 @@ public class ConfigHandler {
 	public static int bossChance = 50;
 	public static int animalChance = 50;
 	public static int dropType = 0;
+	
 	public static boolean swords = true;
 	public static boolean axes = true;
 	public static boolean pickaxes = true;
 	public static boolean shovels = true;
 	public static boolean bows = true;
 	public static boolean armor = true;
+	public static boolean paxels = true;
+	public static boolean throwables = true;
 
 	public static int tierOneDamageMin = 7;
 	public static int tierOneDamageMax = 11;
@@ -47,25 +50,17 @@ public class ConfigHandler {
 	public static String reforgeItemName = "blaze_powder";
 
 	public static int shovelWeight;
-
 	public static int swordWeight;
-
 	public static int pickWeight;
-
 	public static int axeWeight;
-
 	public static int bowWeight;
-	
 	public static int armorWeight;
+	public static int throwWeight;
 
 	public static int repairStationCooldown;
-
+	
 	public static boolean doWelcomeMessage;
-
-	public static boolean paxels;
-
 	public static int paxelWeight;
-
 	public static int throwingID;
 	
 	public static void init(File file){
@@ -96,7 +91,8 @@ public class ConfigHandler {
 		paxels = config.getBoolean("Paxels Enabled", category, true, "Enables or disables the item");
 		shovels = config.getBoolean("Shovels Enabled", category, true, "Enables or disables the item");
 		armor = config.getBoolean("Armor Enabled", category, true, "Enables or disables armor");
-		
+		throwables = config.getBoolean("Throwables Enabled", category, true, "Enables or disables throwables");
+
 		//Damage settings
 		category = "Damages";
 		tierOneDamageMin = config.getInt("Tier One Minimum Damage", category, 7, 0, 99, "Sets the minimum damage of the weapons.");
@@ -128,6 +124,7 @@ public class ConfigHandler {
 		axeWeight = config.getInt("Axe Weighting", category, 18, 1, 100, "How often you recieve axes from the cases.");
 		bowWeight = config.getInt("Bow Weighting", category, 10, 1, 100, "How often you recieve bows from the cases.");
 		armorWeight = config.getInt("Armor Weighting", category, 6, 1, 100, "How often you recieve armor from the cases.");
+		throwWeight = config.getInt("Throwable Weighting", category, 8, 1, 100, "How often you recieve throwables from the cases.");
 
 		category = "Cosmetic";
 		doWelcomeMessage = config.getBoolean("Do Welcome Message", category, true, "Whether or not you want to see the welcome message at startup.");

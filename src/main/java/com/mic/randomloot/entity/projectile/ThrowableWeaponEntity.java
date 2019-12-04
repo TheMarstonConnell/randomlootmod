@@ -5,6 +5,7 @@ import com.mic.randomloot.init.ModItems;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -19,12 +20,16 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class ThrowableWeaponEntity extends EntityThrowable {
 
-	final float damageToDeal = 1.0f;
+	float damageToDeal = 1.0f;
 	private Item thisAsItem;
 
 	public ThrowableWeaponEntity(World worldIn) {
 		super(worldIn);
-		this.setThisAsItem(ModItems.RANDOM_BOOTS);
+		this.setThisAsItem(ModItems.THROWABLE);
+	}
+
+	public void setDamageToDeal(float damageToDeal) {
+		this.damageToDeal = damageToDeal;
 	}
 	
 	public ThrowableWeaponEntity(World worldIn, Item asItem) {

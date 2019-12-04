@@ -156,6 +156,9 @@ public class CaseItem extends ItemBase {
 				wc.addChoice(ModItems.TITANIUM_LEGS, ConfigHandler.armorWeight);
 				wc.addChoice(ModItems.TITANIUM_HELMET, ConfigHandler.armorWeight);
 			}
+			if (ConfigHandler.throwables) {
+				wc.addChoice(ModItems.THROWABLE, ConfigHandler.throwWeight);
+			}
 			Item iChoice = wc.getRandomObject();
 
 			ItemStack item = new ItemStack(iChoice);
@@ -185,6 +188,9 @@ public class CaseItem extends ItemBase {
 
 			} else if (iChoice instanceof RandomArmor) {
 				item = RandomArmor.assignType(item);
+			} else if (iChoice instanceof ThrowableWeapon) {
+				item = ThrowableWeapon.assignType(item);
+				item = ThrowableWeapon.chooseTexture(item);
 			}
 
 			item.getItem().addPropertyOverride(new ResourceLocation("model"), new IItemPropertyGetter() {
@@ -197,6 +203,8 @@ public class CaseItem extends ItemBase {
 					return model;
 				}
 			});
+			
+			
 
 			// rarirty of 1-3
 			int rarity = rollRarity(i);

@@ -1,0 +1,81 @@
+{
+	"parent": "item/handheld",
+	"parent": "item/handheld",
+    "textures": {
+        "layer0": "randomloot:items/throwable"
+    },
+	"overrides": [
+		{
+			"predicate": {
+				"model": 1
+			},
+			"model": "randomloot:item/throwables/1"
+		},
+		{
+			"predicate": {
+				"model": 2
+			},
+			"model": "randomloot:item/throwables/2"
+		},
+		{
+			"predicate": {
+				"model": 3
+			},
+			"model": "randomloot:item/throwables/3"
+		},
+		{
+			"predicate": {
+				"model": 4
+			},
+			"model": "randomloot:item/throwables/4"
+		},
+		{
+			"predicate": {
+				"model": 5
+			},
+			"model": "randomloot:item/throwables/5"
+		},
+		{
+			"predicate": {
+				"model": 6
+			},
+			"model": "randomloot:item/throwables/6"
+		},
+		{
+			"predicate": {
+				"model": 7
+			},
+			"model": "randomloot:item/throwables/7"
+		},
+		{
+			"predicate": {
+				"model": 8
+			},
+			"model": "randomloot:item/throwables/8"
+		},
+		{
+			"predicate": {
+				"model": 9
+			},
+			"model": "randomloot:item/throwables/9"
+		},
+		{
+			"predicate": {
+				"model": 10
+			},
+			"model": "randomloot:item/throwables/10"
+		},
+		{
+			"predicate": {
+				"model": 11
+			},
+			"model": "randomloot:item/throwables/11"
+		},
+		{
+			"predicate": {
+				"model": 12
+			},
+			"model": "randomloot:item/throwables/12"
+		}
+	]
+}
