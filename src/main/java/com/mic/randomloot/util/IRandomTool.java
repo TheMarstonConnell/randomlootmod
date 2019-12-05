@@ -5,4 +5,6 @@ import net.minecraft.item.ItemStack;
 
 public interface IRandomTool {
 	public void setLore(ItemStack stack, EntityLivingBase player);
+	public ItemStack chooseTexture(ItemStack stack, int integer);
+
 }

@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.mic.randomloot.commands.AddTraitCommand;
 import com.mic.randomloot.commands.ReforgeCommand;
+import com.mic.randomloot.commands.SetTextureCommand;
 import com.mic.randomloot.proxy.CommonProxy;
 import com.mic.randomloot.util.ModTab;
 import com.mic.randomloot.util.handlers.RegistryHandler;
@@ -57,6 +58,8 @@ public class RandomLoot {
 
 		event.registerServerCommand(new ReforgeCommand());
 		event.registerServerCommand(new AddTraitCommand());
+		event.registerServerCommand(new SetTextureCommand());
+
 
 	}
 

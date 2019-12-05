@@ -72,18 +72,22 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 		});
 	}
 	
-	public static ItemStack chooseTexture(ItemStack stack) {
+	public ItemStack chooseTexture(ItemStack stack, int num) {
 		Random rand = new Random();
+
+		if(num == 0) {
+			num = rand.nextInt(shovels) + 1;
+		}
+		
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
 		} else {
 			nbt = new NBTTagCompound();
 		}
-		int randomNum = rand.nextInt(shovels) + 1;
-		nbt.setInteger("Texture", randomNum);
+		nbt.setInteger("Texture", num);
 		stack.setTagCompound(nbt);
-//		System.out.println("Shovel Variant: " + randomNum);
+
 		return stack;
 
 	}

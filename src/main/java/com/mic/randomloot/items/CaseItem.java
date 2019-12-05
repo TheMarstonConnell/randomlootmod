@@ -14,6 +14,7 @@ import com.google.common.collect.Multimap;
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.init.ItemFields;
 import com.mic.randomloot.init.ModItems;
+import com.mic.randomloot.util.IRandomTool;
 import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 import com.mic.randomloot.util.handlers.NetworkHandler;
@@ -160,38 +161,39 @@ public class CaseItem extends ItemBase {
 				wc.addChoice(ModItems.THROWABLE, ConfigHandler.throwWeight);
 			}
 			Item iChoice = wc.getRandomObject();
-
+			IRandomTool toolChoice = (IRandomTool) iChoice;
+			
 			ItemStack item = new ItemStack(iChoice);
 			if (iChoice instanceof SwordItem) {
 				item = SwordItem.assignType(item);
-				item = SwordItem.chooseTexture(item);
+				item = toolChoice.chooseTexture(item, 0);
 
 			} else if (iChoice instanceof AxeItem) {
 				item = AxeItem.assignType(item);
-				item = AxeItem.chooseTexture(item);
+				item = toolChoice.chooseTexture(item, 0);
 
 			} else if (iChoice instanceof PickaxeItem) {
 				item = PickaxeItem.assignType(item);
-				item = PickaxeItem.chooseTexture(item);
+				item = toolChoice.chooseTexture(item, 0);
 
 			} else if (iChoice instanceof PaxelItem) {
 				item = PaxelItem.assignType(item);
-				item = PaxelItem.chooseTexture(item);
+				item = toolChoice.chooseTexture(item, 0);
 
 			} else if (iChoice instanceof ShovelItem) {
 				item = ShovelItem.assignType(item);
-				item = ShovelItem.chooseTexture(item);
+				item = toolChoice.chooseTexture(item, 0);
 
 			} else if (iChoice instanceof BowItem) {
 				item = BowItem.assignType(item);
-				item = BowItem.chooseTexture(item);
+				item = toolChoice.chooseTexture(item, 0);
 
 			} else if (iChoice instanceof RandomArmor) {
 				item = RandomArmor.assignType(item);
 
 			} else if (iChoice instanceof ThrowableWeapon) {
 				item = ThrowableWeapon.assignType(item);
-				item = ThrowableWeapon.chooseTexture(item);
+				item = toolChoice.chooseTexture(item, 0);
 
 			}
 

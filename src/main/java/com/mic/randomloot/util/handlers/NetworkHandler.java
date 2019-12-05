@@ -30,5 +30,10 @@ public class NetworkHandler {
 		INSTANCE.sendToServer(new BaseMessage(3, trait));
 	}
 
+	public static void setTexture(String num) {
+		INSTANCE.sendToServer(new BaseMessage(4, num));
+		
+	}
+
 }
 

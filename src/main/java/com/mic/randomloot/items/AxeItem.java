@@ -51,7 +51,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class AxeItem extends ItemAxe implements IReforgeable, IRandomTool{
 
 	static int axes;
-	public static int tCount = 11;
 
 	public AxeItem(ToolMaterial material, int axes) {
 		super(material);
@@ -73,17 +72,22 @@ public class AxeItem extends ItemAxe implements IReforgeable, IRandomTool{
 		});
 	}
 	
-	public static ItemStack chooseTexture(ItemStack stack) {
+	public ItemStack chooseTexture(ItemStack stack, int num) {
 		Random rand = new Random();
+
+		if(num == 0) {
+			num = rand.nextInt(axes) + 1;
+		}
+		
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
 		} else {
 			nbt = new NBTTagCompound();
 		}
-		nbt.setInteger("Texture", rand.nextInt(axes) + 1);
+		nbt.setInteger("Texture", num);
 		stack.setTagCompound(nbt);
-		
+
 		return stack;
 
 	}

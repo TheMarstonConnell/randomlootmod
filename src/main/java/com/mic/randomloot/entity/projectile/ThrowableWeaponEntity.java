@@ -98,9 +98,11 @@ public class ThrowableWeaponEntity extends EntityThrowable {
 					throwable.setName(item);
 				}
 
-				result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()),
-						this.damageToDeal);
+				
 			}
+			
+			result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()),
+					this.damageToDeal);
 
 		}
 		if (!this.world.isRemote) {

@@ -73,15 +73,20 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		});
 	}
 
-	public static ItemStack chooseTexture(ItemStack stack) {
+	public ItemStack chooseTexture(ItemStack stack, int num) {
 		Random rand = new Random();
+
+		if(num == 0) {
+			num = rand.nextInt(pickaxes) + 1;
+		}
+		
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
 		} else {
 			nbt = new NBTTagCompound();
 		}
-		nbt.setInteger("Texture", rand.nextInt(pickaxes) + 1);
+		nbt.setInteger("Texture", num);
 		stack.setTagCompound(nbt);
 
 		return stack;

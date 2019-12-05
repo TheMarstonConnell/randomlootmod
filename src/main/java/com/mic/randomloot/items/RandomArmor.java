@@ -11,6 +11,7 @@ import com.mic.randomloot.tags.BasicTag;
 import com.mic.randomloot.tags.EffectTag;
 import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.tags.WorldInteractTag;
+import com.mic.randomloot.util.IRandomTool;
 import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
@@ -27,7 +28,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
-public class RandomArmor extends ItemArmor implements IReforgeable {
+public class RandomArmor extends ItemArmor implements IReforgeable, IRandomTool {
 
 	public RandomArmor(String name, ArmorMaterial materialIn, int renderIndexIn, EntityEquipmentSlot equipmentSlotIn) {
 		super(materialIn, renderIndexIn, equipmentSlotIn);
@@ -208,6 +209,13 @@ public class RandomArmor extends ItemArmor implements IReforgeable {
 
 	@Override
 	public ItemStack reforge(ItemStack stack) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	//Useless for armor
+	@Override
+	public ItemStack chooseTexture(ItemStack stack, int num) {
 		// TODO Auto-generated method stub
 		return null;
 	}

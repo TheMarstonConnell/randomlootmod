@@ -3,6 +3,7 @@ package com.mic.randomloot.util.handlers.messages;
 import com.mic.randomloot.items.CaseItem;
 import com.mic.randomloot.items.SwordItem;
 import com.mic.randomloot.tags.TagHelper;
+import com.mic.randomloot.util.IRandomTool;
 import com.mic.randomloot.util.IReforgeable;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -89,6 +90,33 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 				IReforgeable item = (IReforgeable) heldItem.getItem();
 
 				TagHelper.removeTag(heldItem, message.strSend.trim());
+
+				// serverPlayer.inventory.getCurrentItem().shrink(1);
+				item.setLore(heldItem, serverPlayer);
+				item.setName(heldItem);
+			});
+
+			return null;
+		} else if (message.toSend == 4) {
+
+			// This is the player the packet was sent to the server from
+			EntityPlayerMP serverPlayer = ctx.getServerHandler().player;
+
+			serverPlayer.getServerWorld().addScheduledTask(() -> {
+				ItemStack heldItem = serverPlayer.inventory.getCurrentItem();
+				IReforgeable item = (IReforgeable) heldItem.getItem();
+				IRandomTool randTool = (IRandomTool) heldItem.getItem();
+				
+				int texture = 1;
+				
+				
+				try {
+					texture = Integer.valueOf(message.strSend.trim());
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+				
+				randTool.chooseTexture(heldItem, texture);
 
 				// serverPlayer.inventory.getCurrentItem().shrink(1);
 				item.setLore(heldItem, serverPlayer);
