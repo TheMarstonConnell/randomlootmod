@@ -7,6 +7,7 @@ import com.mic.randomloot.tags.worldinteract.ExplosionEvent;
 import com.mic.randomloot.tags.worldinteract.FindEntitiesEvent;
 import com.mic.randomloot.tags.worldinteract.ReplenishEvent;
 import com.mic.randomloot.tags.worldinteract.TeleportItemsEvent;
+import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
@@ -163,7 +164,7 @@ public class TagHelper {
 		return getAllTags(stack).contains(tag);
 	}
 
-	public static List<BasicTag> getAllTags(ItemStack stack) {
+	public static List<BasicTag> getTagList(ItemStack stack) {
 		List<BasicTag> tags = new ArrayList<BasicTag>();
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
@@ -185,6 +186,32 @@ public class TagHelper {
 
 		return tags;
 
+	}
+	
+	
+	public static List<BasicTag> getAllTags(ItemStack stack) {
+		List<BasicTag> tags = new ArrayList<BasicTag>();
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+
+		for (int i = 0; i < 10; i++) {
+			String tag = nbt.getString(i + "");
+			if (!tag.equals("")) {
+				for (int j = 0; j < TagHelper.allTags.size(); j++) {
+					if (tag.equals(TagHelper.allTags.get(j).name)) {
+						if((boolean) ConfigHandler.traitsEnabled.get(j)) {
+							tags.add(TagHelper.allTags.get(j));
+						}
+					}
+				}
+			}
+		}
+
+		return tags;
 	}
 
 	public static String convertToTitleCaseIteratingChars(String text) {

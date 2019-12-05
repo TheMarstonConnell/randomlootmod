@@ -73,7 +73,8 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 				// serverPlayer.inventory.getCurrentItem().shrink(1);
 				item.setLore(heldItem, serverPlayer);
 				item.setName(heldItem);
-				serverPlayer.inventory.addItemStackToInventory(heldItem);
+//				serverPlayer.inventory.addItemStackToInventory(heldItem);
+				
 			});
 
 			return null;
@@ -92,7 +93,6 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 				// serverPlayer.inventory.getCurrentItem().shrink(1);
 				item.setLore(heldItem, serverPlayer);
 				item.setName(heldItem);
-				serverPlayer.inventory.addItemStackToInventory(heldItem);
 			});
 
 			return null;

@@ -1,11 +1,15 @@
 package com.mic.randomloot.util.handlers;
 
 import java.io.File;
+import java.util.ArrayList;
 
 import com.mic.randomloot.RandomLoot;
+import com.mic.randomloot.tags.BasicTag;
+import com.mic.randomloot.tags.TagHelper;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import scala.runtime.TraitSetter;
 
 public class ConfigHandler {
 	public static Configuration config;
@@ -62,6 +66,8 @@ public class ConfigHandler {
 	public static boolean doWelcomeMessage;
 	public static int paxelWeight;
 	public static int throwingID;
+	
+	public static ArrayList traitsEnabled = new ArrayList<Boolean>();
 	
 	public static void init(File file){
 		
@@ -132,9 +138,15 @@ public class ConfigHandler {
 		category = "Advanced";
 		throwingID = config.getInt("Throwable Entity ID", category, 69, 1, 1000, "DO NOT CHANGE UNLESS YOU KNOW WHAT YOURE DOING!");
 		
+		category = "Traits Allowed";
+		for(BasicTag tag : TagHelper.allTags) {
+			traitsEnabled.add(config.getBoolean(TagHelper.convertToTitleCaseIteratingChars(tag.name) + " enabled?", category, true, "Whether or not this trait is enabled."));
+		}
+		
 		config.save();
 		
 	}
+
 	
 	public static void registerConfig(FMLPreInitializationEvent event){
 		RandomLoot.config = new File(event.getModConfigurationDirectory() + "/" + RandomLoot.MODID);

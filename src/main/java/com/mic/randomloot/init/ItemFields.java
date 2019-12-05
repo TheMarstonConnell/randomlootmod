@@ -600,6 +600,8 @@ public class ItemFields {
 
 			allowedTags.add(TagHelper.UNBREAKABLE);
 			allowedTags.add(TagHelper.REPLENISH);
+			allowedTags.add(TagHelper.EXPLOSION);
+
 			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 			while (TagHelper.checkForTag(stack, toAdd)) {
 				toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));

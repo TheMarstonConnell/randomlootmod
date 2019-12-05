@@ -192,6 +192,7 @@ public class CaseItem extends ItemBase {
 			} else if (iChoice instanceof ThrowableWeapon) {
 				item = ThrowableWeapon.assignType(item);
 				item = ThrowableWeapon.chooseTexture(item);
+
 			}
 
 			item.getItem().addPropertyOverride(new ResourceLocation("model"), new IItemPropertyGetter() {
@@ -490,6 +491,7 @@ public class CaseItem extends ItemBase {
 
 				compound.setFloat("damageToDeal", (float) (dam * 0.75));
 				compound.setString("name", ModItems.ITEM_FIELDS.nameItem("throwable"));
+				compound.setInteger("maxDamage", (int)((rarity * 128) / 2));
 
 			}
 

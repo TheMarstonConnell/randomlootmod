@@ -36,41 +36,41 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class ModItems {
 	public static final List<Item> ITEMS = new ArrayList<Item>();
 	public static final ItemFields ITEM_FIELDS = new ItemFields();
-
+	
 	public static final CaseItem BASIC_CASE = new CaseItem("basic_case", 1);
 	public static final CaseItem GOLDEN_CASE = new CaseItem("golden_case", 2);
 	public static final CaseItem TITAN_CASE = new CaseItem("titan_case", 3);
 	
 	public static final Item RANDOM_SHARD = new ItemBase("random_shard");
-
+	
 	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 33);
 	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 17);
 	public static final Item RL_SHOVEL = new ShovelItem(ToolMaterial.DIAMOND, 8);
 	public static final Item RL_AXE = new AxeItem(ToolMaterial.DIAMOND, 11);
 	public static final Item RL_PAXEL = new PaxelItem(ToolMaterial.DIAMOND, 3);
 	public static final Item RL_BOW = new BowItem(6);
-
+	
 	public static final ArmorMaterial HEAVY = EnumHelper.addArmorMaterial("heavy", RandomLoot.MODID + ":heavy", 33,
 			new int[] { 3, 6, 8, 3 }, 6, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.0F);
 	public static final Item RANDOM_HELMET = new RandomArmor("heavy_helmet", HEAVY, 1, EntityEquipmentSlot.HEAD);
 	public static final Item RANDOM_CHEST = new RandomArmor("heavy_chest", HEAVY, 1, EntityEquipmentSlot.CHEST);
 	public static final Item RANDOM_LEGS = new RandomArmor("heavy_legs", HEAVY, 2, EntityEquipmentSlot.LEGS);
 	public static final Item RANDOM_BOOTS = new RandomArmor("heavy_boots", HEAVY, 1, EntityEquipmentSlot.FEET);
-
+	
 	public static final ArmorMaterial TITANIUM = EnumHelper.addArmorMaterial("titanium", RandomLoot.MODID + ":titanium", 36,
 			new int[] { 4, 5, 7, 4 }, 7, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 1.3F);
 	public static final Item TITANIUM_HELMET = new RandomArmor("titanium_helmet", TITANIUM, 1, EntityEquipmentSlot.HEAD);
 	public static final Item TITANIUM_CHEST = new RandomArmor("titanium_chest", TITANIUM, 1, EntityEquipmentSlot.CHEST);
 	public static final Item TITANIUM_LEGS = new RandomArmor("titanium_legs", TITANIUM, 2, EntityEquipmentSlot.LEGS);
 	public static final Item TITANIUM_BOOTS = new RandomArmor("titanium_boots", TITANIUM, 1, EntityEquipmentSlot.FEET);
-
 	
-	public static final Item THROWABLE = new ThrowableWeapon("throwable", 1);
-
+	
+	public static final Item THROWABLE = new ThrowableWeapon("throwable", 6);
+	
 	@Mod.EventBusSubscriber(modid = RandomLoot.MODID)
 	public static class ItemRegistry {
 		public static final Set<Item> ITEM_SET = new HashSet<Item>();
-
+		
 		@SubscribeEvent
 		public static void newRegistry(final RegistryEvent.NewRegistry event) {
 			

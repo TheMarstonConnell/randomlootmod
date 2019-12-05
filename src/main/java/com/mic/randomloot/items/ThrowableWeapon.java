@@ -21,11 +21,17 @@ import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.entity.projectile.EntityEgg;
+import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -41,11 +47,11 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTool{
+public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTool {
 
 	static int numThrowables = 1;
-	int maxDamage = 60;
-	
+	int maxDamage = 64;
+
 	public ThrowableWeapon(String name, int throwables) {
 		super(name);
 		numThrowables = throwables;
@@ -61,18 +67,40 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 		});
 	}
 	
-	@Override
-	public int getMaxDamage() {
-		// TODO Auto-generated method stub
-		return this.maxDamage;
+	public void setMaxDamage(ItemStack stack, int damage) {
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+		nbt.setInteger("maxDamage", damage);
+		stack.setTagCompound(nbt);
+	}
+
+	public int getNewMaxDamage(ItemStack stack) {
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+		return nbt.getInteger("maxDamage");
+		
 	}
 	
+	@Override
+	public int getMaxDamage() {
+		
+		return this.maxDamage;
+	}
+
 	@Override
 	public boolean isDamageable() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
+
 	public static ItemStack chooseTexture(ItemStack stack) {
 		Random rand = new Random();
 		NBTTagCompound nbt;
@@ -83,11 +111,11 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 		}
 		nbt.setInteger("Texture", rand.nextInt(numThrowables) + 1);
 		stack.setTagCompound(nbt);
-		
+
 		return stack;
 
 	}
-	
+
 	public void setLore(ItemStack stack, EntityLivingBase player) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
@@ -112,12 +140,9 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 		NBTTagList lore = new NBTTagList();
 
-		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Attack Damage: " + compound.getInteger("damage")));
+		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Attack Damage: " + compound.getInteger("damageToDeal")));
 		lore.appendTag(new NBTTagString(""));
 
-
-
-		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 		for (int i = 0; i < tags.size(); i++) {
 
@@ -125,8 +150,8 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 			name = TagHelper.convertToTitleCaseIteratingChars(name);
 			lore.appendTag(new NBTTagString(tags.get(i).color + name));
 		}
-		
-		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Damge: " + compound.getInteger("damageToDeal")));
+
+//		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Damge: " + compound.getInteger("damageToDeal")));
 		lore.appendTag(new NBTTagString(""));
 		lore.appendTag(new NBTTagString(TextFormatting.GRAY + "Level " + compound.getInteger("Lvl")));
 		lore.appendTag(new NBTTagString(
@@ -138,10 +163,10 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
 			compound.setBoolean("Unbreakable", true);
-		}else {
+		} else {
 			compound.setBoolean("Unbreakable", false);
 		}
-		
+
 		// stack.setStackDisplayName(color + compound.getString("name"));
 
 	}
@@ -171,7 +196,6 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 	}
 
-	
 	public static ItemStack assignType(ItemStack stack) {
 		Random rand = new Random();
 		NBTTagCompound nbt;
@@ -181,8 +205,7 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 			nbt = new NBTTagCompound();
 		}
 
-//		nbt.setInteger("damageToDeal", rand.nextInt(8) + 4);
-
+		// nbt.setInteger("damageToDeal", rand.nextInt(8) + 4);
 
 		nbt.setInteger("Lvl", 1);
 		nbt.setInteger("lvlXp", 256);
@@ -199,31 +222,30 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 				if (eTag.forWeapons) {
 					allowedTags.add(eTag);
 				}
-			}else if(tag instanceof WorldInteractTag) {
+			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
 				if (eTag.forWeapons) {
 					allowedTags.add(eTag);
 				}
 			}
 
-			
-
 		}
-		
+
 		allowedTags.add(TagHelper.UNBREAKABLE);
 		allowedTags.add(TagHelper.REPLENISH);
+		allowedTags.add(TagHelper.EXPLOSION);
 
 		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
 		wc.addChoice(1, 6);
 		wc.addChoice(2, 3);
 		wc.addChoice(3, 1);
-		
-//		for(int i = 0; i < allowedTags.size(); i ++) {
-//			System.out.println(allowedTags.get(i).name);
-//		}
-		
+
+		// for(int i = 0; i < allowedTags.size(); i ++) {
+		// System.out.println(allowedTags.get(i).name);
+		// }
+
 		int totalTags = wc.getRandomObject();
-//		System.out.println("Total tags to be applied: " + totalTags);
+		// System.out.println("Total tags to be applied: " + totalTags);
 		for (int i = 0; i < totalTags; i++) {
 			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 			while (TagHelper.checkForTag(stack, toAdd)) {
@@ -231,7 +253,7 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
 			}
 			TagHelper.addTag(stack, toAdd.name);
-//			System.out.println("Adding tag: " + toAdd.name);
+			// System.out.println("Adding tag: " + toAdd.name);
 		}
 
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
@@ -240,48 +262,108 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 		return stack;
 	}
-	
-	/**
-     * Called when the equipped item is right clicked.
-     */
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
-    {
-    	
-    	
-    	
-        ItemStack itemstack = playerIn.getHeldItem(handIn);
 
-        
-		NBTTagCompound nbt;
-		if (itemstack.hasTagCompound()) {
-			nbt = itemstack.getTagCompound();
-		} else {
-			nbt = new NBTTagCompound();
+	/**
+	 * Called when the equipped item is right clicked.
+	 */
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
+		ItemStack itemstack = playerIn.getHeldItem(handIn);
+		
+		this.maxDamage = this.getNewMaxDamage(itemstack);
+		
+		
+        boolean flag = true;
+
+        ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
+        if (ret != null) return ret;
+
+        if (!playerIn.capabilities.isCreativeMode && !flag)
+        {
+            return flag ? new ActionResult(EnumActionResult.PASS, itemstack) : new ActionResult(EnumActionResult.FAIL, itemstack);
+        }
+        else
+        {
+            playerIn.setActiveHand(handIn);
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+        }
+
+	}
+
+	public static float getVelocity(int charge) {
+		float f = (float) charge / 20.0F;
+		f = (f * f + f * 2.0F) / 3.0F;
+
+		if (f > 1.0F) {
+			f = 1.0F;
 		}
 
-		float damageToDeal = nbt.getFloat("damageToDeal");
-        
-        System.out.println("Damge to deal from throwable is: " + damageToDeal);
-        
-        if (!playerIn.capabilities.isCreativeMode)
-        {
-            itemstack.damageItem(1, playerIn);
-        }
-
-        worldIn.playSound((EntityPlayer)null, playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
-
-        if (!worldIn.isRemote)
-        {
-            ThrowableWeaponEntity ent = new ThrowableWeaponEntity(worldIn, playerIn);
-            ent.setDamageToDeal(damageToDeal);
-            ent.setThisAsItem(itemstack);
-            ent.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 1.5F, 1.0F);
-            worldIn.spawnEntity(ent);
-        }
-
-        playerIn.addStat(StatList.getObjectUseStats(this));
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+		return f;
+	}
+	
+	/**
+     * returns the action that specifies what animation to play when the items is being used
+     */
+    public EnumAction getItemUseAction(ItemStack stack)
+    {
+        return EnumAction.BOW;
     }
+    
+    /**
+     * How long it takes to use or consume an item
+     */
+    public int getMaxItemUseDuration(ItemStack stack)
+    {
+        return 72000;
+    }
+
+	/**
+	 * Called when the player stops using an Item (stops holding the right mouse
+	 * button).
+	 */
+	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
+		if (entityLiving instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
+			int i = this.getMaxItemUseDuration(stack) - timeLeft;
+//			if (i < 0)
+//				return;
+
+			float f = getVelocity(i);
+
+			if ((double) f >= 0.1D) {
+				ItemStack itemstack = entityplayer.getHeldItemMainhand();
+
+				NBTTagCompound nbt;
+				if (itemstack.hasTagCompound()) {
+					nbt = itemstack.getTagCompound();
+				} else {
+					nbt = new NBTTagCompound();
+				}
+
+				float damageToDeal = nbt.getFloat("damageToDeal");
+
+//				System.out.println("Damge to deal from throwable is: " + damageToDeal);
+
+				if (!entityplayer.capabilities.isCreativeMode) {
+					itemstack.damageItem(1, entityplayer);
+				}
+
+				worldIn.playSound((EntityPlayer) null, entityplayer.posX, entityplayer.posY, entityplayer.posZ,
+						SoundEvents.ENTITY_ENDERPEARL_THROW, SoundCategory.PLAYERS, 0.5F,
+						0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+				if (!worldIn.isRemote) {
+					ThrowableWeaponEntity ent = new ThrowableWeaponEntity(worldIn, entityplayer);
+					ent.setDamageToDeal(damageToDeal);
+					ent.setThisAsItem(itemstack);
+					ent.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, f * 1.5F, 1.0F);
+					worldIn.spawnEntity(ent);
+				}
+
+				entityplayer.addStat(StatList.getObjectUseStats(this));
+
+			}
+		}
+	}
 
 	@Override
 	public ItemStack reforge(ItemStack stack) {
@@ -289,9 +371,8 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 		NBTTagCompound compound = (stack.hasTagCompound()) ? stack.getTagCompound() : new NBTTagCompound();
 
 		double dam = 4;
-		
-		int rarity = compound.getInteger("rarity");
 
+		int rarity = compound.getInteger("rarity");
 
 		switch (rarity) {
 		case 1:
@@ -304,17 +385,18 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 			break;
 		case 3:
-			dam = rand.nextDouble()
-					* (ConfigHandler.tierThreeDamageMax - ConfigHandler.tierThreeDamageMin)
+			dam = rand.nextDouble() * (ConfigHandler.tierThreeDamageMax - ConfigHandler.tierThreeDamageMin)
 					+ ConfigHandler.tierThreeDamageMin;
 
 			break;
 
 		}
+		
+		compound.setInteger("maxDamage", (int)((rarity * 128) / 2));
 
 		compound.setFloat("damageToDeal", (float) (dam * 0.75));
 		compound.setString("name", ModItems.ITEM_FIELDS.nameItem("throwable"));
-		
+
 		stack.setTagCompound(compound);
 		return stack;
 	}

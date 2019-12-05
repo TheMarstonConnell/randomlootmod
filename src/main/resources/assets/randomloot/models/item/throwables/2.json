@@ -1,6 +1,6 @@
 {
 	"parent": "item/handheld",
 	"textures": {
-		"layer0": "randomloot:items/throwables/1"
+		"layer0": "randomloot:items/throwables/2"
 	}
 }

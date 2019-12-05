@@ -19,7 +19,7 @@ item.titanium_chest.name=Random Chestplate
 item.titanium_legs.name=Random Leggings
 item.titanium_boots.name=Random Boots
 item.random_shard.name=Random Shard
-item.sledge_hammer.name=Sledge Hammer
+item.throwable.name=Random Throwable
 
 tile.random_anvil.name=Golden Anvil
 tile.repair_station.name=Repair Station
