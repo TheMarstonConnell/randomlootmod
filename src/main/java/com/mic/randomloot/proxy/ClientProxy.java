@@ -2,6 +2,7 @@ package com.mic.randomloot.proxy;
 
 import com.mic.randomloot.init.ModItems;
 import com.mic.randomloot.util.handlers.ConfigHandler;
+import com.mic.randomloot.util.handlers.RenderHandler;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -54,6 +55,9 @@ public class ClientProxy extends CommonProxy {
 		MinecraftForge.EVENT_BUS.register(this);
 //		System.out.println("PreInit Success");
 		// ModItems.registerModels();
+		
+		RenderHandler.registerEntityRenders();
+
 
 	}
 
