@@ -329,8 +329,6 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 		if (entityLiving instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) entityLiving;
 			int i = this.getMaxItemUseDuration(stack) - timeLeft;
-//			if (i < 0)
-//				return;
 
 			float f = getVelocity(i);
 
@@ -345,8 +343,6 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 				}
 
 				float damageToDeal = nbt.getFloat("damageToDeal");
-
-//				System.out.println("Damge to deal from throwable is: " + damageToDeal);
 
 				if (!entityplayer.capabilities.isCreativeMode) {
 					itemstack.damageItem(1, entityplayer);

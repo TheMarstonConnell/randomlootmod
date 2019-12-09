@@ -52,6 +52,10 @@ public class RandomArmor extends ItemArmor implements IReforgeable, IRandomTool 
 				EffectTag eTag = (EffectTag) tags.get(i);
 				eTag.runEffect(itemStack, world, player);
 			}
+			else if (tags.get(i) instanceof WorldInteractTag) {
+				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
+				eTag.runEffect(itemStack, world, player, world.getBlockState(player.getPosition()), player.getPosition());
+			}
 		}
 
 	}

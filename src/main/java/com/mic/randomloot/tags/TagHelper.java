@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.mic.randomloot.tags.worldinteract.ExplosionEvent;
 import com.mic.randomloot.tags.worldinteract.FindEntitiesEvent;
+import com.mic.randomloot.tags.worldinteract.FloatEvent;
 import com.mic.randomloot.tags.worldinteract.ReplenishEvent;
 import com.mic.randomloot.tags.worldinteract.TeleportItemsEvent;
 import com.mic.randomloot.util.handlers.ConfigHandler;
@@ -99,7 +100,9 @@ public class TagHelper {
 			new TeleportItemsEvent(), true, false, false);
 	public static final WorldInteractTag FIND_ENTITIES = new WorldInteractTag("soul_searching", TextFormatting.YELLOW,
 			new FindEntitiesEvent(), false, true, false);
-
+	public static final WorldInteractTag CLOUD_WALKER = new WorldInteractTag("cloud_walker", TextFormatting.YELLOW,
+			new FloatEvent(), false, true, false);
+	
 	//PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE);
 	public static final BasicTag AUTOSMELT = new BasicTag("auto-smelt", TextFormatting.DARK_RED);

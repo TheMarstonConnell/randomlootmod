@@ -1,0 +1,27 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "OOO",
+        "OAO",
+        "ODO"
+    ],
+    "key": {
+        "O": {
+            "type": "forge:ore_dict",
+            "ore": "stone"
+        },
+        "A": {
+            "item": "minecraft:piston",
+			"data": 0
+        },
+        "D": {
+            "type": "forge:ore_dict",
+            "ore": "ingotIron"
+        }
+    },
+    "result": {
+        "item": "randomloot:breaker",
+		"data": 0,
+        "count": 1
+    }
+}

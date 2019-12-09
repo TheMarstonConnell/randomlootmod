@@ -24,3 +24,6 @@ item.throwable.name=Random Throwable
 tile.random_anvil.name=Golden Anvil
 tile.repair_station.name=Repair Station
 tile.case_opener.name=Case Ripper
+tile.breaker.name=Tool Masher
+
+container.breaker=Tool Masher

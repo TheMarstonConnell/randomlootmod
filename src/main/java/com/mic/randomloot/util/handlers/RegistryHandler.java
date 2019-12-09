@@ -251,10 +251,20 @@ public class RegistryHandler {
 	@SubscribeEvent
 	public void playerTickEvent(PlayerTickEvent event) //CHOOSE THE EVENT THAT BEST SUITS YOUR NEEDS
 	{
-//		EntityPlayer player = event.player;
-//		ItemStack stack = player.getHeldItemMainhand();
-//	    if(stack.getItem() instanceof IRandomTool) {
-//	    	TagUpdater.update(stack, player);
-//	    }
+		EntityPlayer player = event.player;
+		Iterator iterArmor = player.getArmorInventoryList().iterator();
+		while(iterArmor.hasNext()) {
+			ItemStack armor = (ItemStack) iterArmor.next();
+			if(TagHelper.checkForTag(armor, TagHelper.CLOUD_WALKER)) {
+				
+				if (!player.onGround && player.motionY < 0.0D)
+		        {
+					player.addVelocity(0, 0 - (player.motionY * 0.4), 0);
+		        }
+				
+				
+			}
+		}
+		
 	}
 }
