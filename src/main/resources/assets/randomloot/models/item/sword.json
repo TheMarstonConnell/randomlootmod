@@ -189,6 +189,25 @@
 				"model": 31
 			},
 			"model": "randomloot:item/sword/31"
+		},
+		{
+			"predicate": {
+				"model": 32
+			},
+			"model": "randomloot:item/sword/32"
+		},
+		{
+			"predicate": {
+				"model": 33
+			},
+			"model": "randomloot:item/sword/33"
+		},
+		{
+			"predicate": {
+				"model": 34
+			},
+			"model": "randomloot:item/sword/34"
 		}
+		
 	]
 }

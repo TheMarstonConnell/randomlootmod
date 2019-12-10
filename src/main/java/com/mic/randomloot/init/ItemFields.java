@@ -95,7 +95,7 @@ public class ItemFields {
 
 		String[] nounsSwords = { "Blade", "Sword", "Slasher", "Titan", "Killer", "Cleaver", "Knife", "Cutlass",
 				"Nightmare", "Glaive", "Machete", "Saber", "Claymore", "Doomblade", "Defender", "Striker", "Crusader",
-				"Skewer", "Chaos", "Infinity", "Broadsword", "Shortsword", "Architect", "Lance", "Bat" };
+				"Skewer", "Chaos", "Infinity", "Broadsword", "Shortsword", "Architect", "Lance", "Bat", "Th0rn" };
 
 		String[] nounsBoots = { "Boots", "Booties", "Feet", "Runners", "Tires", "Shoes" };
 		String[] adjectivesBoots = { "Swift", "Fast" };
