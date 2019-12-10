@@ -249,7 +249,7 @@ public class RegistryHandler {
 
 	
 	@SubscribeEvent
-	public void playerTickEvent(PlayerTickEvent event) //CHOOSE THE EVENT THAT BEST SUITS YOUR NEEDS
+	public void playerTickEvent(PlayerTickEvent event)
 	{
 		EntityPlayer player = event.player;
 		Iterator iterArmor = player.getArmorInventoryList().iterator();

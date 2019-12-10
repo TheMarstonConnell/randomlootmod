@@ -327,8 +327,11 @@ public class ItemFields {
 	}
 
 	public void upgrade(ItemStack stack, EntityLivingBase player) {
-		player.getEntityWorld().playSound((EntityPlayer) player, player.getPosition(),
-				SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0F, 1.0F);
+		if(player instanceof EntityPlayer) {
+			player.getEntityWorld().playSound((EntityPlayer)player, player.getPosition(),
+					SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0F, 1.0F);
+		}
+		
 
 		NBTTagCompound compound = (stack.hasTagCompound()) ? stack.getTagCompound() : new NBTTagCompound();
 		NBTTagList modifiers = new NBTTagList();
@@ -404,6 +407,8 @@ public class ItemFields {
 			compound.setDouble("speed", spd);
 			modifiers.appendTag(damage);
 			modifiers.appendTag(speed);
+			
+			
 		} else if (stack.getItem().equals(ModItems.RL_PICKAXE)) {
 			PickaxeItem i = (PickaxeItem) stack.getItem();
 			Random rand = new Random();
@@ -445,6 +450,8 @@ public class ItemFields {
 				break;
 			}
 			i.setLore(stack, player);
+			
+			
 		} else if (stack.getItem().equals(ModItems.RL_SHOVEL)) {
 			ShovelItem i = (ShovelItem) stack.getItem();
 			Random rand = new Random();
@@ -491,6 +498,8 @@ public class ItemFields {
 				break;
 			}
 			i.setLore(stack, player);
+			
+			
 		} else if (stack.getItem().equals(ModItems.RL_AXE)) {
 			AxeItem i = (AxeItem) stack.getItem();
 			Random rand = new Random();
@@ -533,6 +542,8 @@ public class ItemFields {
 				break;
 			}
 			i.setLore(stack, player);
+			
+			
 		} else if (stack.getItem().equals(ModItems.RL_BOW)) {
 			BowItem i = (BowItem) stack.getItem();
 			Random rand = new Random();
@@ -580,7 +591,10 @@ public class ItemFields {
 			int totalTags = rand.nextInt(3);
 
 			TagHelper.addTag(stack, allowedTags.get(rand.nextInt(allowedTags.size())).name);
-
+			if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+				compound.setBoolean("Unbreakable", true);
+			}
+			
 		} else if (stack.getItem().equals(ModItems.THROWABLE)) {
 			List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 			for (BasicTag tag : TagHelper.allTags) {
@@ -620,8 +634,6 @@ public class ItemFields {
 
 		compound.setTag("AttributeModifiers", modifiers);
 		stack.setTagCompound(compound);
-
-		// SwordItem.setLore(stack, player);
 
 	}
 
