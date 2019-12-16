@@ -86,6 +86,8 @@ public class RandomArmor extends ItemArmor implements IReforgeable, IRandomTool 
 
 		stack.setTagCompound(nbt);
 		setLore(stack, entityLiving);
+		setName(stack);
+
 
 	}
 

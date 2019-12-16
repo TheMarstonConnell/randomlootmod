@@ -42,7 +42,9 @@ public class ModItems {
 	public static final CaseItem TITAN_CASE = new CaseItem("titan_case", 3);
 	
 	public static final Item RANDOM_SHARD = new ItemBase("random_shard");
-	
+	public static final Item RANDOM_CHUNK = new ItemBase("random_chunk");
+	public static final Item RANDOM_CLUSTER = new ItemBase("random_cluster");
+
 	public static final Item RL_SWORD = new SwordItem(ToolMaterial.DIAMOND, 33);
 	public static final Item RL_PICKAXE = new PickaxeItem(ToolMaterial.DIAMOND, 17);
 	public static final Item RL_SHOVEL = new ShovelItem(ToolMaterial.DIAMOND, 8);

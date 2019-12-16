@@ -1,0 +1,23 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "OOO",
+        "OCO",
+        "OOO"
+    ],
+    "key": {
+        "O": {
+            "item": "randomloot:random_chunk",
+			"data": 0
+        },
+        "C": {
+            "item": "randomloot:basic_case",
+            "data": 0
+        }
+    },
+    "result": {
+        "item": "randomloot:golden_case",
+		"data": 0,
+        "count": 1
+    }
+}

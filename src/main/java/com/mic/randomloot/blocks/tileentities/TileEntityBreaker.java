@@ -172,7 +172,7 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
 	/**
 	 * Furnace isBurning
 	 */
-	public boolean isBurning() {
+	public boolean isBreaking() {
 		return this.breakerBreakTime > 0;
 	}
 
@@ -185,22 +185,22 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
 	 * Like the old updateEntity(), except more generic.
 	 */
 	public void update() {
-		boolean flag = this.isBurning();
+		boolean flag = this.isBreaking();
 		boolean flag1 = false;
 
-		if (this.isBurning()) {
+		if (this.isBreaking()) {
 			--this.breakerBreakTime;
 		}
 
 		if (!this.world.isRemote) {
 			ItemStack itemstack = this.breakerItemStacks.get(1);
 
-			if (this.isBurning() || !itemstack.isEmpty() && !((ItemStack) this.breakerItemStacks.get(0)).isEmpty()) {
-				if (!this.isBurning() && this.canSmelt()) {
+			if (this.isBreaking() || !itemstack.isEmpty() && !((ItemStack) this.breakerItemStacks.get(0)).isEmpty()) {
+				if (!this.isBreaking() && this.canSmelt()) {
 					this.breakerBreakTime = getItemBurnTime(itemstack);
 					this.currentItemBreakTime = this.breakerBreakTime;
 
-					if (this.isBurning()) {
+					if (this.isBreaking()) {
 						flag1 = true;
 
 						if (!itemstack.isEmpty()) {
@@ -215,7 +215,7 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
 					}
 				}
 
-				if (this.isBurning() && this.canSmelt()) {
+				if (this.isBreaking() && this.canSmelt()) {
 					++this.breakTime;
 
 					if (this.breakTime == this.totalbreakTime) {
@@ -227,13 +227,13 @@ public class TileEntityBreaker extends TileEntityLockable implements ITickable, 
 				} else {
 					this.breakTime = 0;
 				}
-			} else if (!this.isBurning() && this.breakTime > 0) {
+			} else if (!this.isBreaking() && this.breakTime > 0) {
 				this.breakTime = MathHelper.clamp(this.breakTime - 2, 0, this.totalbreakTime);
 			}
 
-			if (flag != this.isBurning()) {
+			if (flag != this.isBreaking()) {
 				flag1 = true;
-				Breaker.setState(this.isBurning(), this.world, this.pos);
+				Breaker.setState(this.isBreaking(), this.world, this.pos);
 			}
 		}
 

@@ -142,6 +142,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 		}
 
 		setLore(stack, attacker);
+		setName(stack);
 		return super.hitEntity(stack, target, attacker);
 	}
 

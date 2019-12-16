@@ -1,8 +1,10 @@
 package com.mic.randomloot.blocks;
 
+import java.util.List;
 import java.util.Random;
 
 import com.mic.randomloot.RandomLoot;
+import com.mic.randomloot.blocks.tileentities.RepairTileEntity;
 import com.mic.randomloot.blocks.tileentities.TileEntityBreaker;
 import com.mic.randomloot.init.ModBlocks;
 import com.mic.randomloot.init.ModItems;
@@ -55,7 +57,42 @@ public class Breaker extends BlockContainer
         ModBlocks.BLOCKS.add(this);
 		ModItems.ITEMS.add(new ItemBlock(this).setRegistryName(name));
     }
+    
+    public int getNegOrPos() {
+		Random rand = new Random();
 
+		switch (rand.nextInt(3)) {
+		case 0:
+			return -1;
+		case 1:
+			return 1;
+		case 2:
+			return 0;
+		}
+		return 1;
+
+	}
+
+    @Override
+	public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand) {
+		TileEntityBreaker rte = (TileEntityBreaker) worldIn.getTileEntity(pos);
+
+		
+		
+		if (rte.isBreaking()) {
+			for (int countparticles = 0; countparticles <= 25; ++countparticles) {
+				worldIn.spawnParticle(EnumParticleTypes.CRIT, pos.getX() + 0.5, pos.getY() + 1, pos.getZ() + 0.5,
+						0.1D * getNegOrPos(), 0.1D * getNegOrPos(), 0.1D * getNegOrPos());
+			}
+
+			List<EntityPlayer> players = worldIn.playerEntities;
+			for (EntityPlayer player : players) {
+				worldIn.playSound(player, pos, SoundEvents.BLOCK_METAL_BREAK, SoundCategory.BLOCKS, 0.2F, 1.0F);
+			}
+		}
+		super.randomDisplayTick(stateIn, worldIn, pos, rand);
+	}
+    
     /**
      * Get the Item that this Block should drop when harvested.
      */
@@ -103,44 +140,6 @@ public class Breaker extends BlockContainer
         }
     }
 
-    @SideOnly(Side.CLIENT)
-    @SuppressWarnings("incomplete-switch")
-    public void randomDisplayTick(IBlockState stateIn, World worldIn, BlockPos pos, Random rand)
-    {
-        if (this.isBurning)
-        {
-            EnumFacing enumfacing = (EnumFacing)stateIn.getValue(FACING);
-            double d0 = (double)pos.getX() + 0.5D;
-            double d1 = (double)pos.getY() + rand.nextDouble() * 6.0D / 16.0D;
-            double d2 = (double)pos.getZ() + 0.5D;
-            double d3 = 0.52D;
-            double d4 = rand.nextDouble() * 0.6D - 0.3D;
-
-            if (rand.nextDouble() < 0.1D)
-            {
-                worldIn.playSound((double)pos.getX() + 0.5D, (double)pos.getY(), (double)pos.getZ() + 0.5D, SoundEvents.BLOCK_CLOTH_HIT, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
-            }
-
-            switch (enumfacing)
-            {
-                case WEST:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 - 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 - 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-                    break;
-                case EAST:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + 0.52D, d1, d2 + d4, 0.0D, 0.0D, 0.0D);
-                    break;
-                case NORTH:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 - 0.52D, 0.0D, 0.0D, 0.0D);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 - 0.52D, 0.0D, 0.0D, 0.0D);
-                    break;
-                case SOUTH:
-                    worldIn.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, d0 + d4, d1, d2 + 0.52D, 0.0D, 0.0D, 0.0D);
-                    worldIn.spawnParticle(EnumParticleTypes.FLAME, d0 + d4, d1, d2 + 0.52D, 0.0D, 0.0D, 0.0D);
-            }
-        }
-    }
 
     /**
      * Called when the block is right clicked by a player.

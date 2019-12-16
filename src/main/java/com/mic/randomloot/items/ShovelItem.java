@@ -148,6 +148,7 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 		}
 
 		setLore(stack, entityLiving);
+		setName(stack);
 
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}

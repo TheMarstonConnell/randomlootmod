@@ -15,6 +15,7 @@ import com.mic.randomloot.tags.BasicTag;
 import com.mic.randomloot.tags.EffectTag;
 import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.tags.WorldInteractTag;
+import com.mic.randomloot.util.IRandomTool;
 import com.mic.randomloot.util.WeightedChooser;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
@@ -631,9 +632,11 @@ public class ItemFields {
 		int lvlXp = compound.getInteger("lvlXp");
 		compound.setInteger("Xp", 0);
 		compound.setInteger("lvlXp", lvlXp = (int) (lvlXp + (lvlXp / 2)));
-
+		
 		compound.setTag("AttributeModifiers", modifiers);
 		stack.setTagCompound(compound);
+		IRandomTool randItem = (IRandomTool) stack.getItem();
+		randItem.setName(stack);
 
 	}
 

@@ -167,6 +167,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		}
 
 		setLore(stack, entityLiving);
+		setName(stack);
 
 		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
 	}

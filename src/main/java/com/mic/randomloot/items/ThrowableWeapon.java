@@ -342,6 +342,22 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 					nbt = new NBTTagCompound();
 				}
 
+				int xp = nbt.getInteger("Xp");
+				int lvlXp = nbt.getInteger("lvlXp");
+
+				if (nbt.hasKey("Xp")) {
+					nbt.setInteger("Xp", nbt.getInteger("Xp") + 1);
+				} else {
+					nbt.setInteger("Xp", 1);
+				}
+
+				if (xp >= lvlXp) {
+					ModItems.ITEM_FIELDS.upgrade(stack, entityLiving);
+
+				}
+
+				stack.setTagCompound(nbt);
+				
 				float damageToDeal = nbt.getFloat("damageToDeal");
 
 				if (!entityplayer.capabilities.isCreativeMode) {
@@ -364,6 +380,9 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 			}
 		}
+		setLore(stack, entityLiving);
+		setName(stack);
+
 	}
 
 	@Override
