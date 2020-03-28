@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mic.randomloot.items.CaseItem;
+import com.mic.randomloot.tags.TagHelper;
 import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.NetworkHandler;
 
@@ -14,6 +15,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -70,7 +72,23 @@ public class ReforgeCommand implements ICommand {
 			EntityPlayer player = (EntityPlayer) sender;
 			if (player.getHeldItemMainhand().getItem() instanceof IReforgeable) {
 
-					NetworkHandler.reforge();
+//					NetworkHandler.reforge();
+				
+				ItemStack heldItem = player.inventory.getCurrentItem();
+				heldItem = TagHelper.removeAllTags(heldItem);
+				IReforgeable item = (IReforgeable) heldItem.getItem();
+				
+				ItemStack newItem = item.reforge(heldItem);
+				item.setLore(newItem, player);
+
+				newItem = item.setName(newItem);
+				
+				ItemStack offHand = player.getHeldItem(EnumHand.OFF_HAND);
+				offHand.shrink(12);
+
+
+				//				serverPlayer.inventory.getCurrentItem().shrink(1);
+				player.inventory.addItemStackToInventory(newItem);
 
 				
 				

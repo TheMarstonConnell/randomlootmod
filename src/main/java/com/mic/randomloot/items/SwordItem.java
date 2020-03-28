@@ -81,7 +81,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 		return false;
 	}
 
-	public static int getTexture(ItemStack stack) {
+	public int getTexture(ItemStack stack) {
 		int value = 0;
 
 		if (stack.hasTagCompound() && stack.getTagCompound().hasKey("Texture")) {

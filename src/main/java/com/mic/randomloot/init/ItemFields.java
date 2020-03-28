@@ -328,29 +328,269 @@ public class ItemFields {
 	}
 
 	public void upgrade(ItemStack stack, EntityLivingBase player) {
-		if(player instanceof EntityPlayer) {
-			player.getEntityWorld().playSound((EntityPlayer)player, player.getPosition(),
+		if (player instanceof EntityPlayer) {
+			player.getEntityWorld().playSound((EntityPlayer) player, player.getPosition(),
 					SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0F, 1.0F);
-		}
-		
 
-		NBTTagCompound compound = (stack.hasTagCompound()) ? stack.getTagCompound() : new NBTTagCompound();
-		NBTTagList modifiers = new NBTTagList();
-		int lvl = compound.getInteger("Lvl");
-		lvl++;
-		compound.setInteger("Lvl", lvl);
+			NBTTagCompound compound = (stack.hasTagCompound()) ? stack.getTagCompound() : new NBTTagCompound();
+			NBTTagList modifiers = new NBTTagList();
+			int lvl = compound.getInteger("Lvl");
+			lvl++;
+			compound.setInteger("Lvl", lvl);
 
-		if (stack.getItem().equals(ModItems.RL_SWORD)) {
-			int dmg = compound.getInteger("damage");
-			double spd = compound.getDouble("speed");
-			switch (rand.nextInt(3) + 1) {
-			case 1:
-				dmg++;
-				break;
-			case 2:
-				spd = spd + 0.05;
-				break;
-			case 3:
+			if (stack.getItem().equals(ModItems.RL_SWORD)) {
+				int dmg = compound.getInteger("damage");
+				double spd = compound.getDouble("speed");
+				switch (rand.nextInt(3) + 1) {
+				case 1:
+					dmg++;
+					break;
+				case 2:
+					spd = spd + 0.05;
+					break;
+				case 3:
+					List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+					for (BasicTag tag : TagHelper.allTags) {
+						if (tag instanceof EffectTag) {
+							EffectTag eTag = (EffectTag) tag;
+							if (eTag.forWeapons) {
+								allowedTags.add(eTag);
+							}
+						} else if (tag instanceof WorldInteractTag) {
+							WorldInteractTag eTag = (WorldInteractTag) tag;
+							if (eTag.forWeapons) {
+								allowedTags.add(eTag);
+							}
+						}
+
+					}
+
+					allowedTags.add(TagHelper.UNBREAKABLE);
+					allowedTags.add(TagHelper.REPLENISH);
+					BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					while (TagHelper.checkForTag(stack, toAdd)) {
+						toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					}
+					TagHelper.addTag(stack, toAdd.name);
+
+					if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+						compound.setBoolean("Unbreakable", true);
+					}
+
+				}
+
+				// damage
+				NBTTagCompound damage = new NBTTagCompound();
+
+				damage.setTag("AttributeName", new NBTTagString("generic.attackDamage"));
+				damage.setTag("Name", new NBTTagString("generic.attackDamage"));
+
+				damage.setTag("Amount", new NBTTagInt(dmg));
+				damage.setTag("Operation", new NBTTagInt(0));
+				damage.setTag("UUIDLeast", new NBTTagInt(3));
+				damage.setTag("UUIDMost", new NBTTagInt(4));
+				damage.setTag("Slot", new NBTTagString("mainhand"));
+
+				// speed
+				NBTTagCompound speed = new NBTTagCompound();
+				speed.setTag("AttributeName", new NBTTagString("generic.attackSpeed"));
+				speed.setTag("Name", new NBTTagString("generic.attackSpeed"));
+
+				speed.setTag("Amount", new NBTTagDouble(spd));
+				speed.setTag("Operation", new NBTTagInt(0));
+				speed.setTag("UUIDLeast", new NBTTagInt(1));
+				speed.setTag("UUIDMost", new NBTTagInt(2));
+				speed.setTag("Slot", new NBTTagString("mainhand"));
+
+				compound.setInteger("damage", dmg);
+				compound.setDouble("speed", spd);
+				modifiers.appendTag(damage);
+				modifiers.appendTag(speed);
+
+			} else if (stack.getItem().equals(ModItems.RL_PICKAXE)) {
+				PickaxeItem i = (PickaxeItem) stack.getItem();
+				Random rand = new Random();
+				switch (rand.nextInt(2) + 1) {
+				case 1:
+					List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+					for (BasicTag tag : TagHelper.allTags) {
+						if (tag instanceof EffectTag) {
+							EffectTag eTag = (EffectTag) tag;
+							if (eTag.forTools) {
+								allowedTags.add(eTag);
+							}
+						} else if (tag instanceof WorldInteractTag) {
+							WorldInteractTag eTag = (WorldInteractTag) tag;
+							if (eTag.forTools) {
+								allowedTags.add(eTag);
+							}
+
+						}
+
+					}
+
+					allowedTags.add(TagHelper.AUTOSMELT);
+					allowedTags.add(TagHelper.UNBREAKABLE);
+
+					BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					while (TagHelper.checkForTag(stack, toAdd)) {
+						toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					}
+					TagHelper.addTag(stack, toAdd.name);
+
+					if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+						compound.setBoolean("Unbreakable", true);
+					}
+					break;
+				case 2:
+					float num = (float) (rand.nextFloat() + 0.3);
+					i.addSpeed(num, stack);
+					break;
+				}
+				i.setLore(stack, player);
+
+			} else if (stack.getItem().equals(ModItems.RL_SHOVEL)) {
+				ShovelItem i = (ShovelItem) stack.getItem();
+				Random rand = new Random();
+				switch (rand.nextInt(2) + 1) {
+				case 1:
+					List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+					for (BasicTag tag : TagHelper.allTags) {
+						if (tag instanceof EffectTag) {
+							EffectTag eTag = (EffectTag) tag;
+							if (eTag.forTools) {
+								allowedTags.add(eTag);
+							}
+						} else if (tag instanceof WorldInteractTag) {
+							WorldInteractTag eTag = (WorldInteractTag) tag;
+							if (eTag.forTools) {
+								allowedTags.add(eTag);
+							}
+
+						}
+
+					}
+
+					allowedTags.add(TagHelper.AUTOSMELT);
+					allowedTags.add(TagHelper.UNBREAKABLE);
+
+					WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
+					wc.addChoice(1, 6);
+					wc.addChoice(2, 3);
+					wc.addChoice(3, 1);
+
+					BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					while (TagHelper.checkForTag(stack, toAdd)) {
+						toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					}
+					TagHelper.addTag(stack, toAdd.name);
+
+					if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+						compound.setBoolean("Unbreakable", true);
+					}
+					break;
+				case 2:
+					float num = (float) (rand.nextFloat() + 0.3);
+					i.addSpeed(num, stack);
+					break;
+				}
+				i.setLore(stack, player);
+
+			} else if (stack.getItem().equals(ModItems.RL_AXE)) {
+				AxeItem i = (AxeItem) stack.getItem();
+				Random rand = new Random();
+				switch (rand.nextInt(2) + 1) {
+				case 1:
+					List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+					for (BasicTag tag : TagHelper.allTags) {
+						if (tag instanceof EffectTag) {
+							EffectTag eTag = (EffectTag) tag;
+							if (eTag.forTools) {
+								allowedTags.add(eTag);
+							}
+						} else if (tag instanceof WorldInteractTag) {
+
+							WorldInteractTag eTag = (WorldInteractTag) tag;
+							if (eTag.forTools) {
+
+								allowedTags.add(eTag);
+							}
+						}
+
+					}
+
+					allowedTags.add(TagHelper.AUTOSMELT);
+					allowedTags.add(TagHelper.UNBREAKABLE);
+
+					BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					while (TagHelper.checkForTag(stack, toAdd)) {
+						toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
+					}
+					TagHelper.addTag(stack, toAdd.name);
+
+					if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+						compound.setBoolean("Unbreakable", true);
+					}
+					break;
+				case 2:
+					float num = (float) (rand.nextFloat() + 0.3);
+					i.addSpeed(num, stack);
+					break;
+				}
+				i.setLore(stack, player);
+
+			} else if (stack.getItem().equals(ModItems.RL_BOW)) {
+				BowItem i = (BowItem) stack.getItem();
+				Random rand = new Random();
+				switch (rand.nextInt(2) + 1) {
+				case 1:
+					if (!(compound.getInteger("T1") > 0)) {
+						if (rand.nextInt(10) == 9) {
+							compound.setInteger("T1", rand.nextInt(11) + 1);
+						}
+					}
+					if (!(compound.getInteger("T2") > 0)) {
+						if (rand.nextInt(10) == 9) {
+							compound.setInteger("T2", rand.nextInt(11) + 1);
+
+						}
+					}
+					if (!(compound.getInteger("T3") > 0)) {
+						if (rand.nextInt(10) == 9) {
+							compound.setInteger("T3", rand.nextInt(11) + 1);
+
+						}
+					}
+					break;
+				case 2:
+					i.setVelo(BowItem.getVelo(stack) + rand.nextInt(9500), stack);
+					compound.setFloat("velo", BowItem.getVelo(stack));
+
+					break;
+
+				}
+				i.setLore(stack, player);
+
+			} else if (stack.getItem() instanceof RandomArmor) {
+				Random rand = new Random();
+				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+				for (BasicTag tag : TagHelper.allTags) {
+					if (tag instanceof EffectTag) {
+						EffectTag eTag = (EffectTag) tag;
+						if (!eTag.offensive) {
+							allowedTags.add(eTag);
+						}
+					}
+				}
+
+				int totalTags = rand.nextInt(3);
+
+				TagHelper.addTag(stack, allowedTags.get(rand.nextInt(allowedTags.size())).name);
+				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
+					compound.setBoolean("Unbreakable", true);
+				}
+
+			} else if (stack.getItem().equals(ModItems.THROWABLE)) {
 				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 				for (BasicTag tag : TagHelper.allTags) {
 					if (tag instanceof EffectTag) {
@@ -369,71 +609,7 @@ public class ItemFields {
 
 				allowedTags.add(TagHelper.UNBREAKABLE);
 				allowedTags.add(TagHelper.REPLENISH);
-				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-				while (TagHelper.checkForTag(stack, toAdd)) {
-					toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-				}
-				TagHelper.addTag(stack, toAdd.name);
-
-				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
-					compound.setBoolean("Unbreakable", true);
-				}
-
-			}
-
-			// damage
-			NBTTagCompound damage = new NBTTagCompound();
-
-			damage.setTag("AttributeName", new NBTTagString("generic.attackDamage"));
-			damage.setTag("Name", new NBTTagString("generic.attackDamage"));
-
-			damage.setTag("Amount", new NBTTagInt(dmg));
-			damage.setTag("Operation", new NBTTagInt(0));
-			damage.setTag("UUIDLeast", new NBTTagInt(3));
-			damage.setTag("UUIDMost", new NBTTagInt(4));
-			damage.setTag("Slot", new NBTTagString("mainhand"));
-
-			// speed
-			NBTTagCompound speed = new NBTTagCompound();
-			speed.setTag("AttributeName", new NBTTagString("generic.attackSpeed"));
-			speed.setTag("Name", new NBTTagString("generic.attackSpeed"));
-
-			speed.setTag("Amount", new NBTTagDouble(spd));
-			speed.setTag("Operation", new NBTTagInt(0));
-			speed.setTag("UUIDLeast", new NBTTagInt(1));
-			speed.setTag("UUIDMost", new NBTTagInt(2));
-			speed.setTag("Slot", new NBTTagString("mainhand"));
-
-			compound.setInteger("damage", dmg);
-			compound.setDouble("speed", spd);
-			modifiers.appendTag(damage);
-			modifiers.appendTag(speed);
-			
-			
-		} else if (stack.getItem().equals(ModItems.RL_PICKAXE)) {
-			PickaxeItem i = (PickaxeItem) stack.getItem();
-			Random rand = new Random();
-			switch (rand.nextInt(2) + 1) {
-			case 1:
-				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
-				for (BasicTag tag : TagHelper.allTags) {
-					if (tag instanceof EffectTag) {
-						EffectTag eTag = (EffectTag) tag;
-						if (eTag.forTools) {
-							allowedTags.add(eTag);
-						}
-					} else if (tag instanceof WorldInteractTag) {
-						WorldInteractTag eTag = (WorldInteractTag) tag;
-						if (eTag.forTools) {
-							allowedTags.add(eTag);
-						}
-
-					}
-
-				}
-
-				allowedTags.add(TagHelper.AUTOSMELT);
-				allowedTags.add(TagHelper.UNBREAKABLE);
+				allowedTags.add(TagHelper.EXPLOSION);
 
 				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 				while (TagHelper.checkForTag(stack, toAdd)) {
@@ -444,200 +620,18 @@ public class ItemFields {
 				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
 					compound.setBoolean("Unbreakable", true);
 				}
-				break;
-			case 2:
-				float num = (float) (rand.nextFloat() + 0.3);
-				i.addSpeed(num, stack);
-				break;
-			}
-			i.setLore(stack, player);
-			
-			
-		} else if (stack.getItem().equals(ModItems.RL_SHOVEL)) {
-			ShovelItem i = (ShovelItem) stack.getItem();
-			Random rand = new Random();
-			switch (rand.nextInt(2) + 1) {
-			case 1:
-				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
-				for (BasicTag tag : TagHelper.allTags) {
-					if (tag instanceof EffectTag) {
-						EffectTag eTag = (EffectTag) tag;
-						if (eTag.forTools) {
-							allowedTags.add(eTag);
-						}
-					} else if (tag instanceof WorldInteractTag) {
-						WorldInteractTag eTag = (WorldInteractTag) tag;
-						if (eTag.forTools) {
-							allowedTags.add(eTag);
-						}
-
-					}
-
-				}
-
-				allowedTags.add(TagHelper.AUTOSMELT);
-				allowedTags.add(TagHelper.UNBREAKABLE);
-
-				WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
-				wc.addChoice(1, 6);
-				wc.addChoice(2, 3);
-				wc.addChoice(3, 1);
-
-				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-				while (TagHelper.checkForTag(stack, toAdd)) {
-					toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-				}
-				TagHelper.addTag(stack, toAdd.name);
-
-				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
-					compound.setBoolean("Unbreakable", true);
-				}
-				break;
-			case 2:
-				float num = (float) (rand.nextFloat() + 0.3);
-				i.addSpeed(num, stack);
-				break;
-			}
-			i.setLore(stack, player);
-			
-			
-		} else if (stack.getItem().equals(ModItems.RL_AXE)) {
-			AxeItem i = (AxeItem) stack.getItem();
-			Random rand = new Random();
-			switch (rand.nextInt(2) + 1) {
-			case 1:
-				List<BasicTag> allowedTags = new ArrayList<BasicTag>();
-				for (BasicTag tag : TagHelper.allTags) {
-					if (tag instanceof EffectTag) {
-						EffectTag eTag = (EffectTag) tag;
-						if (eTag.forTools) {
-							allowedTags.add(eTag);
-						}
-					} else if (tag instanceof WorldInteractTag) {
-
-						WorldInteractTag eTag = (WorldInteractTag) tag;
-						if (eTag.forTools) {
-
-							allowedTags.add(eTag);
-						}
-					}
-
-				}
-
-				allowedTags.add(TagHelper.AUTOSMELT);
-				allowedTags.add(TagHelper.UNBREAKABLE);
-
-				BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-				while (TagHelper.checkForTag(stack, toAdd)) {
-					toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-				}
-				TagHelper.addTag(stack, toAdd.name);
-
-				if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
-					compound.setBoolean("Unbreakable", true);
-				}
-				break;
-			case 2:
-				float num = (float) (rand.nextFloat() + 0.3);
-				i.addSpeed(num, stack);
-				break;
-			}
-			i.setLore(stack, player);
-			
-			
-		} else if (stack.getItem().equals(ModItems.RL_BOW)) {
-			BowItem i = (BowItem) stack.getItem();
-			Random rand = new Random();
-			switch (rand.nextInt(2) + 1) {
-			case 1:
-				if (!(compound.getInteger("T1") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T1", rand.nextInt(11) + 1);
-					}
-				}
-				if (!(compound.getInteger("T2") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T2", rand.nextInt(11) + 1);
-
-					}
-				}
-				if (!(compound.getInteger("T3") > 0)) {
-					if (rand.nextInt(10) == 9) {
-						compound.setInteger("T3", rand.nextInt(11) + 1);
-
-					}
-				}
-				break;
-			case 2:
-				i.setVelo(BowItem.getVelo(stack) + rand.nextInt(9500), stack);
-				compound.setFloat("velo", BowItem.getVelo(stack));
-
-				break;
-
-			}
-			i.setLore(stack, player);
-
-		} else if (stack.getItem() instanceof RandomArmor) {
-			Random rand = new Random();
-			List<BasicTag> allowedTags = new ArrayList<BasicTag>();
-			for (BasicTag tag : TagHelper.allTags) {
-				if (tag instanceof EffectTag) {
-					EffectTag eTag = (EffectTag) tag;
-					if (!eTag.offensive) {
-						allowedTags.add(eTag);
-					}
-				}
-			}
-
-			int totalTags = rand.nextInt(3);
-
-			TagHelper.addTag(stack, allowedTags.get(rand.nextInt(allowedTags.size())).name);
-			if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
-				compound.setBoolean("Unbreakable", true);
-			}
-			
-		} else if (stack.getItem().equals(ModItems.THROWABLE)) {
-			List<BasicTag> allowedTags = new ArrayList<BasicTag>();
-			for (BasicTag tag : TagHelper.allTags) {
-				if (tag instanceof EffectTag) {
-					EffectTag eTag = (EffectTag) tag;
-					if (eTag.forWeapons) {
-						allowedTags.add(eTag);
-					}
-				} else if (tag instanceof WorldInteractTag) {
-					WorldInteractTag eTag = (WorldInteractTag) tag;
-					if (eTag.forWeapons) {
-						allowedTags.add(eTag);
-					}
-				}
 
 			}
 
-			allowedTags.add(TagHelper.UNBREAKABLE);
-			allowedTags.add(TagHelper.REPLENISH);
-			allowedTags.add(TagHelper.EXPLOSION);
+			int lvlXp = compound.getInteger("lvlXp");
+			compound.setInteger("Xp", 0);
+			compound.setInteger("lvlXp", lvlXp = (int) (lvlXp + (lvlXp / 2)));
 
-			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-			while (TagHelper.checkForTag(stack, toAdd)) {
-				toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
-			}
-			TagHelper.addTag(stack, toAdd.name);
-
-			if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
-				compound.setBoolean("Unbreakable", true);
-			}
-
+			compound.setTag("AttributeModifiers", modifiers);
+			stack.setTagCompound(compound);
+			IRandomTool randItem = (IRandomTool) stack.getItem();
+			randItem.setName(stack);
 		}
-
-		int lvlXp = compound.getInteger("lvlXp");
-		compound.setInteger("Xp", 0);
-		compound.setInteger("lvlXp", lvlXp = (int) (lvlXp + (lvlXp / 2)));
-		
-		compound.setTag("AttributeModifiers", modifiers);
-		stack.setTagCompound(compound);
-		IRandomTool randItem = (IRandomTool) stack.getItem();
-		randItem.setName(stack);
-
 	}
 
 }

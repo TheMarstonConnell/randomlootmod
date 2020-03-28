@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.mic.randomloot.tags.TagHelper;
+import com.mic.randomloot.util.IReforgeable;
 import com.mic.randomloot.util.handlers.NetworkHandler;
 
 import net.minecraft.command.CommandBase;
@@ -13,6 +14,7 @@ import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -73,9 +75,25 @@ public class AddTraitCommand implements ICommand {
 
 			if (args[0].equals("add")) {
 
-				NetworkHandler.addTrait(args[1]);
+//				NetworkHandler.addTrait(args[1]);
+				ItemStack heldItem = player.inventory.getCurrentItem();
+				IReforgeable item = (IReforgeable) heldItem.getItem();
+
+				TagHelper.addTag(heldItem, args[1].trim());
+
+				// serverPlayer.inventory.getCurrentItem().shrink(1);
+				item.setLore(heldItem, player);
+				item.setName(heldItem);
 			}else if (args[0].equals("remove")) {
-				NetworkHandler.removeTrait(args[1]);
+//				NetworkHandler.removeTrait(args[1]);
+				ItemStack heldItem = player.inventory.getCurrentItem();
+				IReforgeable item = (IReforgeable) heldItem.getItem();
+
+				TagHelper.removeTag(heldItem, args[1].trim());
+
+				// serverPlayer.inventory.getCurrentItem().shrink(1);
+				item.setLore(heldItem, player);
+				item.setName(heldItem);
 			}else {
 				sender.sendMessage(new TextComponentString("Error: /trait <add/remove> <trait>"));
 
