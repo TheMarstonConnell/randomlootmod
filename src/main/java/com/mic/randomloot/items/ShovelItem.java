@@ -162,7 +162,7 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 				? super.getDestroySpeed(stack, state) : this.efficiency + getDigSpeed(stack);
 
 	}
-	public void setName(ItemStack stack){
+	public ItemStack setName(ItemStack stack){
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -184,7 +184,7 @@ public class ShovelItem extends ItemSpade implements IReforgeable, IRandomTool{
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
-
+		return stack;
 	}
 
 	public void setLore(ItemStack stack, EntityLivingBase player) {

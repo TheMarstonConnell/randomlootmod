@@ -46,15 +46,19 @@ public class MessageHandler implements IMessageHandler<BaseMessage, IMessage> {
 
 			serverPlayer.getServerWorld().addScheduledTask(() -> {
 				ItemStack heldItem = serverPlayer.inventory.getCurrentItem();
+				heldItem = TagHelper.removeAllTags(heldItem);
 				IReforgeable item = (IReforgeable) heldItem.getItem();
+				
 				ItemStack newItem = item.reforge(heldItem);
+				item.setLore(newItem, serverPlayer);
 
+				newItem = item.setName(newItem);
+				
 				ItemStack offHand = serverPlayer.getHeldItem(EnumHand.OFF_HAND);
 				offHand.shrink(12);
 
 
 				//				serverPlayer.inventory.getCurrentItem().shrink(1);
-				item.setLore(newItem, serverPlayer);
 				serverPlayer.inventory.addItemStackToInventory(newItem);
 			});
 

@@ -245,7 +245,7 @@ public class AxeItem extends ItemAxe implements IReforgeable, IRandomTool{
 
 	}
 
-	public void setName(ItemStack stack){
+	public ItemStack setName(ItemStack stack){
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -267,7 +267,7 @@ public class AxeItem extends ItemAxe implements IReforgeable, IRandomTool{
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
-
+		return stack;
 	}
 
 	public static ItemStack assignType(ItemStack stack) {

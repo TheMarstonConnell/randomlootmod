@@ -418,7 +418,7 @@ public class BowItem extends ItemBow implements IReforgeable, IRandomTool {
 		
 		return 72000 - compound.getInteger("velo");
     }
-	public void setName(ItemStack stack){
+	public ItemStack setName(ItemStack stack){
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -440,7 +440,7 @@ public class BowItem extends ItemBow implements IReforgeable, IRandomTool {
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
-
+		return stack;
 	}
 
 	public void setLore(ItemStack stack, EntityLivingBase player) {

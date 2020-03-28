@@ -188,7 +188,7 @@ public class RandomArmor extends ItemArmor implements IReforgeable, IRandomTool 
 
 	}
 
-	public void setName(ItemStack stack) {
+	public ItemStack setName(ItemStack stack) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -210,7 +210,7 @@ public class RandomArmor extends ItemArmor implements IReforgeable, IRandomTool 
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
-
+		return stack;
 	}
 
 	@Override

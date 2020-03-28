@@ -238,7 +238,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 
 	}
 
-	public void setName(ItemStack stack) {
+	public ItemStack setName(ItemStack stack) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -260,6 +260,7 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
+		return stack;
 
 	}
 
@@ -308,12 +309,8 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 		wc.addChoice(2, 3);
 		wc.addChoice(3, 1);
 		
-//		for(int i = 0; i < allowedTags.size(); i ++) {
-//			System.out.println(allowedTags.get(i).name);
-//		}
 		
 		int totalTags = wc.getRandomObject();
-//		System.out.println("Total tags to be applied: " + totalTags);
 		for (int i = 0; i < totalTags; i++) {
 			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 			while (TagHelper.checkForTag(stack, toAdd)) {
@@ -321,7 +318,6 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
 			}
 			TagHelper.addTag(stack, toAdd.name);
-//			System.out.println("Adding tag: " + toAdd.name);
 		}
 
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
@@ -402,13 +398,18 @@ public class SwordItem extends ItemSword implements IReforgeable, IRandomTool {
 
 		modifiers.appendTag(damage);
 		modifiers.appendTag(speed);
-		nbt.setString("name", ModItems.ITEM_FIELDS.nameItem("sword"));
+		
+		
 
 		nbt.setTag("AttributeModifiers", modifiers);
 
+		nbt.setString("name", ModItems.ITEM_FIELDS.nameItem("sword"));
+
 		stack.setTagCompound(nbt);
+		
 		// TextComponentString("Assigned NBT"));
 		assignType(stack);
+		setName(stack);
 //		System.out.println("reforged sword");
 
 		return stack;

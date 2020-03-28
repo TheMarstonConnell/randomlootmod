@@ -8,5 +8,5 @@ import net.minecraft.util.text.TextFormatting;
 public interface IRandomTool {
 	public void setLore(ItemStack stack, EntityLivingBase player);
 	public ItemStack chooseTexture(ItemStack stack, int integer);
-	public void setName(ItemStack stack);
+	public ItemStack setName(ItemStack stack);
 }

@@ -2,6 +2,7 @@ package com.mic.randomloot.blocks.tileentities;
 
 import com.mic.randomloot.RandomLoot;
 import com.mic.randomloot.blocks.containers.RepairContainer;
+import com.mic.randomloot.util.IRandomTool;
 import com.mic.randomloot.util.handlers.ConfigHandler;
 
 import net.minecraft.entity.player.EntityPlayer;
@@ -119,19 +120,22 @@ public class RepairTileEntity extends TileEntityLockableLoot implements ITickabl
 			if (coolDown > ConfigHandler.repairStationCooldown) {
 				coolDown = 0;
 				if (chestContents.get(0).getItem().isDamageable()) {
-					ItemStack stack = chestContents.get(0);
+					if (chestContents.get(0).getItem() instanceof IRandomTool
+							|| chestContents.get(0).getItem().isRepairable()) {
+						ItemStack stack = chestContents.get(0);
 
-					int damage = stack.getItemDamage();
-					int max = stack.getMaxDamage();
-					// System.out.println("Tools damage is " + (max - damage) + "/" + max);
+						int damage = stack.getItemDamage();
+						int max = stack.getMaxDamage();
+						// System.out.println("Tools damage is " + (max - damage) + "/" + max);
 
-					if ((max - damage) < max) {
+						if ((max - damage) < max) {
 
-						stack.setItemDamage(damage - 1);
-						chestContents.set(0, stack);
+							stack.setItemDamage(damage - 1);
+							chestContents.set(0, stack);
 
-					}else {
-						this.activated = false;
+						} else {
+							this.activated = false;
+						}
 					}
 
 				}

@@ -6,5 +6,5 @@ import net.minecraft.item.ItemStack;
 public interface IReforgeable {
 	public ItemStack reforge(ItemStack stack);
 	public void setLore(ItemStack stack, EntityLivingBase player);
-	public void setName(ItemStack stack);
+	public ItemStack setName(ItemStack stack);
 }

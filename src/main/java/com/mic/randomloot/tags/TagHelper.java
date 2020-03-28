@@ -162,6 +162,32 @@ public class TagHelper {
 		stack.setTagCompound(nbt);
 		return stack;
 	}
+	
+	public static ItemStack removeAllTags(ItemStack stack) {
+		NBTTagCompound nbt;
+		if (stack.hasTagCompound()) {
+			nbt = stack.getTagCompound();
+		} else {
+			nbt = new NBTTagCompound();
+		}
+
+		int index = 0;
+		while (!nbt.getString(index + "").equals("")) {
+//			System.out.println(index);
+			
+			nbt.setString(index + "", "");
+			
+			index++;
+			if (index > 10) {
+//				System.out.println("Trait not found.");
+				return stack;
+			}
+
+		}
+
+		stack.setTagCompound(nbt);
+		return stack;
+	}
 
 	public static boolean checkForTag(ItemStack stack, BasicTag tag) {
 		return getAllTags(stack).contains(tag);

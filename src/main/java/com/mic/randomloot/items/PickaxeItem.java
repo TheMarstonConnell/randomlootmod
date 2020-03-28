@@ -76,10 +76,10 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 	public ItemStack chooseTexture(ItemStack stack, int num) {
 		Random rand = new Random();
 
-		if(num == 0) {
+		if (num == 0) {
 			num = rand.nextInt(pickaxes) + 1;
 		}
-		
+
 		NBTTagCompound nbt;
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
@@ -104,9 +104,8 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		// TODO Auto-generated method stub
 		return super.setNoRepair();
 	}
-	
+
 	public void xpUp(ItemStack stack, EntityLivingBase entityLiving, NBTTagCompound nbt) {
-		
 
 		int xp = nbt.getInteger("Xp");
 		int lvlXp = nbt.getInteger("lvlXp");
@@ -129,16 +128,16 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, IBlockState state, BlockPos pos,
 			EntityLivingBase entityLiving) {
 
-		stack = TagUpdater.update(stack, (EntityPlayer)entityLiving);
+		stack = TagUpdater.update(stack, (EntityPlayer) entityLiving);
 		NBTTagCompound nbt;
-		
+
 		if (stack.hasTagCompound()) {
 			nbt = stack.getTagCompound();
 		} else {
 			nbt = new NBTTagCompound();
 		}
 		xpUp(stack, entityLiving, nbt);
-		
+
 		TextFormatting color = null;
 		switch (nbt.getInteger("rarity")) {
 		case 1:
@@ -153,7 +152,6 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 
 		}
 
-		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 
 		for (int i = 0; i < tags.size(); i++) {
@@ -218,12 +216,12 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		lore.appendTag(new NBTTagString(""));
 
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
-//		System.out.println("Amount of tags on item: " + tags.size());
+		// System.out.println("Amount of tags on item: " + tags.size());
 		for (int i = 0; i < tags.size(); i++) {
 
 			String name = tags.get(i).name.replaceAll("_", " ");
 			name = TagHelper.convertToTitleCaseIteratingChars(name);
-//			System.out.println("Writing new tag to lore...");
+			// System.out.println("Writing new tag to lore...");
 			lore.appendTag(new NBTTagString(tags.get(i).color + name));
 		}
 
@@ -235,10 +233,10 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		NBTTagCompound display = new NBTTagCompound();
 		display.setTag("Lore", lore);
 		compound.setTag("display", display);
-		
+
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
 			compound.setBoolean("Unbreakable", true);
-		}else {
+		} else {
 			compound.setBoolean("Unbreakable", false);
 		}
 
@@ -246,7 +244,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 
 	}
 
-	public  void setName(ItemStack stack) {
+	public ItemStack setName(ItemStack stack) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -268,7 +266,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
-
+		return stack;
 	}
 
 	public static ItemStack assignType(ItemStack stack) {
@@ -300,27 +298,25 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 				if (eTag.forTools) {
 					allowedTags.add(eTag);
 				}
-				
+
 			}
 
-			
-
 		}
-		
+
 		allowedTags.add(TagHelper.AUTOSMELT);
 		allowedTags.add(TagHelper.UNBREAKABLE);
-		
+
 		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
 		wc.addChoice(1, 6);
 		wc.addChoice(2, 3);
 		wc.addChoice(3, 1);
-		
-//		for(int i = 0; i < allowedTags.size(); i ++) {
-//			System.out.println(allowedTags.get(i).name);
-//		}
-		
+
+		// for(int i = 0; i < allowedTags.size(); i ++) {
+		// System.out.println(allowedTags.get(i).name);
+		// }
+
 		int totalTags = wc.getRandomObject();
-//		System.out.println("Total tags to be applied: " + totalTags);
+		// System.out.println("Total tags to be applied: " + totalTags);
 		for (int i = 0; i < totalTags; i++) {
 			BasicTag toAdd = allowedTags.get(RandomLoot.rand.nextInt(allowedTags.size()));
 			while (TagHelper.checkForTag(stack, toAdd)) {
@@ -328,7 +324,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 				rand.setSeed(rand.nextLong() / 2 * totalTags * allowedTags.size() * i);
 			}
 			TagHelper.addTag(stack, toAdd.name);
-//			System.out.println("Adding tag: " + toAdd.name);
+			// System.out.println("Adding tag: " + toAdd.name);
 		}
 
 		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE) && ConfigHandler.unbreakable) {
@@ -390,7 +386,7 @@ public class PickaxeItem extends ItemPickaxe implements IReforgeable, IRandomToo
 		nbt.setInteger("HideFlags", 2);
 
 		int rarity = nbt.getInteger("rarity");
-//		System.out.println("Item rarity: " + rarity);
+		// System.out.println("Item rarity: " + rarity);
 
 		assignType(stack);
 

@@ -176,7 +176,7 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 	}
 
-	public void setName(ItemStack stack) {
+	public ItemStack setName(ItemStack stack) {
 		NBTTagCompound compound;
 		if (stack.hasTagCompound()) {
 			compound = stack.getTagCompound();
@@ -198,6 +198,7 @@ public class ThrowableWeapon extends ItemBase implements IReforgeable, IRandomTo
 
 		}
 		stack.setStackDisplayName(color + compound.getString("name"));
+		return stack;
 
 	}
 
