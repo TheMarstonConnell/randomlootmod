@@ -1,5 +1,7 @@
 package com.mic.randomloot.tags;
 
+import java.util.Collection;
+
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
@@ -21,9 +23,9 @@ public class EffectTag extends BasicTag {
 		this.offensive = offensive;
 		this.forWeapons = forWeapons;
 		this.forTools = forTools;
-		
+
 	}
-	
+
 	public PotionEffect copyEffect(PotionEffect effect) {
 		return new PotionEffect(effect.getPotion(), effect.getDuration(), effect.getAmplifier());
 	}
@@ -33,8 +35,21 @@ public class EffectTag extends BasicTag {
 		// if (!entityLiving.isPotionActive(effect.getPotion())) { // If the Potion
 		// isn't currently active,
 		PotionEffect copy = copyEffect(effect);
-//		System.out.println("Applying " + copy.getEffectName() + " level " + copy.getAmplifier() + " to " + entityLiving.getName() + " for " + copy.getDuration() + " ticks.");
-		entityLiving.addPotionEffect(copy);
+		// System.out.println("Applying " + copy.getEffectName() + " level " +
+		// copy.getAmplifier() + " to " + entityLiving.getName() + " for " +
+		// copy.getDuration() + " ticks.");
+
+		Collection<PotionEffect> effects = entityLiving.getActivePotionEffects();
+
+		boolean foundEffect = false;
+		for (PotionEffect ef : effects) {
+			if (ef.getEffectName().equals(copy.getEffectName())) {
+				foundEffect = true;
+			}
+		}
+		if (!foundEffect) {
+			entityLiving.addPotionEffect(copy);
+		}
 		// }
 
 	}
