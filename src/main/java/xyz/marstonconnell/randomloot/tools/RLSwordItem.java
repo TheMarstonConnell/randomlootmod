@@ -1,5 +1,6 @@
 package xyz.marstonconnell.randomloot.tools;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +18,16 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.DoubleNBT;
+import net.minecraft.nbt.IntArrayNBT;
+import net.minecraft.nbt.IntNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
@@ -27,12 +35,31 @@ import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 
-public class RLSwordItem extends BaseTool {
+public class RLSwordItem extends BaseTool implements IRLTool{
 	private final float attackDamage;
 
 	@Override
 	public int getVariants() {
 		return 33;
+	}
+	
+	public List<String> getStatsLore(ItemStack stack){
+		DecimalFormat f = new DecimalFormat("##.00");
+		
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+
+		List<String> s = new ArrayList<String>();
+		s.add(TextFormatting.GRAY + "Attack Damage: " + nbt.getInt("rl_damage"));
+		s.add(TextFormatting.GRAY + "Attack Speed: "
+				+ f.format(4 + nbt.getDouble("rl_speed")));
+		
+		return s;
+		
 	}
 
 	@Override
@@ -161,6 +188,100 @@ public class RLSwordItem extends BaseTool {
 	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
 		return equipmentSlot == EquipmentSlotType.MAINHAND ? this.attributes
 				: super.getAttributeModifiers(equipmentSlot);
+	}
+
+	@Override
+	public void setStats(ItemStack stack) {
+
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+		
+		int dmg = 7;
+		double spd = -2.4;
+
+		
+		nbt.putInt("rl_damage", dmg);
+		nbt.putDouble("rl_speed", spd);
+		
+		stack.setTag(nbt);
+
+	}
+
+	@Override
+	public void updateStats(ItemStack stack) {
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+		
+		CompoundNBT damage = new CompoundNBT();
+		damage.put("AttributeName", StringNBT.valueOf("generic.attack_damage"));
+		damage.put("Name", StringNBT.valueOf("generic.attack_damage"));
+		
+		int dmg = nbt.getInt("rl_damage");
+		double spd = nbt.getDouble("rl_speed");
+
+		
+		damage.put("Amount", IntNBT.valueOf(dmg));
+		damage.put("Operation", IntNBT.valueOf(0));
+		
+		IntArrayNBT UUID = new IntArrayNBT(new int[] {1,2,3,4});
+		
+		damage.put("UUID", UUID);
+		damage.put("Slot", StringNBT.valueOf("mainhand"));
+
+		// speed
+		CompoundNBT speed = new CompoundNBT();
+		speed.put("AttributeName", StringNBT.valueOf("generic.attack_speed"));
+		speed.put("Name", StringNBT.valueOf("generic.attack_speed"));
+
+		
+		speed.put("Amount", DoubleNBT.valueOf(spd));
+		speed.put("Operation", IntNBT.valueOf(0));
+
+		UUID = new IntArrayNBT(new int[] {5,6,7,8});
+		
+		speed.put("UUID", UUID);
+		
+		speed.put("Slot", StringNBT.valueOf("mainhand"));
+		
+
+		ListNBT modifiers = new ListNBT();
+
+		modifiers.add(damage);
+		modifiers.add(speed);
+		
+		
+
+		nbt.put("AttributeModifiers", modifiers);
+		
+		stack.setTag(nbt);
+	}
+
+	@Override
+	public void upgradeTool(ItemStack stack) {
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+		
+
+		
+		nbt.putInt("rl_damage", nbt.getInt("rl_damage") + 1);
+		nbt.putDouble("rl_speed", nbt.getDouble("rl_speed") * (0.9));
+		
+		stack.setTag(nbt);
+		
+		updateStats(stack);
+		
 	}
 
 }

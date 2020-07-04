@@ -9,6 +9,7 @@ import net.minecraft.util.text.TextFormatting;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 
 public class ItemFactory {
@@ -16,7 +17,7 @@ public class ItemFactory {
 	static Random rand = new Random();
 	
 	public static void applyToken(ItemStack stack) {
-		if(rand.nextInt(2) >= 1) {
+		if(rand.nextInt(4) < 1) {
 			giftNewTrait(stack);
 		}else {
 			buffItemStats(stack);
@@ -26,8 +27,10 @@ public class ItemFactory {
 
 	private static void buffItemStats(ItemStack stack) {
 
+		if(stack.getItem() instanceof IRLTool) {
+			((IRLTool) stack.getItem()).upgradeTool(stack);
+		}
 		
-		System.out.println("Buffing Item Stats");
 		
 	}
 
@@ -100,11 +103,17 @@ public class ItemFactory {
 			break;
 		}
 		
+		
+		((IRLTool)stack.getItem()).setStats(stack);
+		
 		System.out.println("Rolling for item " + totalRolls + " times...");
 		for(int i = 0; i < totalRolls; i ++) {
 			applyToken(stack);
 		}
 
+		((IRLTool)stack.getItem()).updateStats(stack);
+
+		
 		// naming item
 		BaseTool.setName(stack, ItemUtils.nameItem(((BaseTool) stack.getItem()).getItemType()));
 

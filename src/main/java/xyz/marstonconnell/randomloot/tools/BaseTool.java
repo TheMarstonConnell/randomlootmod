@@ -3,28 +3,15 @@ package xyz.marstonconnell.randomloot.tools;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-
-import net.minecraft.client.world.ClientWorld;
-import net.minecraft.command.arguments.NBTCompoundTagArgument;
-import net.minecraft.command.arguments.NBTPathArgument.NBTPath;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.JsonToNBT;
 import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.NBTUtil;
 import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 
@@ -33,88 +20,85 @@ public class BaseTool extends Item {
 	final static String TAG_XP = "xp";
 	final static String TAG_MAX_XP = "max_xp";
 	final static String TAG_TEXTURE = "texture";
+
 	
 
+	
 	public BaseTool(Properties properties) {
 		super(properties.defaultMaxDamage(1562));
-
-		ItemModelsProperties.func_239418_a_(this, new ResourceLocation("model"), new IItemPropertyGetter() {
-			
-
-			@Override
-			public float call(ItemStack stack, ClientWorld p_call_2_, LivingEntity p_call_3_) {
-				float model = 1.0F;
-
-				model = (float) getTexture(stack);
-
-				return model;
-			}
-		});
-
+		if(FMLEnvironment.dist == Dist.CLIENT) {
+            TextureProxy.setModelProperties(this);
+        }
+		
 	}
 
 	public int getVariants() {
 		return 1;
 	}
-	
+
 	public List<BasicTag> getAllowedTags() {
 
 		return new ArrayList<BasicTag>();
-		
+
 	}
-	
+
 	public static void changeXP(ItemStack stack, int amt) {
 		setXP(stack, getXP(stack) + amt);
+
+		if (getXP(stack) >= getMaxXP(stack)) {
+			upgradeTool(stack);
+		}
+
 	}
-	
+
+	private static void upgradeTool(ItemStack stack) {
+		setXP(stack, 0);
+		setMaxXP(stack, (int) (getMaxXP(stack) * 1.5));
+		ItemFactory.applyToken(stack);
+	}
+
 	public static void setLore(ItemStack stack) {
-		
+
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
 		} else {
 			nbt = new CompoundNBT();
 		}
-		
-		System.out.println("Setting Lore...");
+
 		ListNBT lore = new ListNBT();
 
 		lore.add(StringNBT.valueOf("{\"text\":\"\"}"));
 
-		
-		
-		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 		for (int i = 0; i < tags.size(); i++) {
 
-
 			String name = tags.get(i).name.replaceAll("_", " ");
 			name = TagHelper.convertToTitleCaseIteratingChars(name);
-			
-			
+
 			lore.add(StringNBT.valueOf("{\"text\":\"" + tags.get(i).color + name + "\"}"));
 
-			
-			
-			System.out.println(" - " + name);
-			
 		}
+
 		lore.add(StringNBT.valueOf("{\"text\":\"\"}"));
-		lore.add(StringNBT.valueOf("{\"text\":\"" + TextFormatting.GRAY + "XP: " + getXP(stack) + " / " + getMaxXP(stack) + "\"}"));
 
+		for (String s : ((IRLTool) stack.getItem()).getStatsLore(stack)) {
+			lore.add(StringNBT.valueOf("{\"text\":\"" + s + "\"}"));
+		}
 
-		
-		
-		
-		
+		lore.add(StringNBT.valueOf("{\"text\":\"\"}"));
+		lore.add(StringNBT.valueOf(
+				"{\"text\":\"" + TextFormatting.GRAY + "XP: " + getXP(stack) + " / " + getMaxXP(stack) + "\"}"));
+
 		CompoundNBT display = nbt.getCompound("display");
-		
+
 		display.put("Lore", lore);
-		
+
 		nbt.put("display", display);
+		nbt.putInt("HideFlags", 6);
+
 		stack.setTag(nbt);
 	}
-	
 
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
