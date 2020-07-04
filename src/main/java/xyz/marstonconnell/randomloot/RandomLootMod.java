@@ -17,7 +17,9 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.InterModComms;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
@@ -28,6 +30,7 @@ import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLCommands;
 import xyz.marstonconnell.randomloot.init.RLITems;
 import xyz.marstonconnell.randomloot.items.CaseItem;
+import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 import xyz.marstonconnell.randomloot.utils.handlers.NetworkHandler;
 
@@ -39,7 +42,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
-@Mod("randomloot")
+@Mod(RandomLootMod.MODID)
 public class RandomLootMod {
 	// Directly reference a log4j logger.
 	private static final Logger LOGGER = LogManager.getLogger();
@@ -49,6 +52,9 @@ public class RandomLootMod {
 	public RandomLootMod() {
 		ItemUtils iut = new ItemUtils();
 		rand = new Random();
+		
+		
+		
 
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -60,6 +66,9 @@ public class RandomLootMod {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
 		// Register ourselves for server and other game events we are interested in
+		
+		ModLoadingContext.get().registerConfig(Type.COMMON, Config.COMMON_CONFIG);
+		
 		MinecraftForge.EVENT_BUS.register(this);
 
 	}
@@ -103,11 +112,11 @@ public class RandomLootMod {
 			
 			int choice = RandomLootMod.rand.nextInt(100);
 			
-			if(choice < 10) {
+			if(choice < Config.DROP_CHANCE.get()) {
 				WeightedChooser<Item> cases = new WeightedChooser<Item>();
-				cases.addChoice(RLITems.BASIC_ITEM_CASE, 70);
-				cases.addChoice(RLITems.BETTER_ITEM_CASE, 20);
-				cases.addChoice(RLITems.BEST_ITEM_CASE, 10);
+				cases.addChoice(RLITems.BASIC_ITEM_CASE, Config.BASIC_CHANCE.get());
+				cases.addChoice(RLITems.BETTER_ITEM_CASE, Config.GOLD_CHANCE.get());
+				cases.addChoice(RLITems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
 				event.getEntity().entityDropItem(new ItemStack(cases.getRandomObject()));
 			}
 		}

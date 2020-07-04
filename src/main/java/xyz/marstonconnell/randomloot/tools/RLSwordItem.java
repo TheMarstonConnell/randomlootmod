@@ -34,6 +34,7 @@ import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
+import xyz.marstonconnell.randomloot.utils.Config;
 
 public class RLSwordItem extends BaseTool implements IRLTool{
 	private final float attackDamage;
@@ -200,8 +201,8 @@ public class RLSwordItem extends BaseTool implements IRLTool{
 			nbt = new CompoundNBT();
 		}
 		
-		int dmg = 7;
-		double spd = -2.4;
+		int dmg = Config.BASE_SWORD_DAMAGE.get();
+		double spd = Config.BASE_SWORD_SPEED.get();
 
 		
 		nbt.putInt("rl_damage", dmg);

@@ -10,6 +10,7 @@ import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
+import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 
 public class ItemFactory {
@@ -90,15 +91,15 @@ public class ItemFactory {
 
 		switch (toolRaririty) {
 		case 0:
-			totalRolls = 2;
+			totalRolls = Config.BASIC_ROLLS.get();
 			color = TextFormatting.WHITE;
 			break;
 		case 1:
-			totalRolls = 5;
+			totalRolls = Config.GOLD_ROLLS.get();
 			color = TextFormatting.GOLD;
 			break;
 		case 2:
-			totalRolls = 9;
+			totalRolls = Config.TITAN_ROLLS.get();
 			color = TextFormatting.LIGHT_PURPLE;
 			break;
 		}
@@ -118,7 +119,7 @@ public class ItemFactory {
 		BaseTool.setName(stack, ItemUtils.nameItem(((BaseTool) stack.getItem()).getItemType()));
 
 		BaseTool.setTexture(stack, rand.nextInt(((BaseTool) stack.getItem()).getVariants()));
-		BaseTool.setMaxXP(stack, 256);
+		BaseTool.setMaxXP(stack, Config.STARTING_XP.get());
 
 		
 		
