@@ -32,16 +32,6 @@ public class BaseTool extends Item {
 		
 	}
 
-	public int getVariants() {
-		return 1;
-	}
-
-	public List<BasicTag> getAllowedTags() {
-
-		return new ArrayList<BasicTag>();
-
-	}
-
 	public static void changeXP(ItemStack stack, int amt) {
 		setXP(stack, getXP(stack) + amt);
 
@@ -105,10 +95,7 @@ public class BaseTool extends Item {
 		return 1;
 	}
 
-	public String getItemType() {
-		return "random";
 
-	}
 
 	public static void setName(ItemStack stack, String name) {
 		setStringNBT(stack, "name", name);
