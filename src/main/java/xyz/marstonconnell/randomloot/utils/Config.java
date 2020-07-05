@@ -1,6 +1,8 @@
 package xyz.marstonconnell.randomloot.utils;
 
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -9,6 +11,9 @@ import net.minecraftforge.fml.config.ModConfig;
 public class Config {
 
 	public static final String CATEGORY_GENERAL = "general";
+
+	public static IntValue BASE_PICKAXE_DAMAGE;
+	public static DoubleValue BASE_PICKAXE_ATTACK_SPEED;
 
 	public static ForgeConfigSpec COMMON_CONFIG;
 
@@ -24,6 +29,9 @@ public class Config {
 	public static ForgeConfigSpec.IntValue GOLD_ROLLS;
 	public static ForgeConfigSpec.IntValue TITAN_ROLLS;
 
+	
+	public static ForgeConfigSpec.IntValue SWORD_CHANCE;
+	public static ForgeConfigSpec.IntValue PICK_CHANCE;
 	
 	public static ForgeConfigSpec.IntValue STARTING_XP;
 
@@ -51,6 +59,12 @@ public class Config {
 		BASE_SWORD_SPEED = COMMON_BUILDER.comment("Minimum speed a sword can have.").defineInRange("sword_speed", -2.4, -4.0,
 				4.0);
 		
+		BASE_PICKAXE_DAMAGE = COMMON_BUILDER.comment("Minimum damage a pickaxe can do.").defineInRange("pick_damage", 3, 0,
+				100);
+		
+		BASE_PICKAXE_ATTACK_SPEED = COMMON_BUILDER.comment("Minimum attack speed a pickaxe can have.").defineInRange("pick_a_speed", -2.8, -4.0,
+				4.0);
+		
 		
 		BASIC_ROLLS = COMMON_BUILDER.comment("Initital Rolls for traits/stats").defineInRange("basic_rolls", 2, 0,
 				100);
@@ -63,6 +77,13 @@ public class Config {
 		
 		STARTING_XP = COMMON_BUILDER.comment("Initital Max XP for tools.").defineInRange("init_xp", 256, 0,
 				10000);
+		
+		
+		SWORD_CHANCE = COMMON_BUILDER.comment("Weight for sword to drop from case").defineInRange("sword_weight", 20, 0,
+				100);
+		
+		PICK_CHANCE = COMMON_BUILDER.comment("Weight for pick to drop from case").defineInRange("pick_weight", 15, 0,
+				100);
 		
 		COMMON_BUILDER.pop();
 

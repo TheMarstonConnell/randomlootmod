@@ -139,7 +139,7 @@ public class RandomLootMod {
 		@SubscribeEvent
 		public static void onItemRegistry(RegistryEvent.Register<Item> event) {
 			event.getRegistry().registerAll(RLITems.BEST_ITEM_CASE, RLITems.BETTER_ITEM_CASE, RLITems.BASIC_ITEM_CASE,
-					RLITems.random_sword);
+					RLITems.random_sword, RLITems.random_pick);
 		}
 		
 		
