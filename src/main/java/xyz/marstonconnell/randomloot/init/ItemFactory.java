@@ -37,7 +37,7 @@ public class ItemFactory {
 
 
 	private static void giftNewTrait(ItemStack stack) {
-		List<BasicTag> tags = ((BaseTool)stack.getItem()).getAllowedTags();
+		List<BasicTag> tags = ((IRLTool)stack.getItem()).getAllowedTags();
 		
 		List<BasicTag> allTags = TagHelper.getTagList(stack);
 		
@@ -116,9 +116,9 @@ public class ItemFactory {
 
 		
 		// naming item
-		BaseTool.setName(stack, ItemUtils.nameItem(((BaseTool) stack.getItem()).getItemType()));
+		BaseTool.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));
 
-		BaseTool.setTexture(stack, rand.nextInt(((BaseTool) stack.getItem()).getVariants()));
+		BaseTool.setTexture(stack, rand.nextInt(((IRLTool) stack.getItem()).getVariants()));
 		BaseTool.setMaxXP(stack, Config.STARTING_XP.get());
 
 		

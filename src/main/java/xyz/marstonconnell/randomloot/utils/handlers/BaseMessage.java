@@ -4,10 +4,13 @@ import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
+import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLITems;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.utils.Config;
+import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 
 import java.util.function.Supplier;
 
@@ -50,7 +53,10 @@ public class BaseMessage {
 
 	public static ItemStack getNewItem(int rarity, ServerPlayerEntity playerIn) {
 
-		ItemStack s = new ItemStack(RLITems.random_sword);
+		
+
+		
+		ItemStack s = new ItemStack(RandomLootMod.wc.getRandomObject());
 		
 		 s = ItemFactory.forgeItem(s, rarity);
 		

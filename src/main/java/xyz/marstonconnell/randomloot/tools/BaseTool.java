@@ -14,6 +14,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
+import xyz.marstonconnell.randomloot.utils.Config;
 
 public class BaseTool extends Item {
 
@@ -30,16 +31,6 @@ public class BaseTool extends Item {
             TextureProxy.setModelProperties(this);
         }
 		
-	}
-
-	public int getVariants() {
-		return 1;
-	}
-
-	public List<BasicTag> getAllowedTags() {
-
-		return new ArrayList<BasicTag>();
-
 	}
 
 	public static void changeXP(ItemStack stack, int amt) {
@@ -95,6 +86,14 @@ public class BaseTool extends Item {
 		display.put("Lore", lore);
 
 		nbt.put("display", display);
+		
+		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE)) {
+			nbt.putBoolean("Unbreakable", true);
+		}else {
+			nbt.putBoolean("Unbreakable", false);
+		}
+		
+		
 		nbt.putInt("HideFlags", 6);
 
 		stack.setTag(nbt);
@@ -105,10 +104,7 @@ public class BaseTool extends Item {
 		return 1;
 	}
 
-	public String getItemType() {
-		return "random";
 
-	}
 
 	public static void setName(ItemStack stack, String name) {
 		setStringNBT(stack, "name", name);

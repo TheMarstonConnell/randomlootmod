@@ -3,16 +3,24 @@ package xyz.marstonconnell.randomloot.tags;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.lang.model.util.Types;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.NBTSizeTracker;
+import net.minecraft.nbt.NBTTypes;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.common.util.Constants.NBT;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
+import xyz.marstonconnell.randomloot.utils.Config;
 
 public class TagHelper {
 	
@@ -118,23 +126,15 @@ public class TagHelper {
 		} else {
 			nbt = new CompoundNBT();
 		}
+		
+		
+		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		
+		heldTags.add(StringNBT.valueOf(tagName));
+		
+		nbt.put("rl_tags", heldTags);
+		
 
-		int index = 0;
-		while (!nbt.getString(index + "").equals("")) {
-			System.out.println(index);
-			if (nbt.getString(index + "").equals(tagName)) {
-//				System.out.println("Tag already used on this item.");
-				return stack;
-			}
-			index++;
-			if (index > 10) {
-//				System.out.println("No availible slots left on this item.");
-				return stack;
-			}
-
-		}
-
-		nbt.putString(index + "", tagName);
 		stack.setTag(nbt);
 		return stack;
 	}
@@ -146,23 +146,11 @@ public class TagHelper {
 		} else {
 			nbt = new CompoundNBT();
 		}
-
-		int index = 0;
-		while (!nbt.getString(index + "").equals("")) {
-//			System.out.println(index);
-			if (nbt.getString(index + "").equals(tagName)) {
-				nbt.putString(index + "", "");
-				return stack;
-			}
-			index++;
-			if (index > 10) {
-//				System.out.println("Trait not found.");
-				return stack;
-			}
-
-		}
-
-		nbt.putString(index + "", tagName);
+		
+		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		
+		heldTags.remove(StringNBT.valueOf(tagName));
+		
 		stack.setTag(nbt);
 		return stack;
 	}
@@ -174,20 +162,11 @@ public class TagHelper {
 		} else {
 			nbt = new CompoundNBT();
 		}
-
-		int index = 0;
-		while (!nbt.getString(index + "").equals("")) {
-//			System.out.println(index);
-			
-			nbt.putString(index + "", "");
-			
-			index++;
-			if (index > 10) {
-//				System.out.println("Trait not found.");
-				return stack;
-			}
-
-		}
+		
+		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		
+		heldTags.clear();
+		
 
 		stack.setTag(nbt);
 		return stack;
@@ -205,9 +184,12 @@ public class TagHelper {
 		} else {
 			nbt = new CompoundNBT();
 		}
+		
+		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		
 
-		for (int i = 0; i < tagLimit; i++) {
-			String tag = nbt.getString(i + "");
+		for (int i = 0; i < heldTags.size(); i++) {
+			String tag = heldTags.getString(i);
 			if (!tag.equals("")) {
 				for (int j = 0; j < TagHelper.allTags.size(); j++) {
 					if (tag.equals(TagHelper.allTags.get(j).name)) {
@@ -230,15 +212,19 @@ public class TagHelper {
 		} else {
 			nbt = new CompoundNBT();
 		}
-
-		for (int i = 0; i < tagLimit; i++) {
-			String tag = nbt.getString(i + "");
+		
+		
+		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		
+		
+		for (int i = 0; i < heldTags.size(); i++) {
+			String tag = heldTags.getString(i);
 			if (!tag.equals("")) {
 				for (int j = 0; j < TagHelper.allTags.size(); j++) {
 					if (tag.equals(TagHelper.allTags.get(j).name)) {
-//						if((boolean) ConfigHandler.traitsEnabled.get(j)) {
+						if(Config.traitsEnabled.get(TagHelper.allTags.get(j).name).get()) {
 							tags.add(TagHelper.allTags.get(j));
-//						}
+						}
 					}
 				}
 			}

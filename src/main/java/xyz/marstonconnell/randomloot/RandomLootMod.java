@@ -30,6 +30,7 @@ import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLCommands;
 import xyz.marstonconnell.randomloot.init.RLITems;
 import xyz.marstonconnell.randomloot.items.CaseItem;
+import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 import xyz.marstonconnell.randomloot.utils.handlers.NetworkHandler;
@@ -48,11 +49,14 @@ public class RandomLootMod {
 	private static final Logger LOGGER = LogManager.getLogger();
 	public static final String MODID = "randomloot";
 	public static Random rand;
+	
+	public static WeightedChooser<BaseTool> wc;
 
 	public RandomLootMod() {
 		ItemUtils iut = new ItemUtils();
 		rand = new Random();
-		
+		wc = new WeightedChooser<BaseTool>();
+
 		
 		
 
@@ -71,6 +75,13 @@ public class RandomLootMod {
 		
 		MinecraftForge.EVENT_BUS.register(this);
 
+		
+		
+		
+		
+		
+		
+		
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
@@ -139,7 +150,15 @@ public class RandomLootMod {
 		@SubscribeEvent
 		public static void onItemRegistry(RegistryEvent.Register<Item> event) {
 			event.getRegistry().registerAll(RLITems.BEST_ITEM_CASE, RLITems.BETTER_ITEM_CASE, RLITems.BASIC_ITEM_CASE,
-					RLITems.random_sword);
+					RLITems.random_sword, RLITems.random_pick, RLITems.random_shovel, RLITems.random_axe);
+			
+			
+			
+			wc.addChoice(RLITems.random_sword, Config.SWORD_CHANCE.get());
+			wc.addChoice(RLITems.random_pick, Config.PICK_CHANCE.get());
+			wc.addChoice(RLITems.random_shovel, Config.SPADE_CHANCE.get());
+			wc.addChoice(RLITems.random_axe, Config.AXE_CHANCE.get());
+			
 		}
 		
 		

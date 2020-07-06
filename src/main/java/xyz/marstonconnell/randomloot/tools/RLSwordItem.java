@@ -39,11 +39,12 @@ import xyz.marstonconnell.randomloot.utils.Config;
 public class RLSwordItem extends BaseTool implements IRLTool{
 	private final float attackDamage;
 
-	@Override
+	
 	public int getVariants() {
 		return 33;
 	}
 	
+	@Override
 	public List<String> getStatsLore(ItemStack stack){
 		DecimalFormat f = new DecimalFormat("##.00");
 		

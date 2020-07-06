@@ -1,14 +1,25 @@
 package xyz.marstonconnell.randomloot.utils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import xyz.marstonconnell.randomloot.tags.BasicTag;
+import xyz.marstonconnell.randomloot.tags.TagHelper;
 
 @Mod.EventBusSubscriber
 public class Config {
 
 	public static final String CATEGORY_GENERAL = "general";
+	public static final String CATEGORY_TRAITS = "traits";
+
+	public static IntValue BASE_PICKAXE_DAMAGE;
+	public static DoubleValue BASE_PICKAXE_ATTACK_SPEED;
 
 	public static ForgeConfigSpec COMMON_CONFIG;
 
@@ -20,12 +31,25 @@ public class Config {
 	public static ForgeConfigSpec.IntValue BASE_SWORD_DAMAGE;
 	public static ForgeConfigSpec.DoubleValue BASE_SWORD_SPEED;
 	
+	public static ForgeConfigSpec.IntValue BASE_SPADE_DAMAGE;
+	public static ForgeConfigSpec.DoubleValue BASE_SPADE_ATTACK_SPEED;
+	
+	public static ForgeConfigSpec.IntValue BASE_AXE_DAMAGE;
+	public static ForgeConfigSpec.DoubleValue BASE_AXE_ATTACK_SPEED;
+	
 	public static ForgeConfigSpec.IntValue BASIC_ROLLS;
 	public static ForgeConfigSpec.IntValue GOLD_ROLLS;
 	public static ForgeConfigSpec.IntValue TITAN_ROLLS;
 
 	
+	public static ForgeConfigSpec.IntValue SWORD_CHANCE;
+	public static ForgeConfigSpec.IntValue PICK_CHANCE;
+	public static ForgeConfigSpec.IntValue SPADE_CHANCE;
+	public static ForgeConfigSpec.IntValue AXE_CHANCE;
+
 	public static ForgeConfigSpec.IntValue STARTING_XP;
+
+	public static HashMap<String, ForgeConfigSpec.BooleanValue> traitsEnabled = new HashMap<String, ForgeConfigSpec.BooleanValue>();
 
 	static {
 
@@ -51,6 +75,24 @@ public class Config {
 		BASE_SWORD_SPEED = COMMON_BUILDER.comment("Minimum speed a sword can have.").defineInRange("sword_speed", -2.4, -4.0,
 				4.0);
 		
+		BASE_PICKAXE_DAMAGE = COMMON_BUILDER.comment("Minimum damage a pickaxe can do.").defineInRange("pick_damage", 3, 0,
+				100);
+		
+		BASE_PICKAXE_ATTACK_SPEED = COMMON_BUILDER.comment("Minimum attack speed a pickaxe can have.").defineInRange("pick_a_speed", -2.8, -4.0,
+				4.0);
+		
+		BASE_SPADE_DAMAGE = COMMON_BUILDER.comment("Minimum damage a shovel can do.").defineInRange("spade_damage", 4, 0,
+				100);
+		
+		BASE_SPADE_ATTACK_SPEED = COMMON_BUILDER.comment("Minimum attack speed a shovel can have.").defineInRange("spade_a_speed", -3, -4.0,
+				4.0);
+		
+		BASE_AXE_DAMAGE = COMMON_BUILDER.comment("Minimum damage an axe can do.").defineInRange("axe_damage", 9, 0,
+				100);
+		
+		BASE_AXE_ATTACK_SPEED = COMMON_BUILDER.comment("Minimum attack speed an axe can have.").defineInRange("axe_a_speed", -3, -4.0,
+				4.0);
+		
 		
 		BASIC_ROLLS = COMMON_BUILDER.comment("Initital Rolls for traits/stats").defineInRange("basic_rolls", 2, 0,
 				100);
@@ -63,6 +105,33 @@ public class Config {
 		
 		STARTING_XP = COMMON_BUILDER.comment("Initital Max XP for tools.").defineInRange("init_xp", 256, 0,
 				10000);
+		
+		
+		SWORD_CHANCE = COMMON_BUILDER.comment("Weight for sword to drop from case").defineInRange("sword_weight", 20, 0,
+				100);
+		
+		PICK_CHANCE = COMMON_BUILDER.comment("Weight for pick to drop from case").defineInRange("pick_weight", 15, 0,
+				100);
+		
+		SPADE_CHANCE = COMMON_BUILDER.comment("Weight for shovel to drop from case").defineInRange("spade_weight", 8, 0,
+				100);
+		
+		AXE_CHANCE = COMMON_BUILDER.comment("Weight for axe to drop from case").defineInRange("axe_weight", 10, 0,
+				100);
+		
+		COMMON_BUILDER.pop();
+		
+		COMMON_BUILDER.comment("Enabled Traits").push(CATEGORY_TRAITS);
+		
+		
+		for(BasicTag tag : TagHelper.allTags) {
+			
+			traitsEnabled.put(tag.name, COMMON_BUILDER.define(TagHelper.convertToTitleCaseIteratingChars(tag.name) + " enabled?", true));
+			
+		}
+		
+		
+		
 		
 		COMMON_BUILDER.pop();
 
