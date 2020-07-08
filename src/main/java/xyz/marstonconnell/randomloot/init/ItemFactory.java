@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Random;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
@@ -16,44 +18,39 @@ import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 public class ItemFactory {
 
 	static Random rand = new Random();
-	
+
 	public static void applyToken(ItemStack stack) {
-		if(rand.nextInt(4) < 1) {
+		if (rand.nextInt(4) < 1) {
 			giftNewTrait(stack);
-		}else {
+		} else {
 			buffItemStats(stack);
 		}
 	}
-	
 
 	private static void buffItemStats(ItemStack stack) {
 
-		if(stack.getItem() instanceof IRLTool) {
+		if (stack.getItem() instanceof IRLTool) {
 			((IRLTool) stack.getItem()).upgradeTool(stack);
 		}
-		
-		
+
 	}
 
-
 	private static void giftNewTrait(ItemStack stack) {
-		List<BasicTag> tags = ((IRLTool)stack.getItem()).getAllowedTags();
-		
+		List<BasicTag> tags = ((IRLTool) stack.getItem()).getAllowedTags();
+
 		List<BasicTag> allTags = TagHelper.getTagList(stack);
-		
-		for(int i = 0; i < allTags.size(); i ++) {
-			if(tags.contains(allTags.get(i))) {
+
+		for (int i = 0; i < allTags.size(); i++) {
+			if (tags.contains(allTags.get(i))) {
 				tags.remove(allTags.get(i));
 			}
 		}
-		
-		BasicTag t = tags.get(rand.nextInt(tags.size()));
-		
-		TagHelper.addTag(stack, t.name);
-		
-		
-	}
 
+		BasicTag t = tags.get(rand.nextInt(tags.size()));
+
+		TagHelper.addTag(stack, t.name);
+
+	}
 
 	public static ItemStack forgeItem(ItemStack stack, int rarity) {
 
@@ -81,12 +78,11 @@ public class ItemFactory {
 			wc.addChoice(0, 1);
 			break;
 		}
-		
+
 		int toolRaririty = wc.getRandomObject();
-		
+
 		int totalRolls = 0;
-		
-		
+
 		TextFormatting color = TextFormatting.GRAY;
 
 		switch (toolRaririty) {
@@ -103,34 +99,40 @@ public class ItemFactory {
 			color = TextFormatting.LIGHT_PURPLE;
 			break;
 		}
-		
-		
-		((IRLTool)stack.getItem()).setStats(stack);
-		
+
+		((IRLTool) stack.getItem()).setStats(stack);
+
 		System.out.println("Rolling for item " + totalRolls + " times...");
-		for(int i = 0; i < totalRolls; i ++) {
+		for (int i = 0; i < totalRolls; i++) {
 			applyToken(stack);
 		}
 
-		((IRLTool)stack.getItem()).updateStats(stack);
+		((IRLTool) stack.getItem()).updateStats(stack);
 
-		
 		// naming item
 		BaseTool.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));
 
 		BaseTool.setTexture(stack, rand.nextInt(((IRLTool) stack.getItem()).getVariants() - 1) + 1);
 		BaseTool.setMaxXP(stack, Config.STARTING_XP.get());
 
-		
-		
 		BaseTool.setLore(stack);
-		
-		
-		
-		stack.setDisplayName(new StringTextComponent(color + BaseTool.getName(stack)));
 
-		
-		
+		// stack.setDisplayName(new StringTextComponent(color.toString() +
+		// BaseTool.getName(stack)));
+
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+
+		CompoundNBT display = nbt.getCompound("display");
+		display.putString("Name",
+				"{\"text\":\"" + BaseTool.getName(stack) + "\", \"color\":\"" + color.name().toLowerCase() + "\",\"italic\":false}");
+
+		stack.setTag(nbt);
+
 		return stack;
 	}
 }

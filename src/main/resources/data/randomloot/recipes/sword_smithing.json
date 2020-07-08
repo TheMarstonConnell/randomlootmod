@@ -1,0 +1,13 @@
+{
+    "type": "minecraft:smithing",
+    "base": {
+        "item": "randomloot:sword"
+    },
+    "addition": {
+        "item": "minecraft:diamond"
+    },
+    "result": {
+        "item": "randomloot:sword",
+        "Damage": 0
+    }
+}

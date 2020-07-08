@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
@@ -21,9 +22,25 @@ public class BaseTool extends Item {
 	final static String TAG_XP = "xp";
 	final static String TAG_MAX_XP = "max_xp";
 	final static String TAG_TEXTURE = "texture";
-
 	
 
+	public boolean isRepairItem(ItemStack stack) {
+		return stack.getItem() == Items.field_234759_km_;
+	}
+	
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		// TODO Auto-generated method stub
+		return isRepairItem(repair) || super.getIsRepairable(toRepair, repair);
+	}
+	
+	
+	
+@Override
+public boolean isRepairable(ItemStack stack) {
+	return true;
+}
 	
 	public BaseTool(Properties properties) {
 		super(properties.defaultMaxDamage(1562));
