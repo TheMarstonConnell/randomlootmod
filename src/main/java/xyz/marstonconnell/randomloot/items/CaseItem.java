@@ -16,7 +16,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.RandomLootMod;
-import xyz.marstonconnell.randomloot.init.RLITems;
+import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.utils.handlers.NetworkHandler;
 
 public class CaseItem extends Item {

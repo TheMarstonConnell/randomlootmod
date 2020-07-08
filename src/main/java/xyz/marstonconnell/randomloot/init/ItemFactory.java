@@ -118,7 +118,7 @@ public class ItemFactory {
 		// naming item
 		BaseTool.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));
 
-		BaseTool.setTexture(stack, rand.nextInt(((IRLTool) stack.getItem()).getVariants()));
+		BaseTool.setTexture(stack, rand.nextInt(((IRLTool) stack.getItem()).getVariants() - 1) + 1);
 		BaseTool.setMaxXP(stack, Config.STARTING_XP.get());
 
 		

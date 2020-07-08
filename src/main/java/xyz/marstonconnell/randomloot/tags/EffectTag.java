@@ -28,6 +28,10 @@ public class EffectTag extends BasicTag {
 	public EffectInstance copyEffect(EffectInstance effect) {
 		return new EffectInstance(effect.getPotion(), effect.getDuration(), effect.getAmplifier());
 	}
+	
+	public EffectInstance getEffect() {
+		return copyEffect(this.effect);
+	}
 
 	public void runEffect(ItemStack stack, World worldIn, LivingEntity entityLiving) {
 

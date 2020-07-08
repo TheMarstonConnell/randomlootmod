@@ -28,8 +28,9 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLCommands;
-import xyz.marstonconnell.randomloot.init.RLITems;
+import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.items.CaseItem;
+import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 import xyz.marstonconnell.randomloot.utils.handlers.NetworkHandler;
@@ -48,11 +49,12 @@ public class RandomLootMod {
 	private static final Logger LOGGER = LogManager.getLogger();
 	public static final String MODID = "randomloot";
 	public static Random rand;
+	public static WeightedChooser<Item> wc;
 
 	public RandomLootMod() {
 		ItemUtils iut = new ItemUtils();
 		rand = new Random();
-		
+		wc = new WeightedChooser<Item>();
 		
 		
 
@@ -114,9 +116,9 @@ public class RandomLootMod {
 			
 			if(choice < Config.DROP_CHANCE.get()) {
 				WeightedChooser<Item> cases = new WeightedChooser<Item>();
-				cases.addChoice(RLITems.BASIC_ITEM_CASE, Config.BASIC_CHANCE.get());
-				cases.addChoice(RLITems.BETTER_ITEM_CASE, Config.GOLD_CHANCE.get());
-				cases.addChoice(RLITems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
+				cases.addChoice(RLItems.BASIC_ITEM_CASE, Config.BASIC_CHANCE.get());
+				cases.addChoice(RLItems.BETTER_ITEM_CASE, Config.GOLD_CHANCE.get());
+				cases.addChoice(RLItems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
 				event.getEntity().entityDropItem(new ItemStack(cases.getRandomObject()));
 			}
 		}
@@ -138,8 +140,16 @@ public class RandomLootMod {
 	public static class RegistryEvents {
 		@SubscribeEvent
 		public static void onItemRegistry(RegistryEvent.Register<Item> event) {
-			event.getRegistry().registerAll(RLITems.BEST_ITEM_CASE, RLITems.BETTER_ITEM_CASE, RLITems.BASIC_ITEM_CASE,
-					RLITems.random_sword, RLITems.random_pick);
+			
+			
+			wc.addChoice(RLItems.random_sword, Config.SWORD_CHANCE.get());
+			wc.addChoice(RLItems.random_pick, Config.PICK_CHANCE.get());
+			wc.addChoice(RLItems.random_axe, Config.AXE_CHANCE.get());
+			wc.addChoice(RLItems.random_spade, Config.SPADE_CHANCE.get());
+			wc.addChoice(RLItems.random_bow, Config.BOW_CHANCE.get());
+			
+			event.getRegistry().registerAll(RLItems.BEST_ITEM_CASE, RLItems.BETTER_ITEM_CASE, RLItems.BASIC_ITEM_CASE,
+					RLItems.random_sword, RLItems.random_pick, RLItems.random_axe, RLItems.random_spade, RLItems.random_bow);
 		}
 		
 		
