@@ -1,7 +1,11 @@
 package xyz.marstonconnell.randomloot.init;
 
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Items;
 import xyz.marstonconnell.randomloot.items.CaseItem;
+import xyz.marstonconnell.randomloot.items.CraftingItem;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.RLAxeItem;
 import xyz.marstonconnell.randomloot.tools.RLBowItem;
@@ -23,6 +27,13 @@ public class RLItems {
 	  public static final BaseTool random_spade = new RLShovelItem("shovel");
 	  public static final RLBowItem random_bow = new RLBowItem("rl_bow");
 
-
-
+	  
+	  public static final Item basic_shard = new CraftingItem("random_shard", true);
+	  public static final Item better_shard = new CraftingItem("random_chunk", true);
+	  public static final Item best_shard = new CraftingItem("random_cluster", true);
+	  
+	  public static final Item  TRAIT_HOLDER = new CraftingItem("trait_holder", true);
+	  
+	  
+	  
 }

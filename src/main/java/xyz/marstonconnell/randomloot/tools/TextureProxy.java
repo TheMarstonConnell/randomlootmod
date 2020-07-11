@@ -1,5 +1,6 @@
 package xyz.marstonconnell.randomloot.tools;
 
+import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
@@ -7,10 +8,15 @@ import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import xyz.marstonconnell.randomloot.RandomLootMod;
+import xyz.marstonconnell.randomloot.container.RLAnvilScreen;
 import xyz.marstonconnell.randomloot.init.RLItems;
+import xyz.marstonconnell.randomloot.utils.Registration;
 
+@OnlyIn(Dist.CLIENT)
 public class TextureProxy {
 
 	public static void setModelProperties(RLShootableItem rlShootableItem) {
@@ -84,6 +90,12 @@ public class TextureProxy {
 		}
 		
 		
+		
+	}
+
+	public static void loadGUIS() {
+
+		ScreenManager.registerFactory(Registration.EDITOR_CONTAINER.get(), RLAnvilScreen::new);
 		
 	}
 }

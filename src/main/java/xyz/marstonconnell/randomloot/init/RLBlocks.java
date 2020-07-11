@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.marstonconnell.randomloot.RandomLootMod;
+import xyz.marstonconnell.randomloot.blocks.RLAnvil;
 
 public class RLBlocks {
-	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, RandomLootMod.MODID);
 }

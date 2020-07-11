@@ -4,6 +4,7 @@ import java.util.Random;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import net.minecraft.particles.ParticleType;
@@ -22,7 +23,7 @@ import xyz.marstonconnell.randomloot.utils.handlers.NetworkHandler;
 public class CaseItem extends Item {
 		int rarity = 0; // 0 = basic, 1 = gold, 2 = epic
 	public CaseItem(String name, int rarity) {
-		super(new Properties());
+		super(new Properties().group(ItemGroup.MISC));
 		this.rarity = rarity;
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
 

@@ -247,6 +247,9 @@ public class TagHelper {
 		if (text == null || text.isEmpty()) {
 			return text;
 		}
+		
+		text = text.replaceAll("_", " ");
+		
 
 		StringBuilder converted = new StringBuilder();
 

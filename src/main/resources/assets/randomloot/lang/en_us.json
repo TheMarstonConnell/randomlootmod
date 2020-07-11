@@ -22,6 +22,8 @@
     "item.randomloot.random_shard": "Random Shard",
     "item.randomloot.random_chunk": "Random Chunk",
     "item.randomloot.random_cluster": "Random Cluster",
+    "item.randomloot.trait_holder": "Mysterious Essence",
+
 
     "item.randomloot.throwable": "Random Throwable",
 
@@ -29,6 +31,14 @@
     "block.randomloot.repair_station": "Repair Station",
     "block.randomloot.case_opener": "Case Ripper",
     "block.randomloot.breaker": "Tool Masher",
+    
+    "block.randomloot.editor": "Tool Editor",
+    
+    "entity.minecraft.villager.randomloot.looter": "Collector",
 
-    "container.randomloot.breaker": "Tool Masher"
+    "container.randomloot.breaker": "Tool Masher",
+    
+    "container.randomloot.edit": "Tool Editor"
+    
+    
 }

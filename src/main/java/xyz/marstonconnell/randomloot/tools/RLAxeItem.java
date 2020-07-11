@@ -40,6 +40,8 @@ import xyz.marstonconnell.randomloot.utils.Config;
 
 public class RLAxeItem extends RLToolItem implements IRLTool {
 
+	
+	
 	private static final Set<Material> EFFECTIVE_MATERIALS = Sets.newHashSet(Material.WOOD, Material.field_237214_y_,
 			Material.PLANTS, Material.TALL_PLANTS, Material.BAMBOO, Material.GOURD);
 	private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.LADDER, Blocks.SCAFFOLDING, Blocks.OAK_BUTTON,
