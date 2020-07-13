@@ -14,7 +14,7 @@ public class ExplosionEvent extends WorldInteractEvent{
 	public void effect(ItemStack stack, World worldIn,  LivingEntity entityLiving, BlockState state, BlockPos pos) {
 		if (!worldIn.isRemote) {
 			float f = 4.0F;
-			worldIn.createExplosion(entityLiving, pos.getX(), pos.getY(), pos.getZ(), 4.0F, true, Mode.BREAK);
+			worldIn.createExplosion(entityLiving, pos.getX(), pos.getY(), pos.getZ(), f, false, Mode.BREAK);
 
 		}		
 	}

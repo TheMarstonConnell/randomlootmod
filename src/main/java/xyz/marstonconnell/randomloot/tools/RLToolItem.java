@@ -22,6 +22,7 @@ import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
+import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 
 public class RLToolItem extends BaseTool {
 	private final Set<Block> effectiveBlocks;
@@ -86,6 +87,11 @@ public class RLToolItem extends BaseTool {
 					EffectTag eTag = (EffectTag) tags.get(i);
 
 					eTag.runEffect(stack, worldIn, entityLiving);
+
+				}else if (tags.get(i) instanceof WorldInteractTag) {
+					WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
+
+					eTag.runEffect(stack, worldIn, entityLiving, state, pos);
 
 				}
 			}

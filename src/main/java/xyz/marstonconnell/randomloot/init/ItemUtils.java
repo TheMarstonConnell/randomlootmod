@@ -147,7 +147,7 @@ public class ItemUtils {
 			String[] adjs = mergeArrs(adjectivesBows, adjectivesUniversal);
 			adj = adjs[rand.nextInt(adjs.length)];
 			nn = nounsBows[rand.nextInt(nounsBows.length)];
-		} else if (type.equals("boots")) {
+		} else if (type.equals("feet")) {
 			String[] adjs = mergeArrs(adjectivesUniversal, adjectivesBoots);
 			adj = adjs[rand.nextInt(adjs.length)];
 			nn = nounsBoots[rand.nextInt(nounsBoots.length)];
@@ -162,7 +162,7 @@ public class ItemUtils {
 			adj = adjs[rand.nextInt(adjs.length)];
 			nn = nounsChest[rand.nextInt(nounsChest.length)];
 
-		} else if (type.equals("helmet")) {
+		} else if (type.equals("head")) {
 			String[] adjs = mergeArrs(adjectivesUniversal, adjectivesHelmet);
 			adj = adjs[rand.nextInt(adjs.length)];
 			nn = nounsHelmet[rand.nextInt(nounsHelmet.length)];

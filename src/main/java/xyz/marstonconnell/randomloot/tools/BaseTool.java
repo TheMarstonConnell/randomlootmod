@@ -48,7 +48,8 @@ public boolean isRepairable(ItemStack stack) {
 		if(FMLEnvironment.dist == Dist.CLIENT) {
             TextureProxy.setModelProperties(this);
         }
-		
+		RLItems.ITEMS.add(this);
+
 	}
 
 	public static void changeXP(ItemStack stack, int amt) {

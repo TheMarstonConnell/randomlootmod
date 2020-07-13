@@ -5,6 +5,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import xyz.marstonconnell.randomloot.RandomLootMod;
+import xyz.marstonconnell.randomloot.init.RLItems;
 
 public class CraftingItem extends Item{
 
@@ -15,6 +16,8 @@ public class CraftingItem extends Item{
 		super(new Properties().group(ItemGroup.MATERIALS));
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
 		this.glows= glows;
+		RLItems.ITEMS.add(this);
+
 	}
 	
 	@Override

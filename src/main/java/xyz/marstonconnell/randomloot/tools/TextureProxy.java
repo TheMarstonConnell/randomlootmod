@@ -1,6 +1,10 @@
 package xyz.marstonconnell.randomloot.tools;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
@@ -10,11 +14,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.client.registry.IRenderFactory;
+import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.container.RLAnvilScreen;
+import xyz.marstonconnell.randomloot.entity.ThrowableWeaponEntity;
+import xyz.marstonconnell.randomloot.init.RLEntities;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.utils.Registration;
+import xyz.marstonconnell.randomloot.utils.ThrowableRender;
 
 @OnlyIn(Dist.CLIENT)
 public class TextureProxy {
@@ -93,9 +102,13 @@ public class TextureProxy {
 		
 	}
 
-	public static void loadGUIS() {
+	public static void init() {
 
 		ScreenManager.registerFactory(Registration.EDITOR_CONTAINER.get(), RLAnvilScreen::new);
 		
+        RenderingRegistry.registerEntityRenderingHandler(RLEntities.THROWABLE_WEAPON, ThrowableRender::new);
+
+		
+
 	}
 }

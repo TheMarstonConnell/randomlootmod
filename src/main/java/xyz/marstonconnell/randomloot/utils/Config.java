@@ -1,9 +1,6 @@
 package xyz.marstonconnell.randomloot.utils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
@@ -31,11 +28,16 @@ public class Config {
 	public static ForgeConfigSpec.IntValue BASE_SWORD_DAMAGE;
 	public static ForgeConfigSpec.DoubleValue BASE_SWORD_SPEED;
 
+	public static ForgeConfigSpec.IntValue BASE_THROWABLE_DAMAGE;
+	
 	public static ForgeConfigSpec.IntValue BASE_AXE_DAMAGE;
 	public static ForgeConfigSpec.DoubleValue BASE_AXE_ATTACK_SPEED;
 
 	public static ForgeConfigSpec.IntValue BASE_SPADE_DAMAGE;
 	public static ForgeConfigSpec.DoubleValue BASE_SPADE_ATTACK_SPEED;
+	
+	public static ForgeConfigSpec.IntValue BASE_ARMOR;
+	public static ForgeConfigSpec.DoubleValue BASE_TOUGHNESS;
 
 	public static ForgeConfigSpec.IntValue BASIC_ROLLS;
 	public static ForgeConfigSpec.IntValue GOLD_ROLLS;
@@ -46,8 +48,16 @@ public class Config {
 	public static ForgeConfigSpec.IntValue AXE_CHANCE;
 	public static ForgeConfigSpec.IntValue SPADE_CHANCE;
 	public static ForgeConfigSpec.IntValue BOW_CHANCE;
+	public static ForgeConfigSpec.IntValue ARMOR_CHANCE;
+	public static ForgeConfigSpec.IntValue THROWABLE_CHANCE;
 
 	public static ForgeConfigSpec.IntValue STARTING_XP;
+	
+	public static IntValue MONSTERS_DROP;
+	public static IntValue ANIMAL_DROP;
+	public static IntValue BOSS_DROP;
+
+	
 
 	public static HashMap<String, ForgeConfigSpec.BooleanValue> traitsEnabled = new HashMap<String, ForgeConfigSpec.BooleanValue>();
 
@@ -71,6 +81,10 @@ public class Config {
 
 		BASE_SWORD_SPEED = COMMON_BUILDER.comment("Minimum speed a sword can have.").defineInRange("sword_speed", -2.4,
 				-4.0, 4.0);
+		
+		
+		BASE_THROWABLE_DAMAGE = COMMON_BUILDER.comment("Minimum damage a throwable can do.").defineInRange("throw_damage", 5, 0,
+				100);
 
 		BASE_PICKAXE_DAMAGE = COMMON_BUILDER.comment("Minimum damage a pickaxe can do.").defineInRange("pick_damage", 3,
 				0, 100);
@@ -83,6 +97,13 @@ public class Config {
 
 		BASE_AXE_ATTACK_SPEED = COMMON_BUILDER.comment("Minimum attack speed an axe can have.")
 				.defineInRange("axe_a_speed", -3, -4.0, 4.0);
+		
+		
+		BASE_ARMOR = COMMON_BUILDER.comment("Minimum armor points armor can have.").defineInRange("armor", 4, 0,
+				100);
+
+		BASE_TOUGHNESS = COMMON_BUILDER.comment("Minimum armor points armor can have.").defineInRange("toughness", 1.0, 0,
+				100);
 
 		BASE_SPADE_DAMAGE = COMMON_BUILDER.comment("Minimum damage a shovel can do.").defineInRange("spade_damage", 3,
 				0, 100);
@@ -111,7 +132,22 @@ public class Config {
 
 		BOW_CHANCE = COMMON_BUILDER.comment("Weight for a bow to drop from case").defineInRange("bow_weight", 8, 0,
 				100);
+		
+		ARMOR_CHANCE = COMMON_BUILDER.comment("Weight for any given piece of armor to drop from case").defineInRange("armor_weight", 1, 0,
+				100);
+		
+//		THROWABLE_CHANCE = COMMON_BUILDER.comment("Weight for a throwable weapon to drop from case").defineInRange("throwing_weight", 6, 0, 100);
+		
+		
+		MONSTERS_DROP = COMMON_BUILDER.comment("Monsters drop chance")
+		.defineInRange("monster_drops", 10, 0, 100);
+		
+		ANIMAL_DROP = COMMON_BUILDER.comment("Animals drop chance")
+				.defineInRange("animal_drops", 0, 0, 100);
 
+		BOSS_DROP = COMMON_BUILDER.comment("Bosses drop chance")
+				.defineInRange("boss_drops", 100, 0, 100);
+		
 		COMMON_BUILDER.pop();
 
 		COMMON_BUILDER.comment("Traits Enabled").push(CATEGORY_TRAITS);

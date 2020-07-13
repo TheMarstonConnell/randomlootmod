@@ -26,7 +26,7 @@ public class CaseItem extends Item {
 		super(new Properties().group(ItemGroup.MISC));
 		this.rarity = rarity;
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
-
+		RLItems.ITEMS.add(this);
 	}
 
 	@Override

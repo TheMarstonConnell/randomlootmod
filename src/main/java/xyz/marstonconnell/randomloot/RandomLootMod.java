@@ -8,6 +8,12 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.gui.ScreenManager.IScreenFactory;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.AnvilScreen;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.boss.WitherEntity;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
@@ -47,6 +53,7 @@ import xyz.marstonconnell.randomloot.entity.RLVillagerProfession;
 import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLBlocks;
 import xyz.marstonconnell.randomloot.init.RLCommands;
+import xyz.marstonconnell.randomloot.init.RLEntities;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.TextureProxy;
@@ -59,6 +66,8 @@ import xyz.marstonconnell.randomloot.utils.handlers.NetworkHandler;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.google.common.base.Preconditions;
 
 import java.awt.TextComponent;
 import java.util.Map.Entry;
@@ -76,8 +85,9 @@ public class RandomLootMod {
 	public static Random rand;
 	public static WeightedChooser<Item> wc;
 
-
 	public RandomLootMod() {
+		
+		
 		new ItemUtils();
 		rand = new Random();
 		wc = new WeightedChooser<Item>();
@@ -117,7 +127,7 @@ public class RandomLootMod {
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		// do something that can only be done on the client
 		if(FMLEnvironment.dist == Dist.CLIENT) {
-			TextureProxy.loadGUIS();
+			TextureProxy.init();
         }
 
 		
@@ -146,16 +156,36 @@ public class RandomLootMod {
 					|| !(((EntityDamageSource) event.getSource()).getTrueSource() instanceof PlayerEntity))
 				return;
 
+			
 			int choice = RandomLootMod.rand.nextInt(100);
+			int range = Config.DROP_CHANCE.get();
+			
+			if(choice > range) {
+				choice = RandomLootMod.rand.nextInt(100);
+				
+				if(event.getEntity() instanceof MonsterEntity) {
+					range = Config.MONSTERS_DROP.get();
+				}else if(event.getEntity() instanceof AnimalEntity) {
+					range = Config.ANIMAL_DROP.get();
+				}else if(event.getEntity() instanceof EnderDragonEntity || event.getEntity() instanceof WitherEntity) {
+					range = Config.BOSS_DROP.get();
+				}
+				
+				
 
-			if (choice < Config.DROP_CHANCE.get()) {
-				WeightedChooser<Item> cases = new WeightedChooser<Item>();
-				cases.addChoice(RLItems.BASIC_ITEM_CASE, Config.BASIC_CHANCE.get());
-				cases.addChoice(RLItems.BETTER_ITEM_CASE, Config.GOLD_CHANCE.get());
-				cases.addChoice(RLItems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
-				event.getEntity().entityDropItem(new ItemStack(cases.getRandomObject()));
+				if (choice < range) {
+					WeightedChooser<Item> cases = new WeightedChooser<Item>();
+					cases.addChoice(RLItems.BASIC_ITEM_CASE, Config.BASIC_CHANCE.get());
+					cases.addChoice(RLItems.BETTER_ITEM_CASE, Config.GOLD_CHANCE.get());
+					cases.addChoice(RLItems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
+					event.getEntity().entityDropItem(new ItemStack(cases.getRandomObject()));
+				}
+				
+				
 			}
+			
 		}
+		
 	}
 
 	// You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -175,16 +205,30 @@ public class RandomLootMod {
 		@SubscribeEvent
 		public static void onItemRegistry(RegistryEvent.Register<Item> event) {
 
+			for(Item item: RLItems.ITEMS) {
+				event.getRegistry().register(item);
+			}
+			
+			
 			wc.addChoice(RLItems.random_sword, Config.SWORD_CHANCE.get());
 			wc.addChoice(RLItems.random_pick, Config.PICK_CHANCE.get());
 			wc.addChoice(RLItems.random_axe, Config.AXE_CHANCE.get());
 			wc.addChoice(RLItems.random_spade, Config.SPADE_CHANCE.get());
 			wc.addChoice(RLItems.random_bow, Config.BOW_CHANCE.get());
+//			wc.addChoice(RLItems.THROWABLE_ITEM, Config.THROWABLE_CHANCE.get());
 
-			event.getRegistry().registerAll(RLItems.BEST_ITEM_CASE, RLItems.BETTER_ITEM_CASE, RLItems.BASIC_ITEM_CASE,
-					RLItems.random_sword, RLItems.random_pick, RLItems.random_axe, RLItems.random_spade,
-					RLItems.random_bow, RLItems.basic_shard, RLItems.better_shard, RLItems.best_shard,
-					RLItems.TRAIT_HOLDER);
+			wc.addChoice(RLItems.HEAVY_BOOTS, Config.ARMOR_CHANCE.get());
+			wc.addChoice(RLItems.HEAVY_CHEST, Config.ARMOR_CHANCE.get());
+			wc.addChoice(RLItems.HEAVY_HELMET, Config.ARMOR_CHANCE.get());
+			wc.addChoice(RLItems.HEAVY_LEGS, Config.ARMOR_CHANCE.get());
+			wc.addChoice(RLItems.TITANIUM_BOOTS, Config.ARMOR_CHANCE.get());
+			wc.addChoice(RLItems.TITANIUM_CHEST, Config.ARMOR_CHANCE.get());
+			wc.addChoice(RLItems.TITANIUM_HELMET, Config.ARMOR_CHANCE.get());
+			wc.addChoice(RLItems.TITANIUM_LEGS, Config.ARMOR_CHANCE.get());
+			
+			
+			
+			
 		}
 
 		@SubscribeEvent
@@ -193,7 +237,14 @@ public class RandomLootMod {
 
 		}
 
-		
+		@SubscribeEvent
+		public static void onEntityRegistry(RegistryEvent.Register<EntityType<?>> event) {
+			for (EntityType<?> entity : RLEntities.ENTITIES) {
+	            Preconditions.checkNotNull(entity.getRegistryName(), "registryName");
+	            event.getRegistry().register(entity);
+	        }
+
+		}
 		
 	
 

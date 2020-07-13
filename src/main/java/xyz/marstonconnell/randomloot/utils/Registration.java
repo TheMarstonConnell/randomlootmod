@@ -8,9 +8,7 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
@@ -18,8 +16,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.blocks.RLAnvil;
 import xyz.marstonconnell.randomloot.container.RLRepairContainer;
-
-
 import net.minecraftforge.common.extensions.IForgeContainerType;
 
 
@@ -29,7 +25,7 @@ public class Registration {
 	
     private static final DeferredRegister<ContainerType<?>> CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, RandomLootMod.MODID);
 
-    
+
     
     
     
@@ -49,12 +45,19 @@ public class Registration {
      }
     
     
+    
+    
     public static final RegistryObject<RLAnvil> EDITOR = BLOCKS.register("editor", RLAnvil::new);
 
     public static final RegistryObject<Item> EDITOR_ITEM = ITEMS.register("editor", () -> new BlockItem(EDITOR.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
 
     public static final RegistryObject<ContainerType<RLRepairContainer>> EDITOR_CONTAINER = CONTAINERS.register("editor", () -> IForgeContainerType.create((windowId, inv, data) -> {
         return new RLRepairContainer(windowId, inv);
+        
+        
+    
+        
+        
     }));
     
     

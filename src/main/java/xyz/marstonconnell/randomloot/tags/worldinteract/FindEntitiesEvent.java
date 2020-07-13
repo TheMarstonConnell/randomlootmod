@@ -5,6 +5,8 @@ import java.util.List;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -19,7 +21,7 @@ public class FindEntitiesEvent extends WorldInteractEvent {
 				pos.getZ() + radius, pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius));
 
 		for(LivingEntity mob : mobs) {
-			mob.setGlowing(true);
+			mob.addPotionEffect(new EffectInstance(Effects.GLOWING));
 		}
 		
 	}

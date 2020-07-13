@@ -18,6 +18,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.init.ItemFactory;
+import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 
@@ -72,7 +73,8 @@ public abstract class RLShootableItem extends ShootableItem {
 		if(FMLEnvironment.dist == Dist.CLIENT) {
             TextureProxy.setModelProperties(this);
         }
-		
+		RLItems.ITEMS.add(this);
+
 	}
 
 	public void changeXP(ItemStack stack, int amt) {
