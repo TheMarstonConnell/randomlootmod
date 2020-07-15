@@ -14,7 +14,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 
-public class EditToolCommand {
+public class EditXPCommand {
 
 	public static void register(CommandDispatcher<CommandSource> dispatcher) {
 		

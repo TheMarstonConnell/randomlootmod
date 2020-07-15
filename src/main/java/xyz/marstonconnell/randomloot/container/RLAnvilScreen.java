@@ -3,7 +3,6 @@ package xyz.marstonconnell.randomloot.container;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 
-import net.minecraft.client.gui.IHasContainer;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -56,7 +55,7 @@ public class RLAnvilScreen extends ContainerScreen<RLRepairContainer> implements
 	      int j = (this.field_230709_l_ - this.ySize) / 2;
 	      this.func_238474_b_(p_230450_1_, i, j, 0, 0, this.xSize, this.ySize);
 	      this.func_238474_b_(p_230450_1_, i + 59, j + 20, 0, this.ySize + (this.container.getSlot(0).getHasStack() ? 0 : 16), 110, 16);
-	      if ((this.container.getSlot(0).getHasStack() || this.container.getSlot(1).getHasStack()) && !this.container.getSlot(2).getHasStack()) {
+	      if ((this.container.getSlot(0).getHasStack() || this.container.getSlot(1).getHasStack()) && !this.container.getSlot(3).getHasStack()) {
 	         this.func_238474_b_(p_230450_1_, i + 99, j + 45, this.xSize, 0, 28, 21);
 	      }
 

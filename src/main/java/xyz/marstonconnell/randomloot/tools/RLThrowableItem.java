@@ -3,26 +3,37 @@ package xyz.marstonconnell.randomloot.tools;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.common.collect.ImmutableMultimap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.ImmutableMultimap.Builder;
+
+import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MoverType;
+import net.minecraft.entity.ai.attributes.Attribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.item.ArrowItem;
+import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.entity.ThrowableWeaponEntity;
-import xyz.marstonconnell.randomloot.init.RLEntities;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
@@ -30,11 +41,19 @@ import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 import xyz.marstonconnell.randomloot.utils.Config;
 
-public class RLThrowableItem extends RLBowItem implements IRLTool {
+public class RLThrowableItem extends BaseTool implements IRLTool {
 
 	public RLThrowableItem(String name) {
-		super(name);
+		super(new Properties());
 		RLItems.ITEMS.add(this);
+		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
+
+		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
+		builder.put(Attributes.field_233823_f_, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", 8.0D,
+				AttributeModifier.Operation.ADDITION));
+		builder.put(Attributes.field_233825_h_, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier",
+				(double) -2.9F, AttributeModifier.Operation.ADDITION));
+		this.field_234812_a_ = builder.build();
 	}
 
 	@Override
@@ -124,41 +143,10 @@ public class RLThrowableItem extends RLBowItem implements IRLTool {
 		return allowedTags;
 	}
 
-	/**
-	 * Called to trigger the item's "innate" right click behavior. To handle when
-	 * this item is used on a Block, see {@link #onItemUse}.
-	 */
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
-		boolean flag = false;
-		System.out.println("has ammo? " + !flag);
+	private final Multimap<Attribute, AttributeModifier> field_234812_a_;
 
-		ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn,
-				playerIn, handIn, !flag);
-		if (ret != null)
-			return ret;
-
-		System.out.println("shooting");
-
-		if (!playerIn.abilities.isCreativeMode && flag) {
-			System.out.println("fail");
-			return ActionResult.resultFail(itemstack);
-		} else {
-			playerIn.setActiveHand(handIn);
-			return ActionResult.resultConsume(itemstack);
-		}
-
-	}
-
-	public static float getVelocity(int charge) {
-		float f = (float) charge / 20.0F;
-		f = (f * f + f * 2.0F) / 3.0F;
-
-		if (f > 1.0F) {
-			f = 1.0F;
-		}
-
-		return f;
+	public boolean canPlayerBreakBlockWhileHolding(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+		return !player.isCreative();
 	}
 
 	/**
@@ -166,7 +154,7 @@ public class RLThrowableItem extends RLBowItem implements IRLTool {
 	 * being used
 	 */
 	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
+		return UseAction.SPEAR;
 	}
 
 	/**
@@ -175,94 +163,135 @@ public class RLThrowableItem extends RLBowItem implements IRLTool {
 	public int getUseDuration(ItemStack stack) {
 		return 72000;
 	}
-	
-	public ThrowableWeaponEntity createArrow(World worldIn, ItemStack stack, LivingEntity shooter) {
-		ThrowableWeaponEntity arrowentity = new ThrowableWeaponEntity(worldIn, shooter);
-		arrowentity.setPotionEffect(stack);
-		return arrowentity;
-	}
 
+	/**
+	 * Called when the player stops using an Item (stops holding the right mouse
+	 * button).
+	 */
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
 		if (entityLiving instanceof PlayerEntity) {
 			PlayerEntity playerentity = (PlayerEntity) entityLiving;
-			boolean flag = playerentity.abilities.isCreativeMode;
-
 			int i = this.getUseDuration(stack) - timeLeft;
-			i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, playerentity, i,
-					flag);
-			if (i < 0)
-				return;
-
-			if ( flag) {
-				
-				changeXP(stack, 1);
-				
-				
-				
-				
-				float f = getArrowVelocity(i);
-				if (!((double) f < 0.1D)) {
-					boolean flag1 = playerentity.abilities.isCreativeMode;
+			if (i >= 10) {
+				int j = EnchantmentHelper.getRiptideModifier(stack);
+				if (j <= 0 || playerentity.isWet()) {
 					if (!worldIn.isRemote) {
-						
-						
-						
-						ArrowItem arrowitem = (ArrowItem) Items.ARROW;
-						
-						
-						
-						
-						ArrowEntity abstractarrowentity = createArrow(worldIn, new ItemStack(arrowitem),
-								playerentity);
-						
-						
-						
-						
-						
-						abstractarrowentity = customArrow(stack, abstractarrowentity);
-						
-						abstractarrowentity.func_234612_a_(playerentity, playerentity.rotationPitch,
-								playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
-						if (f == 1.0F) {
-							abstractarrowentity.setIsCritical(true);
-						}
-
-						int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-						if (j > 0) {
-							abstractarrowentity.setDamage(abstractarrowentity.getDamage() + (double) j * 0.5D + 0.5D);
-						}
-
-						int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
-						if (k > 0) {
-							abstractarrowentity.setKnockbackStrength(k);
-						}
-
-						if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
-							abstractarrowentity.setFire(100);
-						}
-
-						stack.damageItem(1, playerentity, (p_220009_1_) -> {
-							p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
+						stack.damageItem(1, playerentity, (p_220047_1_) -> {
+							p_220047_1_.sendBreakAnimation(entityLiving.getActiveHand());
 						});
-						if (flag1
-								|| playerentity.abilities.isCreativeMode) {
-							abstractarrowentity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+						if (j == 0) {
+							ThrowableWeaponEntity tridententity = new ThrowableWeaponEntity(worldIn, playerentity, stack);
+							tridententity.setItem(stack);
+							tridententity.func_234612_a_(playerentity, playerentity.rotationPitch,
+									playerentity.rotationYaw, 0.0F, 2.5F + (float) j * 0.5F, 1.0F);
+							if (playerentity.abilities.isCreativeMode) {
+								tridententity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+							}
+
+							worldIn.addEntity(tridententity);
+							worldIn.playMovingSound((PlayerEntity) null, tridententity, SoundEvents.ITEM_TRIDENT_THROW,
+									SoundCategory.PLAYERS, 1.0F, 1.0F);
+							if (!playerentity.abilities.isCreativeMode) {
+								playerentity.inventory.deleteStack(stack);
+							}
 						}
-						
-						ThrowableWeaponEntity arrow = (ThrowableWeaponEntity) abstractarrowentity;
-						arrow.item = stack;
-						
-						worldIn.addEntity(abstractarrowentity);
 					}
 
-					worldIn.playSound((PlayerEntity) null, playerentity.getPosX(), playerentity.getPosY(),
-							playerentity.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-					
-
 					playerentity.addStat(Stats.ITEM_USED.get(this));
+					if (j > 0) {
+						float f7 = playerentity.rotationYaw;
+						float f = playerentity.rotationPitch;
+						float f1 = -MathHelper.sin(f7 * ((float) Math.PI / 180F))
+								* MathHelper.cos(f * ((float) Math.PI / 180F));
+						float f2 = -MathHelper.sin(f * ((float) Math.PI / 180F));
+						float f3 = MathHelper.cos(f7 * ((float) Math.PI / 180F))
+								* MathHelper.cos(f * ((float) Math.PI / 180F));
+						float f4 = MathHelper.sqrt(f1 * f1 + f2 * f2 + f3 * f3);
+						float f5 = 3.0F * ((1.0F + (float) j) / 4.0F);
+						f1 = f1 * (f5 / f4);
+						f2 = f2 * (f5 / f4);
+						f3 = f3 * (f5 / f4);
+						playerentity.addVelocity((double) f1, (double) f2, (double) f3);
+						playerentity.startSpinAttack(20);
+						if (playerentity.func_233570_aj_()) {
+							float f6 = 1.1999999F;
+							playerentity.move(MoverType.SELF, new Vector3d(0.0D, (double) 1.1999999F, 0.0D));
+						}
+
+						SoundEvent soundevent;
+						if (j >= 3) {
+							soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_3;
+						} else if (j == 2) {
+							soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_2;
+						} else {
+							soundevent = SoundEvents.ITEM_TRIDENT_RIPTIDE_1;
+						}
+
+						worldIn.playMovingSound((PlayerEntity) null, playerentity, soundevent, SoundCategory.PLAYERS,
+								1.0F, 1.0F);
+					}
+
 				}
 			}
 		}
+	}
+
+	/**
+	 * Called to trigger the item's "innate" right click behavior. To handle when
+	 * this item is used on a Block, see {@link #onItemUse}.
+	 */
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		ItemStack itemstack = playerIn.getHeldItem(handIn);
+		if (itemstack.getDamage() >= itemstack.getMaxDamage() - 1) {
+			return ActionResult.resultFail(itemstack);
+		} else if (EnchantmentHelper.getRiptideModifier(itemstack) > 0 && !playerIn.isWet()) {
+			return ActionResult.resultFail(itemstack);
+		} else {
+			playerIn.setActiveHand(handIn);
+			return ActionResult.resultConsume(itemstack);
+		}
+	}
+
+	/**
+	 * Current implementations of this method in child classes do not use the entry
+	 * argument beside ev. They just raise the damage on the stack.
+	 */
+	public boolean hitEntity(ItemStack stack, LivingEntity target, LivingEntity attacker) {
+		stack.damageItem(1, attacker, (p_220048_0_) -> {
+			p_220048_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+		});
+		return true;
+	}
+
+	/**
+	 * Called when a Block is destroyed using this Item. Return true to trigger the
+	 * "Use Item" statistic.
+	 */
+	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos,
+			LivingEntity entityLiving) {
+		if ((double) state.getBlockHardness(worldIn, pos) != 0.0D) {
+			stack.damageItem(2, entityLiving, (p_220046_0_) -> {
+				p_220046_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
+			});
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets a map of item attribute modifiers, used by ItemSword to increase hit
+	 * damage.
+	 */
+	public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlotType equipmentSlot) {
+		return equipmentSlot == EquipmentSlotType.MAINHAND ? this.field_234812_a_
+				: super.getAttributeModifiers(equipmentSlot);
+	}
+
+	/**
+	 * Return the enchantability factor of the item, most of the time is based on
+	 * material.
+	 */
+	public int getItemEnchantability() {
+		return 1;
 	}
 }

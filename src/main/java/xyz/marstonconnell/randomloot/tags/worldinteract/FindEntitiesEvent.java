@@ -21,7 +21,9 @@ public class FindEntitiesEvent extends WorldInteractEvent {
 				pos.getZ() + radius, pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius));
 
 		for(LivingEntity mob : mobs) {
-			mob.addPotionEffect(new EffectInstance(Effects.GLOWING));
+			if(!mob.equals(entityLiving)) {
+				mob.addPotionEffect(new EffectInstance(Effects.GLOWING, 100));
+			}
 		}
 		
 	}

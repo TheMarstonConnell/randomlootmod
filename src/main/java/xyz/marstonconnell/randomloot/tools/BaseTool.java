@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
@@ -66,8 +65,12 @@ public boolean isRepairable(ItemStack stack) {
 		setMaxXP(stack, (int) (getMaxXP(stack) * 1.5));
 		ItemFactory.applyToken(stack);
 	}
-
+	
 	public static void setLore(ItemStack stack) {
+		setLore(stack, "");
+	}
+
+	public static void setLore(ItemStack stack, String addLore) {
 
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
@@ -78,8 +81,10 @@ public boolean isRepairable(ItemStack stack) {
 
 		ListNBT lore = new ListNBT();
 
-		lore.add(StringNBT.valueOf("{\"text\":\"\"}"));
+		
+		lore.add(StringNBT.valueOf("{\"text\":\"" + addLore + "\"}"));
 
+		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 		for (int i = 0; i < tags.size(); i++) {
 
@@ -292,7 +297,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param stack
 	 * @return int texture value
 	 */
-	public int getTexture(ItemStack stack) {
+	public static int getTexture(ItemStack stack) {
 		return getIntNBT(stack, TAG_TEXTURE);
 	}
 

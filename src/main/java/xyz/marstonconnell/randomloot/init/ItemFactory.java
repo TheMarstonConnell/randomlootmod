@@ -5,8 +5,6 @@ import java.util.Random;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.StringNBT;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
@@ -20,7 +18,7 @@ public class ItemFactory {
 	static Random rand = new Random();
 
 	public static void applyToken(ItemStack stack) {
-		if (rand.nextInt(4) < 1) {
+		if (rand.nextInt(Config.TRAIT_RATIO.get()) <= 1) {
 			giftNewTrait(stack);
 		} else {
 			buffItemStats(stack);
@@ -57,21 +55,21 @@ public class ItemFactory {
 		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
 		switch (rarity) {
 		case 0:
+			wc.addChoice(0, 80);
+			wc.addChoice(1, 15);
+			wc.addChoice(2, 5);
+			break;
+
+		case 1:
 			wc.addChoice(0, 60);
 			wc.addChoice(1, 30);
 			wc.addChoice(2, 10);
 			break;
 
-		case 1:
-			wc.addChoice(0, 40);
-			wc.addChoice(1, 40);
-			wc.addChoice(2, 20);
-			break;
-
 		case 2:
-			wc.addChoice(0, 20);
-			wc.addChoice(1, 50);
-			wc.addChoice(2, 30);
+			wc.addChoice(0, 30);
+			wc.addChoice(1, 45);
+			wc.addChoice(2, 25);
 			break;
 
 		default:

@@ -40,12 +40,12 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	}
 
 	private float getVelo(ItemStack stack) {
-		return getFloatNBT(stack, "rl_velo");
+		return BaseTool.getFloatNBT(stack, "rl_velo");
 
 	}
 
 	private void setVelo(ItemStack stack, float velo) {
-		setFloatNBT(stack, "rl_velo", velo);
+		BaseTool.setFloatNBT(stack, "rl_velo", velo);
 
 	}
 
@@ -69,7 +69,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 			if (!itemstack.isEmpty() || flag) {
 				
-				changeXP(stack, 1);
+				BaseTool.changeXP(stack, 1);
 				
 				
 				
@@ -90,12 +90,12 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 								: Items.ARROW);
 						
 						
-						
+						double dmgMod = BaseTool.getFloatNBT(stack, "rl_bow_dmg");
 						
 						ArrowEntity abstractarrowentity = (ArrowEntity) arrowitem.createArrow(worldIn, itemstack,
 								playerentity);
 						
-						
+						abstractarrowentity.setDamage(abstractarrowentity.getDamage() * dmgMod);
 						
 						
 						
@@ -235,6 +235,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	@Override
 	public void setStats(ItemStack stack) {
 		setVelo(stack, 72000);
+		BaseTool.setFloatNBT(stack, "rl_bow_dmg", 1.0f);
 	}
 
 	@Override
@@ -245,6 +246,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	@Override
 	public void upgradeTool(ItemStack stack) {
 		setVelo(stack, getVelo(stack) * 0.95f);
+		BaseTool.setFloatNBT(stack, "rl_bow_dmg", BaseTool.getFloatNBT(stack, "rl_bow_dmg") * 1.1f);
 
 	}
 
@@ -253,7 +255,8 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 		DecimalFormat f = new DecimalFormat("##.00");
 
 		List<String> s = new ArrayList<String>();
-		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(getVelo(stack)));
+		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(72000 - getVelo(stack)));
+		s.add(TextFormatting.GRAY + "Bow Damage Modifier: " + f.format(BaseTool.getFloatNBT(stack, "rl_bow_dmg")));
 
 		return s;
 	}

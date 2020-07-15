@@ -1,34 +1,20 @@
 package xyz.marstonconnell.randomloot;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.IHasContainer;
-import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.gui.ScreenManager.IScreenFactory;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.AnvilScreen;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.RepairContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameRules;
-import net.minecraft.world.gen.feature.jigsaw.JigsawPiece;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
@@ -45,13 +31,9 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import xyz.marstonconnell.randomloot.blocks.RLAnvil;
-import xyz.marstonconnell.randomloot.container.RLAnvilScreen;
-import xyz.marstonconnell.randomloot.container.RLRepairContainer;
 import xyz.marstonconnell.randomloot.entity.RLPointOfInterestTypes;
 import xyz.marstonconnell.randomloot.entity.RLVillagerProfession;
 import xyz.marstonconnell.randomloot.init.ItemUtils;
-import xyz.marstonconnell.randomloot.init.RLBlocks;
 import xyz.marstonconnell.randomloot.init.RLCommands;
 import xyz.marstonconnell.randomloot.init.RLEntities;
 import xyz.marstonconnell.randomloot.init.RLItems;
@@ -69,11 +51,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Preconditions;
 
-import java.awt.TextComponent;
-import java.util.Map.Entry;
-import java.util.Properties;
 import java.util.Random;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -86,16 +64,13 @@ public class RandomLootMod {
 	public static WeightedChooser<Item> wc;
 
 	public RandomLootMod() {
-		
-		
+
 		new ItemUtils();
 		rand = new Random();
 		wc = new WeightedChooser<Item>();
 
-        Registration.init();
+		Registration.init();
 
-		
-		
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		// Register the enqueueIMC method for modloading
@@ -126,11 +101,9 @@ public class RandomLootMod {
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		// do something that can only be done on the client
-		if(FMLEnvironment.dist == Dist.CLIENT) {
+		if (FMLEnvironment.dist == Dist.CLIENT) {
 			TextureProxy.init();
-        }
-
-		
+		}
 
 		LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
 
@@ -156,22 +129,20 @@ public class RandomLootMod {
 					|| !(((EntityDamageSource) event.getSource()).getTrueSource() instanceof PlayerEntity))
 				return;
 
-			
 			int choice = RandomLootMod.rand.nextInt(100);
 			int range = Config.DROP_CHANCE.get();
-			
-			if(choice > range) {
+
+			if (choice > range) {
 				choice = RandomLootMod.rand.nextInt(100);
-				
-				if(event.getEntity() instanceof MonsterEntity) {
+
+				if (event.getEntity() instanceof MonsterEntity) {
 					range = Config.MONSTERS_DROP.get();
-				}else if(event.getEntity() instanceof AnimalEntity) {
+				} else if (event.getEntity() instanceof AnimalEntity) {
 					range = Config.ANIMAL_DROP.get();
-				}else if(event.getEntity() instanceof EnderDragonEntity || event.getEntity() instanceof WitherEntity) {
+				} else if (event.getEntity() instanceof EnderDragonEntity
+						|| event.getEntity() instanceof WitherEntity) {
 					range = Config.BOSS_DROP.get();
 				}
-				
-				
 
 				if (choice < range) {
 					WeightedChooser<Item> cases = new WeightedChooser<Item>();
@@ -180,12 +151,11 @@ public class RandomLootMod {
 					cases.addChoice(RLItems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
 					event.getEntity().entityDropItem(new ItemStack(cases.getRandomObject()));
 				}
-				
-				
+
 			}
-			
+
 		}
-		
+
 	}
 
 	// You can use SubscribeEvent and let the Event Bus discover methods to call
@@ -205,17 +175,16 @@ public class RandomLootMod {
 		@SubscribeEvent
 		public static void onItemRegistry(RegistryEvent.Register<Item> event) {
 
-			for(Item item: RLItems.ITEMS) {
+			for (Item item : RLItems.ITEMS) {
 				event.getRegistry().register(item);
 			}
-			
-			
+
 			wc.addChoice(RLItems.random_sword, Config.SWORD_CHANCE.get());
 			wc.addChoice(RLItems.random_pick, Config.PICK_CHANCE.get());
 			wc.addChoice(RLItems.random_axe, Config.AXE_CHANCE.get());
 			wc.addChoice(RLItems.random_spade, Config.SPADE_CHANCE.get());
 			wc.addChoice(RLItems.random_bow, Config.BOW_CHANCE.get());
-//			wc.addChoice(RLItems.THROWABLE_ITEM, Config.THROWABLE_CHANCE.get());
+			 wc.addChoice(RLItems.THROWABLE_ITEM, Config.THROWABLE_CHANCE.get());
 
 			wc.addChoice(RLItems.HEAVY_BOOTS, Config.ARMOR_CHANCE.get());
 			wc.addChoice(RLItems.HEAVY_CHEST, Config.ARMOR_CHANCE.get());
@@ -225,28 +194,17 @@ public class RandomLootMod {
 			wc.addChoice(RLItems.TITANIUM_CHEST, Config.ARMOR_CHANCE.get());
 			wc.addChoice(RLItems.TITANIUM_HELMET, Config.ARMOR_CHANCE.get());
 			wc.addChoice(RLItems.TITANIUM_LEGS, Config.ARMOR_CHANCE.get());
-			
-			
-			
-			
-		}
-
-		@SubscribeEvent
-		public static void onBlockRegistry(RegistryEvent.Register<Block> event) {
-
 
 		}
 
 		@SubscribeEvent
 		public static void onEntityRegistry(RegistryEvent.Register<EntityType<?>> event) {
 			for (EntityType<?> entity : RLEntities.ENTITIES) {
-	            Preconditions.checkNotNull(entity.getRegistryName(), "registryName");
-	            event.getRegistry().register(entity);
-	        }
+				Preconditions.checkNotNull(entity.getRegistryName(), "registryName");
+				event.getRegistry().register(entity);
+			}
 
 		}
-		
-	
 
 	}
 
@@ -260,40 +218,41 @@ public class RandomLootMod {
 				for (int i = 0; i < TagHelper.allTags.size(); i++) {
 					ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
 					TagHelper.addTag(s, TagHelper.allTags.get(i).name);
-					s.setDisplayName(new StringTextComponent(TextFormatting.WHITE + 
-							TagHelper.convertToTitleCaseIteratingChars(TagHelper.allTags.get(i).name) + " Essence"));
+					s.setDisplayName(new StringTextComponent(TextFormatting.WHITE
+							+ TagHelper.convertToTitleCaseIteratingChars(TagHelper.allTags.get(i).name) + " Essence"));
 					event.getTrades().get(4)
-							.add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 24), s, 8, 10, 2F));
+							.add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 24), s, 3, 10, 0F));
 
 				}
 
 				event.getTrades().get(1).add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 16),
-						new ItemStack(RLItems.basic_shard), 8, 10, 0F));
+						new ItemStack(RLItems.basic_shard), 8, 2, 0F));
 				event.getTrades().get(1)
 						.add((entity, random) -> new MerchantOffer(new ItemStack(RLItems.BASIC_ITEM_CASE),
-								new ItemStack(Items.EMERALD), 8, 11, 0F));
+								new ItemStack(Items.EMERALD), 8, 2, 0F));
 				event.getTrades().get(1).add((entity, random) -> new MerchantOffer(new ItemStack(RLItems.better_shard),
-						new ItemStack(Items.EMERALD, 2), 5, 11, 0F));
+						new ItemStack(Items.EMERALD, 2), 5, 2, 0.5F));
 				event.getTrades().get(2)
 						.add((entity, random) -> new MerchantOffer(new ItemStack(RLItems.BETTER_ITEM_CASE),
-								new ItemStack(Items.EMERALD, 3), 8, 11, 0F));
+								new ItemStack(Items.EMERALD, 3), 8, 2, 0F));
 				event.getTrades().get(2).add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 32),
-						new ItemStack(RLItems.better_shard), 3, 11, 0F));
+						new ItemStack(RLItems.better_shard), 3, 2, 0F));
 				event.getTrades().get(3)
 						.add((entity, random) -> new MerchantOffer(new ItemStack(RLItems.BEST_ITEM_CASE),
-								new ItemStack(Items.EMERALD, 12), 8, 11, 0F));
+								new ItemStack(Items.EMERALD, 12), 8, 2, 0F));
 				event.getTrades().get(3).add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 32),
-						new ItemStack(RLItems.BASIC_ITEM_CASE), 3, 13, 1.5F));
+						new ItemStack(RLItems.BASIC_ITEM_CASE), 3, 2, 0F));
 				event.getTrades().get(3).add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 32),
-						new ItemStack(RLItems.best_shard), 5, 11, 0F));
+						new ItemStack(RLItems.best_shard), 5, 2, 0F));
 				event.getTrades().get(4).add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 48),
-						new ItemStack(RLItems.BETTER_ITEM_CASE), 2, 14, 0F));
+						new ItemStack(RLItems.BETTER_ITEM_CASE), 2, 1, 0F));
 				event.getTrades().get(5).add((entity, random) -> new MerchantOffer(new ItemStack(Items.EMERALD, 64),
-						new ItemStack(RLItems.BEST_ITEM_CASE), 2, 14, 0F));
+						new ItemStack(RLItems.BEST_ITEM_CASE), 2, 1, 0F));
 
 				RandomTradeBuilder.forEachLevel(
 						(level, tradeBuild) -> event.getTrades().get(level.intValue()).add(tradeBuild.build()));
 			}
+
 		}
 
 	}

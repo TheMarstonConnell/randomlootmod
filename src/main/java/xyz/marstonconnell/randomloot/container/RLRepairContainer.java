@@ -15,12 +15,18 @@ import net.minecraft.inventory.container.AbstractRepairContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.item.crafting.SmithingRecipe;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
+import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.text.TextFormatting;
 import xyz.marstonconnell.randomloot.RandomLootMod;
+import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
@@ -32,7 +38,7 @@ import xyz.marstonconnell.randomloot.utils.Registration;
 public class RLRepairContainer extends Container {
 
 	protected final IInventory craftResult = new CraftResultInventory();
-	protected final IInventory slots = new Inventory(2) {
+	protected final IInventory slots = new Inventory(3) {
 		/**
 		 * For tile entities, ensures the chunk containing the tile entity is saved to
 		 * disk later - the game won't think it hasn't changed and skip it.
@@ -57,7 +63,15 @@ public class RLRepairContainer extends Container {
 		this.player = playerInv.player;
 		this.addSlot(new Slot(this.slots, 0, 27, 47));
 		this.addSlot(new Slot(this.slots, 1, 76, 47));
-		this.addSlot(new Slot(this.craftResult, 2, 134, 47) {
+		this.addSlot(new Slot(this.slots, 2, 8, 47) {
+			public boolean isItemValid(ItemStack stack) {
+				Item i = stack.getItem();
+
+				return i.equals(RLItems.best_shard);
+
+			}
+		});
+		this.addSlot(new Slot(this.craftResult, 3, 134, 47) {
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots
 			 * as well as furnace fuel.
@@ -74,6 +88,8 @@ public class RLRepairContainer extends Container {
 			}
 
 			public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
+
+
 				return RLRepairContainer.this.craftOutput(thePlayer, stack);
 			}
 		});
@@ -97,16 +113,45 @@ public class RLRepairContainer extends Container {
 	}
 
 	protected boolean isRecipe(PlayerEntity player) {
-		return (slots.getStackInSlot(0).getItem() instanceof IRLTool)
-				&& slots.getStackInSlot(1).getItem() == RLItems.TRAIT_HOLDER;
+		return ((slots.getStackInSlot(0).getItem() instanceof IRLTool)
+				&& slots.getStackInSlot(1).getItem() == RLItems.TRAIT_HOLDER && slots.getStackInSlot(2).isEmpty())
+				|| (slots.getStackInSlot(0).getItem() instanceof IRLTool
+						&& slots.getStackInSlot(2).getItem().equals(RLItems.best_shard)
+						&& slots.getStackInSlot(1).isEmpty());
+	}
+	
+	@Override
+	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
+		if(stack.getItem() instanceof IRLTool) {
+			BaseTool.setLore(stack);
+
+		}
+		return super.mergeItemStack(stack, startIndex, endIndex, reverseDirection);
+		
 	}
 
 	protected ItemStack craftOutput(PlayerEntity player, ItemStack stack) {
 		this.shrinkSlot(0);
 		this.shrinkSlot(1);
+		this.shrinkSlot(2);
+		
+		
+		ItemStack itemstack = this.getSlot(3).getStack();
+		System.out.println("Crafting: " + stack.getDisplayName());
+		
+		
+		
+		
 		this.worldPos.consume((p_234653_0_, p_234653_1_) -> {
 			p_234653_0_.playEvent(1044, p_234653_1_, 0);
 		});
+		
+		if(stack.getItem() instanceof IRLTool) {
+			BaseTool.setLore(stack);
+
+		}
+		
+
 		return stack;
 	}
 
@@ -129,19 +174,46 @@ public class RLRepairContainer extends Container {
 		if (this.isRecipe(this.player)) {
 			ItemStack out = slots.getStackInSlot(0).copy();
 
-			ItemStack orb = slots.getStackInSlot(1);
+			ItemStack mod = slots.getStackInSlot(1);
 
-			List<BasicTag> tags = TagHelper.getAllTags(orb);
-			for (BasicTag tag : tags) {
-				if (!TagHelper.checkForTag(out, tag)) {
-					TagHelper.addTag(out, tag.name);
+			if (!mod.isEmpty()) {
+
+				List<BasicTag> tags = TagHelper.getAllTags(mod);
+				for (BasicTag tag : tags) {
+					if (!TagHelper.checkForTag(out, tag)) {
+						TagHelper.addTag(out, tag.name);
+					}
 				}
-			}
 
-			if (out.getItem() instanceof BaseTool) {
 				BaseTool.setLore(out);
-			} else if (out.getItem() instanceof RLBowItem) {
-				RLBowItem.setLore(out);
+			}else {
+				ItemStack edit = slots.getStackInSlot(2);
+
+				if(edit.getItem().equals(RLItems.best_shard)) {
+					int oldXp = BaseTool.getXP(out);
+					BaseTool.changeXP(out, BaseTool.getMaxXP(out));
+					BaseTool.changeXP(out, oldXp);
+					
+					
+					CompoundNBT nbt;
+					if (out.hasTag()) {
+						nbt = out.getTag();
+					} else {
+						nbt = new CompoundNBT();
+					}
+
+					ListNBT lore = new ListNBT();
+
+					
+					lore.add(StringNBT.valueOf("{\"text\":\""+ TextFormatting.DARK_PURPLE +"Upgraded stats hidden.\"}"));
+					CompoundNBT display = nbt.getCompound("display");
+
+					display.put("Lore", lore);
+
+					nbt.put("display", display);
+					out.setTag(nbt);
+
+				}
 			}
 
 			craftResult.setInventorySlotContents(0, out);
@@ -190,20 +262,28 @@ public class RLRepairContainer extends Container {
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (index == 2) {
-				if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
+			if (index == 3) {
+				if (!this.mergeItemStack(itemstack1, 4, 40, true)) {
+
 					return ItemStack.EMPTY;
 				}
 
 				slot.onSlotChange(itemstack1, itemstack);
-			} else if (index != 0 && index != 1) {
-				if (index >= 3 && index < 39) {
-					int i = this.checkItem(itemstack) ? 1 : 0;
-					if (!this.mergeItemStack(itemstack1, i, 2, false)) {
+			} else if (index != 0 && index != 1 && index != 2) {
+				if (index >= 4 && index < 40) {
+					int i = 0;
+					
+					if(itemstack.getItem().equals(RLItems.best_shard)) {
+						i = 2;
+					}else if(itemstack.getItem().equals(RLItems.TRAIT_HOLDER)) {
+						i = 1;
+					}
+					
+					if (!this.mergeItemStack(itemstack1, i, 3, false)) {
 						return ItemStack.EMPTY;
 					}
 				}
-			} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+			} else if (!this.mergeItemStack(itemstack1, 4, 40, false)) {
 				return ItemStack.EMPTY;
 			}
 
@@ -220,6 +300,9 @@ public class RLRepairContainer extends Container {
 			slot.onTake(playerIn, itemstack1);
 		}
 
+		
+		
+		
 		return itemstack;
 	}
 

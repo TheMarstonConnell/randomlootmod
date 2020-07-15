@@ -1,10 +1,6 @@
 package xyz.marstonconnell.randomloot.tools;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScreenManager;
-import net.minecraft.client.renderer.entity.EntityRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
@@ -13,13 +9,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.container.RLAnvilScreen;
-import xyz.marstonconnell.randomloot.entity.ThrowableWeaponEntity;
 import xyz.marstonconnell.randomloot.init.RLEntities;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.utils.Registration;
@@ -36,7 +28,7 @@ public class TextureProxy {
 				public float call(ItemStack stack, ClientWorld p_call_2_, LivingEntity p_call_3_) {
 					float model = 1.0F;
 
-					model = (float) rlShootableItem.getTexture(stack);
+					model = (float) BaseTool.getTexture(stack);
 
 					return model;
 				}

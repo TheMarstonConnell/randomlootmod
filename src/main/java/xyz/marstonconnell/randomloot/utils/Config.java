@@ -25,6 +25,9 @@ public class Config {
 	public static ForgeConfigSpec.IntValue TITAN_CHANCE;
 	public static ForgeConfigSpec.IntValue DROP_CHANCE;
 
+	public static ForgeConfigSpec.IntValue TRAIT_RATIO;
+
+	
 	public static ForgeConfigSpec.IntValue BASE_SWORD_DAMAGE;
 	public static ForgeConfigSpec.DoubleValue BASE_SWORD_SPEED;
 
@@ -136,7 +139,11 @@ public class Config {
 		ARMOR_CHANCE = COMMON_BUILDER.comment("Weight for any given piece of armor to drop from case").defineInRange("armor_weight", 1, 0,
 				100);
 		
-//		THROWABLE_CHANCE = COMMON_BUILDER.comment("Weight for a throwable weapon to drop from case").defineInRange("throwing_weight", 6, 0, 100);
+		
+		TRAIT_RATIO = COMMON_BUILDER.comment("Odds of an item getting a buff rather than a trait on a stats roll (editor upgrade, tool init, etc.)").defineInRange("trait_ratio", 10, 0,
+				100);
+		
+		THROWABLE_CHANCE = COMMON_BUILDER.comment("Weight for a throwable weapon to drop from case").defineInRange("throwing_weight", 6, 0, 100);
 		
 		
 		MONSTERS_DROP = COMMON_BUILDER.comment("Monsters drop chance")
