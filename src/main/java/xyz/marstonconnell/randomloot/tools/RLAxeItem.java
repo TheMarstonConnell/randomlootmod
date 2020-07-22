@@ -130,9 +130,9 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 			livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 		});
 		
-		changeXP(stack, 1);
+		BaseTool.changeXP(stack, 1);
 		
-		setLore(stack);
+		BaseTool.setLore(stack);
 		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 
@@ -147,7 +147,12 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 					eTag.runEffect(stack, attacker.world, attacker);
 
 				}
-			}
+			}else if (tags.get(i) instanceof WorldInteractTag) {
+				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
+
+				eTag.runEffect(stack, attacker.world, attacker, attacker.getEntityWorld().getBlockState(new BlockPos(attacker.getPositionVec())), new BlockPos(attacker.getPositionVec()), target);
+
+		}
 		}
 		
 		
@@ -193,7 +198,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 		nbt.putInt("rl_damage", dmg);
 		nbt.putDouble("rl_speed", spd);
 		nbt.putFloat("rl_dig_speed", 1);
-
+		BaseTool.setIntNBT(stack, "rl_level", 1);
 		stack.setTag(nbt);
 
 	}
@@ -265,7 +270,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 
 		updateStats(stack);
 
-		setLore(stack);
+		BaseTool.setLore(stack);
 
 	}
 

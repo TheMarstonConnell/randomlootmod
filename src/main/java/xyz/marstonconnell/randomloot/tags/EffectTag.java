@@ -2,9 +2,11 @@ package xyz.marstonconnell.randomloot.tags;
 
 import java.util.Collection;
 
+import net.minecraft.client.gui.fonts.TexturedGlyph.Effect;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
+import net.minecraft.potion.Effects;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 
@@ -46,8 +48,10 @@ public class EffectTag extends BasicTag {
 
 		boolean foundEffect = false;
 		for (EffectInstance ef : effects) {
+			if(!ef.getEffectName().equals(Effects.NIGHT_VISION.getName())) {
 			if (ef.getEffectName().equals(copy.getEffectName())) {
 				foundEffect = true;
+			}
 			}
 		}
 		if (!foundEffect) {

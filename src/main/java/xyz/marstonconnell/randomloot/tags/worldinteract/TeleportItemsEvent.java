@@ -14,7 +14,7 @@ import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
 public class TeleportItemsEvent extends WorldInteractEvent{
 
 	@Override
-	public void effect(ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos) {
+	public void effect(ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 		List<ItemEntity> entities = worldIn.getEntitiesWithinAABB(ItemEntity.class, new AxisAlignedBB(pos.getX() - 1, pos.getY() - 1, pos.getZ() - 1, pos.getX() + 1, pos.getY() + 1, pos.getZ() + 1));
 		for(ItemEntity item : entities) {
 			item.setPositionAndUpdate(entityLiving.getPosX(), entityLiving.getPosY(), entityLiving.getPosZ());

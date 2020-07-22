@@ -33,14 +33,14 @@ public class RLItems {
 	public static final Item BETTER_ITEM_CASE = new CaseItem("golden_case", 1);
 	public static final Item BEST_ITEM_CASE = new CaseItem("titan_case", 2);
 
-	public static final BaseTool random_sword = new RLSwordItem("sword", 10, -2.4f);
-	public static final BaseTool random_pick = new RLPickaxeItem("pickaxe");
+	public static final RLSwordItem random_sword = new RLSwordItem("sword", 10, -2.4f);
+	public static final RLPickaxeItem random_pick = new RLPickaxeItem("pickaxe");
 
-	public static final BaseTool random_axe = new RLAxeItem("axe");
-	public static final BaseTool random_spade = new RLShovelItem("shovel");
+	public static final RLAxeItem random_axe = new RLAxeItem("axe");
+	public static final RLShovelItem random_spade = new RLShovelItem("shovel");
 	public static final RLBowItem random_bow = new RLBowItem("rl_bow");
 
-	public static final RLThrowableItem THROWABLE_ITEM = new RLThrowableItem("rl_throwable");
+//	public static final RLThrowableItem THROWABLE_ITEM = new RLThrowableItem("rl_throwable");
 
 	
 	public static final Item basic_shard = new CraftingItem("random_shard", true);

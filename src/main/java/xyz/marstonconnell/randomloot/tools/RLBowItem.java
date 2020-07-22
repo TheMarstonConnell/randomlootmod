@@ -26,7 +26,10 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.datafix.fixes.TippedArrow;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.RandomLootMod;
+import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
@@ -37,6 +40,11 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	public RLBowItem(String name) {
 		super(new Properties());
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
+		
+		if(FMLEnvironment.dist == Dist.CLIENT) {
+            TextureProxy.setModelProperties(this);
+        }
+		RLItems.ITEMS.add(this);
 	}
 
 	private float getVelo(ItemStack stack) {
@@ -235,6 +243,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	@Override
 	public void setStats(ItemStack stack) {
 		setVelo(stack, 72000);
+		BaseTool.setIntNBT(stack, "rl_level", 1);
 		BaseTool.setFloatNBT(stack, "rl_bow_dmg", 1.0f);
 	}
 

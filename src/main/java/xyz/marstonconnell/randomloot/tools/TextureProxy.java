@@ -4,6 +4,7 @@ import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.IItemPropertyGetter;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemModelsProperties;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -20,7 +21,7 @@ import xyz.marstonconnell.randomloot.utils.ThrowableRender;
 @OnlyIn(Dist.CLIENT)
 public class TextureProxy {
 
-	public static void setModelProperties(RLShootableItem rlShootableItem) {
+	public static void setModelProperties(RLBowItem rlShootableItem) {
 		if(FMLEnvironment.dist == Dist.CLIENT) {
 			ItemModelsProperties.func_239418_a_(rlShootableItem, new ResourceLocation("model"), new IItemPropertyGetter() {
 
@@ -70,15 +71,15 @@ public class TextureProxy {
 		
 	}
 	
-	public static void setModelProperties(BaseTool rlShootableItem) {
+	public static void setModelProperties(Item item) {
 		if(FMLEnvironment.dist == Dist.CLIENT) {
-			ItemModelsProperties.func_239418_a_(rlShootableItem, new ResourceLocation("model"), new IItemPropertyGetter() {
+			ItemModelsProperties.func_239418_a_(item, new ResourceLocation("model"), new IItemPropertyGetter() {
 
 				@Override
 				public float call(ItemStack stack, ClientWorld p_call_2_, LivingEntity p_call_3_) {
 					float model = 1.0F;
 
-					model = (float) rlShootableItem.getTexture(stack);
+					model = (float) BaseTool.getTexture(stack);
 
 					return model;
 				}
@@ -98,7 +99,7 @@ public class TextureProxy {
 
 		ScreenManager.registerFactory(Registration.EDITOR_CONTAINER.get(), RLAnvilScreen::new);
 		
-        RenderingRegistry.registerEntityRenderingHandler(RLEntities.THROWABLE_WEAPON, ThrowableRender::new);
+//        RenderingRegistry.registerEntityRenderingHandler(RLEntities.THROWABLE_WEAPON, ThrowableRender::new);
 
 		
 

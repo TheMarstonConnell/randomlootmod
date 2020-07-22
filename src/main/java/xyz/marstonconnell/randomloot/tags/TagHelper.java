@@ -15,6 +15,8 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants.NBT;
+import xyz.marstonconnell.randomloot.tags.worldinteract.CriticalStrikeEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.DamageEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
@@ -70,7 +72,7 @@ public class TagHelper {
 			new EffectInstance(Effects.STRENGTH, 100, 1), false, false, true);
 	
 	public static final EffectTag NIGHT_VISION = new EffectTag("insightful", TextFormatting.BLUE,
-			new EffectInstance(Effects.NIGHT_VISION, 100, 0), false, false, false);
+			new EffectInstance(Effects.NIGHT_VISION, 500, 0), false, false, false);
 	
 	public static final EffectTag WATER_BREATHING = new EffectTag("deep_breathing", TextFormatting.DARK_BLUE,
 			new EffectInstance(Effects.WATER_BREATHING, 100, 0), false, false, false);
@@ -100,9 +102,9 @@ public class TagHelper {
 	public static final EffectTag GLOWING = new EffectTag("glittering", TextFormatting.GOLD,
 			new EffectInstance(Effects.GLOWING, 100, 0), true, false, true);
 	
-	public static final EffectTag DAMAGE_ONE = new EffectTag("damage+", TextFormatting.DARK_RED,
+	public static final EffectTag DAMAGE_ONE = new EffectTag("blood_thirst", TextFormatting.DARK_RED,
 			new EffectInstance(Effects.INSTANT_DAMAGE, 120, 1), true, false, true);
-	public static final EffectTag DAMAGE_TWO = new EffectTag("damage++", TextFormatting.DARK_RED,
+	public static final EffectTag DAMAGE_TWO = new EffectTag("blood_hunger", TextFormatting.DARK_RED,
 			new EffectInstance(Effects.INSTANT_DAMAGE, 120, 2), true, false, true);
 	
 	public static final EffectTag WEAKNESS_ONE = new EffectTag("weakening", TextFormatting.GRAY,
@@ -124,6 +126,13 @@ public class TagHelper {
 			new FindEntitiesEvent(), false, true, false);
 	public static final WorldInteractTag CLOUD_WALKER = new WorldInteractTag("cloud_walker", TextFormatting.YELLOW,
 			new FloatEvent(), false, true, false);
+	public static final WorldInteractTag GIANT_SLAYER = new WorldInteractTag("giant_slayer", TextFormatting.BLUE, new DamageEvent(0.18f), false, false, true);
+	public static final WorldInteractTag GIANT_SLAYER_II = new WorldInteractTag("titan_slayer", TextFormatting.BLUE, new DamageEvent(0.24f), false, false, true);
+	
+	public static final WorldInteractTag CRITICAL_STRIKE = new WorldInteractTag("infinity_edge", TextFormatting.YELLOW, new CriticalStrikeEvent(), false, false, true);
+
+	
+	
 	
 	//PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE);

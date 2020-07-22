@@ -1,5 +1,7 @@
 package xyz.marstonconnell.randomloot.tags;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -8,5 +10,5 @@ import net.minecraft.world.World;
 
 public abstract class WorldInteractEvent {
 	public abstract void effect(ItemStack stack, World worldIn,
-			LivingEntity entityLiving, BlockState state, BlockPos pos);
+			LivingEntity entityLiving, BlockState state, BlockPos pos, @Nullable LivingEntity target);
 }

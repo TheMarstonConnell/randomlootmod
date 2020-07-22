@@ -11,7 +11,7 @@ import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
 public class ExplosionEvent extends WorldInteractEvent{
 
 	@Override
-	public void effect(ItemStack stack, World worldIn,  LivingEntity entityLiving, BlockState state, BlockPos pos) {
+	public void effect(ItemStack stack, World worldIn,  LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 		if (!worldIn.isRemote) {
 			float f = 4.0F;
 			worldIn.createExplosion(entityLiving, pos.getX(), pos.getY(), pos.getZ(), f, false, Mode.BREAK);

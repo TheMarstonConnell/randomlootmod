@@ -55,7 +55,9 @@ public boolean isRepairable(ItemStack stack) {
 		setXP(stack, getXP(stack) + amt);
 
 		if (getXP(stack) >= getMaxXP(stack)) {
+			setIntNBT(stack, "rl_level", getIntNBT(stack, "rl_level") + 1);
 			upgradeTool(stack);
+			
 		}
 
 	}
@@ -104,6 +106,8 @@ public boolean isRepairable(ItemStack stack) {
 		lore.add(StringNBT.valueOf("{\"text\":\"\"}"));
 		lore.add(StringNBT.valueOf(
 				"{\"text\":\"" + TextFormatting.GRAY + "XP: " + getXP(stack) + " / " + getMaxXP(stack) + "\"}"));
+		lore.add(StringNBT.valueOf(
+				"{\"text\":\"" + TextFormatting.GRAY + "Level: " + getIntNBT(stack, "rl_level") + "\"}"));
 
 		CompoundNBT display = nbt.getCompound("display");
 
@@ -164,7 +168,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param tag   String
 	 * @return
 	 */
-	protected static String getStringNBT(ItemStack stack, String tag) {
+	public static String getStringNBT(ItemStack stack, String tag) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -202,7 +206,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param tag
 	 * @return value int
 	 */
-	protected static int getIntNBT(ItemStack stack, String tag) {
+	public static int getIntNBT(ItemStack stack, String tag) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -240,7 +244,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param tag
 	 * @return value float
 	 */
-	protected static float getFloatNBT(ItemStack stack, String tag) {
+	public static float getFloatNBT(ItemStack stack, String tag) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();

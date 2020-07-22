@@ -18,6 +18,8 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTier;
+import net.minecraft.item.SwordItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.IntArrayNBT;
@@ -29,19 +31,22 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.RandomLootMod;
+import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 import xyz.marstonconnell.randomloot.utils.Config;
 
-public class RLSwordItem extends BaseTool implements IRLTool{
+public class RLSwordItem extends SwordItem implements IRLTool{
 	private final float attackDamage;
 
 	
 	public int getVariants() {
-		return 33;
+		return 35;
 	}
 	
 	@Override
@@ -91,7 +96,7 @@ public class RLSwordItem extends BaseTool implements IRLTool{
 	private final Multimap<Attribute, AttributeModifier> attributes;
 
 	public RLSwordItem(String name, int attackDamageIn, float attackSpeedIn) {
-		super(new Properties());
+		super(ItemTier.DIAMOND, attackDamageIn, attackSpeedIn, new Properties());
 		attackDamage = attackDamageIn;
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 
@@ -104,6 +109,11 @@ public class RLSwordItem extends BaseTool implements IRLTool{
 		this.attributes = builder.build();
 
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
+		
+		if(FMLEnvironment.dist == Dist.CLIENT) {
+            TextureProxy.setModelProperties(this);
+        }
+		RLItems.ITEMS.add(this);
 	}
 
 	public String getItemType() {
@@ -137,9 +147,9 @@ public class RLSwordItem extends BaseTool implements IRLTool{
 			livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 		});
 		
-		changeXP(stack, 1);
+		BaseTool.changeXP(stack, 1);
 		
-		setLore(stack);
+		BaseTool.setLore(stack);
 		
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
 
@@ -154,6 +164,11 @@ public class RLSwordItem extends BaseTool implements IRLTool{
 					eTag.runEffect(stack, attacker.world, attacker);
 
 				}
+			}else if (tags.get(i) instanceof WorldInteractTag) {
+				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
+
+					eTag.runEffect(stack, attacker.world, attacker, attacker.getEntityWorld().getBlockState(new BlockPos(attacker.getPositionVec())), new BlockPos(attacker.getPositionVec()), target);
+
 			}
 		}
 		
@@ -208,6 +223,7 @@ public class RLSwordItem extends BaseTool implements IRLTool{
 		
 		nbt.putInt("rl_damage", dmg);
 		nbt.putDouble("rl_speed", spd);
+		BaseTool.setIntNBT(stack, "rl_level", 1);
 		
 		stack.setTag(nbt);
 

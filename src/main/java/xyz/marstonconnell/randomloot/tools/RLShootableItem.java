@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.BowItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -22,7 +23,7 @@ import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 
-public abstract class RLShootableItem extends ShootableItem {
+public abstract class RLShootableItem extends BowItem {
 
 
 	public static final Predicate<ItemStack> ARROWS = (stack) -> {
@@ -35,6 +36,18 @@ public abstract class RLShootableItem extends ShootableItem {
 	public Predicate<ItemStack> getAmmoPredicate() {
 		return this.getInventoryAmmoPredicate();
 	}
+	
+	public boolean isRepairItem(ItemStack stack) {
+		return stack.getItem() == RLItems.best_shard;
+	}
+	
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		// TODO Auto-generated method stub
+		return isRepairItem(repair) || super.getIsRepairable(toRepair, repair);
+	}
+	
 
 	/**
 	 * Get the predicate to match ammunition when searching the player's inventory,

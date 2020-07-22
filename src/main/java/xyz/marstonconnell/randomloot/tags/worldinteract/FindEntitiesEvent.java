@@ -16,7 +16,7 @@ public class FindEntitiesEvent extends WorldInteractEvent {
 	int radius = 10;
 
 	@Override
-	public void effect(ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos) {
+	public void effect(ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 		List<LivingEntity> mobs = worldIn.getEntitiesWithinAABB(LivingEntity.class, new AxisAlignedBB(pos.getX() + radius, pos.getY() + radius,
 				pos.getZ() + radius, pos.getX() - radius, pos.getY() - radius, pos.getZ() - radius));
 

@@ -19,7 +19,9 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -69,7 +71,6 @@ public class RandomLootMod {
 		rand = new Random();
 		wc = new WeightedChooser<Item>();
 
-		Registration.init();
 
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -81,6 +82,9 @@ public class RandomLootMod {
 		// Register the doClientStuff method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
+		Registration.init();
+
+		
 		// Register ourselves for server and other game events we are interested in
 
 		ModLoadingContext.get().registerConfig(Type.COMMON, Config.COMMON_CONFIG);
@@ -101,9 +105,9 @@ public class RandomLootMod {
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
 		// do something that can only be done on the client
-		if (FMLEnvironment.dist == Dist.CLIENT) {
+//		if (FMLEnvironment.dist == Dist.CLIENT) {
 			TextureProxy.init();
-		}
+//		}
 
 		LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
 
@@ -120,6 +124,7 @@ public class RandomLootMod {
 		LOGGER.info("Got IMC {}",
 				event.getIMCStream().map(m -> m.getMessageSupplier().get()).collect(Collectors.toList()));
 	}
+	
 
 	@SubscribeEvent
 	public void entityDrop(LivingDropsEvent event) {
@@ -164,7 +169,7 @@ public class RandomLootMod {
 		// do something when the server starts
 		LOGGER.info("HELLO from server starting");
 
-		RLCommands.register(event.getCommandDispatcher());
+		RLCommands.register(event.getServer().getCommandManager().getDispatcher());
 	}
 
 	// You can use EventBusSubscriber to automatically subscribe events on the
@@ -184,7 +189,7 @@ public class RandomLootMod {
 			wc.addChoice(RLItems.random_axe, Config.AXE_CHANCE.get());
 			wc.addChoice(RLItems.random_spade, Config.SPADE_CHANCE.get());
 			wc.addChoice(RLItems.random_bow, Config.BOW_CHANCE.get());
-			 wc.addChoice(RLItems.THROWABLE_ITEM, Config.THROWABLE_CHANCE.get());
+//			 wc.addChoice(RLItems.THROWABLE_ITEM, Config.THROWABLE_CHANCE.get());
 
 			wc.addChoice(RLItems.HEAVY_BOOTS, Config.ARMOR_CHANCE.get());
 			wc.addChoice(RLItems.HEAVY_CHEST, Config.ARMOR_CHANCE.get());

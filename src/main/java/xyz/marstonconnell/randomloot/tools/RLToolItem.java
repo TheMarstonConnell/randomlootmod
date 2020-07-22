@@ -15,23 +15,28 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTier;
+import net.minecraft.item.ToolItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.RandomLootMod;
+import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 
-public class RLToolItem extends BaseTool {
+public class RLToolItem extends ToolItem {
 	private final Set<Block> effectiveBlocks;
 	protected final float efficiency;
 	private final float attackDamage;
 	private final Multimap<Attribute, AttributeModifier> field_234674_d_;
 
 	public RLToolItem(String name, Set<Block> effectiveBlocksIn, float attackDamageIn, float attackSpeedIn) {
-		super(new Properties());
+		super(attackDamageIn, attackSpeedIn, ItemTier.DIAMOND, effectiveBlocksIn, new Properties());
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
 
 		this.effectiveBlocks = effectiveBlocksIn;
@@ -45,6 +50,12 @@ public class RLToolItem extends BaseTool {
 				(double) attackSpeedIn, AttributeModifier.Operation.ADDITION));
 		this.field_234674_d_ = builder.build();
 
+		
+		if(FMLEnvironment.dist == Dist.CLIENT) {
+            TextureProxy.setModelProperties(this);
+        }
+		RLItems.ITEMS.add(this);
+		
 		// TODO Auto-generated constructor stub
 	}
 
@@ -76,9 +87,9 @@ public class RLToolItem extends BaseTool {
 				p_220038_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 			});
 
-			changeXP(stack, 1);
+			BaseTool.changeXP(stack, 1);
 
-			setLore(stack);
+			BaseTool.setLore(stack);
 
 			List<BasicTag> tags = TagHelper.getAllTags(stack);
 
@@ -91,7 +102,7 @@ public class RLToolItem extends BaseTool {
 				}else if (tags.get(i) instanceof WorldInteractTag) {
 					WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
 
-					eTag.runEffect(stack, worldIn, entityLiving, state, pos);
+					eTag.runEffect(stack, worldIn, entityLiving, state, pos, null);
 
 				}
 			}

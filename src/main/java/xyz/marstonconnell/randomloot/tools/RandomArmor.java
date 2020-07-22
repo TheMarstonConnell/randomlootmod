@@ -55,6 +55,22 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		
 		stack.setTag(nbt);
 		
+		
+		BaseTool.setIntNBT(stack, "rl_level", 1);
+
+		
+	}
+	
+	
+	public boolean isRepairItem(ItemStack stack) {
+		return stack.getItem() == RLItems.best_shard;
+	}
+	
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		// TODO Auto-generated method stub
+		return isRepairItem(repair) || super.getIsRepairable(toRepair, repair);
 	}
 
 	@Override
@@ -77,7 +93,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		armorPoints.put("Amount", DoubleNBT.valueOf(armor));
 		armorPoints.put("Operation", IntNBT.valueOf(0));
 		
-		IntArrayNBT UUID = new IntArrayNBT(new int[] {1,2,3,4});
+		IntArrayNBT UUID = new IntArrayNBT(new int[] {RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE)});
 		
 		armorPoints.put("UUID", UUID);
 
@@ -90,7 +106,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		toughness.put("Amount", DoubleNBT.valueOf(tough));
 		toughness.put("Operation", IntNBT.valueOf(0));
 
-		UUID = new IntArrayNBT(new int[] {5,6,7,8});
+		UUID = new IntArrayNBT(new int[] {RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE)});
 		
 		toughness.put("UUID", UUID);
 				
@@ -160,7 +176,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 			}
 			else if (tags.get(i) instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
-				eTag.runEffect(stack, world, player, world.getBlockState(new BlockPos(player.getPositionVec())), new BlockPos(player.getPositionVec()));
+				eTag.runEffect(stack, world, player, world.getBlockState(new BlockPos(player.getPositionVec())), new BlockPos(player.getPositionVec()), null);
 			}
 		}
 		
