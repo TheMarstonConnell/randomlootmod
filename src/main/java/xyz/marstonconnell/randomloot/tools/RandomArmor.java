@@ -96,6 +96,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		IntArrayNBT UUID = new IntArrayNBT(new int[] {RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE),RandomLootMod.rand.nextInt(Integer.MAX_VALUE)});
 		
 		armorPoints.put("UUID", UUID);
+		armorPoints.put("Slot", StringNBT.valueOf(getItemType()));
 
 		// speed
 		CompoundNBT toughness = new CompoundNBT();
@@ -110,6 +111,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		
 		toughness.put("UUID", UUID);
 				
+		toughness.put("Slot", StringNBT.valueOf(getItemType()));
 
 		ListNBT modifiers = new ListNBT();
 
