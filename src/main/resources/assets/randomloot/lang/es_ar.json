@@ -1,0 +1,44 @@
+{
+    "itemGroup.randomloot.randomlootTab": "Random Loot Mod",
+
+
+    "item.randomloot.basic_case": "Caja Basica",
+    "item.randomloot.golden_case": "§6Caja Dorada",
+    "item.randomloot.titan_case": "§dCaja Titan",
+    "item.randomloot.sword": "Espada Aleatoria",
+    "item.randomloot.pickaxe": "Pico Aleatorio",
+    "item.randomloot.shovel": "Pala Aleatoria",
+    "item.randomloot.axe": "Hacha Aleatoria",
+    "item.randomloot.paxel": "Paxel Aleatorio",
+    "item.randomloot.rl_bow": "Arco Aleatorio",
+    "item.randomloot.heavy_helmet": "Casco Aleatorio",
+    "item.randomloot.heavy_chest": "Pechera Aleatoria",
+    "item.randomloot.heavy_legs": "Pantalones Aleatorios",
+    "item.randomloot.heavy_boots": "Botas Aleatorias",
+    "item.randomloot.titanium_helmet": "Casco Aleatorio",
+    "item.randomloot.titanium_chest": "Pechera Aleatoria",
+    "item.randomloot.titanium_legs": "Pantalones Aleatorios",
+    "item.randomloot.titanium_boots": "Botas Aleatorias",
+    "item.randomloot.random_shard": "Fragmento Aleatorio",
+    "item.randomloot.random_chunk": "Pedazo Aleatorio",
+    "item.randomloot.random_cluster": "Cumulo Aleatorio",
+    "item.randomloot.trait_holder": "Esencia Misteriosa",
+
+
+    "item.randomloot.throwable": "Lanzable Aleatorio",
+
+    "block.randomloot.random_anvil": "Yunque Dorado",
+    "block.randomloot.repair_station": "Estacion de Reparacion",
+    "block.randomloot.case_opener": "Abridor de Cajas",
+    "block.randomloot.breaker": "Descuartizador de Herramientas",
+    
+    "block.randomloot.editor": "Editor de Herramientas",
+    
+    "entity.minecraft.villager.randomloot.looter": "Coleccionista",
+
+    "container.randomloot.breaker": "Descuartizador de Herramientas",
+    
+    "container.randomloot.edit": "Editor de Herramientas"
+    
+    
+}
