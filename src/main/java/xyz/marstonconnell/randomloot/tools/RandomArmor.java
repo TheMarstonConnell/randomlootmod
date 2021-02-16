@@ -9,6 +9,7 @@ import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
 import net.minecraft.nbt.IntArrayNBT;
@@ -69,8 +70,9 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 	
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		// TODO Auto-generated method stub
-		return isRepairItem(repair) || super.getIsRepairable(toRepair, repair);
+		
+		return repair.getItem().equals(RLItems.best_shard);
+
 	}
 
 	@Override
@@ -137,8 +139,8 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		
 		
 		
-		nbt.putDouble("rl_armor", nbt.getDouble("rl_armor")* 1.1);
-		nbt.putDouble("rl_tough", nbt.getDouble("rl_tough") * (1.1));
+		nbt.putDouble("rl_armor", nbt.getDouble("rl_armor")* 1.05);
+		nbt.putDouble("rl_tough", nbt.getDouble("rl_tough") * (1.05));
 		
 		stack.setTag(nbt);
 		
@@ -166,9 +168,24 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 	}
 	
 	@Override
+	public boolean isRepairable(ItemStack stack) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
 		List<BasicTag> tags = TagHelper.getAllTags(stack);
-
+		
+		if(stack.getItem().equals(Items.AIR)) {
+			return;
+		}
+		
+		if(this.getDamage(stack) > 0) {
+			BaseTool.changeXP(stack, 1, world);
+			
+			BaseTool.setLore(stack);
+		}
 		
 		
 		for (int i = 0; i < tags.size(); i++) {
@@ -180,7 +197,12 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
 				eTag.runEffect(stack, world, player, world.getBlockState(new BlockPos(player.getPositionVec())), new BlockPos(player.getPositionVec()), null);
 			}
+			else if(tags.get(i).equals(TagHelper.UNBREAKABLE)) {
+				this.setDamage(stack, 0);
+			}
 		}
+		
+		
 		
 		super.onArmorTick(stack, world, player);
 	}

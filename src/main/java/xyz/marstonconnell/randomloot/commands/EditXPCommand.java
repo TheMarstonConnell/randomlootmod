@@ -36,7 +36,7 @@ public class EditXPCommand {
 	        ItemStack stack = player.getHeldItemMainhand();
 	        
 	        if(stack.getItem() instanceof BaseTool) {
-			BaseTool.changeXP(stack, value);
+			BaseTool.changeXP(stack, value, player.getEntityWorld());
 			BaseTool.setLore(stack);
 	        }else {
 	        	translationtextcomponent = new TranslationTextComponent("chat.type.announcement",
@@ -52,7 +52,7 @@ public class EditXPCommand {
 						ChatType.CHAT, entity.getUniqueID());
 			} else {
 				context.getSource().getServer().getPlayerList().func_232641_a_(translationtextcomponent,
-						ChatType.SYSTEM, Util.field_240973_b_);
+						ChatType.SYSTEM, Util.DUMMY_UUID);
 			}
 			
 			

@@ -4,6 +4,8 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.EntityDamageSource;
+import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -17,9 +19,10 @@ public class CriticalStrikeEvent extends WorldInteractEvent{
 		
 		
 		float damage = BaseTool.getFloatNBT(stack, "rl_damage");
-		
-		
-		target.setHealth(target.getHealth() - damage / 2f);
+		target.hurtResistantTime = 0;
+		target.hurtTime = 0;
+
+		target.attackEntityFrom(new IndirectEntityDamageSource("indirectMagic", entityLiving, null).setDamageBypassesArmor().setMagicDamage(), (float) (damage * 0.5));
 		
 		
 		((ServerWorld) target.getEntityWorld()).spawnParticle(ParticleTypes.DAMAGE_INDICATOR, target.getPosX(), target.getPosYHeight(0.5D), target.getPosZ(), (int)target.getHealth(), 0.1D, 0.0D, 0.1D, 0.2D);

@@ -102,10 +102,10 @@ public class Config {
 				.defineInRange("axe_a_speed", -3, -4.0, 4.0);
 		
 		
-		BASE_ARMOR = COMMON_BUILDER.comment("Minimum armor points armor can have.").defineInRange("armor", 4, 0,
+		BASE_ARMOR = COMMON_BUILDER.comment("Minimum armor points armor can have.").defineInRange("armor", 5, 0,
 				100);
 
-		BASE_TOUGHNESS = COMMON_BUILDER.comment("Minimum armor points armor can have.").defineInRange("toughness", 1.0, 0,
+		BASE_TOUGHNESS = COMMON_BUILDER.comment("Minimum armor points armor can have.").defineInRange("toughness", 0.2, 0,
 				100);
 
 		BASE_SPADE_DAMAGE = COMMON_BUILDER.comment("Minimum damage a shovel can do.").defineInRange("spade_damage", 3,

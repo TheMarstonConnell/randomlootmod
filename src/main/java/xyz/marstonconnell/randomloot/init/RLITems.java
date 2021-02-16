@@ -9,11 +9,12 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.Items;
+import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.SoundEvents;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.items.CaseItem;
 import xyz.marstonconnell.randomloot.items.CraftingItem;
-import xyz.marstonconnell.randomloot.items.HeavyMaterial;
-import xyz.marstonconnell.randomloot.items.TitaniumMaterial;
+import xyz.marstonconnell.randomloot.items.RandomArmorMaterial;
 import xyz.marstonconnell.randomloot.tools.BaseArmorMaterial;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.RLAxeItem;
@@ -48,7 +49,8 @@ public class RLItems {
 	public static final Item best_shard = new CraftingItem("random_cluster", true);
 	public static final Item TRAIT_HOLDER = new CraftingItem("trait_holder", true);
 	
-	public static HeavyMaterial hm = new HeavyMaterial();
+	public static RandomArmorMaterial hm = new RandomArmorMaterial("heavy", 33,  new int[] { 4, 7, 8, 4 }, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> {
+	      return Ingredient.fromItems(RLItems.best_shard);});
 
 
 	
@@ -58,7 +60,8 @@ public class RLItems {
 	public static final Item HEAVY_CHEST = new RandomArmor("heavy_chest", hm, EquipmentSlotType.CHEST);
 	public static final Item HEAVY_HELMET = new RandomArmor("heavy_helmet", hm, EquipmentSlotType.HEAD);
 
-	public static TitaniumMaterial tm = new TitaniumMaterial();
+	public static RandomArmorMaterial tm = new RandomArmorMaterial("titanium", 33,  new int[] { 4, 7, 8, 4 }, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.0F, 0.0F, () -> {
+	      return Ingredient.fromItems(RLItems.best_shard);});
 
 	
 

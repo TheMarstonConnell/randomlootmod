@@ -2,12 +2,14 @@ package xyz.marstonconnell.randomloot.tools;
 
 import java.util.List;
 
+import net.minecraft.client.audio.Sound;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.init.ItemFactory;
@@ -51,21 +53,22 @@ public boolean isRepairable(ItemStack stack) {
 
 	}
 
-	public static void changeXP(ItemStack stack, int amt) {
+	public static void changeXP(ItemStack stack, int amt, World worldIn) {
 		setXP(stack, getXP(stack) + amt);
 
 		if (getXP(stack) >= getMaxXP(stack)) {
 			setIntNBT(stack, "rl_level", getIntNBT(stack, "rl_level") + 1);
-			upgradeTool(stack);
+			upgradeTool(stack, worldIn);
 			
 		}
 
 	}
 
-	private static void upgradeTool(ItemStack stack) {
+	private static void upgradeTool(ItemStack stack, World worldIn) {
 		setXP(stack, 0);
 		setMaxXP(stack, (int) (getMaxXP(stack) * 1.5));
 		ItemFactory.applyToken(stack);
+		
 	}
 	
 	public static void setLore(ItemStack stack) {
@@ -115,11 +118,7 @@ public boolean isRepairable(ItemStack stack) {
 
 		nbt.put("display", display);
 		
-		if (TagHelper.checkForTag(stack, TagHelper.UNBREAKABLE)) {
-			nbt.putBoolean("Unbreakable", true);
-		}else {
-			nbt.putBoolean("Unbreakable", false);
-		}
+		
 		
 		
 		nbt.putInt("HideFlags", 6);

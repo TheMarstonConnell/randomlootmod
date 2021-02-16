@@ -23,7 +23,7 @@ public class TextureProxy {
 
 	public static void setModelProperties(RLBowItem rlShootableItem) {
 		if(FMLEnvironment.dist == Dist.CLIENT) {
-			ItemModelsProperties.func_239418_a_(rlShootableItem, new ResourceLocation("model"), new IItemPropertyGetter() {
+			ItemModelsProperties.registerProperty(rlShootableItem, new ResourceLocation("model"), new IItemPropertyGetter() {
 
 				@Override
 				public float call(ItemStack stack, ClientWorld p_call_2_, LivingEntity p_call_3_) {
@@ -38,7 +38,7 @@ public class TextureProxy {
 			if(rlShootableItem instanceof RLBowItem) {
 				System.out.println("Texturing bow");
 				
-				ItemModelsProperties.func_239418_a_(rlShootableItem, new ResourceLocation("rl_pull"), new IItemPropertyGetter() {
+				ItemModelsProperties.registerProperty(rlShootableItem, new ResourceLocation("rl_pull"), new IItemPropertyGetter() {
 
 					@Override
 					public float call(ItemStack stack, ClientWorld world, LivingEntity entity) {
@@ -56,7 +56,7 @@ public class TextureProxy {
 					}
 				});
 				
-				ItemModelsProperties.func_239418_a_(rlShootableItem, new ResourceLocation("rl_pulling"), new IItemPropertyGetter() {
+				ItemModelsProperties.registerProperty(rlShootableItem, new ResourceLocation("rl_pulling"), new IItemPropertyGetter() {
 
 					@Override
 					public float call(ItemStack stack, ClientWorld world, LivingEntity entity) {
@@ -73,7 +73,7 @@ public class TextureProxy {
 	
 	public static void setModelProperties(Item item) {
 		if(FMLEnvironment.dist == Dist.CLIENT) {
-			ItemModelsProperties.func_239418_a_(item, new ResourceLocation("model"), new IItemPropertyGetter() {
+			ItemModelsProperties.registerProperty(item, new ResourceLocation("model"), new IItemPropertyGetter() {
 
 				@Override
 				public float call(ItemStack stack, ClientWorld p_call_2_, LivingEntity p_call_3_) {

@@ -191,10 +191,22 @@ public class TagHelper {
 		return stack;
 	}
 
+	/**
+	 * Checks item for given tag.
+	 * @param stack
+	 * @param tag
+	 * @return
+	 */
 	public static boolean checkForTag(ItemStack stack, BasicTag tag) {
 		return getAllTags(stack).contains(tag);
 	}
 
+	
+	/**
+	 * Gets all tags from item.
+	 * @param stack
+	 * @return
+	 */
 	public static List<BasicTag> getTagList(ItemStack stack) {
 		List<BasicTag> tags = new ArrayList<BasicTag>();
 		CompoundNBT nbt;

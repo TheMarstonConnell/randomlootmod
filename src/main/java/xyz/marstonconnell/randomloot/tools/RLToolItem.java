@@ -16,6 +16,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTier;
+import net.minecraft.item.Items;
 import net.minecraft.item.ToolItem;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
@@ -44,9 +45,9 @@ public class RLToolItem extends ToolItem {
 		this.attackDamage = attackDamageIn;
 
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-		builder.put(Attributes.field_233823_f_, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier",
+		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier",
 				(double) this.attackDamage, AttributeModifier.Operation.ADDITION));
-		builder.put(Attributes.field_233825_h_, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier",
+		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier",
 				(double) attackSpeedIn, AttributeModifier.Operation.ADDITION));
 		this.field_234674_d_ = builder.build();
 
@@ -57,6 +58,19 @@ public class RLToolItem extends ToolItem {
 		RLItems.ITEMS.add(this);
 		
 		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	public boolean isRepairable(ItemStack stack) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
+		
+		return repair.getItem().equals(RLItems.best_shard);
+
 	}
 
 	public float getDestroySpeed(ItemStack stack, BlockState state) { // TODO add random speed
@@ -82,12 +96,17 @@ public class RLToolItem extends ToolItem {
 	 */
 	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos,
 			LivingEntity entityLiving) {
+		
+		if(stack.getItem().equals(Items.AIR)) {
+			return false;
+		}
+		
 		if (!worldIn.isRemote && state.getBlockHardness(worldIn, pos) != 0.0F) {
 			stack.damageItem(1, entityLiving, (p_220038_0_) -> {
 				p_220038_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 			});
 
-			BaseTool.changeXP(stack, 1);
+			BaseTool.changeXP(stack, 1, worldIn);
 
 			BaseTool.setLore(stack);
 
@@ -95,15 +114,23 @@ public class RLToolItem extends ToolItem {
 
 			for (int i = 0; i < tags.size(); i++) {
 				if (tags.get(i) instanceof EffectTag) {
+					
+					
+					
 					EffectTag eTag = (EffectTag) tags.get(i);
+					
+					if(!eTag.offensive) {
+						eTag.runEffect(stack, worldIn, entityLiving);
+					}
 
-					eTag.runEffect(stack, worldIn, entityLiving);
 
 				}else if (tags.get(i) instanceof WorldInteractTag) {
 					WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
 
 					eTag.runEffect(stack, worldIn, entityLiving, state, pos, null);
 
+				}else if(tags.get(i).equals(TagHelper.UNBREAKABLE)) {
+					this.setDamage(stack, 0);
 				}
 			}
 

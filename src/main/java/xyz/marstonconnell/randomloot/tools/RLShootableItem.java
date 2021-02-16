@@ -1,27 +1,16 @@
 package xyz.marstonconnell.randomloot.tools;
 
-import java.util.List;
 import java.util.function.Predicate;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.BowItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.ShootableItem;
-import net.minecraft.item.Item.Properties;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.nbt.StringNBT;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.Hand;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.loading.FMLEnvironment;
-import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.RLItems;
-import xyz.marstonconnell.randomloot.tags.BasicTag;
-import xyz.marstonconnell.randomloot.tags.TagHelper;
 
 public abstract class RLShootableItem extends BowItem {
 
@@ -45,7 +34,7 @@ public abstract class RLShootableItem extends BowItem {
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
 		// TODO Auto-generated method stub
-		return isRepairItem(repair) || super.getIsRepairable(toRepair, repair);
+		return repair.getItem().equals(RLItems.best_shard);
 	}
 	
 

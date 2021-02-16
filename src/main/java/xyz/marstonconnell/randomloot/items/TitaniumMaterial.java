@@ -24,4 +24,10 @@ public class TitaniumMaterial extends BaseArmorMaterial {
 		return 0.0f;
 	}
 
+	@Override
+	public float getKnockbackResistance() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }

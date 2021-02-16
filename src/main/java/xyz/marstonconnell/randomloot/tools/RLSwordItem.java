@@ -19,6 +19,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTier;
+import net.minecraft.item.Items;
 import net.minecraft.item.SwordItem;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
@@ -100,10 +101,10 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 		attackDamage = attackDamageIn;
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
 
-		builder.put(Attributes.field_233823_f_, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier",
+		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Weapon modifier",
 				(double) this.attackDamage, AttributeModifier.Operation.ADDITION));
 
-		builder.put(Attributes.field_233825_h_, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier",
+		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Weapon modifier",
 				(double) attackSpeedIn, AttributeModifier.Operation.ADDITION));
 
 		this.attributes = builder.build();
@@ -134,10 +135,16 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 		} else {
 			Material material = state.getMaterial();
 			return material != Material.PLANTS && material != Material.TALL_PLANTS && material != Material.CORAL
-					&& !state.func_235714_a_(BlockTags.LEAVES) && material != Material.GOURD ? 1.0F : 1.5F;
+					&& !state.isIn(BlockTags.LEAVES) && material != Material.GOURD ? 1.0F : 1.5F;
 		}
 	}
 
+	@Override
+	public boolean isRepairable(ItemStack stack) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	/**
 	 * Current implementations of this method in child classes do not use the entry
 	 * argument beside ev. They just raise the damage on the stack.
@@ -147,7 +154,11 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 			livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 		});
 		
-		BaseTool.changeXP(stack, 1);
+		if(stack.getItem().equals(Items.AIR)) {
+			return false;
+		}
+		
+		BaseTool.changeXP(stack, 1, attacker.getEntityWorld());
 		
 		BaseTool.setLore(stack);
 		
@@ -169,6 +180,8 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 
 					eTag.runEffect(stack, attacker.world, attacker, attacker.getEntityWorld().getBlockState(new BlockPos(attacker.getPositionVec())), new BlockPos(attacker.getPositionVec()), target);
 
+			}else if(tags.get(i).equals(TagHelper.UNBREAKABLE)) {
+				this.setDamage(stack, 0);
 			}
 		}
 		

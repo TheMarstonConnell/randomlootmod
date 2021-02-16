@@ -49,9 +49,9 @@ public class RLThrowableItem extends BaseTool implements IRLTool {
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
 
 		Builder<Attribute, AttributeModifier> builder = ImmutableMultimap.builder();
-		builder.put(Attributes.field_233823_f_, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", 8.0D,
+		builder.put(Attributes.ATTACK_DAMAGE, new AttributeModifier(ATTACK_DAMAGE_MODIFIER, "Tool modifier", 8.0D,
 				AttributeModifier.Operation.ADDITION));
-		builder.put(Attributes.field_233825_h_, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier",
+		builder.put(Attributes.ATTACK_SPEED, new AttributeModifier(ATTACK_SPEED_MODIFIER, "Tool modifier",
 				(double) -2.9F, AttributeModifier.Operation.ADDITION));
 		this.field_234812_a_ = builder.build();
 	}

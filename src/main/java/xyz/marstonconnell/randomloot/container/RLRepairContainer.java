@@ -191,8 +191,8 @@ public class RLRepairContainer extends Container {
 
 				if(edit.getItem().equals(RLItems.best_shard)) {
 					int oldXp = BaseTool.getXP(out);
-					BaseTool.changeXP(out, BaseTool.getMaxXP(out));
-					BaseTool.changeXP(out, oldXp);
+					BaseTool.changeXP(out, BaseTool.getMaxXP(out), player.getEntityWorld());
+					BaseTool.changeXP(out, oldXp, player.getEntityWorld());
 					
 					
 					CompoundNBT nbt;

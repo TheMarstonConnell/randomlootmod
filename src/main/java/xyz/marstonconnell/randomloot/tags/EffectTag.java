@@ -28,7 +28,7 @@ public class EffectTag extends BasicTag {
 	}
 
 	public EffectInstance copyEffect(EffectInstance effect) {
-		return new EffectInstance(effect.getPotion(), effect.getDuration(), effect.getAmplifier());
+		return new EffectInstance(effect.getPotion(), effect.getDuration(), effect.getAmplifier(), false, false);
 	}
 	
 	public EffectInstance getEffect() {
@@ -40,12 +40,13 @@ public class EffectTag extends BasicTag {
 		// if (!entityLiving.isPotionActive(effect.getPotion())) { // If the Potion
 		// isn't currently active,
 		EffectInstance copy = copyEffect(effect);
+		
 		// System.out.println("Applying " + copy.getEffectName() + " level " +
 		// copy.getAmplifier() + " to " + entityLiving.getName() + " for " +
 		// copy.getDuration() + " ticks.");
 
 		Collection<EffectInstance> effects = entityLiving.getActivePotionEffects();
-
+		
 		boolean foundEffect = false;
 		for (EffectInstance ef : effects) {
 			if(!ef.getEffectName().equals(Effects.NIGHT_VISION.getName())) {
@@ -55,6 +56,7 @@ public class EffectTag extends BasicTag {
 			}
 		}
 		if (!foundEffect) {
+			
 			entityLiving.addPotionEffect(copy);
 		}
 		// }

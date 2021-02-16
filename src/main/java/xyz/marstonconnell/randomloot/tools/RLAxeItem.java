@@ -2,6 +2,7 @@ package xyz.marstonconnell.randomloot.tools;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,6 +33,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
@@ -42,24 +44,20 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 
 	
 	
-	private static final Set<Material> EFFECTIVE_MATERIALS = Sets.newHashSet(Material.WOOD, Material.field_237214_y_,
-			Material.PLANTS, Material.TALL_PLANTS, Material.BAMBOO, Material.GOURD);
-	private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet(Blocks.LADDER, Blocks.SCAFFOLDING, Blocks.OAK_BUTTON,
-			Blocks.SPRUCE_BUTTON, Blocks.BIRCH_BUTTON, Blocks.JUNGLE_BUTTON, Blocks.DARK_OAK_BUTTON,
-			Blocks.ACACIA_BUTTON, Blocks.field_235358_mQ_, Blocks.field_235359_mR_);
-	protected static final Map<Block, Block> BLOCK_STRIPPING_MAP = (new Builder<Block, Block>())
-			.put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD).put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG)
-			.put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD)
-			.put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG).put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD)
-			.put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG).put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD)
-			.put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG).put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD)
-			.put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG).put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD)
-			.put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG).put(Blocks.field_235368_mh_, Blocks.field_235369_mi_)
-			.put(Blocks.field_235370_mj_, Blocks.field_235371_mk_).put(Blocks.field_235377_mq_, Blocks.field_235378_mr_)
-			.put(Blocks.field_235379_ms_, Blocks.field_235380_mt_).build();
+	 private static final Set<Material> EFFECTIVE_ON_MATERIALS = Sets.newHashSet(Material.WOOD, Material.NETHER_WOOD, Material.PLANTS, Material.TALL_PLANTS, Material.BAMBOO, Material.GOURD);
+	   private static final Set<Block> EFFECTIVE_ON_BLOCKS = Sets.newHashSet(Blocks.LADDER, Blocks.SCAFFOLDING, Blocks.OAK_BUTTON, Blocks.SPRUCE_BUTTON, Blocks.BIRCH_BUTTON, Blocks.JUNGLE_BUTTON, Blocks.DARK_OAK_BUTTON, Blocks.ACACIA_BUTTON, Blocks.CRIMSON_BUTTON, Blocks.WARPED_BUTTON);
+	   protected static final Map<Block, Block> BLOCK_STRIPPING_MAP = (new Builder<Block, Block>()).put(Blocks.OAK_WOOD, Blocks.STRIPPED_OAK_WOOD).put(Blocks.OAK_LOG, Blocks.STRIPPED_OAK_LOG).put(Blocks.DARK_OAK_WOOD, Blocks.STRIPPED_DARK_OAK_WOOD).put(Blocks.DARK_OAK_LOG, Blocks.STRIPPED_DARK_OAK_LOG).put(Blocks.ACACIA_WOOD, Blocks.STRIPPED_ACACIA_WOOD).put(Blocks.ACACIA_LOG, Blocks.STRIPPED_ACACIA_LOG).put(Blocks.BIRCH_WOOD, Blocks.STRIPPED_BIRCH_WOOD).put(Blocks.BIRCH_LOG, Blocks.STRIPPED_BIRCH_LOG).put(Blocks.JUNGLE_WOOD, Blocks.STRIPPED_JUNGLE_WOOD).put(Blocks.JUNGLE_LOG, Blocks.STRIPPED_JUNGLE_LOG).put(Blocks.SPRUCE_WOOD, Blocks.STRIPPED_SPRUCE_WOOD).put(Blocks.SPRUCE_LOG, Blocks.STRIPPED_SPRUCE_LOG).put(Blocks.WARPED_STEM, Blocks.STRIPPED_WARPED_STEM).put(Blocks.WARPED_HYPHAE, Blocks.STRIPPED_WARPED_HYPHAE).put(Blocks.CRIMSON_STEM, Blocks.STRIPPED_CRIMSON_STEM).put(Blocks.CRIMSON_HYPHAE, Blocks.STRIPPED_CRIMSON_HYPHAE).build();
 
 	public RLAxeItem(String name) {
-		super(name, EFFECTIVE_ON, 5.0f, -3.0f);
+		super(name, EFFECTIVE_ON_BLOCKS, 5.0f, -3.0f);
+		
+	}
+	
+	@Override
+	public Set<ToolType> getToolTypes(ItemStack stack) {
+		HashSet<ToolType> hs = new HashSet<ToolType>();
+		hs.add(ToolType.AXE);
+		return hs;
 	}
 
 	/**
@@ -117,7 +115,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 		float speedBonus = nbt.getFloat("rl_dig_speed");
 
 		Material material = state.getMaterial();
-		return EFFECTIVE_MATERIALS.contains(material) ? this.efficiency + speedBonus - 1
+		return EFFECTIVE_ON_MATERIALS.contains(material) ? this.efficiency + speedBonus - 1
 				: super.getDestroySpeed(stack, state);
 	}
 	
@@ -130,7 +128,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 			livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 		});
 		
-		BaseTool.changeXP(stack, 1);
+		BaseTool.changeXP(stack, 1, attacker.getEntityWorld());
 		
 		BaseTool.setLore(stack);
 		

@@ -40,10 +40,10 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	public RLBowItem(String name) {
 		super(new Properties());
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
-		
-		if(FMLEnvironment.dist == Dist.CLIENT) {
-            TextureProxy.setModelProperties(this);
-        }
+
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			TextureProxy.setModelProperties(this);
+		}
 		RLItems.ITEMS.add(this);
 	}
 
@@ -62,99 +62,106 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 	}
 
+	@Override
 	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
-		if (entityLiving instanceof PlayerEntity) {
-			PlayerEntity playerentity = (PlayerEntity) entityLiving;
-			boolean flag = playerentity.abilities.isCreativeMode
-					|| EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
-			ItemStack itemstack = playerentity.findAmmo(stack);
+		if (!(entityLiving instanceof PlayerEntity)) {
+			return;
+		}
 
-			int i = this.getUseDuration(stack) - timeLeft;
-			i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, playerentity, i,
-					!itemstack.isEmpty() || flag);
-			if (i < 0)
-				return;
+		// set up player and abilities
+		PlayerEntity playerentity = (PlayerEntity) entityLiving;
+		boolean infinite = playerentity.abilities.isCreativeMode
+				|| EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack) > 0;
 
-			if (!itemstack.isEmpty() || flag) {
-				
-				BaseTool.changeXP(stack, 1);
-				
-				
-				
-				if (itemstack.isEmpty()) {
-					itemstack = new ItemStack(Items.ARROW);
+		ItemStack itemstack = playerentity.findAmmo(stack); // ammo
+
+		int i = this.getUseDuration(stack) - timeLeft;
+
+		i = net.minecraftforge.event.ForgeEventFactory.onArrowLoose(stack, worldIn, playerentity, i,
+				!itemstack.isEmpty() || infinite);
+		if (i < 0)
+			return;
+
+		if (itemstack.isEmpty() && !infinite) { // can't shoot
+			return;
+		}
+		
+		
+
+		if (itemstack.isEmpty()) {
+			itemstack = new ItemStack(Items.ARROW);
+		}
+
+		float f = getArrowVelocity(i);
+		if (!((double) f < 0.1D)) {
+			boolean flag1 = playerentity.abilities.isCreativeMode || (itemstack.getItem() instanceof ArrowItem
+					&& ((ArrowItem) itemstack.getItem()).isInfinite(itemstack, stack, playerentity));
+			if (!worldIn.isRemote) {
+
+				ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem()
+						: Items.ARROW);
+
+				double dmgMod = BaseTool.getFloatNBT(stack, "rl_bow_dmg");
+
+				ArrowEntity abstractarrowentity = (ArrowEntity) arrowitem.createArrow(worldIn, itemstack, playerentity);
+
+				abstractarrowentity.setDamage(abstractarrowentity.getDamage() * dmgMod);
+
+				abstractarrowentity = customArrow(stack, abstractarrowentity);
+
+				abstractarrowentity.func_234612_a_(playerentity, playerentity.rotationPitch, playerentity.rotationYaw,
+						0.0F, f * 3.0F, 1.0F);
+				if (f == 1.0F) {
+					abstractarrowentity.setIsCritical(true);
 				}
 
-				float f = getArrowVelocity(i);
-				if (!((double) f < 0.1D)) {
-					boolean flag1 = playerentity.abilities.isCreativeMode || (itemstack.getItem() instanceof ArrowItem
-							&& ((ArrowItem) itemstack.getItem()).isInfinite(itemstack, stack, playerentity));
-					if (!worldIn.isRemote) {
-						
-						
-						
-						ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem
-								? itemstack.getItem()
-								: Items.ARROW);
-						
-						
-						double dmgMod = BaseTool.getFloatNBT(stack, "rl_bow_dmg");
-						
-						ArrowEntity abstractarrowentity = (ArrowEntity) arrowitem.createArrow(worldIn, itemstack,
-								playerentity);
-						
-						abstractarrowentity.setDamage(abstractarrowentity.getDamage() * dmgMod);
-						
-						
-						
-						abstractarrowentity = customArrow(stack, abstractarrowentity);
-						
-						abstractarrowentity.func_234612_a_(playerentity, playerentity.rotationPitch,
-								playerentity.rotationYaw, 0.0F, f * 3.0F, 1.0F);
-						if (f == 1.0F) {
-							abstractarrowentity.setIsCritical(true);
-						}
+				int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
+				if (j > 0) {
+					abstractarrowentity.setDamage(abstractarrowentity.getDamage() + (double) j * 0.5D + 0.5D);
+				}
 
-						int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-						if (j > 0) {
-							abstractarrowentity.setDamage(abstractarrowentity.getDamage() + (double) j * 0.5D + 0.5D);
-						}
+				int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
+				if (k > 0) {
+					abstractarrowentity.setKnockbackStrength(k);
+				}
 
-						int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack);
-						if (k > 0) {
-							abstractarrowentity.setKnockbackStrength(k);
-						}
+				if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
+					abstractarrowentity.setFire(100);
+				}
 
-						if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
-							abstractarrowentity.setFire(100);
-						}
+				stack.damageItem(1, playerentity, (p_220009_1_) -> {
+					p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
+				});
+				if (flag1 || playerentity.abilities.isCreativeMode
+						&& (itemstack.getItem() == Items.SPECTRAL_ARROW || itemstack.getItem() == Items.TIPPED_ARROW)) {
+					abstractarrowentity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+				}
+				
+				if(!TagHelper.getTagList(stack).isEmpty()) {
+					abstractarrowentity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
+				}
+				
 
-						stack.damageItem(1, playerentity, (p_220009_1_) -> {
-							p_220009_1_.sendBreakAnimation(playerentity.getActiveHand());
-						});
-						if (flag1
-								|| playerentity.abilities.isCreativeMode && (itemstack.getItem() == Items.SPECTRAL_ARROW
-										|| itemstack.getItem() == Items.TIPPED_ARROW)) {
-							abstractarrowentity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
-						}
+				worldIn.addEntity(abstractarrowentity);
+				BaseTool.changeXP(stack, 1, worldIn);
+				BaseTool.setLore(stack);
 
-						worldIn.addEntity(abstractarrowentity);
-					}
+			}
 
-					worldIn.playSound((PlayerEntity) null, playerentity.getPosX(), playerentity.getPosY(),
-							playerentity.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F,
-							1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-					if (!flag1 && !playerentity.abilities.isCreativeMode) {
-						itemstack.shrink(1);
-						if (itemstack.isEmpty()) {
-							playerentity.inventory.deleteStack(itemstack);
-						}
-					}
-
-					playerentity.addStat(Stats.ITEM_USED.get(this));
+			worldIn.playSound((PlayerEntity) null, playerentity.getPosX(), playerentity.getPosY(),
+					playerentity.getPosZ(), SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F,
+					1.0F / (random.nextFloat() * 0.4F + 1.2F) + f * 0.5F);
+			if (!flag1 && !playerentity.abilities.isCreativeMode) {
+				itemstack.shrink(1);
+				if (itemstack.isEmpty()) {
+					playerentity.inventory.deleteStack(itemstack);
 				}
 			}
+
+			playerentity.addStat(Stats.ITEM_USED.get(this));
+
 		}
+
 	}
 
 	/**
@@ -198,7 +205,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				playerIn, handIn, !flag);
 		if (ret != null)
 			return ret;
-		
+
 		System.out.println("shooting");
 
 		if (!playerIn.abilities.isCreativeMode && flag) {
@@ -229,7 +236,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				if (eTag.offensive) {
 
 					arrow.addEffect(eTag.getEffect());
-				} 
+				}
 			}
 		}
 
@@ -249,7 +256,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 	@Override
 	public void updateStats(ItemStack stack) {
-		//Nothing for now
+		// Nothing for now
 	}
 
 	@Override
@@ -264,7 +271,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 		DecimalFormat f = new DecimalFormat("##.00");
 
 		List<String> s = new ArrayList<String>();
-		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(72000 - getVelo(stack)));
+		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(getVelo(stack) / 72000 * 100) + "%");
 		s.add(TextFormatting.GRAY + "Bow Damage Modifier: " + f.format(BaseTool.getFloatNBT(stack, "rl_bow_dmg")));
 
 		return s;
@@ -282,7 +289,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 	@Override
 	public List<BasicTag> getAllowedTags() {
-		
+
 		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 		for (BasicTag tag : TagHelper.allTags) {
 			if (tag instanceof EffectTag) {

@@ -33,8 +33,5 @@ public abstract class BaseArmorMaterial implements IArmorMaterial {
         return Ingredient.EMPTY;
     }
 
-    @Override
-    public float func_230304_f_() {
-        return 0.0F; // knockback armor resistance
-    }
+    
 }
