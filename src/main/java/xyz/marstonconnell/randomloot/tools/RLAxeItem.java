@@ -281,7 +281,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 
 	@Override
 	public List<String> getStatsLore(ItemStack stack) {
-		DecimalFormat f = new DecimalFormat("##.00");
+		DecimalFormat f = new DecimalFormat("#0.00");
 
 		CompoundNBT nbt;
 		if (stack.hasTag()) {

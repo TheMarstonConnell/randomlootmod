@@ -149,6 +149,8 @@ public class TagHelper {
 		
 		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
 		
+		
+		
 		heldTags.add(StringNBT.valueOf(tagName));
 		
 		nbt.put("rl_tags", heldTags);

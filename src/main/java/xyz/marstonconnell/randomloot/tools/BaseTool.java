@@ -112,6 +112,24 @@ public boolean isRepairable(ItemStack stack) {
 		lore.add(StringNBT.valueOf(
 				"{\"text\":\"" + TextFormatting.GRAY + "Level: " + getIntNBT(stack, "rl_level") + "\"}"));
 
+		
+		int cells = 14;
+		int perc = (int) Math.ceil(((double)getXP(stack)) / ((double)getMaxXP(stack)) * cells);
+		
+		
+		String bar = "";
+		for(int i = 0; i < perc; i ++) {
+			bar = bar + "■";
+		}
+		for(int i = perc; i < cells; i ++) {
+			bar = bar + "□";
+		}
+		bar = bar + "";
+		
+		lore.add(StringNBT.valueOf(
+				"{\"text\":\"" + TextFormatting.GRAY + bar + "\"}"));
+		
+		
 		CompoundNBT display = nbt.getCompound("display");
 
 		display.put("Lore", lore);

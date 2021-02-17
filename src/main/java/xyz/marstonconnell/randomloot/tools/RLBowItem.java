@@ -268,7 +268,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 	@Override
 	public List<String> getStatsLore(ItemStack stack) {
-		DecimalFormat f = new DecimalFormat("##.00");
+		DecimalFormat f = new DecimalFormat("#0.00");
 
 		List<String> s = new ArrayList<String>();
 		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(getVelo(stack) / 72000 * 100) + "%");
