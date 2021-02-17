@@ -3,6 +3,7 @@ package xyz.marstonconnell.randomloot.blocks;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,8 +25,11 @@ public class RLAnvil extends Block{
 
 	   
 	public RLAnvil() {
-		super(AbstractBlock.Properties.create(Material.ANVIL, MaterialColor.IRON));
+		super(AbstractBlock.Properties.create(Material.ANVIL, MaterialColor.IRON).setRequiresTool().hardnessAndResistance(5.0F, 1200.0F).sound(SoundType.ANVIL));
+		
 	}
+	
+
 	
 	public INamedContainerProvider getContainer(BlockState state, World worldIn, BlockPos pos) {
 	      return new SimpleNamedContainerProvider((p_235576_2_, p_235576_3_, p_235576_4_) -> {

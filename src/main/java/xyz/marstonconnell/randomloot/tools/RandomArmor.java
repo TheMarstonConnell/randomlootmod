@@ -181,10 +181,25 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 			return;
 		}
 		
-		if(this.getDamage(stack) > 0) {
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+		
+		int dm = nbt.getInt("rl_armor_damage");
+		
+		
+		if(this.getDamage(stack) != dm) {
+			
 			BaseTool.changeXP(stack, 1, world);
 			
 			BaseTool.setLore(stack);
+			
+			dm = this.getDamage(stack);
+			nbt.putInt("rl_armor_damage", dm);
+			stack.setTag(nbt);
 		}
 		
 		
