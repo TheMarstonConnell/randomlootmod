@@ -1,3 +1,107 @@
+Build: 1.16.5-36.0.42 - Tue Feb 16 02:43:01 GMT 2021
+	kovac1066:
+		Added entity attribute setup and creation events
+
+=========
+Build: 1.16.5-36.0.41 - Tue Feb 16 01:28:51 GMT 2021
+	knightminer4:
+		Fix updateItemStackNBT not properly being called (#7646)
+		
+		Re-added ItemStack delegate redirect transformer
+
+=========
+Build: 1.16.5-36.0.40 - Tue Feb 16 01:08:21 GMT 2021
+	sara:
+		Fix a few FluidUtil issues that were causing DispenseFluidContainer to not function properly (#7422)
+
+=========
+Build: 1.16.5-36.0.39 - Tue Feb 16 00:49:27 GMT 2021
+	daemonumbra:
+		Fixed Configs not correcting when hot-loaded from changes on disk (#7427)
+
+	ichttt:
+		Add a way to specify a custom background texture with namespaces in the Creative GUI. (#7404)
+
+=========
+Build: 1.16.5-36.0.37 - Tue Feb 16 00:39:15 GMT 2021
+	xzk0701:
+		Reduce default logging markers in the MDK. Modders can re-enable these for better debugging.  (#7432)
+		
+		Modders PLEASE read your damn log, and fix the errors we point out. Spamming modpacks with stack traces is just lazy programming.
+
+=========
+Build: 1.16.5-36.0.36 - Tue Feb 16 00:19:30 GMT 2021
+	sciwhiz12:
+		Deprecate Forge's setdimension command, vanilla execute command can do this now. (#7459)
+
+=========
+Build: 1.16.5-36.0.35 - Mon Feb 15 23:38:35 GMT 2021
+	spb.max2:
+		Fix ItemTextureQuadConverter.convertTexture generating wrong quads, fixes #7620 (#7650)
+
+=========
+Build: 1.16.5-36.0.34 - Mon Feb 15 23:22:40 GMT 2021
+	florian:
+		Added MultipartBakedModel.getModelData(). (#7595)
+		
+		This allows custom IBakedModel implementations to use the IModelData provided by their IBakedModel.getModelData() when used in the context of a multipart model.
+
+=========
+Build: 1.16.5-36.0.33 - Mon Feb 15 23:15:50 GMT 2021
+	cyborgmas18:
+		fix global cache not being a block render type (#7648)
+
+=========
+Build: 1.16.5-36.0.32 - Mon Feb 15 22:52:15 GMT 2021
+	35673674+alcatrazescapee:
+		Allow mods to use additional custom LootParameter when querying existing loot tables (#7515)
+
+=========
+Build: 1.16.5-36.0.31 - Mon Feb 15 21:40:16 GMT 2021
+	github:
+		Add ForgeHooks.canEntitySpawn to Cat, Phantom, and Patrol spawners. (#7569)
+
+=========
+Build: 1.16.5-36.0.30 - Mon Feb 15 21:26:11 GMT 2021
+	dev:
+		Fix/Replace player visibility event (#7573)
+
+=========
+Build: 1.16.5-36.0.29 - Mon Feb 15 21:16:26 GMT 2021
+	AterAnimAvis:
+		Fix: Clear the last error from glfwInit to prevent vanilla from throwing an exception later in the chain when glfw errors. (#7587)
+
+=========
+Build: 1.16.5-36.0.28 - Mon Feb 15 20:56:51 GMT 2021
+	55965249+seymourimadeit:
+		Fix MC-181464 persisting for modded shields (#7602)
+
+=========
+Build: 1.16.5-36.0.27 - Mon Feb 15 20:11:46 GMT 2021
+	malte0811:
+		FIx race condition in LazyOptional (#7611)
+
+=========
+Build: 1.16.5-36.0.26 - Mon Feb 15 03:16:02 GMT 2021
+	xfacthd:
+		[1.16.5] Fix shaders breaking almost every overlay that uses textures, fixes #7575 (#7624)
+
+=========
+Build: 1.16.5-36.0.25 - Mon Feb 15 03:10:24 GMT 2021
+	40846040+TelepathicGrunt:
+		Disable syncing of Feature and Biome registries  (#7639)
+
+=========
+Build: 1.16.5-36.0.24 - Mon Feb 15 03:04:46 GMT 2021
+	drullkus:
+		Add IExtensibleEnum to GrassColorModifier (#7641)
+
+=========
+Build: 1.16.5-36.0.23 - Mon Feb 15 02:36:26 GMT 2021
+	github:
+		Log stacktraces in NettyPacketEncoder. (#7654)
+
+=========
 Build: 1.16.5-36.0.22 - Wed Feb 10 19:05:16 GMT 2021
 	xfacthd:
 		Lower logging level for datafixer warning to debug (#7636)
@@ -39,6 +143,9 @@ Build: 1.16.5-36.0.15 - Sun Feb 07 03:41:41 GMT 2021
 
 =========
 Build: 1.16.5-36.0.14 - Tue Feb 02 20:28:08 GMT 2021
+	thesilkminer:
+		[1.16.x] Add loot table ID in Global Loot Modifiers (#7428)
+
 	thesilkminer:
 		[1.16.x] Add loot table ID in Global Loot Modifiers (#7428)
 
