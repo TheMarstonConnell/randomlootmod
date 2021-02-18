@@ -1,5 +1,6 @@
 package xyz.marstonconnell.randomloot.container;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -24,7 +25,10 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.text.NBTTextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.RLItems;
@@ -37,6 +41,8 @@ import xyz.marstonconnell.randomloot.utils.Registration;
 
 public class RLRepairContainer extends Container {
 
+	protected List<BasicTag> tagsToDrop = new ArrayList<BasicTag>();
+	
 	protected final IInventory craftResult = new CraftResultInventory();
 	protected final IInventory slots = new Inventory(3) {
 		/**
@@ -61,9 +67,9 @@ public class RLRepairContainer extends Container {
 		super(containerType, id);
 		this.worldPos = worldPos;
 		this.player = playerInv.player;
-		this.addSlot(new Slot(this.slots, 0, 27, 47));
-		this.addSlot(new Slot(this.slots, 1, 76, 47));
-		this.addSlot(new Slot(this.slots, 2, 8, 47) {
+		this.addSlot(new Slot(this.slots, 0, 27, 47)); //tool slot
+		this.addSlot(new Slot(this.slots, 1, 76, 47)); //modifier slot
+		this.addSlot(new Slot(this.slots, 2, 8, 47) { //shard slot
 			public boolean isItemValid(ItemStack stack) {
 				Item i = stack.getItem();
 
@@ -71,7 +77,7 @@ public class RLRepairContainer extends Container {
 
 			}
 		});
-		this.addSlot(new Slot(this.craftResult, 3, 134, 47) {
+		this.addSlot(new Slot(this.craftResult, 3, 134, 47) { //output slot
 			/**
 			 * Check if the stack is allowed to be placed in this slot, used for armor slots
 			 * as well as furnace fuel.
@@ -89,10 +95,12 @@ public class RLRepairContainer extends Container {
 
 			public ItemStack onTake(PlayerEntity thePlayer, ItemStack stack) {
 
-
 				return RLRepairContainer.this.craftOutput(thePlayer, stack);
 			}
+			
+			
 		});
+
 
 		for (int i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
@@ -113,42 +121,46 @@ public class RLRepairContainer extends Container {
 	}
 
 	protected boolean isRecipe(PlayerEntity player) {
-		return ((slots.getStackInSlot(0).getItem() instanceof IRLTool)
-				&& slots.getStackInSlot(1).getItem() == RLItems.TRAIT_HOLDER && slots.getStackInSlot(2).isEmpty())
-				|| (slots.getStackInSlot(0).getItem() instanceof IRLTool
-						&& slots.getStackInSlot(2).getItem().equals(RLItems.best_shard)
-						&& slots.getStackInSlot(1).isEmpty());
+		boolean isItemTool = slots.getStackInSlot(0).getItem() instanceof IRLTool;
+		
+		return isItemTool;
 	}
-	
+
 	@Override
 	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
-		if(stack.getItem() instanceof IRLTool) {
+		if (stack.getItem() instanceof IRLTool) {
 			BaseTool.setLore(stack);
 
 		}
 		return super.mergeItemStack(stack, startIndex, endIndex, reverseDirection);
-		
+
 	}
 
 	protected ItemStack craftOutput(PlayerEntity player, ItemStack stack) {
 		this.shrinkSlot(0);
 		this.shrinkSlot(1);
 		this.shrinkSlot(2);
-		
-		
+
 		ItemStack itemstack = this.getSlot(3).getStack();
 		System.out.println("Crafting: " + stack.getDisplayName());
-		
-		
-		
-		
+
 		this.worldPos.consume((p_234653_0_, p_234653_1_) -> {
 			p_234653_0_.playEvent(1044, p_234653_1_, 0);
 		});
-		
-		if(stack.getItem() instanceof IRLTool) {
+
+		if (stack.getItem() instanceof IRLTool) {
 			BaseTool.setLore(stack);
 
+		}
+		
+		
+		for(BasicTag tag: tagsToDrop) {
+			ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
+			TagHelper.addTag(s, tag.name);
+			s.setDisplayName(new StringTextComponent(TextFormatting.WHITE
+					+ TagHelper.convertToTitleCaseIteratingChars(tag.name) + " Essence"));
+			
+			player.addItemStackToInventory(s);
 		}
 		
 
@@ -177,6 +189,7 @@ public class RLRepairContainer extends Container {
 			ItemStack mod = slots.getStackInSlot(1);
 
 			if (!mod.isEmpty()) {
+				tagsToDrop.clear();
 
 				List<BasicTag> tags = TagHelper.getAllTags(mod);
 				for (BasicTag tag : tags) {
@@ -186,15 +199,16 @@ public class RLRepairContainer extends Container {
 				}
 
 				BaseTool.setLore(out);
-			}else {
+			} else {
 				ItemStack edit = slots.getStackInSlot(2);
 
-				if(edit.getItem().equals(RLItems.best_shard)) {
+				if (edit.getItem().equals(RLItems.best_shard)) {
+					tagsToDrop.clear();
+
 					int oldXp = BaseTool.getXP(out);
 					BaseTool.changeXP(out, BaseTool.getMaxXP(out), player.getEntityWorld());
 					BaseTool.changeXP(out, oldXp, player.getEntityWorld());
-					
-					
+
 					CompoundNBT nbt;
 					if (out.hasTag()) {
 						nbt = out.getTag();
@@ -204,8 +218,8 @@ public class RLRepairContainer extends Container {
 
 					ListNBT lore = new ListNBT();
 
-					
-					lore.add(StringNBT.valueOf("{\"text\":\""+ TextFormatting.DARK_PURPLE +"Upgraded stats hidden.\"}"));
+					lore.add(StringNBT
+							.valueOf("{\"text\":\"" + TextFormatting.DARK_PURPLE + "Upgraded stats hidden.\"}"));
 					CompoundNBT display = nbt.getCompound("display");
 
 					display.put("Lore", lore);
@@ -213,10 +227,35 @@ public class RLRepairContainer extends Container {
 					nbt.put("display", display);
 					out.setTag(nbt);
 
+				}else if(edit.isEmpty()) {
+					CompoundNBT nbt;
+					if (out.hasTag()) {
+						nbt = out.getTag();
+					} else {
+						nbt = new CompoundNBT();
+					}
+
+					ListNBT lore = new ListNBT();
+
+					//replace with translations
+					lore.add(StringNBT 
+							.valueOf("{\"text\":\"" + TextFormatting.RED + "All traits will be popped from this tool and it will be heavily damaged." +"\"}"));
+					CompoundNBT display = nbt.getCompound("display");
+
+					display.put("Lore", lore);
+
+					nbt.put("display", display);
+					out.setTag(nbt);
+					
+					out.setDamage((out.getMaxDamage() - out.getDamage()) / 2 + out.getDamage());
+					
+					tagsToDrop = TagHelper.getAllTags(out);
+					TagHelper.removeAllTags(out);
 				}
 			}
-
+			
 			craftResult.setInventorySlotContents(0, out);
+			return;
 		} else {
 			craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
 		}
@@ -272,13 +311,13 @@ public class RLRepairContainer extends Container {
 			} else if (index != 0 && index != 1 && index != 2) {
 				if (index >= 4 && index < 40) {
 					int i = 0;
-					
-					if(itemstack.getItem().equals(RLItems.best_shard)) {
+
+					if (itemstack.getItem().equals(RLItems.best_shard)) {
 						i = 2;
-					}else if(itemstack.getItem().equals(RLItems.TRAIT_HOLDER)) {
+					} else if (itemstack.getItem().equals(RLItems.TRAIT_HOLDER)) {
 						i = 1;
 					}
-					
+
 					if (!this.mergeItemStack(itemstack1, i, 3, false)) {
 						return ItemStack.EMPTY;
 					}
@@ -300,10 +339,31 @@ public class RLRepairContainer extends Container {
 			slot.onTake(playerIn, itemstack1);
 		}
 
-		
-		
-		
 		return itemstack;
+	}
+
+	public void removeAllTraits() {
+
+		System.out.println("Remove button clicked!");
+		ItemStack out = slots.getStackInSlot(0).copy();
+
+		ItemStack mod = slots.getStackInSlot(2);
+
+		if (!mod.isEmpty()) {
+
+			List<BasicTag> tags = TagHelper.getAllTags(out);
+			TagHelper.removeAllTags(out);
+
+			for (BasicTag tag : tags) {
+				ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
+				TagHelper.addTag(s, tag.name);
+				player.addItemStackToInventory(s);
+			}
+
+			craftResult.setInventorySlotContents(0, out);
+
+		}
+
 	}
 
 }

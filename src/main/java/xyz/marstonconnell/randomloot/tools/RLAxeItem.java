@@ -51,6 +51,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 	public RLAxeItem(String name) {
 		super(name, EFFECTIVE_ON_BLOCKS, 5.0f, -3.0f);
 		
+		
 	}
 	
 	@Override
@@ -96,13 +97,14 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 
 	public boolean canHarvestBlock(BlockState blockIn) {
 		int i = 4;
-		if (blockIn.getHarvestTool() == net.minecraftforge.common.ToolType.PICKAXE) {
+		if (blockIn.getHarvestTool() == net.minecraftforge.common.ToolType.AXE) {
 			return i >= blockIn.getHarvestLevel();
 		}
 		Material material = blockIn.getMaterial();
-		return material == Material.ROCK || material == Material.IRON || material == Material.ANVIL;
+		return EFFECTIVE_ON_MATERIALS.contains(material);
 	}
 
+	@Override
 	public float getDestroySpeed(ItemStack stack, BlockState state) {
 
 		CompoundNBT nbt;
@@ -272,12 +274,6 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 
 	}
 
-	@Override
-	public boolean onBlockDestroyed(ItemStack stack, World worldIn, BlockState state, BlockPos pos,
-			LivingEntity entityLiving) {
-
-		return super.onBlockDestroyed(stack, worldIn, state, pos, entityLiving);
-	}
 
 	@Override
 	public List<String> getStatsLore(ItemStack stack) {

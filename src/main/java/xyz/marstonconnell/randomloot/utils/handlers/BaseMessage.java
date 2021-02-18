@@ -35,6 +35,7 @@ public class BaseMessage {
 	public void encode(PacketBuffer buff) {
 		buff.writeInt(value);
 		buff.writeInt(rarity);
+		
 
 	}
 
@@ -45,7 +46,7 @@ public class BaseMessage {
 				ctx.get().getSender().getHeldItemMainhand().shrink(1);
 
 				getNewItem(pckt.rarity, ctx.get().getSender());
-
+				
 			}
 		});
 		ctx.get().setPacketHandled(true);
@@ -62,6 +63,8 @@ public class BaseMessage {
 		
 				
 		playerIn.addItemStackToInventory(s);
+		
+		
 
 		return s;
 

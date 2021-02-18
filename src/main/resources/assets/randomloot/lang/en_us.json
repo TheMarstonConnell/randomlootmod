@@ -38,7 +38,10 @@
 
     "container.randomloot.breaker": "Tool Masher",
     
-    "container.randomloot.edit": "Tool Editor"
+    "container.randomloot.edit": "Tool Editor",
     
+    "button.remove": "Remove Traits",
+    
+    "container.editor.removewarning": "All traits will be popped from this tool and it will be heavily damaged."
     
 }

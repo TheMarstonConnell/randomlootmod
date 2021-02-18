@@ -123,7 +123,7 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 		float speedBonus = nbt.getFloat("rl_dig_speed");
 		
 		Material material = state.getMaterial();
-		return material != Material.IRON && material != Material.ANVIL && material != Material.ROCK
+		return material != Material.SNOW && material != Material.SNOW_BLOCK && material != Material.CLAY && material != Material.EARTH && material != Material.SAND
 				? super.getDestroySpeed(stack, state)
 				: this.efficiency + speedBonus - 1;
 	}
