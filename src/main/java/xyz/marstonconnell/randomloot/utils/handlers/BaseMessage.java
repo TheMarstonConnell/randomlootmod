@@ -10,6 +10,7 @@ import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.utils.Config;
+import xyz.marstonconnell.randomloot.utils.LootSystem;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 
 import java.util.function.Supplier;
@@ -55,9 +56,10 @@ public class BaseMessage {
 	public static ItemStack getNewItem(int rarity, ServerPlayerEntity playerIn) {
 
 		
-
 		
-		ItemStack s = new ItemStack(RandomLootMod.wc.getRandomObject());
+		//RandomLootMod.wc.getRandomObject();
+		
+		ItemStack s = new ItemStack(LootSystem.getPersonalItem(playerIn));
 		
 		 s = ItemFactory.forgeItem(s, rarity);
 		
@@ -65,6 +67,7 @@ public class BaseMessage {
 		playerIn.addItemStackToInventory(s);
 		
 		
+		LootSystem.getPersonalItem(playerIn);
 
 		return s;
 

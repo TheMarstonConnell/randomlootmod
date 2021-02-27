@@ -105,10 +105,12 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 				ArrowEntity abstractarrowentity = (ArrowEntity) arrowitem.createArrow(worldIn, itemstack, playerentity);
 
-				abstractarrowentity.setDamage(abstractarrowentity.getDamage() * dmgMod);
 
 				abstractarrowentity = customArrow(stack, abstractarrowentity);
 
+				abstractarrowentity.setDamage(abstractarrowentity.getDamage() * dmgMod);
+				
+				
 				abstractarrowentity.func_234612_a_(playerentity, playerentity.rotationPitch, playerentity.rotationYaw,
 						0.0F, f * 3.0F, 1.0F);
 				if (f == 1.0F) {
@@ -249,7 +251,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 	@Override
 	public void setStats(ItemStack stack) {
-		setVelo(stack, 72000);
+		setVelo(stack, 72000.0f);
 		BaseTool.setIntNBT(stack, "rl_level", 1);
 		BaseTool.setFloatNBT(stack, "rl_bow_dmg", 1.0f);
 	}
@@ -262,7 +264,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	@Override
 	public void upgradeTool(ItemStack stack) {
 		setVelo(stack, getVelo(stack) * 0.95f);
-		BaseTool.setFloatNBT(stack, "rl_bow_dmg", BaseTool.getFloatNBT(stack, "rl_bow_dmg") * 1.1f);
+		BaseTool.setFloatNBT(stack, "rl_bow_dmg", BaseTool.getFloatNBT(stack, "rl_bow_dmg") * 1.2f);
 
 	}
 
@@ -271,7 +273,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 		DecimalFormat f = new DecimalFormat("#0.00");
 
 		List<String> s = new ArrayList<String>();
-		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(getVelo(stack) / 72000 * 100) + "%");
+		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(getVelo(stack) / 72000.0f * 100) + "%");
 		s.add(TextFormatting.GRAY + "Bow Damage Modifier: " + f.format(BaseTool.getFloatNBT(stack, "rl_bow_dmg")));
 
 		return s;

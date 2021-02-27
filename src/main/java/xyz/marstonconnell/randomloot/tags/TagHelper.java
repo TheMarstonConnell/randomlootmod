@@ -49,9 +49,9 @@ public class TagHelper {
 			new EffectInstance(Effects.JUMP_BOOST, 100, 1), false, false, false);
 	
 	public static final EffectTag RESISTANCE_ONE = new EffectTag("resistant", TextFormatting.GRAY,
-			new EffectInstance(Effects.RESISTANCE, 100, 0), false, false, true);
+			new EffectInstance(Effects.RESISTANCE, 100, 0), false, false, false);
 	public static final EffectTag RESISTANCE_TWO = new EffectTag("more_resistant", TextFormatting.GRAY,
-			new EffectInstance(Effects.RESISTANCE, 100, 1), false, false, true);
+			new EffectInstance(Effects.RESISTANCE, 100, 1), false, false, false);
 	public static final EffectTag FIRE_RESISTANCE_ONE = new EffectTag("fire_resistant", TextFormatting.YELLOW,
 			new EffectInstance(Effects.FIRE_RESISTANCE, 100, 0), false, false, false);
 	public static final EffectTag FIRE_RESISTANCE_TWO = new EffectTag("more_fire_resistant", TextFormatting.YELLOW,

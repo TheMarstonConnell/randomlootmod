@@ -42,6 +42,7 @@ import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.TextureProxy;
 import xyz.marstonconnell.randomloot.utils.Config;
+import xyz.marstonconnell.randomloot.utils.LootSystem;
 import xyz.marstonconnell.randomloot.utils.RLUtils;
 import xyz.marstonconnell.randomloot.utils.RandomTradeBuilder;
 import xyz.marstonconnell.randomloot.utils.Registration;
@@ -65,27 +66,22 @@ public class RandomLootMod {
 	public static Random rand;
 	public static WeightedChooser<Item> wc;
 
+	public static final boolean DEBUG = true;
+
 	public RandomLootMod() {
 
 		new ItemUtils();
 		rand = new Random();
 		wc = new WeightedChooser<Item>();
 
-
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		// Register the enqueueIMC method for modloading
 
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
-		// Register the processIMC method for modloading
-		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::processIMC);
 		// Register the doClientStuff method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
 		Registration.init();
-
-		
-		// Register ourselves for server and other game events we are interested in
 
 		ModLoadingContext.get().registerConfig(Type.COMMON, Config.COMMON_CONFIG);
 
@@ -94,9 +90,6 @@ public class RandomLootMod {
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-		// some preinit code
-		LOGGER.info("HELLO FROM PREINIT");
-		LOGGER.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
 
 		RLUtils.fixPOITypeBlockStates(RLPointOfInterestTypes.LOOTER);
 
@@ -104,27 +97,12 @@ public class RandomLootMod {
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
-		// do something that can only be done on the client
-//		if (FMLEnvironment.dist == Dist.CLIENT) {
-			TextureProxy.init();
-//		}
-
-		LOGGER.info("Got game settings {}", event.getMinecraftSupplier().get().gameSettings);
+		
+		TextureProxy.init();
 
 	}
 
-	private void enqueueIMC(final InterModEnqueueEvent event) {
-		// some example code to dispatch IMC to another mod
-		// InterModComms.sendTo("examplemod", "helloworld", () -> { LOGGER.info("Hello
-		// world from the MDK"); return "Hello world";});
-	}
 
-	private void processIMC(final InterModProcessEvent event) {
-		// some example code to receive and process InterModComms from other mods
-		LOGGER.info("Got IMC {}",
-				event.getIMCStream().map(m -> m.getMessageSupplier().get()).collect(Collectors.toList()));
-	}
-	
 
 	@SubscribeEvent
 	public void entityDrop(LivingDropsEvent event) {
@@ -134,29 +112,25 @@ public class RandomLootMod {
 					|| !(((EntityDamageSource) event.getSource()).getTrueSource() instanceof PlayerEntity))
 				return;
 
-			int choice = RandomLootMod.rand.nextInt(100);
-			int range = Config.DROP_CHANCE.get();
+			int choice = RandomLootMod.rand.nextInt(1000);
+			int range = 0;
 
-			if (choice > range) {
-				choice = RandomLootMod.rand.nextInt(100);
+			if (event.getEntity() instanceof MonsterEntity) {
+				range = Config.MONSTERS_DROP.get();
+			} else if (event.getEntity() instanceof AnimalEntity) {
+				range = Config.ANIMAL_DROP.get();
+			}
 
-				if (event.getEntity() instanceof MonsterEntity) {
-					range = Config.MONSTERS_DROP.get();
-				} else if (event.getEntity() instanceof AnimalEntity) {
-					range = Config.ANIMAL_DROP.get();
-				} else if (event.getEntity() instanceof EnderDragonEntity
-						|| event.getEntity() instanceof WitherEntity) {
-					range = Config.BOSS_DROP.get();
-				}
+			if (!event.getEntity().isNonBoss()) {
+				range = Config.BOSS_DROP.get();
+			}
 
-				if (choice < range) {
-					WeightedChooser<Item> cases = new WeightedChooser<Item>();
-					cases.addChoice(RLItems.BASIC_ITEM_CASE, Config.BASIC_CHANCE.get());
-					cases.addChoice(RLItems.BETTER_ITEM_CASE, Config.GOLD_CHANCE.get());
-					cases.addChoice(RLItems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
-					event.getEntity().entityDropItem(new ItemStack(cases.getRandomObject()));
-				}
-
+			if (choice < range) {
+				WeightedChooser<Item> cases = new WeightedChooser<Item>();
+				cases.addChoice(RLItems.BASIC_ITEM_CASE, Config.BASIC_CHANCE.get());
+				cases.addChoice(RLItems.BETTER_ITEM_CASE, Config.GOLD_CHANCE.get());
+				cases.addChoice(RLItems.BEST_ITEM_CASE, Config.TITAN_CHANCE.get());
+				event.getEntity().entityDropItem(new ItemStack(cases.getRandomObject()));
 			}
 
 		}
@@ -170,6 +144,7 @@ public class RandomLootMod {
 		LOGGER.info("HELLO from server starting");
 
 		RLCommands.register(event.getServer().getCommandManager().getDispatcher());
+		LootSystem.init();
 	}
 
 	// You can use EventBusSubscriber to automatically subscribe events on the
@@ -189,7 +164,7 @@ public class RandomLootMod {
 			wc.addChoice(RLItems.random_axe, Config.AXE_CHANCE.get());
 			wc.addChoice(RLItems.random_spade, Config.SPADE_CHANCE.get());
 			wc.addChoice(RLItems.random_bow, Config.BOW_CHANCE.get());
-//			 wc.addChoice(RLItems.THROWABLE_ITEM, Config.THROWABLE_CHANCE.get());
+			// wc.addChoice(RLItems.THROWABLE_ITEM, Config.THROWABLE_CHANCE.get());
 
 			wc.addChoice(RLItems.HEAVY_BOOTS, Config.ARMOR_CHANCE.get());
 			wc.addChoice(RLItems.HEAVY_CHEST, Config.ARMOR_CHANCE.get());

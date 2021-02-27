@@ -55,21 +55,21 @@ public class ItemFactory {
 		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
 		switch (rarity) {
 		case 0:
-			wc.addChoice(0, 80);
-			wc.addChoice(1, 15);
-			wc.addChoice(2, 5);
+			wc.addChoice(0, Config.BASIC_COMMON.get());
+			wc.addChoice(1, Config.BASIC_RARE.get());
+			wc.addChoice(2, Config.BASIC_LEGEND.get());
 			break;
 
 		case 1:
-			wc.addChoice(0, 60);
-			wc.addChoice(1, 30);
-			wc.addChoice(2, 10);
+			wc.addChoice(0, Config.BETTER_COMMON.get());
+			wc.addChoice(1, Config.BETTER_RARE.get());
+			wc.addChoice(2, Config.BETTER_LEGEND.get());
 			break;
 
 		case 2:
-			wc.addChoice(0, 30);
-			wc.addChoice(1, 45);
-			wc.addChoice(2, 25);
+			wc.addChoice(0, Config.TITAN_COMMON.get());
+			wc.addChoice(1, Config.TITAN_RARE.get());
+			wc.addChoice(2, Config.TITAN_LEGEND.get());
 			break;
 
 		default:
