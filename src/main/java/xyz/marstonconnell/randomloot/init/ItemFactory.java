@@ -34,19 +34,14 @@ public class ItemFactory {
 	}
 
 	private static void giftNewTrait(ItemStack stack) {
-		List<BasicTag> tags = ((IRLTool) stack.getItem()).getAllowedTags();
 
-		List<BasicTag> allTags = TagHelper.getTagList(stack);
+		List<BasicTag> allTags = TagHelper.getCompatibleTags(stack);
 
-		for (int i = 0; i < allTags.size(); i++) {
-			if (tags.contains(allTags.get(i))) {
-				tags.remove(allTags.get(i));
-			}
-		}
+		
 
-		BasicTag t = tags.get(rand.nextInt(tags.size()));
+		BasicTag t = allTags.get(rand.nextInt(allTags.size()));
 
-		TagHelper.addTag(stack, t.name);
+		TagHelper.addTag(stack, t);
 
 	}
 

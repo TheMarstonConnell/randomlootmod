@@ -156,9 +156,9 @@ public class RLRepairContainer extends Container {
 		
 		for(BasicTag tag: tagsToDrop) {
 			ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-			TagHelper.addTag(s, tag.name);
+			TagHelper.addTag(s, tag);
 			s.setDisplayName(new StringTextComponent(TextFormatting.WHITE
-					+ TagHelper.convertToTitleCaseIteratingChars(tag.name) + " Essence"));
+					+ tag.toString() + " Essence"));
 			
 			player.addItemStackToInventory(s);
 		}
@@ -191,10 +191,10 @@ public class RLRepairContainer extends Container {
 			if (!mod.isEmpty()) {
 				tagsToDrop.clear();
 
-				List<BasicTag> tags = TagHelper.getAllTags(mod);
+				List<BasicTag> tags = TagHelper.getTagList(mod);
 				for (BasicTag tag : tags) {
 					if (!TagHelper.checkForTag(out, tag)) {
-						TagHelper.addTag(out, tag.name);
+						TagHelper.addTag(out, tag);
 					}
 				}
 
@@ -249,7 +249,7 @@ public class RLRepairContainer extends Container {
 					
 					out.setDamage((out.getMaxDamage() - out.getDamage()) / 2 + out.getDamage());
 					
-					tagsToDrop = TagHelper.getAllTags(out);
+					tagsToDrop = TagHelper.getTagList(out);
 					TagHelper.removeAllTags(out);
 				}
 			}
@@ -351,12 +351,12 @@ public class RLRepairContainer extends Container {
 
 		if (!mod.isEmpty()) {
 
-			List<BasicTag> tags = TagHelper.getAllTags(out);
+			List<BasicTag> tags = TagHelper.getTagList(out);
 			TagHelper.removeAllTags(out);
 
 			for (BasicTag tag : tags) {
 				ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-				TagHelper.addTag(s, tag.name);
+				TagHelper.addTag(s, tag);
 				player.addItemStackToInventory(s);
 			}
 

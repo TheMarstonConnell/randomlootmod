@@ -197,7 +197,7 @@ public class RandomLootMod {
 
 				for (int i = 0; i < TagHelper.allTags.size(); i++) {
 					ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-					TagHelper.addTag(s, TagHelper.allTags.get(i).name);
+					TagHelper.addTag(s, TagHelper.allTags.get(i));
 					s.setDisplayName(new StringTextComponent(TextFormatting.WHITE
 							+ TagHelper.convertToTitleCaseIteratingChars(TagHelper.allTags.get(i).name) + " Essence"));
 					event.getTrades().get(4)

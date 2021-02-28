@@ -7,6 +7,7 @@ import javax.lang.model.util.Types;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTypes;
@@ -22,9 +23,12 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
+import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.utils.Config;
 
 public class TagHelper {
+	
+	private static final String TAG_LIST = "rl_tag_data";
 	
 	final static int tagLimit = 20;
 	
@@ -39,81 +43,71 @@ public class TagHelper {
 	
 	
 	//HELPFUL EFFECTS
-	public static final EffectTag SPEED_ONE = new EffectTag("speedy", TextFormatting.AQUA,
-			new EffectInstance(Effects.SPEED, 100, 0), false, false, true);
-	public static final EffectTag SPEED_TWO = new EffectTag("speedier", TextFormatting.AQUA,
-			new EffectInstance(Effects.SPEED, 100, 1), false, false, true);
-	public static final EffectTag JUMP_ONE = new EffectTag("bouncy", TextFormatting.GREEN,
-			new EffectInstance(Effects.JUMP_BOOST, 100, 0), false, false, false);
-	public static final EffectTag JUMP_TWO = new EffectTag("bouncier", TextFormatting.GREEN,
-			new EffectInstance(Effects.JUMP_BOOST, 100, 1), false, false, false);
+	public static final BasicTag SPEED = new EffectTag("speedy", TextFormatting.AQUA,
+			Effects.SPEED, false, false, true).setMaxLevel(3);
 	
-	public static final EffectTag RESISTANCE_ONE = new EffectTag("resistant", TextFormatting.GRAY,
-			new EffectInstance(Effects.RESISTANCE, 100, 0), false, false, false);
-	public static final EffectTag RESISTANCE_TWO = new EffectTag("more_resistant", TextFormatting.GRAY,
-			new EffectInstance(Effects.RESISTANCE, 100, 1), false, false, false);
-	public static final EffectTag FIRE_RESISTANCE_ONE = new EffectTag("fire_resistant", TextFormatting.YELLOW,
-			new EffectInstance(Effects.FIRE_RESISTANCE, 100, 0), false, false, false);
-	public static final EffectTag FIRE_RESISTANCE_TWO = new EffectTag("more_fire_resistant", TextFormatting.YELLOW,
-			new EffectInstance(Effects.FIRE_RESISTANCE, 100, 1), false, false, false);
-	public static final EffectTag HASTE_ONE = new EffectTag("hastey", TextFormatting.YELLOW,
-			new EffectInstance(Effects.HASTE, 100, 0), false, true, false);
-	public static final EffectTag HASTE_TWO = new EffectTag("hastier", TextFormatting.YELLOW,
-			new EffectInstance(Effects.HASTE, 100, 1), false, true, false);
+	public static final BasicTag JUMP = new EffectTag("bouncy", TextFormatting.GREEN,
+			Effects.JUMP_BOOST, false, false, false).setMaxLevel(2);
 	
-	public static final EffectTag LUCK_ONE = new EffectTag("lucky", TextFormatting.GREEN,
-			new EffectInstance(Effects.LUCK, 100, 0), false, true, false);
-	public static final EffectTag LUCK_TWO = new EffectTag("super_lucky", TextFormatting.GREEN,
-			new EffectInstance(Effects.LUCK, 100, 1), false, true, false);
 	
-	public static final EffectTag STRENGTH_ONE = new EffectTag("strong", TextFormatting.DARK_RED,
-			new EffectInstance(Effects.STRENGTH, 100, 0), false, false, true);
-	public static final EffectTag STRENGTH_TWO = new EffectTag("stronger", TextFormatting.DARK_RED,
-			new EffectInstance(Effects.STRENGTH, 100, 1), false, false, true);
+	public static final BasicTag RESISTANCE = new EffectTag("resistant", TextFormatting.GRAY,
+			Effects.RESISTANCE, false, false, false).setMaxLevel(4);
 	
-	public static final EffectTag NIGHT_VISION = new EffectTag("insightful", TextFormatting.BLUE,
+	
+	public static final BasicTag FIRE_RESISTANCE = new EffectTag("fire_resistant", TextFormatting.YELLOW,
+			Effects.FIRE_RESISTANCE, false, false, false).setMaxLevel(2);
+	
+	
+	public static final BasicTag HASTE = new EffectTag("hastey", TextFormatting.YELLOW,
+			Effects.HASTE, false, true, false).setMaxLevel(2);
+	
+	
+	public static final BasicTag LUCK = new EffectTag("lucky", TextFormatting.GREEN,
+			Effects.LUCK, false, true, false);
+	
+	
+	public static final BasicTag STRENGTH = new EffectTag("strong", TextFormatting.DARK_RED,
+			Effects.STRENGTH, false, false, true).setMaxLevel(5);
+	
+	
+	public static final BasicTag NIGHT_VISION = new EffectTag("insightful", TextFormatting.BLUE,
 			new EffectInstance(Effects.NIGHT_VISION, 500, 0), false, false, false);
 	
-	public static final EffectTag WATER_BREATHING = new EffectTag("deep_breathing", TextFormatting.DARK_BLUE,
-			new EffectInstance(Effects.WATER_BREATHING, 100, 0), false, false, false);
+	public static final BasicTag WATER_BREATHING = new EffectTag("deep_breathing", TextFormatting.DARK_BLUE,
+			Effects.WATER_BREATHING, false, false, false).setMaxLevel(2);
 	
-	public static final EffectTag REGENERATION = new EffectTag("regenerating", TextFormatting.RED,
-			new EffectInstance(Effects.REGENERATION, 100, 0), false, false, true);
+	public static final BasicTag REGENERATION = new EffectTag("regenerating", TextFormatting.RED,
+			Effects.REGENERATION, false, false, true).setMaxLevel(3);
 
 	//ATTACKING EFFECTS
-	public static final EffectTag POISON_ONE = new EffectTag("poisonous", TextFormatting.DARK_GREEN,
-			new EffectInstance(Effects.POISON, 100, 0), true, false, true);
-	public static final EffectTag POISON_TWO = new EffectTag("very_poisonous", TextFormatting.DARK_GREEN,
-			new EffectInstance(Effects.POISON, 100, 1), true, false, true);
+	public static final BasicTag POISON = new EffectTag("poisonous", TextFormatting.DARK_GREEN,
+			Effects.POISON, true, false, true).setMaxLevel(4);
 	
-	public static final EffectTag WITHER_ONE = new EffectTag("withering", TextFormatting.DARK_GRAY,
-			new EffectInstance(Effects.WITHER, 100, 0), true, false, true);
-	public static final EffectTag WITHER_TWO = new EffectTag("very_withering", TextFormatting.DARK_GRAY,
-			new EffectInstance(Effects.WITHER, 100, 1), true, false, true);
 	
-	public static final EffectTag SLOWING_ONE = new EffectTag("webbed", TextFormatting.WHITE,
-			new EffectInstance(Effects.SLOWNESS, 100, 0), true, false, true);
-	public static final EffectTag SLOWING_TWO = new EffectTag("double_webbed", TextFormatting.WHITE,
-			new EffectInstance(Effects.SLOWNESS, 160, 1), true, false, true);
+	public static final BasicTag WITHER = new EffectTag("withering", TextFormatting.DARK_GRAY,
+			Effects.WITHER, true, false, true).setMaxLevel(2);
 	
-	public static final EffectTag BLINDING = new EffectTag("blinding", TextFormatting.DARK_PURPLE,
-			new EffectInstance(Effects.BLINDNESS, 100, 0), true, false, true);
 	
-	public static final EffectTag GLOWING = new EffectTag("glittering", TextFormatting.GOLD,
-			new EffectInstance(Effects.GLOWING, 100, 0), true, false, true);
+	public static final BasicTag SLOWING = new EffectTag("webbed", TextFormatting.WHITE,
+			Effects.SLOWNESS, true, false, true).setMaxLevel(4);
 	
-	public static final EffectTag DAMAGE_ONE = new EffectTag("blood_thirst", TextFormatting.DARK_RED,
-			new EffectInstance(Effects.INSTANT_DAMAGE, 120, 1), true, false, true);
-	public static final EffectTag DAMAGE_TWO = new EffectTag("blood_hunger", TextFormatting.DARK_RED,
-			new EffectInstance(Effects.INSTANT_DAMAGE, 120, 2), true, false, true);
 	
-	public static final EffectTag WEAKNESS_ONE = new EffectTag("weakening", TextFormatting.GRAY,
-			new EffectInstance(Effects.WEAKNESS, 100, 0), true, false, true);
-	public static final EffectTag WEAKNESS_TWO = new EffectTag("very_weakening", TextFormatting.GRAY,
-			new EffectInstance(Effects.WEAKNESS, 100, 2), true, false, true);
+	public static final BasicTag BLINDING = new EffectTag("blinding", TextFormatting.DARK_PURPLE,
+			Effects.BLINDNESS, true, false, true);
+	
+	public static final BasicTag GLOWING = new EffectTag("glittering", TextFormatting.GOLD,
+			Effects.GLOWING, true, false, true);
+	
+	public static final BasicTag DAMAGE = new EffectTag("blood_thirst", TextFormatting.DARK_RED,
+			Effects.INSTANT_DAMAGE, true, false, true).setMaxLevel(4);
+	
+	
+	public static final BasicTag WEAKNESS = new EffectTag("weakening", TextFormatting.GRAY,
+			Effects.WEAKNESS, true, false, true).setMaxLevel(2);
+	
 	
 	public static final EffectTag FLOATING = new EffectTag("floating", TextFormatting.AQUA,
-			new EffectInstance(Effects.LEVITATION, 100, 0), true, false, true);
+			Effects.LEVITATION, true, false, true);
 	
 	//WORLD INTERACT EFFECTS
 	public static final WorldInteractTag EXPLOSION = new WorldInteractTag("explosive", TextFormatting.RED,
@@ -138,7 +132,82 @@ public class TagHelper {
 	public static final BasicTag UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE);
 	public static final BasicTag AUTOSMELT = new BasicTag("auto-smelt", TextFormatting.DARK_RED);
 
+	
+	public static BasicTag upgradeTrait(BasicTag tag) {
+		return tag.setLevel(tag.level < tag.maxLevel ? tag.level + 1 : tag.maxLevel);
+	}
+	
+	/**
+	 * Converts an NBT tag to a Java tag.
+	 * @param tag
+	 * @return
+	 */
+	public static BasicTag convertToTag(CompoundNBT tag) {
+		for(BasicTag t : allTags) {
+			if(tag.get("tag_name").getString().equals(t.name)) {
+				return t.setLevel(tag.getInt("tag_level"));
+			}
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Converts tag to NBT to be added to a tool.
+	 * @param tag
+	 * @return
+	 */
+	public static CompoundNBT convertToNBT(BasicTag tag) {
+		CompoundNBT nbt = new CompoundNBT();
+		
+		nbt.put("tag_name", StringNBT.valueOf(tag.name));
+		nbt.putInt("tag_level", tag.level);
+		
+		
+		return nbt;
+		
+	}
+	
+	public static List<BasicTag> getCompatibleTags(ItemStack stack){
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+		
+		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
+		
+		for(BasicTag t: ((IRLTool)stack.getItem()).getAllowedTags()) {
+			allowedTags.add(t);
+		}
+		
+		ListNBT heldTags = nbt.getList(TAG_LIST, NBT.TAG_COMPOUND);		
+		
+		
+		for(int i = 0; i < heldTags.size(); i ++) {
+			BasicTag tg = convertToTag(heldTags.getCompound(i));
+			for(BasicTag toRemove: tg.incompatibleTags) {
+				allowedTags.remove(toRemove);
+			}
+		}
+		
+		return allowedTags;
+		
+	}
+	
 	public static ItemStack addTag(ItemStack stack, String tagName) {
+		for(BasicTag tag: allTags) {
+			if(tag.name.equals(tagName)) {
+				addTag(stack, tag);
+				return stack;
+			}
+		}
+		
+		return stack;
+	}
+	
+	public static ItemStack addTag(ItemStack stack, BasicTag tag) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -147,20 +216,39 @@ public class TagHelper {
 		}
 		
 		
-		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		ListNBT heldTags = nbt.getList(TAG_LIST, NBT.TAG_COMPOUND);		
 		
 		
+		for(int i = 0 ; i < heldTags.size(); i ++) {
+			BasicTag newTag = convertToTag(heldTags.getCompound(i));
+			if(newTag.name.equals(tag.name)) {
+				TagHelper.removeTag(stack, newTag);
+				tag = TagHelper.upgradeTrait(newTag);
+			}
+		}
 		
-		heldTags.add(StringNBT.valueOf(tagName));
 		
-		nbt.put("rl_tags", heldTags);
+		heldTags.add(convertToNBT(tag));
+		
+		nbt.put(TAG_LIST, heldTags);
 		
 
 		stack.setTag(nbt);
 		return stack;
 	}
-
+	
 	public static ItemStack removeTag(ItemStack stack, String tagName) {
+		for(BasicTag tag: allTags) {
+			if(tag.name.equals(tagName)) {
+				removeTag(stack, tag);
+				return stack;
+			}
+		}
+		
+		return stack;
+	}
+
+	public static ItemStack removeTag(ItemStack stack, BasicTag tag) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -168,9 +256,16 @@ public class TagHelper {
 			nbt = new CompoundNBT();
 		}
 		
-		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		ListNBT heldTags = nbt.getList(TAG_LIST, NBT.TAG_COMPOUND);
 		
-		heldTags.remove(StringNBT.valueOf(tagName));
+		CompoundNBT toRemove = null;
+		for(int i = 0 ; i < heldTags.size(); i ++) {
+			if(convertToTag(heldTags.getCompound(i)).equals(tag)) {
+				toRemove = heldTags.getCompound(i);
+			}
+		}
+		
+		heldTags.remove(toRemove);
 		
 		stack.setTag(nbt);
 		return stack;
@@ -184,7 +279,7 @@ public class TagHelper {
 			nbt = new CompoundNBT();
 		}
 		
-		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		ListNBT heldTags = nbt.getList(TAG_LIST, NBT.TAG_COMPOUND);
 		
 		heldTags.clear();
 		
@@ -200,7 +295,7 @@ public class TagHelper {
 	 * @return
 	 */
 	public static boolean checkForTag(ItemStack stack, BasicTag tag) {
-		return getAllTags(stack).contains(tag);
+		return getTagList(stack).contains(tag.setLevel(0));
 	}
 
 	
@@ -218,53 +313,19 @@ public class TagHelper {
 			nbt = new CompoundNBT();
 		}
 		
-		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
+		ListNBT heldTags = nbt.getList(TAG_LIST, NBT.TAG_COMPOUND);
 		
 
 		for (int i = 0; i < heldTags.size(); i++) {
-			String tag = heldTags.getString(i);
-			if (!tag.equals("")) {
-				for (int j = 0; j < TagHelper.allTags.size(); j++) {
-					if (tag.equals(TagHelper.allTags.get(j).name)) {
-						tags.add(TagHelper.allTags.get(j));
-					}
-				}
-			}
+			CompoundNBT tag = heldTags.getCompound(i);
+			
+			tags.add(convertToTag(tag));
 		}
 
 		return tags;
 
 	}
 	
-	
-	public static List<BasicTag> getAllTags(ItemStack stack) {
-		List<BasicTag> tags = new ArrayList<BasicTag>();
-		CompoundNBT nbt;
-		if (stack.hasTag()) {
-			nbt = stack.getTag();
-		} else {
-			nbt = new CompoundNBT();
-		}
-		
-		
-		ListNBT heldTags = nbt.getList("rl_tags", NBT.TAG_STRING);
-		
-		
-		for (int i = 0; i < heldTags.size(); i++) {
-			String tag = heldTags.getString(i);
-			if (!tag.equals("")) {
-				for (int j = 0; j < TagHelper.allTags.size(); j++) {
-					if (tag.equals(TagHelper.allTags.get(j).name)) {
-						if(Config.traitsEnabled.get(TagHelper.allTags.get(j).name).get()) {
-							tags.add(TagHelper.allTags.get(j));
-						}
-					}
-				}
-			}
-		}
-
-		return tags;
-	}
 
 	public static String convertToTitleCaseIteratingChars(String text) {
 		if (text == null || text.isEmpty()) {

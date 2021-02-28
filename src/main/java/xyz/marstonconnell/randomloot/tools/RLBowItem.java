@@ -230,7 +230,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 	public ArrowEntity customArrow(ItemStack stack, ArrowEntity arrow) {
 
-		List<BasicTag> tags = TagHelper.getAllTags(stack);
+		List<BasicTag> tags = TagHelper.getTagList(stack);
 
 		for (int i = 0; i < tags.size(); i++) {
 			if (tags.get(i) instanceof EffectTag) {

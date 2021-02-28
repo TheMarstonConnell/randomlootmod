@@ -175,7 +175,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 	
 	@Override
 	public void onArmorTick(ItemStack stack, World world, PlayerEntity player) {
-		List<BasicTag> tags = TagHelper.getAllTags(stack);
+		List<BasicTag> tags = TagHelper.getTagList(stack);
 		
 		if(stack.getItem().equals(Items.AIR)) {
 			return;

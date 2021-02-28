@@ -110,7 +110,7 @@ public class RLToolItem extends ToolItem {
 
 			BaseTool.setLore(stack);
 
-			List<BasicTag> tags = TagHelper.getAllTags(stack);
+			List<BasicTag> tags = TagHelper.getTagList(stack);
 
 			for (int i = 0; i < tags.size(); i++) {
 				if (tags.get(i) instanceof EffectTag) {

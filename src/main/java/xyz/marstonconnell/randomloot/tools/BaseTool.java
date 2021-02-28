@@ -90,13 +90,11 @@ public boolean isRepairable(ItemStack stack) {
 		lore.add(StringNBT.valueOf("{\"text\":\"" + addLore + "\"}"));
 
 		
-		List<BasicTag> tags = TagHelper.getAllTags(stack);
+		List<BasicTag> tags = TagHelper.getTagList(stack);
 		for (int i = 0; i < tags.size(); i++) {
 
-			String name = tags.get(i).name.replaceAll("_", " ");
-			name = TagHelper.convertToTitleCaseIteratingChars(name);
-
-			lore.add(StringNBT.valueOf("{\"text\":\"" + tags.get(i).color + name + "\"}"));
+			
+			lore.add(StringNBT.valueOf("{\"text\":\"" + tags.get(i).color + tags.get(i).toString() + "\"}"));
 
 		}
 
