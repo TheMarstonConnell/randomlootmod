@@ -14,7 +14,7 @@ import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
 public class FloatEvent extends WorldInteractEvent {
 
 	@Override
-	public void effect(ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
+	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 		System.out.println("Making " + entityLiving.getName() + " float.");
 		if (!entityLiving.isOnGround()) {
 			if (worldIn.isRemote) {

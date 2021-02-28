@@ -202,7 +202,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param tag   String
 	 * @param value int
 	 */
-	protected static void setIntNBT(ItemStack stack, String tag, int value) {
+	public static void setIntNBT(ItemStack stack, String tag, int value) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();

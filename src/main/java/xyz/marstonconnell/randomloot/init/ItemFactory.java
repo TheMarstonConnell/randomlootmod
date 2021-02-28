@@ -15,6 +15,8 @@ import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 
 public class ItemFactory {
 
+	private static final int CURRENT_TOOL_VERSION = 1;
+	
 	static Random rand = new Random();
 
 	public static void applyToken(ItemStack stack) {
@@ -35,9 +37,7 @@ public class ItemFactory {
 
 	private static void giftNewTrait(ItemStack stack) {
 
-		List<BasicTag> allTags = TagHelper.getCompatibleTags(stack);
-
-		
+		List<BasicTag> allTags = TagHelper.getCompatibleTags(stack);		
 
 		BasicTag t = allTags.get(rand.nextInt(allTags.size()));
 
@@ -102,6 +102,8 @@ public class ItemFactory {
 
 		((IRLTool) stack.getItem()).updateStats(stack);
 
+		BaseTool.setIntNBT(stack, "rl_tool_version", CURRENT_TOOL_VERSION);
+		
 		// naming item
 		BaseTool.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));
 

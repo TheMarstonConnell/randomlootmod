@@ -13,17 +13,14 @@ import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
 public class DamageEvent extends WorldInteractEvent {
 	float damage = 0.18f;
 
-	public DamageEvent(float damage) {
-		this.damage = damage;
-	}
 
 	@Override
-	public void effect(ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
+	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 
 		float currentHP = target.getHealth();
 		target.hurtResistantTime = 0;
 		target.hurtTime = 0;
-		target.attackEntityFrom(new IndirectEntityDamageSource("indirectMagic", entityLiving, null).setDamageBypassesArmor().setMagicDamage(), currentHP * this.damage);
+		target.attackEntityFrom(new IndirectEntityDamageSource("indirectMagic", entityLiving, null).setDamageBypassesArmor().setMagicDamage(), currentHP * this.damage * level);
 
 	}
 

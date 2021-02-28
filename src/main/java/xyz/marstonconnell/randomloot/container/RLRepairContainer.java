@@ -356,7 +356,7 @@ public class RLRepairContainer extends Container {
 
 			for (BasicTag tag : tags) {
 				ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-				TagHelper.addTag(s, tag);
+				TagHelper.addTag(s, tag.setLevel(0));
 				player.addItemStackToInventory(s);
 			}
 

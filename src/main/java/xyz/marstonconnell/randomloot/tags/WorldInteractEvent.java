@@ -9,6 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public abstract class WorldInteractEvent {
-	public abstract void effect(ItemStack stack, World worldIn,
+	public abstract void effect(int level, ItemStack stack, World worldIn,
 			LivingEntity entityLiving, BlockState state, BlockPos pos, @Nullable LivingEntity target);
 }

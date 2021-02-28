@@ -15,8 +15,20 @@ public class WorldInteractTag extends BasicTag{
 	public boolean forWeapons = false;
 	public boolean forArmor = false;
 	
-	public WorldInteractTag(String name, TextFormatting color, WorldInteractEvent event, boolean forTools, boolean forArmor, boolean forWeapons) {
-		super(name, color);
+	private String[] names;
+	
+	public WorldInteractTag(WorldInteractTag clone) {
+		super(clone);
+		this.names = clone.names;
+		wie = clone.wie;
+		this.forTools = clone.forTools;
+		this.forArmor = clone.forArmor;
+		this.forWeapons = clone.forWeapons;
+	}
+	
+	public WorldInteractTag(String[] namesIn, TextFormatting color, WorldInteractEvent event, boolean forTools, boolean forArmor, boolean forWeapons) {
+		super(namesIn[0], color);
+		this.names = namesIn;
 		wie = event;
 		this.forTools = forTools;
 		this.forWeapons = forWeapons;
@@ -27,8 +39,15 @@ public class WorldInteractTag extends BasicTag{
 	public void runEffect(ItemStack stack, World worldIn,
 			LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 		
-		wie.effect(stack, worldIn, entityLiving, state, pos, target);
+		wie.effect(this.level, stack, worldIn, entityLiving, state, pos, target);
 		
+	}
+	
+	@Override
+	public String toString() {
+		String newName = this.names[level].replaceAll("_", " ");
+		newName = TagHelper.convertToTitleCaseIteratingChars(newName);
+		return newName;
 	}
 
 }

@@ -12,12 +12,13 @@ import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
 public class ReplenishEvent extends WorldInteractEvent {
 
 	@Override
-	public void effect(ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
+	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 
 		switch (RandomLootMod.rand.nextInt(6)) {
 		case 4:
 		case 5:
-			((PlayerEntity) entityLiving).getFoodStats().addStats(1, 1);
+			((PlayerEntity) entityLiving).getFoodStats().addStats(level, 1);
+			break;
 		}
 	}
 

@@ -16,12 +16,40 @@ public class BasicTag {
 	public BasicTag(String name, TextFormatting color) {
 		this.name = name;
 		this.color = color;
-		TagHelper.allTags.add(this);
-		TagHelper.tagNames.add(name);
 		this.level = 0;
-		this.maxLevel = 1;
+		this.maxLevel = 0;
 		this.incompatibleTags = new ArrayList<BasicTag>();
 		
+		TagHelper.allTags.add(this);
+		TagHelper.tagNames.add(name);
+		
+	}
+	
+	public BasicTag(BasicTag clone) {
+		this.name = clone.name;
+		this.color = clone.color;
+		this.level = clone.level;
+		this.maxLevel = clone.maxLevel;
+		this.incompatibleTags = clone.incompatibleTags;
+		
+	}
+	
+	public boolean sameTag(BasicTag tag) {
+		return this.name.equals(tag.name);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		
+		if(obj instanceof BasicTag) {
+			
+			BasicTag compareTo = (BasicTag) obj;
+			
+			return compareTo.level == this.level && sameTag(compareTo);
+			
+		}
+		
+		return false;
 	}
 	
 	public BasicTag setMaxLevel(int maxLevel) {
@@ -43,8 +71,8 @@ public class BasicTag {
 		String newName = this.name.replaceAll("_", " ");
 		newName = TagHelper.convertToTitleCaseIteratingChars(newName);
 		
-		String roman = RomanNumber.toRoman(this.level);
-		if(this.level > 1) {
+		if(this.level >= 1) {
+			String roman = RomanNumber.toRoman(this.level + 1);
 			newName = newName + " " + roman;
 		}
 		return newName;

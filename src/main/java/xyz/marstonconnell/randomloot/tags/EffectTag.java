@@ -30,6 +30,14 @@ public class EffectTag extends BasicTag {
 
 	}
 	
+	public EffectTag(EffectTag clone) {
+		super(clone);
+		this.effect = clone.effect;
+		this.offensive = clone.offensive;
+		this.forWeapons = clone.forWeapons;
+		this.forTools = clone.forTools;
+	}
+	
 	public EffectTag(String name, TextFormatting color, EffectInstance effect, boolean offensive, boolean forTools,
 			boolean forWeapons) {
 		super(name, color);
