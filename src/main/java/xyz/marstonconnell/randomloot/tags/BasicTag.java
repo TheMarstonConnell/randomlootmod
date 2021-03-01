@@ -11,18 +11,31 @@ public class BasicTag {
 	public TextFormatting color;
 	public int level;
 	public int maxLevel;
-	public List<BasicTag> incompatibleTags;
+	public List<String> incompatibleTags;
 	
 	public BasicTag(String name, TextFormatting color) {
 		this.name = name;
 		this.color = color;
 		this.level = 0;
 		this.maxLevel = 0;
-		this.incompatibleTags = new ArrayList<BasicTag>();
+		this.incompatibleTags = new ArrayList<String>();
 		
 		TagHelper.allTags.add(this);
 		TagHelper.tagNames.add(name);
+		TagHelper.tagMap.put(name, this);
 		
+	}
+	
+	
+	public BasicTag addBlackTags(String ... tags) {
+		
+		for(String t : tags) {
+			
+			this.incompatibleTags.add(t);
+			
+		}
+		
+		return this;
 	}
 	
 	public BasicTag(BasicTag clone) {
@@ -76,5 +89,10 @@ public class BasicTag {
 			newName = newName + " " + roman;
 		}
 		return newName;
+	}
+
+
+	public BasicTag get() {
+		return this;
 	}
 }

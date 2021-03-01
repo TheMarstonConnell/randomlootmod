@@ -253,7 +253,6 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		}
 		
 		allowedTags.add(TagHelper.UNBREAKABLE);
-		allowedTags.add(TagHelper.REPLENISH);
 		
 		return allowedTags;
 	}

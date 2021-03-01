@@ -156,7 +156,7 @@ public class RLRepairContainer extends Container {
 		
 		for(BasicTag tag: tagsToDrop) {
 			ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-			TagHelper.addTag(s, tag);
+			TagHelper.addTag(s, tag.setLevel(0));
 			s.setDisplayName(new StringTextComponent(TextFormatting.WHITE
 					+ tag.toString() + " Essence"));
 			
@@ -193,8 +193,12 @@ public class RLRepairContainer extends Container {
 
 				List<BasicTag> tags = TagHelper.getTagList(mod);
 				for (BasicTag tag : tags) {
-					if (!TagHelper.checkForTag(out, tag)) {
+					List<BasicTag> comps = TagHelper.getCompatibleTags(out);
+					if(comps.contains(tag)) {
 						TagHelper.addTag(out, tag);
+					}else {
+						craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
+						return;
 					}
 				}
 

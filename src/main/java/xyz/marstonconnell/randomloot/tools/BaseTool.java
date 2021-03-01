@@ -117,10 +117,10 @@ public boolean isRepairable(ItemStack stack) {
 		
 		String bar = "";
 		for(int i = 0; i < perc; i ++) {
-			bar = bar + "■";
+			bar = bar + "\u23F9";
 		}
 		for(int i = perc; i < cells; i ++) {
-			bar = bar + "□";
+			bar = bar + "\u25A1";
 		}
 		bar = bar + "";
 		
