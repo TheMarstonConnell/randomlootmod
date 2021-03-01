@@ -21,6 +21,8 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.DamageEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.InstaKillEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
@@ -129,7 +131,9 @@ public class TagHelper {
 	
 	public static final BasicTag CRITICAL_STRIKE = new WorldInteractTag(new String[]{"sharper_edge", "gilded_edge", "infinity_edge"}, TextFormatting.YELLOW, new CriticalStrikeEvent(), false, false, true).setMaxLevel(2);
 
+	public static final BasicTag INSTA_KILL = new WorldInteractTag(new String[] {"enraged", "exasperating", "exodian"}, TextFormatting.DARK_BLUE, new InstaKillEvent(), false, false, true).setMaxLevel(2);
 	
+	public static final BasicTag MOB_RAISE = new WorldInteractTag(new String[] {"taming", "automotonizing"}, TextFormatting.DARK_GREEN, new RaisingEvent(), false, false, true).setMaxLevel(1);
 	
 	
 	//PASSIVE EFFECTS

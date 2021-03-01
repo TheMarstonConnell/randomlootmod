@@ -39,7 +39,7 @@ public class WorldInteractTag extends BasicTag{
 	public void runEffect(ItemStack stack, World worldIn,
 			LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
 		
-		wie.effect(this.level, stack, worldIn, entityLiving, state, pos, target);
+		wie.effect(this.level + 1, stack, worldIn, entityLiving, state, pos, target);
 		
 	}
 	
