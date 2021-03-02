@@ -247,6 +247,43 @@ public boolean isRepairable(ItemStack stack) {
 	
 	
 	/**
+	 * Returns long from nbt tag.
+	 * 
+	 * @param stack
+	 * @param tag
+	 * @return value int
+	 */
+	public static long getLongNBT(ItemStack stack, String tag) {
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+
+		return nbt.getLong(tag);
+	}
+	
+	/**
+	 * Sets given nbt tag.
+	 * 
+	 * @param stack
+	 * @param tag   String
+	 * @param value float
+	 */
+	protected static void setLongNBT(ItemStack stack, String tag, long value) {
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+
+		nbt.putFloat(tag, value);
+		stack.setTag(nbt);
+	}
+	
+	/**
 	 * Sets given nbt tag.
 	 * 
 	 * @param stack

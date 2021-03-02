@@ -137,11 +137,17 @@ public class RLRepairContainer extends Container {
 	}
 
 	protected ItemStack craftOutput(PlayerEntity player, ItemStack stack) {
+		ItemStack out = slots.getStackInSlot(0).copy();
+
+		double shardsNeeded = Math.pow(BaseTool.getIntNBT(out, "rl_level") / 10.0, 2.0) + 1;
+		
 		this.shrinkSlot(0);
 		this.shrinkSlot(1);
-		this.shrinkSlot(2);
+		
+		for(int i = 0; i < Math.floor(shardsNeeded); i ++) {
+			this.shrinkSlot(2);
+		}
 
-		ItemStack itemstack = this.getSlot(3).getStack();
 		System.out.println("Crafting: " + stack.getDisplayName());
 
 		this.worldPos.consume((p_234653_0_, p_234653_1_) -> {
@@ -209,9 +215,16 @@ public class RLRepairContainer extends Container {
 				if (edit.getItem().equals(RLItems.best_shard)) {
 					tagsToDrop.clear();
 
+					double shardsNeeded = Math.pow(BaseTool.getIntNBT(out, "rl_level") / 10.0, 2.0) + 1;
+					
+					if(edit.getCount() < Math.floor(shardsNeeded)) {
+						craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
+						return;
+					}
+					
 					int oldXp = BaseTool.getXP(out);
 					BaseTool.changeXP(out, BaseTool.getMaxXP(out), player.getEntityWorld());
-					BaseTool.changeXP(out, oldXp, player.getEntityWorld());
+					BaseTool.changeXP(out, -oldXp, player.getEntityWorld());
 
 					CompoundNBT nbt;
 					if (out.hasTag()) {
