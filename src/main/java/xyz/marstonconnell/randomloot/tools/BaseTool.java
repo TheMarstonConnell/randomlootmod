@@ -96,7 +96,7 @@ public boolean isRepairable(ItemStack stack) {
 			ListNBT tags = nbt.getList("rl_tags", NBT.TAG_STRING);
 			
 			for(int i = 0; i < tags.size(); i ++) {
-				TagHelper.addTag(stack, TagHelper.tagMap.get(tags.get(i).toString()));
+				TagHelper.addTag(stack, TagHelper.tagMap.get(tags.getString(i)));
 			}
 			
 			BaseTool.setIntNBT(stack, "rl_tool_version", ItemFactory.CURRENT_TOOL_VERSION);
