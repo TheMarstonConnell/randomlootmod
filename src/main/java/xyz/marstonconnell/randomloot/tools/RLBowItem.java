@@ -145,7 +145,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				
 
 				worldIn.addEntity(abstractarrowentity);
-				BaseTool.changeXP(stack, 1, worldIn);
+				BaseTool.changeXP(stack, 1, worldIn, entityLiving.getPosition());
 				BaseTool.setLore(stack);
 
 			}

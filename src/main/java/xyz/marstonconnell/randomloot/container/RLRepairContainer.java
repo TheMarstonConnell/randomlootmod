@@ -6,37 +6,28 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.CraftResultInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.AbstractRepairContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.item.crafting.SmithingRecipe;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.IWorldPosCallable;
-import net.minecraft.util.text.NBTTextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
-import xyz.marstonconnell.randomloot.RandomLootMod;
-import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
-import xyz.marstonconnell.randomloot.tools.RLBowItem;
 import xyz.marstonconnell.randomloot.utils.Registration;
 
 public class RLRepairContainer extends Container {
@@ -223,8 +214,8 @@ public class RLRepairContainer extends Container {
 					}
 					
 					int oldXp = BaseTool.getXP(out);
-					BaseTool.changeXP(out, BaseTool.getMaxXP(out), player.getEntityWorld());
-					BaseTool.changeXP(out, -oldXp, player.getEntityWorld());
+					BaseTool.changeXP(out, BaseTool.getMaxXP(out), player.getEntityWorld(), player.getPosition());
+					BaseTool.changeXP(out, oldXp, player.getEntityWorld(), player.getPosition());
 
 					CompoundNBT nbt;
 					if (out.hasTag()) {

@@ -193,7 +193,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		
 		if(this.getDamage(stack) != dm) {
 			
-			BaseTool.changeXP(stack, 1, world);
+			BaseTool.changeXP(stack, 1, world, player.getPosition());
 			
 			BaseTool.setLore(stack);
 			

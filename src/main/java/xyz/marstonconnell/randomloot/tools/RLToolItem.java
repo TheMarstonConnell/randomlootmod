@@ -106,7 +106,7 @@ public class RLToolItem extends ToolItem {
 				p_220038_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 			});
 
-			BaseTool.changeXP(stack, 1, worldIn);
+			BaseTool.changeXP(stack, 1, worldIn, entityLiving.getPosition());
 
 			BaseTool.setLore(stack);
 

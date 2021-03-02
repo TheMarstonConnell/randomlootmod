@@ -18,6 +18,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.InstaKillEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.MultiBreakEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
@@ -75,6 +76,8 @@ public class TagHelper {
 	public static final BasicTag CRITICAL_STRIKE;
 	public static final BasicTag INSTA_KILL;
 	public static final BasicTag MOB_RAISE;
+	
+	public static final BasicTag HAMMER_MODE;
 
 	// PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE;
@@ -156,6 +159,8 @@ public class TagHelper {
 		// PASSIVE EFFECTS
 		UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE).addBlackTags("filling");
 		AUTOSMELT = new BasicTag("auto-smelt", TextFormatting.DARK_RED);
+		
+		HAMMER_MODE = new WorldInteractTag(new String[]{"excavating"}, TextFormatting.DARK_BLUE, new MultiBreakEvent(), true, false, false);
 		
 	}
 

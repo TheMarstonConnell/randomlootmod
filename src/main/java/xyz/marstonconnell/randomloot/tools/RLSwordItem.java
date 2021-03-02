@@ -158,7 +158,7 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 			return false;
 		}
 		
-		BaseTool.changeXP(stack, 1, attacker.getEntityWorld());
+		BaseTool.changeXP(stack, 1, attacker.getEntityWorld(), attacker.getPosition());
 		
 		BaseTool.setLore(stack);
 		

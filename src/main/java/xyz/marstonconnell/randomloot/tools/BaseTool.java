@@ -3,11 +3,15 @@ package xyz.marstonconnell.randomloot.tools;
 import java.util.List;
 
 import net.minecraft.client.audio.Sound;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.SoundCategory;
+import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
@@ -28,7 +32,6 @@ public class BaseTool extends Item {
 	public boolean isRepairItem(ItemStack stack) {
 		return stack.getItem() == RLItems.best_shard;
 	}
-	
 	
 	@Override
 	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
@@ -54,21 +57,24 @@ public boolean isRepairable(ItemStack stack) {
 
 	}
 
-	public static void changeXP(ItemStack stack, int amt, World worldIn) {
+	public static void changeXP(ItemStack stack, int amt, World worldIn, BlockPos pos) {
 		setXP(stack, getXP(stack) + amt);
 
 		if (getXP(stack) >= getMaxXP(stack)) {
 			setIntNBT(stack, "rl_level", getIntNBT(stack, "rl_level") + 1);
-			upgradeTool(stack, worldIn);
+			upgradeTool(stack, worldIn, pos);
 			
 		}
 
 	}
 
-	private static void upgradeTool(ItemStack stack, World worldIn) {
+	private static void upgradeTool(ItemStack stack, World worldIn, BlockPos pos) {
 		setXP(stack, 0);
 		setMaxXP(stack, (int) (getMaxXP(stack) * 1.5));
 		ItemFactory.applyToken(stack);
+		
+        worldIn.playSound((PlayerEntity)null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0F, 1.0F);
+
 		
 	}
 	

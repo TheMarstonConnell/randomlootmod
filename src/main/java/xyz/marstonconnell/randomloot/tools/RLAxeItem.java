@@ -130,7 +130,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 			livingEntity.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 		});
 		
-		BaseTool.changeXP(stack, 1, attacker.getEntityWorld());
+		BaseTool.changeXP(stack, 1, attacker.getEntityWorld(), attacker.getPosition());
 		
 		BaseTool.setLore(stack);
 		
