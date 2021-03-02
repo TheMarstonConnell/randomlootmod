@@ -24,6 +24,10 @@ public class WorldInteractTag extends BasicTag{
 		this.forTools = clone.forTools;
 		this.forArmor = clone.forArmor;
 		this.forWeapons = clone.forWeapons;
+		
+		for(int i = 1 ;i < names.length; i ++) {
+			TagHelper.tagMap.put(names[i], this);
+		}
 	}
 	
 	public WorldInteractTag(String[] namesIn, TextFormatting color, WorldInteractEvent event, boolean forTools, boolean forArmor, boolean forWeapons) {
@@ -33,7 +37,10 @@ public class WorldInteractTag extends BasicTag{
 		this.forTools = forTools;
 		this.forWeapons = forWeapons;
 		this.forArmor = forArmor;
-
+		
+		for(int i = 1 ;i < namesIn.length; i ++) {
+			TagHelper.tagMap.put(namesIn[i], this);
+		}
 	}
 	
 	public void runEffect(ItemStack stack, World worldIn,

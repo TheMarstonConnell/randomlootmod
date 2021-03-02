@@ -11,6 +11,7 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.RLItems;
@@ -75,11 +76,34 @@ public boolean isRepairable(ItemStack stack) {
 		setLore(stack, "");
 	}
 	
+	/**
+	 * Updates old tool to new version.
+	 * 
+	 * @param stack
+	 * @return
+	 */
 	public static ItemStack updateToNewVersion(ItemStack stack) {
 		
-		
-		
-		
+		if(getIntNBT(stack, "rl_tool_version") != ItemFactory.CURRENT_TOOL_VERSION) {
+			
+			CompoundNBT nbt;
+			if (stack.hasTag()) {
+				nbt = stack.getTag();
+			} else {
+				nbt = new CompoundNBT();
+			}
+
+			ListNBT tags = nbt.getList("rl_tags", NBT.TAG_STRING);
+			
+			for(int i = 0; i < tags.size(); i ++) {
+				TagHelper.addTag(stack, TagHelper.tagMap.get(tags.get(i).toString()));
+			}
+			
+			BaseTool.setIntNBT(stack, "rl_tool_version", ItemFactory.CURRENT_TOOL_VERSION);
+
+			tags.clear();
+			nbt.put("rl_tags", tags);
+		}
 		
 		return stack;
 		

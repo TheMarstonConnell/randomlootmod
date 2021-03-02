@@ -15,7 +15,7 @@ import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 
 public class ItemFactory {
 
-	private static final int CURRENT_TOOL_VERSION = 1;
+	public static final int CURRENT_TOOL_VERSION = 1;
 	
 	static Random rand = new Random();
 
