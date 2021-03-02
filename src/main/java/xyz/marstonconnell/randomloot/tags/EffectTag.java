@@ -36,6 +36,7 @@ public class EffectTag extends BasicTag {
 		this.offensive = clone.offensive;
 		this.forWeapons = clone.forWeapons;
 		this.forTools = clone.forTools;
+		this.level = clone.level;
 	}
 	
 	public EffectTag(String name, TextFormatting color, EffectInstance effect, boolean offensive, boolean forTools,
@@ -50,7 +51,7 @@ public class EffectTag extends BasicTag {
 	}
 
 	public EffectInstance createEffect() {
-		return new EffectInstance(effect, duration, level, false, false);
+		return new EffectInstance(effect, duration, this.level + 1, false, false);
 	}
 	
 	public EffectInstance copyEffect(EffectInstance effect) {
@@ -65,7 +66,6 @@ public class EffectTag extends BasicTag {
 
 		// if (!entityLiving.isPotionActive(effect.getPotion())) { // If the Potion
 		// isn't currently active,
-		EffectInstance copy = copyEffect(createEffect());
 		
 		// System.out.println("Applying " + copy.getEffectName() + " level " +
 		// copy.getAmplifier() + " to " + entityLiving.getName() + " for " +
@@ -73,17 +73,23 @@ public class EffectTag extends BasicTag {
 
 		Collection<EffectInstance> effects = entityLiving.getActivePotionEffects();
 		
+		EffectInstance toApply = createEffect();
+		
 		boolean foundEffect = false;
 		for (EffectInstance ef : effects) {
 			if(!ef.getEffectName().equals(Effects.NIGHT_VISION.getName())) {
-			if (ef.getEffectName().equals(copy.getEffectName())) {
-				foundEffect = true;
-			}
+				if (ef.getPotion().equals(this.effect)) {
+					
+					if(ef.getAmplifier() >= toApply.getAmplifier()) {
+						foundEffect = true;
+					}
+					
+				}
 			}
 		}
 		if (!foundEffect) {
 			
-			entityLiving.addPotionEffect(copy);
+			entityLiving.addPotionEffect(toApply);
 		}
 		// }
 
