@@ -74,9 +74,22 @@ public boolean isRepairable(ItemStack stack) {
 	public static void setLore(ItemStack stack) {
 		setLore(stack, "");
 	}
+	
+	public static ItemStack updateToNewVersion(ItemStack stack) {
+		
+		
+		
+		
+		
+		return stack;
+		
+	}
 
 	public static void setLore(ItemStack stack, String addLore) {
 
+		stack = updateToNewVersion(stack);
+		
+		
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
