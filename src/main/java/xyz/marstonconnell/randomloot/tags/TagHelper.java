@@ -160,7 +160,7 @@ public class TagHelper {
 		UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE).addBlackTags("filling");
 		AUTOSMELT = new BasicTag("auto-smelt", TextFormatting.DARK_RED);
 		
-		HAMMER_MODE = new WorldInteractTag(new String[]{"excavating"}, TextFormatting.DARK_BLUE, new MultiBreakEvent(), true, false, false);
+		HAMMER_MODE = new WorldInteractTag(new String[]{"excavating", "world_breaking"}, TextFormatting.DARK_BLUE, new MultiBreakEvent(), true, false, false).setMaxLevel(1);
 		
 	}
 

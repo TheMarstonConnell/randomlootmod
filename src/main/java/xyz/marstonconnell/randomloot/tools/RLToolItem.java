@@ -1,5 +1,6 @@
 package xyz.marstonconnell.randomloot.tools;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,6 +10,7 @@ import com.google.common.collect.ImmutableMultimap.Builder;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -36,6 +38,18 @@ public class RLToolItem extends ToolItem {
 	private final float attackDamage;
 	private final Multimap<Attribute, AttributeModifier> field_234674_d_;
 
+	public Set<Material> getEffectiveMaterials(){
+		HashSet<Material> effectiveOn = new HashSet<Material>();
+		
+		for(Block b : effectiveBlocks) {
+			
+			effectiveOn.add(b.getDefaultState().getMaterial());
+			
+		}
+		
+		return effectiveOn;
+	}
+	
 	public RLToolItem(String name, Set<Block> effectiveBlocksIn, float attackDamageIn, float attackSpeedIn) {
 		super(attackDamageIn, attackSpeedIn, ItemTier.DIAMOND, effectiveBlocksIn, new Properties());
 		this.setRegistryName(new ResourceLocation(RandomLootMod.MODID, name));
@@ -150,6 +164,11 @@ public class RLToolItem extends ToolItem {
 
 	public float func_234675_d_() {
 		return this.attackDamage;
+	}
+
+	public Set<Block> getEffectiveOn() {
+		// TODO Auto-generated method stub
+		return this.effectiveBlocks;
 	}
 
 

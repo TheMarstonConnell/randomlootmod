@@ -47,6 +47,11 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 	   /** Map used to lookup shovel right click interactions */
 	   protected static final Map<Block, BlockState> SHOVEL_LOOKUP = Maps.newHashMap(ImmutableMap.of(Blocks.GRASS_BLOCK, Blocks.GRASS_PATH.getDefaultState()));
 
+	   @Override
+	public Set<Block> getEffectiveOn() {
+		return EFFECTIVE_ON;
+	}
+	   
 	
 	public RLShovelItem(String name) {
 		super(name, EFFECTIVE_ON, 1.5F, -3.0F);

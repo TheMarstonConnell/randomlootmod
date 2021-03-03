@@ -65,7 +65,7 @@ public class RandomLootMod {
 	public static Random rand;
 	public static WeightedChooser<Item> wc;
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	public RandomLootMod() {
 
