@@ -13,6 +13,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.DoubleNBT;
@@ -26,6 +27,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
+import xyz.marstonconnell.randomloot.tags.StatBoostTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 import xyz.marstonconnell.randomloot.utils.Config;
@@ -53,11 +55,16 @@ public class RLPickaxeItem extends RLToolItem implements IRLTool {
 		hs.add(ToolType.PICKAXE);
 		return hs;
 	}
+	
+	@Override
+	public int getHarvestLevel(ItemStack stack, ToolType tool, PlayerEntity player, BlockState blockState) {
+		// TODO Auto-generated method stub
+		return super.getHarvestLevel(stack, tool, player, blockState);
+	}
 
 	public boolean canHarvestBlock(BlockState blockIn) {
-		int i = 4;
 		if (blockIn.getHarvestTool() == net.minecraftforge.common.ToolType.PICKAXE) {
-			return i >= blockIn.getHarvestLevel();
+			return true;
 		}
 		Material material = blockIn.getMaterial();
 		return material == Material.ROCK || material == Material.IRON || material == Material.ANVIL;
@@ -78,7 +85,7 @@ public class RLPickaxeItem extends RLToolItem implements IRLTool {
 		Material material = state.getMaterial();
 		return material != Material.IRON && material != Material.ANVIL && material != Material.ROCK
 				? super.getDestroySpeed(stack, state)
-				: this.efficiency + speedBonus - 1;
+				: super.getDestroySpeed(stack, state) + speedBonus - 1;
 	}
 	
 	@Override
@@ -92,6 +99,11 @@ public class RLPickaxeItem extends RLToolItem implements IRLTool {
 				}
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
+				if (eTag.forTools) {
+					allowedTags.add(eTag);
+				}
+			}else if (tag instanceof StatBoostTag) {
+				StatBoostTag eTag = (StatBoostTag) tag;
 				if (eTag.forTools) {
 					allowedTags.add(eTag);
 				}

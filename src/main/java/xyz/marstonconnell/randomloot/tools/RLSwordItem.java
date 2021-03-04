@@ -38,6 +38,7 @@ import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
+import xyz.marstonconnell.randomloot.tags.StatBoostTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 import xyz.marstonconnell.randomloot.utils.Config;
@@ -81,6 +82,11 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 				}
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
+				if (eTag.forWeapons) {
+					allowedTags.add(eTag);
+				}
+			}else if (tag instanceof StatBoostTag) {
+				StatBoostTag eTag = (StatBoostTag) tag;
 				if (eTag.forWeapons) {
 					allowedTags.add(eTag);
 				}

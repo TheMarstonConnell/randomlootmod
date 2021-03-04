@@ -11,9 +11,6 @@ public class WorldInteractTag extends BasicTag{
 
 	WorldInteractEvent wie;
 	
-	public boolean forTools = false;
-	public boolean forWeapons = false;
-	public boolean forArmor = false;
 	
 	private String[] names;
 	
@@ -46,6 +43,8 @@ public class WorldInteractTag extends BasicTag{
 		wie.effect(this.level + 1, stack, worldIn, entityLiving, state, pos, target);
 		
 	}
+	
+	
 	
 	@Override
 	public String toString() {

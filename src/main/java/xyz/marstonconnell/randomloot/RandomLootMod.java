@@ -1,6 +1,8 @@
 package xyz.marstonconnell.randomloot;
 
+import net.minecraft.block.BlockEventData;
 import net.minecraft.block.Blocks;
+import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.WitherEntity;
 import net.minecraft.entity.boss.dragon.EnderDragonEntity;
@@ -11,28 +13,45 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
+import net.minecraft.loot.LootEntry;
+import net.minecraft.loot.LootEntryManager;
+import net.minecraft.loot.LootFunction;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.functions.LootFunctionManager;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameRules;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.LootModifier;
+import net.minecraftforge.common.loot.LootModifierManager;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.living.LivingDestroyBlockEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.HarvestCheck;
 import net.minecraftforge.event.village.VillagerTradesEvent;
+import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import xyz.marstonconnell.randomloot.entity.RLPointOfInterestTypes;
 import xyz.marstonconnell.randomloot.entity.RLVillagerProfession;
 import xyz.marstonconnell.randomloot.init.ItemUtils;
@@ -48,6 +67,8 @@ import xyz.marstonconnell.randomloot.utils.RandomTradeBuilder;
 import xyz.marstonconnell.randomloot.utils.Registration;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 import xyz.marstonconnell.randomloot.utils.handlers.NetworkHandler;
+import xyz.marstonconnell.randomloot.utils.loot.AutoSmeltModifier;
+import xyz.marstonconnell.randomloot.utils.loot.DataProvider;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -67,12 +88,28 @@ public class RandomLootMod {
 
 	public static final boolean DEBUG = false;
 
+    private static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, MODID);
+    public static final RegistryObject<AutoSmeltModifier.Serializer> SMELTING = GLM.register("smelting", AutoSmeltModifier.Serializer::new);
+	
+    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
+    public static class EventHandlers {
+        @SubscribeEvent
+        public static void runData(GatherDataEvent event)
+        {
+                event.getGenerator().addProvider(new DataProvider(event.getGenerator(), MODID));
+        }
+    }
+    
+    
+    
 	public RandomLootMod() {
 
 		new ItemUtils();
 		rand = new Random();
 		wc = new WeightedChooser<Item>();
 
+		GLM.register(FMLJavaModLoadingContext.get().getModEventBus());
+		
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		// Register the enqueueIMC method for modloading
@@ -186,6 +223,10 @@ public class RandomLootMod {
 		}
 
 	}
+	
+
+	
+	
 
 	@Mod.EventBusSubscriber(modid = RandomLootMod.MODID)
 	public static class VillagerEvents {

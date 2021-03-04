@@ -12,16 +12,24 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants.NBT;
+import xyz.marstonconnell.randomloot.tags.StatBoost.LowDurabilityBoostEvent;
+import xyz.marstonconnell.randomloot.tags.StatBoost.WeatherBoostEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.AutoSmeltEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.BeanStalkEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.CriticalStrikeEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.DamageEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.GangBangEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.InstaKillEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.LightBoostEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.LowDurabilityAttackEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiBreakEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
+import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 
 public class TagHelper {
@@ -78,6 +86,12 @@ public class TagHelper {
 	public static final BasicTag MOB_RAISE;
 	
 	public static final BasicTag HAMMER_MODE;
+	public static final BasicTag SUN_BEAMS;
+	public static final BasicTag RAINY_DAY;
+	public static final BasicTag GROUP_HARM;
+	public static final BasicTag DAMAGE_BOOST;
+	public static final BasicTag DAMAGE_DEAL;
+	public static final BasicTag BEANSTALK;
 
 	// PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE;
@@ -131,7 +145,7 @@ public class TagHelper {
 
 		// WORLD INTERACT EFFECTS
 		EXPLOSION = new WorldInteractTag(new String[] { "explosive" }, TextFormatting.RED, new ExplosionEvent(), true,
-				false, false).addBlackTags("phasing");
+				false, false).addBlackTags("phasing", "sun_bathing", "auto-smelt");
 		
 		REPLENISH = new WorldInteractTag(new String[] { "filling" }, TextFormatting.DARK_GREEN, new ReplenishEvent(),
 				true, false, true).addBlackTags("fortified");
@@ -157,10 +171,23 @@ public class TagHelper {
 				new RaisingEvent(), false, false, true).setMaxLevel(1);
 
 		// PASSIVE EFFECTS
-		UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE).addBlackTags("filling");
-		AUTOSMELT = new BasicTag("auto-smelt", TextFormatting.DARK_RED);
+		UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE).addBlackTags("filling", "excavating");
 		
-		HAMMER_MODE = new WorldInteractTag(new String[]{"excavating", "world_breaking"}, TextFormatting.DARK_BLUE, new MultiBreakEvent(), true, false, false).setMaxLevel(1);
+		AUTOSMELT = new WorldInteractTag(new String[]{"auto-smelt"}, TextFormatting.DARK_RED, new AutoSmeltEvent(), true, false, false).addBlackTags("excavating", "explosive");
+		
+		HAMMER_MODE = new WorldInteractTag(new String[]{"excavating", "world_breaking"}, TextFormatting.DARK_BLUE, new MultiBreakEvent(), true, false, false).setMaxLevel(1).addBlackTags("fortified", "explosive", "auto-smelt");
+		
+		SUN_BEAMS = new WorldInteractTag(new String[] {"sun_bathing"}, TextFormatting.YELLOW, new LightBoostEvent(), true, false, true);
+		
+		RAINY_DAY = new StatBoostTag(new String[] {"rained_out"}, TextFormatting.DARK_AQUA, new WeatherBoostEvent(), true, false, true);
+		
+		GROUP_HARM = new WorldInteractTag(new String[] {"crowd_pleaser"}, TextFormatting.DARK_PURPLE, new GangBangEvent(), false, false, true);
+		
+		DAMAGE_BOOST = new StatBoostTag(new String[] {"sturdy"}, TextFormatting.GOLD, new LowDurabilityBoostEvent(), true, false, false);
+		
+		DAMAGE_DEAL = new WorldInteractTag(new String[] {"fierce", "feisty"}, TextFormatting.RED, new LowDurabilityAttackEvent(), false, false, true).setMaxLevel(1);
+		
+		BEANSTALK = new WorldInteractTag(new String[] {"stalky"}, TextFormatting.GREEN, new BeanStalkEvent(), false, false, true);
 		
 	}
 
@@ -175,10 +202,11 @@ public class TagHelper {
 			if (tag.get("tag_name").getString().equals(t.name)) {
 				if (t instanceof EffectTag) {
 					t = new EffectTag((EffectTag) t);
-
 				} else if (t instanceof WorldInteractTag) {
 					t = new WorldInteractTag((WorldInteractTag) t);
-				} else {
+				} else if(t instanceof StatBoostTag){
+					t = new StatBoostTag((StatBoostTag) t);
+				}else {
 					t = new BasicTag(t);
 				}
 
@@ -198,8 +226,8 @@ public class TagHelper {
 	public static CompoundNBT convertToNBT(BasicTag tag) {
 		CompoundNBT nbt = new CompoundNBT();
 
-		nbt.put("tag_name", StringNBT.valueOf(tag.name));
-		nbt.putInt("tag_level", tag.level);
+		nbt.put(TAG_NAME, StringNBT.valueOf(tag.name));
+		nbt.putInt(TAG_LEVEL, tag.level);
 
 		return nbt;
 
@@ -254,6 +282,9 @@ public class TagHelper {
 		} else {
 			nbt = new CompoundNBT();
 		}
+		
+	
+		
 
 		ListNBT heldTags = nbt.getList(TAG_LIST, NBT.TAG_COMPOUND);
 		ListNBT newList = new ListNBT();
@@ -316,6 +347,7 @@ public class TagHelper {
 			nbt = new CompoundNBT();
 		}
 
+		
 		ListNBT heldTags = nbt.getList(TAG_LIST, NBT.TAG_COMPOUND);
 		ListNBT newList = new ListNBT();
 

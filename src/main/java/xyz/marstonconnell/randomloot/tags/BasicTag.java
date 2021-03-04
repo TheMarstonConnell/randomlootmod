@@ -13,6 +13,11 @@ public class BasicTag {
 	public int maxLevel;
 	public List<String> incompatibleTags;
 	
+	public boolean offensive = false;
+	public boolean forWeapons = false;
+	public boolean forTools = false;
+	public boolean forArmor = false;
+	
 	public BasicTag(String name, TextFormatting color) {
 		this.name = name;
 		this.color = color;

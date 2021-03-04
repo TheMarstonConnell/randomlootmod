@@ -13,9 +13,7 @@ import net.minecraft.world.World;
 public class EffectTag extends BasicTag {
 
 	Effect effect;
-	public boolean offensive = false;
-	public boolean forWeapons = false;
-	public boolean forTools = false;
+	
 	public int level = 0;
 	private int duration = 100;
 	

@@ -37,6 +37,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
+import xyz.marstonconnell.randomloot.tags.StatBoostTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 import xyz.marstonconnell.randomloot.utils.Config;
@@ -130,7 +131,7 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 		Material material = state.getMaterial();
 		return material != Material.SNOW && material != Material.SNOW_BLOCK && material != Material.CLAY && material != Material.EARTH && material != Material.SAND
 				? super.getDestroySpeed(stack, state)
-				: this.efficiency + speedBonus - 1;
+				: super.getDestroySpeed(stack, state) + speedBonus - 1;
 	}
 	
 	@Override
@@ -144,6 +145,11 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 				}
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
+				if (eTag.forTools) {
+					allowedTags.add(eTag);
+				}
+			}else if (tag instanceof StatBoostTag) {
+				StatBoostTag eTag = (StatBoostTag) tag;
 				if (eTag.forTools) {
 					allowedTags.add(eTag);
 				}

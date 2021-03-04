@@ -24,10 +24,10 @@ import xyz.marstonconnell.randomloot.tags.TagHelper;
 
 public class BaseTool extends Item {
 
-	final static String TAG_XP = "xp";
-	final static String TAG_MAX_XP = "max_xp";
-	final static String TAG_TEXTURE = "texture";
-	
+	public final static String TAG_XP = "xp";
+	public final static String TAG_MAX_XP = "max_xp";
+	public final static String TAG_TEXTURE = "texture";
+	public final static String TAG_BONUS_SPEED = "rl_bonus_speed";
 
 	public boolean isRepairItem(ItemStack stack) {
 		return stack.getItem() == RLItems.best_shard;
@@ -207,7 +207,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param tag   String
 	 * @param value String
 	 */
-	protected static void setStringNBT(ItemStack stack, String tag, String value) {
+	public static void setStringNBT(ItemStack stack, String tag, String value) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -320,7 +320,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param tag   String
 	 * @param value float
 	 */
-	protected static void setFloatNBT(ItemStack stack, String tag, float value) {
+	public static void setFloatNBT(ItemStack stack, String tag, float value) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -408,6 +408,19 @@ public boolean isRepairable(ItemStack stack) {
 	 */
 	public static void setTexture(ItemStack stack, int textureId) {
 		setIntNBT(stack, TAG_TEXTURE, textureId);
+	}
+
+	public static void deleteStringNBT(ItemStack stack, String string) {
+		CompoundNBT nbt;
+		if (stack.hasTag()) {
+			nbt = stack.getTag();
+		} else {
+			nbt = new CompoundNBT();
+		}
+
+		nbt.remove(string);
+		stack.setTag(nbt);
+		
 	}
 
 }

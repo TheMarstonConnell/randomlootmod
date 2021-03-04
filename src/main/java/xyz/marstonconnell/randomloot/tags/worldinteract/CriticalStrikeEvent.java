@@ -22,6 +22,8 @@ public class CriticalStrikeEvent extends WorldInteractEvent{
 		target.hurtResistantTime = 0;
 		target.hurtTime = 0;
 
+		
+		
 		target.attackEntityFrom(new IndirectEntityDamageSource("indirectMagic", entityLiving, null).setDamageBypassesArmor().setMagicDamage(), (float) (damage * 0.25 * level));
 		
 		

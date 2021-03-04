@@ -36,6 +36,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ToolType;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.EffectTag;
+import xyz.marstonconnell.randomloot.tags.StatBoostTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 import xyz.marstonconnell.randomloot.utils.Config;
@@ -124,7 +125,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 		float speedBonus = nbt.getFloat("rl_dig_speed");
 
 		Material material = state.getMaterial();
-		return EFFECTIVE_ON_MATERIALS.contains(material) ? this.efficiency + speedBonus - 1
+		return EFFECTIVE_ON_MATERIALS.contains(material) ? super.getDestroySpeed(stack, state) + speedBonus - 1
 				: super.getDestroySpeed(stack, state);
 	}
 	
@@ -157,7 +158,9 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 			}else if (tags.get(i) instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
 
-				eTag.runEffect(stack, attacker.world, attacker, attacker.getEntityWorld().getBlockState(new BlockPos(attacker.getPositionVec())), new BlockPos(attacker.getPositionVec()), target);
+				if(eTag.forWeapons) {
+					eTag.runEffect(stack, attacker.world, attacker, attacker.getEntityWorld().getBlockState(new BlockPos(attacker.getPositionVec())), new BlockPos(attacker.getPositionVec()), target);
+				}
 
 		}
 		}
@@ -178,6 +181,11 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 			} else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
 				if (eTag.forTools || eTag.forWeapons) {
+					allowedTags.add(eTag);
+				}
+			}else if (tag instanceof StatBoostTag) {
+				StatBoostTag eTag = (StatBoostTag) tag;
+				if (eTag.forTools) {
 					allowedTags.add(eTag);
 				}
 			}
