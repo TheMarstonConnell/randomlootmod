@@ -27,6 +27,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.InstaKillEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LightBoostEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LowDurabilityAttackEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiBreakEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.OreFindEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
@@ -53,6 +54,8 @@ public class TagHelper {
 	// public static final EffectTag empty = new EffectTag("empty", COLOR, new
 	// PoitionEffect(), offensive, forTools, forWeapons)
 
+	public static final BasicTag NULL_TAG;
+	
 	// HELPFUL EFFECTS
 	public static final BasicTag SPEED;
 	public static final BasicTag JUMP;
@@ -94,12 +97,15 @@ public class TagHelper {
 	public static final BasicTag DAMAGE_DEAL;
 	public static final BasicTag BEANSTALK;
 	public static final BasicTag BEE_KEEPER;
+	public static final BasicTag ORE_SIGHT;
 
 	// PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE;
 	public static final BasicTag AUTOSMELT;
 
 	static {
+		NULL_TAG = new BasicTag("", TextFormatting.WHITE);
+		
 		SPEED = new EffectTag("speedy", TextFormatting.AQUA, Effects.SPEED, false, false, true).setMaxLevel(2);
 
 		JUMP = new EffectTag("bouncy", TextFormatting.GREEN, Effects.JUMP_BOOST, false, false, false).setMaxLevel(1).addBlackTags("cloud_walker");
@@ -175,7 +181,7 @@ public class TagHelper {
 		// PASSIVE EFFECTS
 		UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE).addBlackTags("filling", "excavating");
 		
-		AUTOSMELT = new WorldInteractTag(new String[]{"auto-smelt"}, TextFormatting.DARK_RED, new AutoSmeltEvent(), true, false, false).addBlackTags("excavating", "explosive");
+		AUTOSMELT = new WorldInteractTag(new String[]{"auto_smelt"}, TextFormatting.DARK_RED, new AutoSmeltEvent(), true, false, false).addBlackTags("excavating", "explosive");
 		
 		HAMMER_MODE = new WorldInteractTag(new String[]{"excavating", "world_breaking"}, TextFormatting.DARK_BLUE, new MultiBreakEvent(), true, false, false).setMaxLevel(1).addBlackTags("fortified", "explosive", "auto-smelt");
 		
@@ -192,6 +198,8 @@ public class TagHelper {
 		BEANSTALK = new WorldInteractTag(new String[] {"stalky"}, TextFormatting.GREEN, new BeanStalkEvent(), false, false, true).addBlackTags("hailey's_wrath", "taming");
 		
 		BEE_KEEPER = new WorldInteractTag(new String[] {"hailey's_wrath"}, TextFormatting.YELLOW, new BeeSummonEvent(), false, false, true).addBlackTags("taming", "stalky");
+		
+		ORE_SIGHT = new WorldInteractTag(new String[] {"ore_sight"}, TextFormatting.AQUA, new OreFindEvent(), true, false, false);
 		
 	}
 
@@ -218,7 +226,7 @@ public class TagHelper {
 			}
 		}
 
-		return null;
+		return new BasicTag(NULL_TAG);
 	}
 
 	/**
