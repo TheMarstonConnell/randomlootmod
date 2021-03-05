@@ -16,6 +16,7 @@ import xyz.marstonconnell.randomloot.tags.StatBoost.LowDurabilityBoostEvent;
 import xyz.marstonconnell.randomloot.tags.StatBoost.WeatherBoostEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.AutoSmeltEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.BeanStalkEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.BeeSummonEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.CriticalStrikeEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.DamageEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
@@ -92,6 +93,7 @@ public class TagHelper {
 	public static final BasicTag DAMAGE_BOOST;
 	public static final BasicTag DAMAGE_DEAL;
 	public static final BasicTag BEANSTALK;
+	public static final BasicTag BEE_KEEPER;
 
 	// PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE;
@@ -168,7 +170,7 @@ public class TagHelper {
 				TextFormatting.DARK_BLUE, new InstaKillEvent(), false, false, true).setMaxLevel(2).addBlackTags("sharper_edge", "giant_slayer");
 
 		MOB_RAISE = new WorldInteractTag(new String[] { "taming", "automotonizing" }, TextFormatting.DARK_GREEN,
-				new RaisingEvent(), false, false, true).setMaxLevel(1);
+				new RaisingEvent(), false, false, true).setMaxLevel(1).addBlackTags("hailey's_wrath", "taming");
 
 		// PASSIVE EFFECTS
 		UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE).addBlackTags("filling", "excavating");
@@ -187,7 +189,9 @@ public class TagHelper {
 		
 		DAMAGE_DEAL = new WorldInteractTag(new String[] {"fierce", "feisty"}, TextFormatting.RED, new LowDurabilityAttackEvent(), false, false, true).setMaxLevel(1);
 		
-		BEANSTALK = new WorldInteractTag(new String[] {"stalky"}, TextFormatting.GREEN, new BeanStalkEvent(), false, false, true);
+		BEANSTALK = new WorldInteractTag(new String[] {"stalky"}, TextFormatting.GREEN, new BeanStalkEvent(), false, false, true).addBlackTags("hailey's_wrath", "taming");
+		
+		BEE_KEEPER = new WorldInteractTag(new String[] {"hailey's_wrath"}, TextFormatting.YELLOW, new BeeSummonEvent(), false, false, true).addBlackTags("taming", "stalky");
 		
 	}
 
@@ -270,8 +274,7 @@ public class TagHelper {
 	public static ItemStack addTag(ItemStack stack, String tagName) {
 	
 		addTag(stack, tagMap.get(tagName));
-
-
+		
 		return stack;
 	}
 

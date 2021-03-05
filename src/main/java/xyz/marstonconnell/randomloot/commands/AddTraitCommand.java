@@ -13,6 +13,8 @@ import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 
 public class AddTraitCommand {
+	
+	
 
 	public static int execute(CommandSource commandSource, String trait) throws CommandSyntaxException {
 
