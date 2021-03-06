@@ -11,4 +11,6 @@ import net.minecraft.world.World;
 public abstract class WorldInteractEvent {
 	public abstract void effect(int level, ItemStack stack, World worldIn,
 			LivingEntity entityLiving, BlockState state, BlockPos pos, @Nullable LivingEntity target);
+	public abstract void onAdd(int level, ItemStack stack, World worldIn,
+			LivingEntity entityLiving, BlockState state, BlockPos pos, @Nullable LivingEntity target);
 }

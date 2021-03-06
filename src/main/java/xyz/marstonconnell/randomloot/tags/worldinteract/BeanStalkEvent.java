@@ -81,4 +81,11 @@ public class BeanStalkEvent extends WorldInteractEvent {
 
 	}
 
+	@Override
+	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
+			BlockPos pos, LivingEntity target) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

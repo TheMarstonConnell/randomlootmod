@@ -3,6 +3,7 @@ package xyz.marstonconnell.randomloot.tags;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -11,12 +12,14 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import xyz.marstonconnell.randomloot.tags.StatBoost.LowDurabilityBoostEvent;
 import xyz.marstonconnell.randomloot.tags.StatBoost.WeatherBoostEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.AutoSmeltEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.BeanStalkEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.BeeSummonEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.ChargingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.CriticalStrikeEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.DamageEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
@@ -98,6 +101,7 @@ public class TagHelper {
 	public static final BasicTag BEANSTALK;
 	public static final BasicTag BEE_KEEPER;
 	public static final BasicTag ORE_SIGHT;
+	public static final BasicTag CHARGING;
 
 	// PASSIVE EFFECTS
 	public static final BasicTag UNBREAKABLE;
@@ -201,6 +205,11 @@ public class TagHelper {
 		
 		ORE_SIGHT = new WorldInteractTag(new String[] {"ore_sight"}, TextFormatting.AQUA, new OreFindEvent(), true, false, false);
 		
+		ChargingEvent ce = new ChargingEvent();
+		
+		CHARGING = new WorldInteractTag(new String[] {"charged"}, TextFormatting.AQUA, ce, false, false, true).addValue("rl_charge", 0.0f);
+		ce.addExtras(CHARGING.extraValues);
+		
 	}
 
 	/**
@@ -210,18 +219,29 @@ public class TagHelper {
 	 * @return
 	 */
 	public static BasicTag convertToTag(CompoundNBT tag) {
+		
+		Set<String> keys = tag.keySet();
+		
 		for (BasicTag t : allTags) {
 			if (tag.get("tag_name").getString().equals(t.name)) {
 				if (t instanceof EffectTag) {
 					t = new EffectTag((EffectTag) t);
 				} else if (t instanceof WorldInteractTag) {
 					t = new WorldInteractTag((WorldInteractTag) t);
+				
 				} else if(t instanceof StatBoostTag){
 					t = new StatBoostTag((StatBoostTag) t);
 				}else {
 					t = new BasicTag(t);
 				}
 
+				for(String s : keys) {
+					if(! (s.equals(TAG_LEVEL) || s.equals(TAG_NAME))) {
+						t.addValue(s, tag.getFloat(s));
+					}
+				}
+				
+				
 				return t.setLevel(tag.getInt(TAG_LEVEL));
 			}
 		}
@@ -240,6 +260,12 @@ public class TagHelper {
 
 		nbt.put(TAG_NAME, StringNBT.valueOf(tag.name));
 		nbt.putInt(TAG_LEVEL, tag.level);
+		
+		
+		Set<String> keys = tag.extraValues.keySet();
+		for(String s : keys) {
+			nbt.putFloat(s, tag.extraValues.get(s));
+		}
 
 		return nbt;
 
@@ -279,14 +305,14 @@ public class TagHelper {
 
 	}
 
-	public static ItemStack addTag(ItemStack stack, String tagName) {
+	public static ItemStack addTag(ItemStack stack, String tagName, World worldIn) {
 	
-		addTag(stack, tagMap.get(tagName));
+		addTag(stack, tagMap.get(tagName), worldIn);
 		
 		return stack;
 	}
 
-	public static ItemStack addTag(ItemStack stack, BasicTag tag) {
+	public static ItemStack addTag(ItemStack stack, BasicTag tag, World worldIn) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -321,6 +347,7 @@ public class TagHelper {
 
 			}
 
+			
 			newList.add(tagAsNBT);
 
 		}
@@ -328,6 +355,7 @@ public class TagHelper {
 		if (!upgraded) {
 			
 			if(getCompatibleTags(stack).contains(tag)) {
+				tag.onTagAdded(stack, worldIn, null, null, null, null);
 				newList.add(convertToNBT(tag));
 			}
 			
@@ -452,4 +480,9 @@ public class TagHelper {
 
 		return converted.toString();
 	}
+
+//	public static void addTag(ItemStack s, BasicTag basicTag) {
+//		addTag(s, basicTag, null);
+//		
+//	}
 }

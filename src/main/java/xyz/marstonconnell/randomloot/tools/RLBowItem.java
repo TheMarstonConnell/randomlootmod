@@ -147,7 +147,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 				worldIn.addEntity(abstractarrowentity);
 				BaseTool.changeXP(stack, 1, worldIn, entityLiving.getPosition());
-				BaseTool.setLore(stack);
+				BaseTool.setLore(stack, worldIn);
 
 			}
 
@@ -263,7 +263,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	}
 
 	@Override
-	public void upgradeTool(ItemStack stack) {
+	public void upgradeTool(ItemStack stack, World worldIn) {
 		setVelo(stack, getVelo(stack) * 0.95f);
 		BaseTool.setFloatNBT(stack, "rl_bow_dmg", BaseTool.getFloatNBT(stack, "rl_bow_dmg") * 1.2f);
 

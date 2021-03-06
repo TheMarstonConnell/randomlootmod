@@ -38,7 +38,7 @@ public class EditXPCommand {
 	        
 	        if(stack.getItem() instanceof IRLTool) {
 				BaseTool.changeXP(stack, value, player.getEntityWorld(), player.getPosition());
-				BaseTool.setLore(stack);
+				BaseTool.setLore(stack, player.getEntityWorld());
 	        }else {
 	        	translationtextcomponent = new TranslationTextComponent("chat.type.announcement",
 						context.getSource().getDisplayName(), new StringTextComponent(TextFormatting.RED + "Error Adjusting xp - not RandomLoot Tool"));

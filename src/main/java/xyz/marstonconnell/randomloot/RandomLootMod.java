@@ -9,6 +9,7 @@ import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -22,12 +23,15 @@ import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.GameRules;
+import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.common.loot.LootModifierManager;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDestroyBlockEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -47,6 +51,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -58,7 +63,9 @@ import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLCommands;
 import xyz.marstonconnell.randomloot.init.RLEntities;
 import xyz.marstonconnell.randomloot.init.RLItems;
+import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
+import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.tools.TextureProxy;
 import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.LootSystem;
@@ -75,6 +82,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.google.common.base.Preconditions;
 
+import java.util.List;
 import java.util.Random;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -88,20 +96,19 @@ public class RandomLootMod {
 
 	public static final boolean DEBUG = false;
 
-    private static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, MODID);
-    public static final RegistryObject<AutoSmeltModifier.Serializer> SMELTING = GLM.register("smelting", AutoSmeltModifier.Serializer::new);
-	
-    @EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
-    public static class EventHandlers {
-        @SubscribeEvent
-        public static void runData(GatherDataEvent event)
-        {
-                event.getGenerator().addProvider(new DataProvider(event.getGenerator(), MODID));
-        }
-    }
-    
-    
-    
+	private static final DeferredRegister<GlobalLootModifierSerializer<?>> GLM = DeferredRegister
+			.create(ForgeRegistries.LOOT_MODIFIER_SERIALIZERS, MODID);
+	public static final RegistryObject<AutoSmeltModifier.Serializer> SMELTING = GLM.register("smelting",
+			AutoSmeltModifier.Serializer::new);
+
+	@EventBusSubscriber(modid = MODID, bus = EventBusSubscriber.Bus.MOD)
+	public static class EventHandlers {
+		@SubscribeEvent
+		public static void runData(GatherDataEvent event) {
+			event.getGenerator().addProvider(new DataProvider(event.getGenerator(), MODID));
+		}
+	}
+
 	public RandomLootMod() {
 
 		new ItemUtils();
@@ -109,7 +116,7 @@ public class RandomLootMod {
 		wc = new WeightedChooser<Item>();
 
 		GLM.register(FMLJavaModLoadingContext.get().getModEventBus());
-		
+
 		// Register the setup method for modloading
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 		// Register the enqueueIMC method for modloading
@@ -133,12 +140,10 @@ public class RandomLootMod {
 	}
 
 	private void doClientStuff(final FMLClientSetupEvent event) {
-		
+
 		TextureProxy.init();
 
 	}
-
-
 
 	@SubscribeEvent
 	public void entityDrop(LivingDropsEvent event) {
@@ -183,6 +188,36 @@ public class RandomLootMod {
 		LootSystem.init();
 	}
 
+	@SubscribeEvent
+	public void onPlayerJoin(EntityJoinWorldEvent event) {
+
+		if (!(event.getEntity() instanceof PlayerEntity)) {
+			return;
+		}
+		
+		System.out.println("Player joined world");
+
+		PlayerEntity player = (PlayerEntity) event.getEntity();
+
+		// do something when the server starts
+		LOGGER.info("HELLO from server starting");
+
+		World world = event.getWorld();
+
+		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
+			ItemStack stack = player.inventory.getStackInSlot(i);
+
+			if (stack.getItem() instanceof IRLTool) {
+				System.out.println("Found a tool.");
+				List<BasicTag> tags = TagHelper.getTagList(stack);
+				for (BasicTag tag : tags) {
+					tag.onTagAdded(stack, world, player);
+				}
+			}
+		}
+
+	}
+
 	// You can use EventBusSubscriber to automatically subscribe events on the
 	// contained class (this is subscribing to the MOD
 	// Event bus for receiving Registry Events)
@@ -223,10 +258,6 @@ public class RandomLootMod {
 		}
 
 	}
-	
-
-	
-	
 
 	@Mod.EventBusSubscriber(modid = RandomLootMod.MODID)
 	public static class VillagerEvents {
@@ -237,7 +268,7 @@ public class RandomLootMod {
 
 				for (int i = 0; i < TagHelper.allTags.size(); i++) {
 					ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-					TagHelper.addTag(s, TagHelper.allTags.get(i));
+					TagHelper.addTag(s, TagHelper.allTags.get(i), null);
 					s.setDisplayName(new StringTextComponent(TextFormatting.WHITE
 							+ TagHelper.convertToTitleCaseIteratingChars(TagHelper.allTags.get(i).name) + " Essence"));
 					event.getTrades().get(4)

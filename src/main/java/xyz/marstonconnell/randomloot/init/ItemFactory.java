@@ -6,6 +6,7 @@ import java.util.Random;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
@@ -19,33 +20,33 @@ public class ItemFactory {
 	
 	static Random rand = new Random();
 
-	public static void applyToken(ItemStack stack) {
+	public static void applyToken(ItemStack stack, World worldIn) {
 		if (rand.nextInt(Config.TRAIT_RATIO.get()) <= 1) {
-			giftNewTrait(stack);
+			giftNewTrait(stack, worldIn);
 		} else {
-			buffItemStats(stack);
+			buffItemStats(stack, worldIn);
 		}
 	}
 
-	private static void buffItemStats(ItemStack stack) {
+	private static void buffItemStats(ItemStack stack, World worldIn) {
 
 		if (stack.getItem() instanceof IRLTool) {
-			((IRLTool) stack.getItem()).upgradeTool(stack);
+			((IRLTool) stack.getItem()).upgradeTool(stack, worldIn);
 		}
 
 	}
 
-	private static void giftNewTrait(ItemStack stack) {
+	private static void giftNewTrait(ItemStack stack, World worldIn) {
 
 		List<BasicTag> allTags = TagHelper.getCompatibleTags(stack);		
 
 		BasicTag t = allTags.get(rand.nextInt(allTags.size()));
 
-		TagHelper.addTag(stack, t);
+		TagHelper.addTag(stack, t, worldIn);
 
 	}
 
-	public static ItemStack forgeItem(ItemStack stack, int rarity) {
+	public static ItemStack forgeItem(ItemStack stack, int rarity, World worldIn) {
 
 		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
 		switch (rarity) {
@@ -97,7 +98,7 @@ public class ItemFactory {
 
 		System.out.println("Rolling for item " + totalRolls + " times...");
 		for (int i = 0; i < totalRolls; i++) {
-			applyToken(stack);
+			applyToken(stack, worldIn);
 		}
 
 		((IRLTool) stack.getItem()).updateStats(stack);
@@ -110,7 +111,7 @@ public class ItemFactory {
 		BaseTool.setTexture(stack, rand.nextInt(((IRLTool) stack.getItem()).getVariants() - 1) + 1);
 		BaseTool.setMaxXP(stack, Config.STARTING_XP.get());
 
-		BaseTool.setLore(stack);
+		BaseTool.setLore(stack, worldIn);
 
 		// stack.setDisplayName(new StringTextComponent(color.toString() +
 		// BaseTool.getName(stack)));

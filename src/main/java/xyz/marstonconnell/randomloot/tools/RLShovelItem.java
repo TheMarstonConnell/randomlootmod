@@ -240,7 +240,7 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 	}
 
 	@Override
-	public void upgradeTool(ItemStack stack) {
+	public void upgradeTool(ItemStack stack, World worldIn) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -258,7 +258,7 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 		
 		updateStats(stack);
 		
-		BaseTool.setLore(stack);
+		BaseTool.setLore(stack, worldIn);
 
 	}
 	

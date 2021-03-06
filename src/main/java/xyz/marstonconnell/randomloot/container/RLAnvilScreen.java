@@ -46,14 +46,7 @@ public class RLAnvilScreen extends ContainerScreen<RLRepairContainer> implements
 		RenderSystem.disableBlend();
 		this.renderHoveredTooltip(p_230430_1_, p_230430_2_, p_230430_3_);
 
-		Button destroy = new Button(164, 72, 64, 18, new TranslationTextComponent("button.remove"), new IPressable() {
-
-			@Override
-			public void onPress(Button p_onPress_1_) {
-//				getMinecraft().player.connection.send
-				container.removeAllTraits();
-			}
-		});
+		
 
 //		this.buttons.add(destroy);
 	}

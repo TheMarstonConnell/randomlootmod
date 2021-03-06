@@ -2,6 +2,7 @@ package xyz.marstonconnell.randomloot.tags;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
@@ -11,8 +12,22 @@ public class WorldInteractTag extends BasicTag{
 
 	WorldInteractEvent wie;
 	
-	
 	private String[] names;
+	
+	@Override
+	public boolean onTagAdded(ItemStack s, World worldIn, PlayerEntity player) {
+
+		
+		
+		if(!super.onTagAdded(s, worldIn, player)) {
+			return false;
+		}
+		
+		wie.onAdd(level, s, worldIn, player, null, null, null);
+		
+		return true;
+		
+	}
 	
 	public WorldInteractTag(WorldInteractTag clone) {
 		super(clone);
@@ -22,6 +37,7 @@ public class WorldInteractTag extends BasicTag{
 		this.forArmor = clone.forArmor;
 		this.forWeapons = clone.forWeapons;
 		
+
 	}
 	
 	public WorldInteractTag(String[] namesIn, TextFormatting color, WorldInteractEvent event, boolean forTools, boolean forArmor, boolean forWeapons) {
@@ -31,6 +47,7 @@ public class WorldInteractTag extends BasicTag{
 		this.forTools = forTools;
 		this.forWeapons = forWeapons;
 		this.forArmor = forArmor;
+		
 		
 		for(int i = 1 ;i < namesIn.length; i ++) {
 			TagHelper.tagMap.put(namesIn[i], this);

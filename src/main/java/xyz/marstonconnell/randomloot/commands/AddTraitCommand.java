@@ -26,9 +26,9 @@ public class AddTraitCommand {
 			return 0;
 		}
 
-		TagHelper.addTag(stack, trait);
+		TagHelper.addTag(stack, trait, player.getEntityWorld());
 
-		BaseTool.setLore(stack);
+		BaseTool.setLore(stack, player.getEntityWorld());
 
 		return 1;
 	}

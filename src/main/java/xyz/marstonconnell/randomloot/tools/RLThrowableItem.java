@@ -79,7 +79,7 @@ public class RLThrowableItem extends BaseTool implements IRLTool {
 	}
 
 	@Override
-	public void upgradeTool(ItemStack stack) {
+	public void upgradeTool(ItemStack stack, World worldIn) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();

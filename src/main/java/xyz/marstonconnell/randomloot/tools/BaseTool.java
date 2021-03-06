@@ -72,7 +72,7 @@ public boolean isRepairable(ItemStack stack) {
 	private static void upgradeTool(ItemStack stack, World worldIn, BlockPos pos) {
 		setXP(stack, 0);
 		setMaxXP(stack, (int) (getMaxXP(stack) * 1.5));
-		ItemFactory.applyToken(stack);
+		ItemFactory.applyToken(stack, worldIn);
 		
         worldIn.playSound((PlayerEntity)null, pos.getX(), pos.getY(), pos.getZ(), SoundEvents.ENTITY_PLAYER_LEVELUP, SoundCategory.PLAYERS, 1.0F, 1.0F);
 
@@ -80,9 +80,11 @@ public boolean isRepairable(ItemStack stack) {
 	}
 	
 	
-	public static void setLore(ItemStack stack) {
-		setLore(stack, "");
+	public static void setLore(ItemStack stack, World worldIn) {
+		setLore(stack, "", worldIn);
 	}
+	
+	
 	
 	/**
 	 * Updates old tool to new version.
@@ -90,7 +92,11 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param stack
 	 * @return
 	 */
-	public static ItemStack updateToNewVersion(ItemStack stack) {
+	public static ItemStack updateToNewVersion(ItemStack stack, World worldIn) {
+		
+		if(worldIn == null) {
+			return stack;
+		}
 		
 		if(getIntNBT(stack, "rl_tool_version") != ItemFactory.CURRENT_TOOL_VERSION) {
 			
@@ -104,7 +110,7 @@ public boolean isRepairable(ItemStack stack) {
 			ListNBT tags = nbt.getList("rl_tags", NBT.TAG_STRING);
 			
 			for(int i = 0; i < tags.size(); i ++) {
-				TagHelper.addTag(stack, TagHelper.tagMap.get(tags.getString(i)));
+				TagHelper.addTag(stack, TagHelper.tagMap.get(tags.getString(i)), worldIn);
 			}
 			
 			BaseTool.setIntNBT(stack, "rl_tool_version", ItemFactory.CURRENT_TOOL_VERSION);
@@ -117,9 +123,9 @@ public boolean isRepairable(ItemStack stack) {
 		
 	}
 
-	public static void setLore(ItemStack stack, String addLore) {
+	public static void setLore(ItemStack stack, String addLore, World worldIn) {
 
-		stack = updateToNewVersion(stack);
+		stack = updateToNewVersion(stack, worldIn);
 		
 		
 		CompoundNBT nbt;

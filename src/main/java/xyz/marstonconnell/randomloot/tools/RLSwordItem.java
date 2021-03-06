@@ -166,7 +166,7 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 		
 		BaseTool.changeXP(stack, 1, attacker.getEntityWorld(), attacker.getPosition());
 		
-		BaseTool.setLore(stack);
+		BaseTool.setLore(stack, attacker.getEntityWorld());
 		
 		List<BasicTag> tags = TagHelper.getTagList(stack);
 
@@ -302,7 +302,7 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 	}
 
 	@Override
-	public void upgradeTool(ItemStack stack) {
+	public void upgradeTool(ItemStack stack, World worldIn) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();

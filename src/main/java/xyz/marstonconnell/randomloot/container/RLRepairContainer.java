@@ -23,6 +23,7 @@ import net.minecraft.nbt.StringNBT;
 import net.minecraft.util.IWorldPosCallable;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
@@ -120,7 +121,7 @@ public class RLRepairContainer extends Container {
 	@Override
 	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
 		if (stack.getItem() instanceof IRLTool) {
-			BaseTool.setLore(stack);
+			BaseTool.setLore(stack, null);
 
 		}
 		return super.mergeItemStack(stack, startIndex, endIndex, reverseDirection);
@@ -146,14 +147,14 @@ public class RLRepairContainer extends Container {
 		});
 
 		if (stack.getItem() instanceof IRLTool) {
-			BaseTool.setLore(stack);
+			BaseTool.setLore(stack, player.getEntityWorld());
 
 		}
 		
 		
 		for(BasicTag tag: tagsToDrop) {
 			ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-			TagHelper.addTag(s, tag.setLevel(0));
+			TagHelper.addTag(s, tag.setLevel(0), player.getEntityWorld());
 			s.setDisplayName(new StringTextComponent(TextFormatting.WHITE
 					+ tag.toString() + " Essence"));
 			
@@ -167,10 +168,11 @@ public class RLRepairContainer extends Container {
 	/**
 	 * Callback for when the crafting matrix is changed.
 	 */
+	@Override
 	public void onCraftMatrixChanged(IInventory inventoryIn) {
 		super.onCraftMatrixChanged(inventoryIn);
 		if (inventoryIn == this.slots) {
-			this.updateRepairOutput();
+			this.updateRepairOutput(player.getEntityWorld());
 		}
 
 	}
@@ -179,7 +181,7 @@ public class RLRepairContainer extends Container {
 	 * called when the Anvil Input Slot changes, calculates the new result and puts
 	 * it in the output slot
 	 */
-	public void updateRepairOutput() {
+	public void updateRepairOutput(World worldIn) {
 		if (this.isRecipe(this.player)) {
 			ItemStack out = slots.getStackInSlot(0).copy();
 
@@ -192,14 +194,14 @@ public class RLRepairContainer extends Container {
 				for (BasicTag tag : tags) {
 					List<BasicTag> comps = TagHelper.getCompatibleTags(out);
 					if(comps.contains(tag)) {
-						TagHelper.addTag(out, tag);
+						TagHelper.addTag(out, tag, worldIn);
 					}else {
 						craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
 						return;
 					}
 				}
 
-				BaseTool.setLore(out);
+				BaseTool.setLore(out, worldIn);
 			} else {
 				ItemStack edit = slots.getStackInSlot(2);
 
@@ -350,28 +352,6 @@ public class RLRepairContainer extends Container {
 		return itemstack;
 	}
 
-	public void removeAllTraits() {
-
-		System.out.println("Remove button clicked!");
-		ItemStack out = slots.getStackInSlot(0).copy();
-
-		ItemStack mod = slots.getStackInSlot(2);
-
-		if (!mod.isEmpty()) {
-
-			List<BasicTag> tags = TagHelper.getTagList(out);
-			TagHelper.removeAllTags(out);
-
-			for (BasicTag tag : tags) {
-				ItemStack s = new ItemStack(RLItems.TRAIT_HOLDER);
-				TagHelper.addTag(s, tag.setLevel(0));
-				player.addItemStackToInventory(s);
-			}
-
-			craftResult.setInventorySlotContents(0, out);
-
-		}
-
-	}
+	
 
 }

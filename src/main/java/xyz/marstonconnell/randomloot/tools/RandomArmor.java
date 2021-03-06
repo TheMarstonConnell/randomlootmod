@@ -130,7 +130,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 	}
 
 	@Override
-	public void upgradeTool(ItemStack stack) {
+	public void upgradeTool(ItemStack stack, World worldIn) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -196,7 +196,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 			
 			BaseTool.changeXP(stack, 1, world, player.getPosition());
 			
-			BaseTool.setLore(stack);
+			BaseTool.setLore(stack, world);
 			
 			dm = this.getDamage(stack);
 			nbt.putInt("rl_armor_damage", dm);
@@ -257,6 +257,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 				}
 			}
 		}
+		
 		
 		allowedTags.add(TagHelper.UNBREAKABLE);
 		

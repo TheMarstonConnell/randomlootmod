@@ -26,7 +26,7 @@ public class RemoveTraitCommand {
 
 		TagHelper.removeTag(stack, trait);
 
-		BaseTool.setLore(stack);
+		BaseTool.setLore(stack, player.getEntityWorld());
 
 		return 1;
 	}

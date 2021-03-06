@@ -184,7 +184,7 @@ public class RLToolItem extends ToolItem {
 
 			BaseTool.changeXP(stack, 1, worldIn, entityLiving.getPosition());
 
-			BaseTool.setLore(stack);
+			BaseTool.setLore(stack, worldIn);
 			
 
 			List<BasicTag> tags = TagHelper.getTagList(stack);

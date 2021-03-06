@@ -140,7 +140,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 		
 		BaseTool.changeXP(stack, 1, attacker.getEntityWorld(), attacker.getPosition());
 		
-		BaseTool.setLore(stack);
+		BaseTool.setLore(stack, attacker.getEntityWorld());
 		
 		List<BasicTag> tags = TagHelper.getTagList(stack);
 
@@ -268,7 +268,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 	}
 
 	@Override
-	public void upgradeTool(ItemStack stack) {
+	public void upgradeTool(ItemStack stack, World worldIn) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -285,7 +285,7 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 
 		updateStats(stack);
 
-		BaseTool.setLore(stack);
+		BaseTool.setLore(stack, worldIn);
 
 	}
 
