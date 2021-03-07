@@ -157,9 +157,6 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 
 		}
 
-		allowedTags.add(TagHelper.UNBREAKABLE);
-		allowedTags.add(TagHelper.REPLENISH);
-
 		return allowedTags;
 	}
 

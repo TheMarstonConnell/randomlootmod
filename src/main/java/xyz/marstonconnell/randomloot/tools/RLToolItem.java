@@ -209,8 +209,7 @@ public class RLToolItem extends ToolItem {
 
 					}
 
-				}else if(tags.get(i).equals(TagHelper.UNBREAKABLE)) {
-					this.setDamage(stack, 0);
+				
 				}else if (tags.get(i) instanceof StatBoostTag) {
 					StatBoostTag eTag = (StatBoostTag) tags.get(i);
 					if(eTag.forTools) {

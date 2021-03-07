@@ -94,8 +94,6 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 
 		}
 
-		allowedTags.add(TagHelper.UNBREAKABLE);
-		allowedTags.add(TagHelper.REPLENISH);
 
 		return allowedTags;
 	}
@@ -186,8 +184,6 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 
 					eTag.runEffect(stack, attacker.world, attacker, attacker.getEntityWorld().getBlockState(new BlockPos(attacker.getPositionVec())), new BlockPos(attacker.getPositionVec()), target);
 
-			}else if(tags.get(i).equals(TagHelper.UNBREAKABLE)) {
-				this.setDamage(stack, 0);
 			}
 		}
 		

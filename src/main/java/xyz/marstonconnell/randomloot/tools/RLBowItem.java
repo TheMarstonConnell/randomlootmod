@@ -314,9 +314,6 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 		}
 
-		allowedTags.add(TagHelper.UNBREAKABLE);
-		allowedTags.add(TagHelper.REPLENISH);
-
 		return allowedTags;
 	}
 

@@ -111,9 +111,6 @@ public class RLPickaxeItem extends RLToolItem implements IRLTool {
 
 		}
 
-		allowedTags.add(TagHelper.UNBREAKABLE);
-		allowedTags.add(TagHelper.REPLENISH);
-
 		return allowedTags;
 	}
 

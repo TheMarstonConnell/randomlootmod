@@ -137,9 +137,6 @@ public class RLThrowableItem extends BaseTool implements IRLTool {
 
 		}
 
-		allowedTags.add(TagHelper.UNBREAKABLE);
-		allowedTags.add(TagHelper.REPLENISH);
-
 		return allowedTags;
 	}
 

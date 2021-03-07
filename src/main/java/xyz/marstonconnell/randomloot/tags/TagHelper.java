@@ -34,6 +34,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.OreFindEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.UnbreakingEvent;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 
@@ -104,7 +105,7 @@ public class TagHelper {
 	public static final BasicTag CHARGING;
 
 	// PASSIVE EFFECTS
-	public static final BasicTag UNBREAKABLE;
+	public static final BasicTag UNBREAKING;
 	public static final BasicTag AUTOSMELT;
 
 	static {
@@ -183,7 +184,7 @@ public class TagHelper {
 				new RaisingEvent(), false, false, true).setMaxLevel(1).addBlackTags("hailey's_wrath", "taming");
 
 		// PASSIVE EFFECTS
-		UNBREAKABLE = new BasicTag("fortified", TextFormatting.BLUE).addBlackTags("filling", "excavating");
+		UNBREAKING = new WorldInteractTag(new String[]{"fortified", "reinforced", "plated", "everlasting"}, TextFormatting.BLUE, new UnbreakingEvent(), true, true, true).addBlackTags("filling", "excavating").setMaxLevel(3);
 		
 		AUTOSMELT = new WorldInteractTag(new String[]{"auto_smelt"}, TextFormatting.DARK_RED, new AutoSmeltEvent(), true, false, false).addBlackTags("excavating", "explosive");
 		
@@ -206,7 +207,6 @@ public class TagHelper {
 		ORE_SIGHT = new WorldInteractTag(new String[] {"ore_sight"}, TextFormatting.AQUA, new OreFindEvent(), true, false, false);
 		
 		ChargingEvent ce = new ChargingEvent();
-		
 		CHARGING = new WorldInteractTag(new String[] {"charged"}, TextFormatting.AQUA, ce, false, false, true).addValue("rl_charge", 0.0f);
 		ce.addExtras(CHARGING.extraValues);
 		
