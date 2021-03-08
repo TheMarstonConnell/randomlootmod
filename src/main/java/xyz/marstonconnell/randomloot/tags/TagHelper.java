@@ -19,6 +19,7 @@ import xyz.marstonconnell.randomloot.tags.StatBoost.WeatherBoostEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.AutoSmeltEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.BeanStalkEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.BeeSummonEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.BurningEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ChargingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.CriticalStrikeEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.DamageEvent;
@@ -28,6 +29,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.GangBangEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.InstaKillEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LightBoostEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.LongLeggedEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LowDurabilityAttackEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiBreakEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.OreFindEvent;
@@ -103,8 +105,8 @@ public class TagHelper {
 	public static final BasicTag BEE_KEEPER;
 	public static final BasicTag ORE_SIGHT;
 	public static final BasicTag CHARGING;
-
-	// PASSIVE EFFECTS
+	public static final BasicTag STEPPING;
+	public static final BasicTag BURNING;
 	public static final BasicTag UNBREAKING;
 	public static final BasicTag AUTOSMELT;
 
@@ -207,9 +209,13 @@ public class TagHelper {
 		ORE_SIGHT = new WorldInteractTag(new String[] {"ore_sight"}, TextFormatting.AQUA, new OreFindEvent(), true, false, false);
 		
 		ChargingEvent ce = new ChargingEvent();
+		
 		CHARGING = new WorldInteractTag(new String[] {"charged"}, TextFormatting.AQUA, ce, false, false, true).addValue("rl_charge", 0.0f);
 		ce.addExtras(CHARGING.extraValues);
 		
+		STEPPING = new WorldInteractTag(new String[] {"long_legged", "elastic_legs", "stilted"}, TextFormatting.DARK_GREEN, new LongLeggedEvent(), false, true, false).setMaxLevel(2);
+		
+		BURNING = new WorldInteractTag(new String[] {"fire_storm", "solar_flare"}, TextFormatting.RED, new BurningEvent(), false, true, false).setMaxLevel(1);
 	}
 
 	/**
