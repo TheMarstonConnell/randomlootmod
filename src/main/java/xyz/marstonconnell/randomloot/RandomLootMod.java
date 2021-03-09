@@ -32,6 +32,7 @@ import net.minecraftforge.common.loot.LootModifier;
 import net.minecraftforge.common.loot.LootModifierManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.EntityLeaveWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDestroyBlockEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
@@ -53,6 +54,7 @@ import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
+import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
@@ -68,6 +70,7 @@ import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.tools.TextureProxy;
 import xyz.marstonconnell.randomloot.utils.Config;
+import xyz.marstonconnell.randomloot.utils.DataCollection;
 import xyz.marstonconnell.randomloot.utils.LootSystem;
 import xyz.marstonconnell.randomloot.utils.RLUtils;
 import xyz.marstonconnell.randomloot.utils.RandomTradeBuilder;
@@ -187,13 +190,44 @@ public class RandomLootMod {
 		RLCommands.register(event.getServer().getCommandManager().getDispatcher());
 		LootSystem.init();
 	}
+	
+	
+	
+	@SubscribeEvent
+	public void onServerStopping(FMLServerStoppingEvent event) {
+	
+		DataCollection.goOffline(event.getServer().getCurrentPlayerCount());
 
+		
+	}
+	
+	
+	
+	
+	@SubscribeEvent
+	public void onPlayerLeave(EntityLeaveWorldEvent event) {
+		if (!(event.getEntity() instanceof PlayerEntity)) {
+			return;
+		}
+		
+		if(!event.getWorld().isRemote()) {
+			DataCollection.goOffline(1);
+		}
+		
+	}
+	
 	@SubscribeEvent
 	public void onPlayerJoin(EntityJoinWorldEvent event) {
 
 		if (!(event.getEntity() instanceof PlayerEntity)) {
 			return;
 		}
+		
+		if(!event.getWorld().isRemote()) {
+
+			DataCollection.goOnline();
+		}
+		
 		
 		System.out.println("Player joined world");
 

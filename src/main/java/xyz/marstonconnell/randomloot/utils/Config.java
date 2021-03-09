@@ -22,6 +22,8 @@ public class Config {
 	public static DoubleValue BASE_PICKAXE_ATTACK_SPEED;
 
 	public static ForgeConfigSpec COMMON_CONFIG;
+	
+	public static ForgeConfigSpec.BooleanValue DATA_COLLECT;
 
 	public static ForgeConfigSpec.IntValue BASIC_CHANCE;
 	public static ForgeConfigSpec.IntValue GOLD_CHANCE;
@@ -115,6 +117,9 @@ public class Config {
 
 		BOSS_DROP = COMMON_BUILDER.comment("Bosses drop chance").defineInRange("boss_drops", 1000, 0, 1000);
 
+		
+		DATA_COLLECT = COMMON_BUILDER.comment("Allow anonymous data collection?").define("data", true);
+		
 		COMMON_BUILDER.pop();
 		
 		COMMON_BUILDER.comment("Case Distribution").push(CATEGORY_CASES);
