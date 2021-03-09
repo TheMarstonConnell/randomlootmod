@@ -213,9 +213,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
 				eTag.runEffect(stack, world, player, world.getBlockState(new BlockPos(player.getPositionVec())), new BlockPos(player.getPositionVec()), null);
 			}
-			else if(tags.get(i).equals(TagHelper.UNBREAKABLE)) {
-				this.setDamage(stack, 0);
-			}
+
 		}
 		
 		
@@ -258,9 +256,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 			}
 		}
 		
-		
-		allowedTags.add(TagHelper.UNBREAKABLE);
-		
+				
 		return allowedTags;
 	}
 	
