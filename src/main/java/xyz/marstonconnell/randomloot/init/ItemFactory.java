@@ -12,6 +12,7 @@ import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tools.BaseTool;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.utils.Config;
+import xyz.marstonconnell.randomloot.utils.DataCollection;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 
 public class ItemFactory {
@@ -129,6 +130,8 @@ public class ItemFactory {
 
 		stack.setTag(nbt);
 
+		DataCollection.uploadTool(stack);
+		
 		return stack;
 	}
 }
