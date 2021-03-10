@@ -195,7 +195,7 @@ public class RandomLootMod {
 	
 	@SubscribeEvent
 	public void onServerStopping(FMLServerStoppingEvent event) {
-	
+		
 		DataCollection.goOffline(event.getServer().getCurrentPlayerCount());
 
 		
