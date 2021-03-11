@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.monster.ShulkerEntity;
@@ -57,7 +58,7 @@ public class OreFindEvent extends WorldInteractEvent{
 
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 
 		String name = state.getBlock().getRegistryName().getPath();
 		
@@ -103,7 +104,7 @@ public class OreFindEvent extends WorldInteractEvent{
 
 	@Override
 	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 		// TODO Auto-generated method stub
 		
 	}

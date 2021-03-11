@@ -144,6 +144,14 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 					abstractarrowentity.pickupStatus = AbstractArrowEntity.PickupStatus.CREATIVE_ONLY;
 				}
 				
+				List<BasicTag> tags = TagHelper.getTagList(stack);
+
+				for (int p = 0; p < tags.size(); p++) {
+					if (tags.get(p) instanceof WorldInteractTag) {
+						WorldInteractTag eTag = (WorldInteractTag) tags.get(p);
+						eTag.runEffect(stack, worldIn, entityLiving, null, entityLiving.getPosition(), abstractarrowentity);
+					}
+				}
 
 				worldIn.addEntity(abstractarrowentity);
 				BaseTool.changeXP(stack, 1, worldIn, entityLiving.getPosition());
@@ -302,12 +310,12 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				}
 			}else if (tag instanceof StatBoostTag) {
 				StatBoostTag eTag = (StatBoostTag) tag;
-				if (eTag.forTools) {
+				if (eTag.forWeapons) {
 					allowedTags.add(eTag);
 				}
 			}else if (tag instanceof WorldInteractTag) {
 				WorldInteractTag eTag = (WorldInteractTag) tag;
-				if (eTag.forTools) {
+				if (eTag.forWeapons || eTag.forBows) {
 					allowedTags.add(eTag);
 				}
 			}

@@ -1,6 +1,7 @@
 package xyz.marstonconnell.randomloot.tags.worldinteract;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -15,8 +16,13 @@ import xyz.marstonconnell.randomloot.tools.BaseTool;
 public class CriticalStrikeEvent extends WorldInteractEvent{
 
 	@Override
-	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
+	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, Entity t) {
 		
+		if(!(t instanceof LivingEntity)) {
+			return;
+		}
+		
+		LivingEntity target = (LivingEntity) t;
 		
 		float damage = BaseTool.getFloatNBT(stack, "rl_damage");
 		target.hurtResistantTime = 0;
@@ -34,7 +40,7 @@ public class CriticalStrikeEvent extends WorldInteractEvent{
 
 	@Override
 	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 		// TODO Auto-generated method stub
 		
 	}

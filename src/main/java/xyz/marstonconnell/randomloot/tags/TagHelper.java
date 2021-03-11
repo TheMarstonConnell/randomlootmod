@@ -32,6 +32,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.LightBoostEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LongLeggedEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LowDurabilityAttackEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiBreakEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.MultiShotEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.OreFindEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
@@ -109,6 +110,7 @@ public class TagHelper {
 	public static final BasicTag BURNING;
 	public static final BasicTag UNBREAKING;
 	public static final BasicTag AUTOSMELT;
+	public static final BasicTag MULTI_SHOT;
 
 	static {
 		NULL_TAG = new BasicTag("", TextFormatting.WHITE);
@@ -216,6 +218,8 @@ public class TagHelper {
 		STEPPING = new WorldInteractTag(new String[] {"long_legged", "elastic_legs", "stilted"}, TextFormatting.DARK_GREEN, new LongLeggedEvent(), false, true, false).setMaxLevel(2);
 		
 		BURNING = new WorldInteractTag(new String[] {"fire_storm", "solar_flare"}, TextFormatting.RED, new BurningEvent(), false, true, false).setMaxLevel(1);
+	
+		MULTI_SHOT = new WorldInteractTag(new String[] {"twin_shooter", "triple_shot"}, TextFormatting.DARK_BLUE, new MultiShotEvent(), false, false, false).setBowTag().setMaxLevel(1);
 	}
 
 	/**

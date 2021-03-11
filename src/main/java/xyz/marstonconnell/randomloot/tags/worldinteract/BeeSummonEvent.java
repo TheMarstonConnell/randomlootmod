@@ -1,6 +1,7 @@
 package xyz.marstonconnell.randomloot.tags.worldinteract;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
@@ -17,11 +18,13 @@ import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
 public class BeeSummonEvent extends WorldInteractEvent{
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity t) {
 		
-		if(!(target instanceof MonsterEntity)) {
+		if(!(t instanceof MonsterEntity)) {
 			return;
 		}
+		
+		MonsterEntity target = (MonsterEntity) t;
 		
 		if(target.getHealth() <= 0) {
 			MobEntity liv = new BeeEntity(EntityType.BEE, worldIn);
@@ -39,7 +42,7 @@ public class BeeSummonEvent extends WorldInteractEvent{
 
 	@Override
 	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 		// TODO Auto-generated method stub
 		
 	}

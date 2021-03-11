@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
@@ -26,7 +27,7 @@ public class BeanStalkEvent extends WorldInteractEvent {
 	static List<BlockPos> spots = new ArrayList<BlockPos>();
 	static List<Integer> heights = new ArrayList<Integer>();
 	static List<World> worlds = new ArrayList<World>();
-	static List<LivingEntity> targets = new ArrayList<LivingEntity>();
+	static List<Entity> targets = new ArrayList<Entity>();
 
 	@SubscribeEvent
 	public static void tickEvent(ServerTickEvent event) {
@@ -72,7 +73,7 @@ public class BeanStalkEvent extends WorldInteractEvent {
 
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 
 		spots.add(target.getPosition());
 		heights.add(-1);
@@ -83,7 +84,7 @@ public class BeanStalkEvent extends WorldInteractEvent {
 
 	@Override
 	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 		// TODO Auto-generated method stub
 		
 	}

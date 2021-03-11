@@ -1,6 +1,7 @@
 package xyz.marstonconnell.randomloot.tags.worldinteract;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IndirectEntityDamageSource;
@@ -12,7 +13,14 @@ public class LowDurabilityAttackEvent extends WorldInteractEvent {
 
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity t) {
+		if(!(t instanceof LivingEntity)) {
+			return;
+		}
+		
+		LivingEntity target = (LivingEntity) t;
+		
+		
 		float current = stack.getDamage();
 		float max = stack.getMaxDamage();
 		
@@ -27,7 +35,7 @@ public class LowDurabilityAttackEvent extends WorldInteractEvent {
 
 	@Override
 	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 		// TODO Auto-generated method stub
 		
 	}

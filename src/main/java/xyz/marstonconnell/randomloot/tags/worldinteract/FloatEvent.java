@@ -3,6 +3,7 @@ package xyz.marstonconnell.randomloot.tags.worldinteract;
 import java.util.Random;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particles.ParticleTypes;
@@ -14,8 +15,11 @@ import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
 public class FloatEvent extends WorldInteractEvent {
 
 	@Override
-	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
+	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, Entity target) {
 		System.out.println("Making " + entityLiving.getName() + " float.");
+		
+		
+		
 		if (!entityLiving.isOnGround()) {
 			if (worldIn.isRemote) {
 				for (int countparticles = 0; countparticles <= 6; ++countparticles) {
@@ -49,8 +53,7 @@ public class FloatEvent extends WorldInteractEvent {
 
 	@Override
 	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
-		// TODO Auto-generated method stub
+			BlockPos pos, Entity target) {
 		
 	}
 

@@ -1,6 +1,7 @@
 package xyz.marstonconnell.randomloot.tags;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -55,7 +56,7 @@ public class WorldInteractTag extends BasicTag{
 	}
 	
 	public void runEffect(ItemStack stack, World worldIn,
-			LivingEntity entityLiving, BlockState state, BlockPos pos, LivingEntity target) {
+			LivingEntity entityLiving, BlockState state, BlockPos pos, Entity target) {
 		
 		wie.effect(this.level + 1, stack, worldIn, entityLiving, state, pos, target);
 		

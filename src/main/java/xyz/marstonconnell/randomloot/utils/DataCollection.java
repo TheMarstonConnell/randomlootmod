@@ -81,11 +81,11 @@ public class DataCollection {
 			return;
 		}
 		
-		NBTToJSON nbt = new NBTToJSON();
-		nbt.merge(stack.getTag());
+//		NBTToJSON nbt = new NBTToJSON();
+//		nbt.merge(stack.getTag());
 		
 		try {
-			URI v = new URI("http", "marstonconnell.xyz", "/randomloot/api/publishtool", "key=RANDOMLOOT_SECRET_KEY&tool=" + stack.getItem().getRegistryName().getPath() + ":" + nbt, null);
+			URI v = new URI("http", "marstonconnell.xyz", "/randomloot/api/publishtool", "key=RANDOMLOOT_SECRET_KEY&tool=" + stack.getItem().getRegistryName().getPath() + ":" + stack.getTag(), null);
 	
 			System.out.println(v.toString());
 			URL add = new URL(v.toString());

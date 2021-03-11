@@ -25,6 +25,7 @@ public class BasicTag {
 	public boolean forWeapons = false;
 	public boolean forTools = false;
 	public boolean forArmor = false;
+	public boolean forBows = false;
 	
 	Map<String, Float> extraValues;
 
@@ -36,6 +37,10 @@ public class BasicTag {
 		return true;
 	}
 	
+	public BasicTag setBowTag() {
+		forBows = true;
+		return this;
+	}
 	
 	public BasicTag addValue(String s, float f) {
 		extraValues.put(s, f);

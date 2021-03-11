@@ -1,6 +1,7 @@
 package xyz.marstonconnell.randomloot.tags.worldinteract;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IndirectEntityDamageSource;
@@ -12,8 +13,15 @@ public class LightBoostEvent extends WorldInteractEvent{
 
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity t) {
 		// TODO Auto-generated method stub
+		
+		if(!(t instanceof LivingEntity)) {
+			return;
+		}
+		
+		LivingEntity target = (LivingEntity) t;
+		
 		target.hurtResistantTime = 0;
 		target.hurtTime = 0;
 		float light = worldIn.getLightValue(entityLiving.getPosition());
@@ -30,7 +38,7 @@ public class LightBoostEvent extends WorldInteractEvent{
 
 	@Override
 	public void onAdd(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
-			BlockPos pos, LivingEntity target) {
+			BlockPos pos, Entity target) {
 		// TODO Auto-generated method stub
 		
 	}
