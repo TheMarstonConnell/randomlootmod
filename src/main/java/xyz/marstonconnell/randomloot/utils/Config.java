@@ -24,6 +24,7 @@ public class Config {
 	public static ForgeConfigSpec COMMON_CONFIG;
 	
 	public static ForgeConfigSpec.BooleanValue DATA_COLLECT;
+	public static ForgeConfigSpec.BooleanValue TRAIT_CRAFTING;
 
 	public static ForgeConfigSpec.IntValue BASIC_CHANCE;
 	public static ForgeConfigSpec.IntValue GOLD_CHANCE;
@@ -119,7 +120,8 @@ public class Config {
 
 		
 		DATA_COLLECT = COMMON_BUILDER.comment("Allow anonymous data collection?").define("data", true);
-		
+		TRAIT_CRAFTING = COMMON_BUILDER.comment("Enable certain traits to be craftable.").define("crafting_traits", true);
+
 		COMMON_BUILDER.pop();
 		
 		COMMON_BUILDER.comment("Case Distribution").push(CATEGORY_CASES);

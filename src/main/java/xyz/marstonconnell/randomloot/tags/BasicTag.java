@@ -8,10 +8,13 @@ import java.util.Map;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.utils.Pair;
 import xyz.marstonconnell.randomloot.utils.RomanNumber;
 
 public class BasicTag {
@@ -27,6 +30,8 @@ public class BasicTag {
 	public boolean forArmor = false;
 	public boolean forBows = false;
 	
+	private Map<Integer, Pair<Item, Integer>> levelingMaterials;
+	
 	Map<String, Float> extraValues;
 
 	public boolean onTagAdded(ItemStack s, World worldIn, PlayerEntity player) {
@@ -41,6 +46,33 @@ public class BasicTag {
 		forBows = true;
 		return this;
 	}
+	
+	public BasicTag addCraftMaterial(Item i, int count, int level) {
+		levelingMaterials.put(level, new Pair<Item, Integer>(i, count));
+		return this;
+	}
+	
+	public Pair<Boolean, Integer> canMaterialsCauseLevelUp(ItemStack material) {
+		
+		if(!levelingMaterials.containsKey(this.level + 1)) {
+			return new Pair<Boolean, Integer>(false, 0);
+		}
+		
+		
+		Pair<Item, Integer> p = levelingMaterials.get(this.level + 1);
+		
+		
+		
+		if(p.getLeft().equals(material.getItem())){
+			if(p.getRight() <= material.getCount()) {
+				return new Pair<Boolean, Integer>(true, p.getRight());
+			}
+		}		
+		
+		return new Pair<Boolean, Integer>(false, 0);
+	}
+	
+
 	
 	public BasicTag addValue(String s, float f) {
 		extraValues.put(s, f);
@@ -63,6 +95,7 @@ public class BasicTag {
 		TagHelper.tagMap.put(name, this);
 		
 		extraValues = new HashMap<String, Float>();
+		levelingMaterials = new HashMap<Integer, Pair<Item, Integer>>();
 
 	}
 	
@@ -85,6 +118,7 @@ public class BasicTag {
 		this.maxLevel = clone.maxLevel;
 		this.incompatibleTags = clone.incompatibleTags;
 		extraValues = clone.extraValues;
+		levelingMaterials = clone.levelingMaterials;
 
 	}
 	

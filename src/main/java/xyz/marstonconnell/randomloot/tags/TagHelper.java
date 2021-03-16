@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
@@ -28,6 +29,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.GangBangEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.InstaKillEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.LaserArrowEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LightBoostEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LongLeggedEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LowDurabilityAttackEvent;
@@ -111,6 +113,7 @@ public class TagHelper {
 	public static final BasicTag UNBREAKING;
 	public static final BasicTag AUTOSMELT;
 	public static final BasicTag MULTI_SHOT;
+	public static final BasicTag LASER_ARROW;
 
 	static {
 		NULL_TAG = new BasicTag("", TextFormatting.WHITE);
@@ -147,7 +150,7 @@ public class TagHelper {
 
 		WITHER = new EffectTag("withering", TextFormatting.DARK_GRAY, Effects.WITHER, true, false, true).setMaxLevel(1).addBlackTags("poisonous");
 
-		SLOWING = new EffectTag("webbed", TextFormatting.WHITE, Effects.SLOWNESS, true, false, true).setMaxLevel(3);
+		SLOWING = new EffectTag("webbed", TextFormatting.WHITE, Effects.SLOWNESS, true, false, true).setMaxLevel(3).addCraftMaterial(Items.STRING, 10, 0).addCraftMaterial(Items.STRING, 10, 1).addCraftMaterial(Items.STRING, 15, 2).addCraftMaterial(Items.STRING, 20, 3);
 
 		BLINDING = new EffectTag("blinding", TextFormatting.DARK_PURPLE, Effects.BLINDNESS, true, false, true);
 
@@ -162,7 +165,7 @@ public class TagHelper {
 
 		// WORLD INTERACT EFFECTS
 		EXPLOSION = new WorldInteractTag(new String[] { "explosive" }, TextFormatting.RED, new ExplosionEvent(), true,
-				false, false).addBlackTags("phasing", "sun_bathing", "auto-smelt");
+				false, false).addBlackTags("phasing", "sun_bathing", "auto-smelt").addCraftMaterial(Items.TNT, 1, 0);
 		
 		REPLENISH = new WorldInteractTag(new String[] { "filling" }, TextFormatting.DARK_GREEN, new ReplenishEvent(),
 				true, false, true).addBlackTags("fortified");
@@ -190,7 +193,7 @@ public class TagHelper {
 		// PASSIVE EFFECTS
 		UNBREAKING = new WorldInteractTag(new String[]{"fortified", "reinforced", "plated", "everlasting"}, TextFormatting.BLUE, new UnbreakingEvent(), true, true, true).addBlackTags("filling", "excavating").setMaxLevel(3);
 		
-		AUTOSMELT = new WorldInteractTag(new String[]{"auto_smelt"}, TextFormatting.DARK_RED, new AutoSmeltEvent(), true, false, false).addBlackTags("excavating", "explosive");
+		AUTOSMELT = new WorldInteractTag(new String[]{"auto_smelt"}, TextFormatting.DARK_RED, new AutoSmeltEvent(), true, false, false).addBlackTags("excavating", "explosive").addCraftMaterial(Items.BLAZE_ROD, 32, 0);
 		
 		HAMMER_MODE = new WorldInteractTag(new String[]{"excavating", "world_breaking"}, TextFormatting.DARK_BLUE, new MultiBreakEvent(), true, false, false).setMaxLevel(1).addBlackTags("fortified", "explosive", "auto-smelt");
 		
@@ -220,8 +223,29 @@ public class TagHelper {
 		BURNING = new WorldInteractTag(new String[] {"fire_storm", "solar_flare"}, TextFormatting.RED, new BurningEvent(), false, true, false).setMaxLevel(1);
 	
 		MULTI_SHOT = new WorldInteractTag(new String[] {"twin_shooter", "triple_shot"}, TextFormatting.DARK_BLUE, new MultiShotEvent(), false, false, false).setBowTag().setMaxLevel(1);
+	
+		LASER_ARROW = new WorldInteractTag(new String[] {"end_arrows"}, TextFormatting.LIGHT_PURPLE, new LaserArrowEvent(), false, false, false).setBowTag();
 	}
 
+	public static void removeTagFromList(List<BasicTag> list, BasicTag toRemove) {
+		int i = 0;
+		for(i = i; i < list.size(); i ++) {
+			if(list.get(i).sameTag(toRemove)) {
+				break;
+			}
+		}
+		list.remove(i);
+		return;
+	}
+	
+	public static void removeTagsFromList(List<BasicTag> list, List<BasicTag> toRemove) {
+		for(BasicTag t : toRemove) {
+			removeTagFromList(list, t);
+		}
+		
+		return;
+	}
+	
 	/**
 	 * Converts an NBT tag to a Java tag.
 	 * 
@@ -436,7 +460,14 @@ public class TagHelper {
 	 * @return
 	 */
 	public static boolean checkForTag(ItemStack stack, BasicTag tag) {
-		return getTagList(stack).contains(tag.setLevel(0));
+		List<BasicTag> tags = getTagList(stack);
+		for(BasicTag t : tags) {
+			if(t.sameTag(tag)) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 
 	/**
