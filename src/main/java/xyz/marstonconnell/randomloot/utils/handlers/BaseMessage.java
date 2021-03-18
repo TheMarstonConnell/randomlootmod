@@ -61,7 +61,7 @@ public class BaseMessage {
 		
 		ItemStack s = new ItemStack(LootSystem.getPersonalItem(playerIn));
 		
-		 s = ItemFactory.forgeItem(s, rarity, playerIn.getEntityWorld());
+		 s = ItemFactory.forgeItem(s, rarity, playerIn.getEntityWorld(), playerIn.getPosition());
 		
 				
 		playerIn.addItemStackToInventory(s);

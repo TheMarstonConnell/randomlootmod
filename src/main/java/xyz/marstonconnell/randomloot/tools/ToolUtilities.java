@@ -29,6 +29,8 @@ import xyz.marstonconnell.randomloot.tags.TagHelper;
  *
  */
 public abstract class ToolUtilities {
+	
+	public final static String[] FOUND_IN_TEXTS = {"Found in the heart of the", "Discovered deep in the", "Found in the", "Rightfully claimed at the", "Taken from the", "Gifted by the gods in the", "Uncovered at the", "Found deep in the"};
 
 	public final static String TAG_XP = "xp";
 	public final static String TAG_MAX_XP = "max_xp";
@@ -137,6 +139,12 @@ public abstract class ToolUtilities {
 		}
 
 		ListNBT lore = new ListNBT();
+
+		String location = ToolUtilities.getStringNBT(stack, ItemFactory.RL_FOUND_IN);
+		if(location.length() > 0) {
+			lore.add(StringNBT.valueOf("{\"text\":\"" + TextFormatting.GRAY + FOUND_IN_TEXTS[(int) (Math.random() * FOUND_IN_TEXTS.length)] + " " + location + "\"}"));
+
+		}
 
 		
 		lore.add(StringNBT.valueOf("{\"text\":\"" + addLore + "\"}"));

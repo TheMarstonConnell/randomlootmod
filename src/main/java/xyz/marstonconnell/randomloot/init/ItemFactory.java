@@ -5,6 +5,7 @@ import java.util.Random;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
@@ -18,6 +19,7 @@ import xyz.marstonconnell.randomloot.utils.WeightedChooser;
 public class ItemFactory {
 
 	public static final int CURRENT_TOOL_VERSION = 1;
+	public static final String RL_FOUND_IN = "rl_found_in";
 	
 	static Random rand = new Random();
 
@@ -47,7 +49,7 @@ public class ItemFactory {
 
 	}
 
-	public static ItemStack forgeItem(ItemStack stack, int rarity, World worldIn) {
+	public static ItemStack forgeItem(ItemStack stack, int rarity, World worldIn, BlockPos pos) {
 
 		WeightedChooser<Integer> wc = new WeightedChooser<Integer>();
 		switch (rarity) {
@@ -105,6 +107,8 @@ public class ItemFactory {
 		((IRLTool) stack.getItem()).updateStats(stack);
 
 		ToolUtilities.setIntNBT(stack, "rl_tool_version", CURRENT_TOOL_VERSION);
+		
+		ToolUtilities.setStringNBT(stack, RL_FOUND_IN, TagHelper.convertToTitleCaseIteratingChars(worldIn.getBiome(pos).getRegistryName().getPath()));
 		
 		// naming item
 		ToolUtilities.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));
