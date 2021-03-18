@@ -23,6 +23,11 @@ import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 
+/**
+ * An abstract class to adjust tool data.
+ * @author marston connell
+ *
+ */
 public abstract class ToolUtilities {
 
 	public final static String TAG_XP = "xp";
