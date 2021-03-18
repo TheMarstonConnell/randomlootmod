@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.Pair;
@@ -123,7 +123,7 @@ public class RLRepairContainer extends Container {
 	@Override
 	protected boolean mergeItemStack(ItemStack stack, int startIndex, int endIndex, boolean reverseDirection) {
 		if (stack.getItem() instanceof IRLTool) {
-			BaseTool.setLore(stack, null);
+			ToolUtilities.setLore(stack, null);
 
 		}
 		return super.mergeItemStack(stack, startIndex, endIndex, reverseDirection);
@@ -133,7 +133,7 @@ public class RLRepairContainer extends Container {
 	protected ItemStack craftOutput(PlayerEntity player, ItemStack stack) {
 		ItemStack out = slots.getStackInSlot(0).copy();
 
-		double shardsNeeded = Math.pow(BaseTool.getIntNBT(out, "rl_level") / 10.0, 2.0) + 1;
+		double shardsNeeded = Math.pow(ToolUtilities.getIntNBT(out, "rl_level") / 10.0, 2.0) + 1;
 
 		this.shrinkSlot(0);
 		for (int i = 0; i < toShrinkMod; i++) {
@@ -152,7 +152,7 @@ public class RLRepairContainer extends Container {
 		});
 
 		if (stack.getItem() instanceof IRLTool) {
-			BaseTool.setLore(stack, player.getEntityWorld());
+			ToolUtilities.setLore(stack, player.getEntityWorld());
 
 		}
 
@@ -252,7 +252,7 @@ public class RLRepairContainer extends Container {
 
 				}
 
-				BaseTool.setLore(out, worldIn);
+				ToolUtilities.setLore(out, worldIn);
 			} else {
 				ItemStack edit = slots.getStackInSlot(2);
 				toShrinkMod = 1;
@@ -260,16 +260,16 @@ public class RLRepairContainer extends Container {
 				if (edit.getItem().equals(RLItems.best_shard)) {
 					tagsToDrop.clear();
 
-					double shardsNeeded = Math.pow(BaseTool.getIntNBT(out, "rl_level") / 10.0, 2.0) + 1;
+					double shardsNeeded = Math.pow(ToolUtilities.getIntNBT(out, "rl_level") / 10.0, 2.0) + 1;
 
 					if (edit.getCount() < Math.floor(shardsNeeded)) {
 						craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
 						return;
 					}
 
-					int oldXp = BaseTool.getXP(out);
-					BaseTool.changeXP(out, BaseTool.getMaxXP(out), player.getEntityWorld(), player.getPosition());
-					BaseTool.changeXP(out, oldXp, player.getEntityWorld(), player.getPosition());
+					int oldXp = ToolUtilities.getXP(out);
+					ToolUtilities.changeXP(out, ToolUtilities.getMaxXP(out), player.getEntityWorld(), player.getPosition());
+					ToolUtilities.changeXP(out, oldXp, player.getEntityWorld(), player.getPosition());
 
 					CompoundNBT nbt;
 					if (out.hasTag()) {

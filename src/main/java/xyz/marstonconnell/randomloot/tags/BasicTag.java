@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.utils.Pair;
 import xyz.marstonconnell.randomloot.utils.RomanNumber;
 

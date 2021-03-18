@@ -145,7 +145,7 @@ public class RLToolItem extends ToolItem {
 		float eff = efficiency;
 				
 		
-		eff += BaseTool.getFloatNBT(stack, BaseTool.TAG_BONUS_SPEED);
+		eff += ToolUtilities.getFloatNBT(stack, ToolUtilities.TAG_BONUS_SPEED);
 		
 //		System.out.println(eff);
 		
@@ -182,9 +182,9 @@ public class RLToolItem extends ToolItem {
 				p_220038_0_.sendBreakAnimation(EquipmentSlotType.MAINHAND);
 			});
 
-			BaseTool.changeXP(stack, 1, worldIn, entityLiving.getPosition());
+			ToolUtilities.changeXP(stack, 1, worldIn, entityLiving.getPosition());
 
-			BaseTool.setLore(stack, worldIn);
+			ToolUtilities.setLore(stack, worldIn);
 			
 
 			List<BasicTag> tags = TagHelper.getTagList(stack);

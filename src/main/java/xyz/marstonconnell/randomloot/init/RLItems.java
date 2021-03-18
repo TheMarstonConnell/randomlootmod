@@ -16,7 +16,7 @@ import xyz.marstonconnell.randomloot.items.CaseItem;
 import xyz.marstonconnell.randomloot.items.CraftingItem;
 import xyz.marstonconnell.randomloot.items.RandomArmorMaterial;
 import xyz.marstonconnell.randomloot.tools.BaseArmorMaterial;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.tools.RLAxeItem;
 import xyz.marstonconnell.randomloot.tools.RLBowItem;
 import xyz.marstonconnell.randomloot.tools.RLPickaxeItem;

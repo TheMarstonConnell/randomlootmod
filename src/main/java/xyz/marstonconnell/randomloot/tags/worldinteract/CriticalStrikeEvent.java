@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 
 public class CriticalStrikeEvent extends WorldInteractEvent{
 
@@ -24,7 +24,7 @@ public class CriticalStrikeEvent extends WorldInteractEvent{
 		
 		LivingEntity target = (LivingEntity) t;
 		
-		float damage = BaseTool.getFloatNBT(stack, "rl_damage");
+		float damage = ToolUtilities.getFloatNBT(stack, "rl_damage");
 		target.hurtResistantTime = 0;
 		target.hurtTime = 0;
 

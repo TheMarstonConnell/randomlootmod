@@ -9,7 +9,7 @@ import net.minecraft.command.Commands;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.item.ItemStack;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 
 public class RemoveTraitCommand {
@@ -26,7 +26,7 @@ public class RemoveTraitCommand {
 
 		TagHelper.removeTag(stack, trait);
 
-		BaseTool.setLore(stack, player.getEntityWorld());
+		ToolUtilities.setLore(stack, player.getEntityWorld());
 
 		return 1;
 	}

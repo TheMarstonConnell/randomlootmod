@@ -17,6 +17,7 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.inventory.EquipmentSlotType;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.UseAction;
 import net.minecraft.nbt.CompoundNBT;
@@ -41,7 +42,7 @@ import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
 import xyz.marstonconnell.randomloot.utils.Config;
 
-public class RLThrowableItem extends BaseTool implements IRLTool {
+public class RLThrowableItem extends Item implements IRLTool {
 
 	public RLThrowableItem(String name) {
 		super(new Properties());
@@ -68,7 +69,7 @@ public class RLThrowableItem extends BaseTool implements IRLTool {
 		int dmg = Config.BASE_THROWABLE_DAMAGE.get();
 
 		nbt.putInt("rl_damage", dmg);
-		setIntNBT(stack, "rl_level", 1);
+		ToolUtilities.setIntNBT(stack, "rl_level", 1);
 		stack.setTag(nbt);
 
 	}

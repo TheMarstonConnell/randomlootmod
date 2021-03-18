@@ -176,7 +176,7 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 		nbt.putInt("rl_damage", dmg);
 		nbt.putDouble("rl_speed", spd);
 		nbt.putFloat("rl_dig_speed", 1);
-		BaseTool.setIntNBT(stack, "rl_level", 1);
+		ToolUtilities.setIntNBT(stack, "rl_level", 1);
 		
 		stack.setTag(nbt);
 
@@ -255,7 +255,7 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 		
 		updateStats(stack);
 		
-		BaseTool.setLore(stack, worldIn);
+		ToolUtilities.setLore(stack, worldIn);
 
 	}
 	

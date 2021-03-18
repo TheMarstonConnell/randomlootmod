@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.tags.StatBoostEvent;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 
 public class WeatherBoostEvent extends StatBoostEvent{
 
@@ -18,7 +18,7 @@ public class WeatherBoostEvent extends StatBoostEvent{
 		
 		if(worldIn.isRaining()) {
 
-			BaseTool.setFloatNBT(stack, BaseTool.TAG_BONUS_SPEED, BaseTool.getFloatNBT(stack, BaseTool.TAG_BONUS_SPEED) + level * 6);
+			ToolUtilities.setFloatNBT(stack, ToolUtilities.TAG_BONUS_SPEED, ToolUtilities.getFloatNBT(stack, ToolUtilities.TAG_BONUS_SPEED) + level * 6);
 		}
 		
 		
@@ -29,7 +29,7 @@ public class WeatherBoostEvent extends StatBoostEvent{
 			LivingEntity target) {
 
 		
-		BaseTool.setFloatNBT(stack, BaseTool.TAG_BONUS_SPEED, 0);
+		ToolUtilities.setFloatNBT(stack, ToolUtilities.TAG_BONUS_SPEED, 0);
 
 		
 	}

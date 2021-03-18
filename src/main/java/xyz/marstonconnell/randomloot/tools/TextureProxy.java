@@ -29,7 +29,7 @@ public class TextureProxy {
 				public float call(ItemStack stack, ClientWorld p_call_2_, LivingEntity p_call_3_) {
 					float model = 1.0F;
 
-					model = (float) BaseTool.getTexture(stack);
+					model = (float) ToolUtilities.getTexture(stack);
 
 					return model;
 				}
@@ -79,7 +79,7 @@ public class TextureProxy {
 				public float call(ItemStack stack, ClientWorld p_call_2_, LivingEntity p_call_3_) {
 					float model = 1.0F;
 
-					model = (float) BaseTool.getTexture(stack);
+					model = (float) ToolUtilities.getTexture(stack);
 
 					return model;
 				}

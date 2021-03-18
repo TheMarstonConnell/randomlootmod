@@ -8,7 +8,7 @@ import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.ItemUtils;
 import xyz.marstonconnell.randomloot.init.RLItems;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.LootSystem;
 import xyz.marstonconnell.randomloot.utils.WeightedChooser;

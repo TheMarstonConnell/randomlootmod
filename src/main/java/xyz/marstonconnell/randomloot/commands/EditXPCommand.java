@@ -12,7 +12,7 @@ import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 
 public class EditXPCommand {
@@ -37,8 +37,8 @@ public class EditXPCommand {
 	        ItemStack stack = player.getHeldItemMainhand();
 	        
 	        if(stack.getItem() instanceof IRLTool) {
-				BaseTool.changeXP(stack, value, player.getEntityWorld(), player.getPosition());
-				BaseTool.setLore(stack, player.getEntityWorld());
+				ToolUtilities.changeXP(stack, value, player.getEntityWorld(), player.getPosition());
+				ToolUtilities.setLore(stack, player.getEntityWorld());
 	        }else {
 	        	translationtextcomponent = new TranslationTextComponent("chat.type.announcement",
 						context.getSource().getDisplayName(), new StringTextComponent(TextFormatting.RED + "Error Adjusting xp - not RandomLoot Tool"));

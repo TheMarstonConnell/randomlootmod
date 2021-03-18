@@ -162,9 +162,9 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 			return false;
 		}
 		
-		BaseTool.changeXP(stack, 1, attacker.getEntityWorld(), attacker.getPosition());
+		ToolUtilities.changeXP(stack, 1, attacker.getEntityWorld(), attacker.getPosition());
 		
-		BaseTool.setLore(stack, attacker.getEntityWorld());
+		ToolUtilities.setLore(stack, attacker.getEntityWorld());
 		
 		List<BasicTag> tags = TagHelper.getTagList(stack);
 
@@ -238,7 +238,7 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 		
 		nbt.putInt("rl_damage", dmg);
 		nbt.putDouble("rl_speed", spd);
-		BaseTool.setIntNBT(stack, "rl_level", 1);
+		ToolUtilities.setIntNBT(stack, "rl_level", 1);
 		
 		stack.setTag(nbt);
 

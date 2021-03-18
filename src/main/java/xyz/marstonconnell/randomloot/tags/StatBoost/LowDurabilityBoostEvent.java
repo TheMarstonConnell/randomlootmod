@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.tags.StatBoostEvent;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 
 public class LowDurabilityBoostEvent extends StatBoostEvent{
 
@@ -19,7 +19,7 @@ public class LowDurabilityBoostEvent extends StatBoostEvent{
 		
 		float toAdd = current / max * level * 2;
 		
-		BaseTool.setFloatNBT(stack, BaseTool.TAG_BONUS_SPEED, BaseTool.getFloatNBT(stack, BaseTool.TAG_BONUS_SPEED) + toAdd);
+		ToolUtilities.setFloatNBT(stack, ToolUtilities.TAG_BONUS_SPEED, ToolUtilities.getFloatNBT(stack, ToolUtilities.TAG_BONUS_SPEED) + toAdd);
 
 		
 		
@@ -29,7 +29,7 @@ public class LowDurabilityBoostEvent extends StatBoostEvent{
 	public void undoEffect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockPos pos,
 			LivingEntity target) {
 		// TODO Auto-generated method stub
-		BaseTool.setFloatNBT(stack, BaseTool.TAG_BONUS_SPEED, 0.0f);
+		ToolUtilities.setFloatNBT(stack, ToolUtilities.TAG_BONUS_SPEED, 0.0f);
 
 	}
 

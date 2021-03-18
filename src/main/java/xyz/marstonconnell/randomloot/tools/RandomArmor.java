@@ -58,7 +58,7 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		stack.setTag(nbt);
 		
 		
-		BaseTool.setIntNBT(stack, "rl_level", 1);
+		ToolUtilities.setIntNBT(stack, "rl_level", 1);
 
 		
 	}
@@ -194,9 +194,9 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		
 		if(this.getDamage(stack) != dm) {
 			
-			BaseTool.changeXP(stack, 1, world, player.getPosition());
+			ToolUtilities.changeXP(stack, 1, world, player.getPosition());
 			
-			BaseTool.setLore(stack, world);
+			ToolUtilities.setLore(stack, world);
 			
 			dm = this.getDamage(stack);
 			nbt.putInt("rl_armor_damage", dm);

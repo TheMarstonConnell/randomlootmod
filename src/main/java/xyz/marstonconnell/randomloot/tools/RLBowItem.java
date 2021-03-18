@@ -49,12 +49,12 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	}
 
 	private float getVelo(ItemStack stack) {
-		return BaseTool.getFloatNBT(stack, "rl_velo");
+		return ToolUtilities.getFloatNBT(stack, "rl_velo");
 
 	}
 
 	private void setVelo(ItemStack stack, float velo) {
-		BaseTool.setFloatNBT(stack, "rl_velo", velo);
+		ToolUtilities.setFloatNBT(stack, "rl_velo", velo);
 
 	}
 
@@ -102,7 +102,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				ArrowItem arrowitem = (ArrowItem) (itemstack.getItem() instanceof ArrowItem ? itemstack.getItem()
 						: Items.ARROW);
 
-				double dmgMod = BaseTool.getFloatNBT(stack, "rl_bow_dmg");
+				double dmgMod = ToolUtilities.getFloatNBT(stack, "rl_bow_dmg");
 
 				ArrowEntity abstractarrowentity = (ArrowEntity) arrowitem.createArrow(worldIn, itemstack, playerentity);
 
@@ -154,8 +154,8 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				}
 
 				worldIn.addEntity(abstractarrowentity);
-				BaseTool.changeXP(stack, 1, worldIn, entityLiving.getPosition());
-				BaseTool.setLore(stack, worldIn);
+				ToolUtilities.changeXP(stack, 1, worldIn, entityLiving.getPosition());
+				ToolUtilities.setLore(stack, worldIn);
 
 			}
 
@@ -261,8 +261,8 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	@Override
 	public void setStats(ItemStack stack) {
 		setVelo(stack, 72000.0f);
-		BaseTool.setIntNBT(stack, "rl_level", 1);
-		BaseTool.setFloatNBT(stack, "rl_bow_dmg", 1.0f);
+		ToolUtilities.setIntNBT(stack, "rl_level", 1);
+		ToolUtilities.setFloatNBT(stack, "rl_bow_dmg", 1.0f);
 	}
 
 	@Override
@@ -273,7 +273,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 	@Override
 	public void upgradeTool(ItemStack stack, World worldIn) {
 		setVelo(stack, getVelo(stack) * 0.95f);
-		BaseTool.setFloatNBT(stack, "rl_bow_dmg", BaseTool.getFloatNBT(stack, "rl_bow_dmg") * 1.2f);
+		ToolUtilities.setFloatNBT(stack, "rl_bow_dmg", ToolUtilities.getFloatNBT(stack, "rl_bow_dmg") * 1.2f);
 
 	}
 
@@ -283,7 +283,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 		List<String> s = new ArrayList<String>();
 		s.add(TextFormatting.GRAY + "Pull Speed: " + f.format(getVelo(stack) / 72000.0f * 100) + "%");
-		s.add(TextFormatting.GRAY + "Bow Damage Modifier: " + f.format(BaseTool.getFloatNBT(stack, "rl_bow_dmg")));
+		s.add(TextFormatting.GRAY + "Bow Damage Modifier: " + f.format(ToolUtilities.getFloatNBT(stack, "rl_bow_dmg")));
 
 		return s;
 	}

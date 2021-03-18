@@ -40,29 +40,31 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.UnbreakingEvent;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 
-public class TagHelper {
+/**
+ * A static class that handles all tag functions (add/remove/search, etc.)
+ * @author marston connell
+ *
+ */
+public abstract class TagHelper {
 
 	private static final String TAG_LIST = "rl_tag_data";
 	private static final String TAG_LEVEL = "tag_level";
 	private static final String TAG_NAME = "tag_name";
 
-	final static int tagLimit = 20;
-
 	public static List<BasicTag> allTags = new ArrayList<BasicTag>();
 	public static List<String> tagNames = new ArrayList<String>();
 	
-	
+	/**
+	 * Holds all tags by name.
+	 */
 	public static HashMap<String, BasicTag> tagMap = new HashMap<String, BasicTag>();
 
-	// public static final EffectTag HEALTH_BOOST = new EffectTag("health_boost",
-	// TextFormatting.RED, new EffectInstance(Effects.HEALTH_BOOST, 120, 3, false,
-	// false), false);
-	// public static final EffectTag empty = new EffectTag("empty", COLOR, new
-	// PoitionEffect(), offensive, forTools, forWeapons)
-
+	/**
+	 * Any error will produce a null tag instead of Java's null.
+	 */
 	public static final BasicTag NULL_TAG;
 	
 	// HELPFUL EFFECTS
@@ -97,7 +99,6 @@ public class TagHelper {
 	public static final BasicTag CRITICAL_STRIKE;
 	public static final BasicTag INSTA_KILL;
 	public static final BasicTag MOB_RAISE;
-	
 	public static final BasicTag HAMMER_MODE;
 	public static final BasicTag SUN_BEAMS;
 	public static final BasicTag RAINY_DAY;
@@ -115,6 +116,9 @@ public class TagHelper {
 	public static final BasicTag MULTI_SHOT;
 	public static final BasicTag LASER_ARROW;
 
+	/**
+	 * Every tags assignment.
+	 */
 	static {
 		NULL_TAG = new BasicTag("", TextFormatting.WHITE);
 		
@@ -144,7 +148,6 @@ public class TagHelper {
 		REGENERATION = new EffectTag("regenerating", TextFormatting.RED, Effects.REGENERATION, false, false, true)
 				.setMaxLevel(2);
 
-		// ATTACKING EFFECTS
 		POISON = new EffectTag("poisonous", TextFormatting.DARK_GREEN, Effects.POISON, true, false, true).setMaxLevel(3)
 				.addBlackTags("withering");
 
@@ -190,7 +193,6 @@ public class TagHelper {
 		MOB_RAISE = new WorldInteractTag(new String[] { "taming", "automotonizing" }, TextFormatting.DARK_GREEN,
 				new RaisingEvent(), false, false, true).setMaxLevel(1).addBlackTags("hailey's_wrath", "taming");
 
-		// PASSIVE EFFECTS
 		UNBREAKING = new WorldInteractTag(new String[]{"fortified", "reinforced", "plated", "everlasting"}, TextFormatting.BLUE, new UnbreakingEvent(), true, true, true).addBlackTags("filling", "excavating").setMaxLevel(3);
 		
 		AUTOSMELT = new WorldInteractTag(new String[]{"auto_smelt"}, TextFormatting.DARK_RED, new AutoSmeltEvent(), true, false, false).addBlackTags("excavating", "explosive").addCraftMaterial(Items.BLAZE_ROD, 32, 0);
@@ -227,6 +229,11 @@ public class TagHelper {
 		LASER_ARROW = new WorldInteractTag(new String[] {"end_arrows"}, TextFormatting.LIGHT_PURPLE, new LaserArrowEvent(), false, false, false).setBowTag();
 	}
 
+	/**
+	 * Removes tag from list of tags without considering level.
+	 * @param list
+	 * @param toRemove
+	 */
 	public static void removeTagFromList(List<BasicTag> list, BasicTag toRemove) {
 		int i = 0;
 		for(i = i; i < list.size(); i ++) {
@@ -238,6 +245,11 @@ public class TagHelper {
 		return;
 	}
 	
+	/**
+	 * Loops through a list to call removeTagFromList using every tag in the toRemove list.
+	 * @param list
+	 * @param toRemove
+	 */
 	public static void removeTagsFromList(List<BasicTag> list, List<BasicTag> toRemove) {
 		for(BasicTag t : toRemove) {
 			removeTagFromList(list, t);
@@ -305,6 +317,11 @@ public class TagHelper {
 
 	}
 
+	/**
+	 * Returns a list of tags that the tool accepts based on the individual tools style.
+	 * @param stack
+	 * @return
+	 */
 	public static List<BasicTag> getCompatibleTags(ItemStack stack) {
 		
 		if(!(stack.getItem() instanceof IRLTool)) {
@@ -339,6 +356,13 @@ public class TagHelper {
 
 	}
 
+	/**
+	 * Adds a tag to the given tool using the tags name.
+	 * @param stack
+	 * @param tagName
+	 * @param worldIn
+	 * @return
+	 */
 	public static ItemStack addTag(ItemStack stack, String tagName, World worldIn) {
 	
 		addTag(stack, tagMap.get(tagName), worldIn);
@@ -346,6 +370,13 @@ public class TagHelper {
 		return stack;
 	}
 
+	/**
+	 * Adds a tag to the given item using the tags object in memory.
+	 * @param stack
+	 * @param tag
+	 * @param worldIn
+	 * @return
+	 */
 	public static ItemStack addTag(ItemStack stack, BasicTag tag, World worldIn) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
@@ -401,6 +432,12 @@ public class TagHelper {
 		return stack;
 	}
 
+	/**
+	 * Removes tag from tool using the tags name.
+	 * @param stack
+	 * @param tagName
+	 * @return
+	 */
 	public static ItemStack removeTag(ItemStack stack, String tagName) {
 		for (BasicTag tag : allTags) {
 			if (tag.name.equals(tagName)) {
@@ -412,6 +449,12 @@ public class TagHelper {
 		return stack;
 	}
 
+	/**
+	 * Removes a tag from the tool using the tag in memory.
+	 * @param stack
+	 * @param tag
+	 * @return
+	 */
 	public static ItemStack removeTag(ItemStack stack, BasicTag tag) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
@@ -436,6 +479,11 @@ public class TagHelper {
 		return stack;
 	}
 
+	/**
+	 * Removes every tag currently attached to the itemstack.
+	 * @param stack
+	 * @return
+	 */
 	public static ItemStack removeAllTags(ItemStack stack) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
@@ -497,6 +545,13 @@ public class TagHelper {
 
 	}
 
+	/**
+	 * Converts a tools name to title case. 
+	 * <br><br>
+	 * Example: "trait_name" -> "Trait Name"
+	 * @param text
+	 * @return
+	 */
 	public static String convertToTitleCaseIteratingChars(String text) {
 		if (text == null || text.isEmpty()) {
 			return text;
@@ -522,8 +577,4 @@ public class TagHelper {
 		return converted.toString();
 	}
 
-//	public static void addTag(ItemStack s, BasicTag basicTag) {
-//		addTag(s, basicTag, null);
-//		
-//	}
 }

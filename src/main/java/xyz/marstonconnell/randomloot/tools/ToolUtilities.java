@@ -23,41 +23,21 @@ import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 
-public class BaseTool extends Item {
+public abstract class ToolUtilities {
 
 	public final static String TAG_XP = "xp";
 	public final static String TAG_MAX_XP = "max_xp";
 	public final static String TAG_TEXTURE = "texture";
 	public final static String TAG_BONUS_SPEED = "rl_bonus_speed";
 
-	public boolean isRepairItem(ItemStack stack) {
-		return stack.getItem() == RLItems.best_shard;
-	}
-	
-	@Override
-	public boolean getIsRepairable(ItemStack toRepair, ItemStack repair) {
-		// TODO Auto-generated method stub
-		return isRepairItem(repair) || super.getIsRepairable(toRepair, repair);
-	}
-	
-	
-	
-	
-	
-@Override
-public boolean isRepairable(ItemStack stack) {
-	return true;
-}
-	
-	public BaseTool(Properties properties) {
-		super(properties.defaultMaxDamage(1562));
-		if(FMLEnvironment.dist == Dist.CLIENT) {
-            TextureProxy.setModelProperties(this);
-        }
-		RLItems.ITEMS.add(this);
 
-	}
-
+	/**
+	 * Adjusts xp value on any tool.
+	 * @param stack
+	 * @param amt
+	 * @param worldIn
+	 * @param pos
+	 */
 	public static void changeXP(ItemStack stack, int amt, World worldIn, BlockPos pos) {
 		setXP(stack, getXP(stack) + amt);
 
@@ -68,7 +48,13 @@ public boolean isRepairable(ItemStack stack) {
 		}
 
 	}
-
+	
+	/**
+	 * Handles level up and applies new token to the Stack.
+	 * @param stack
+	 * @param worldIn
+	 * @param pos
+	 */
 	private static void upgradeTool(ItemStack stack, World worldIn, BlockPos pos) {
 		setXP(stack, 0);
 		setMaxXP(stack, (int) (getMaxXP(stack) * 1.5));
@@ -79,7 +65,11 @@ public boolean isRepairable(ItemStack stack) {
 		
 	}
 	
-	
+	/**
+	 * Wrapper for setLore that doesn't add any extra info.
+	 * @param stack
+	 * @param worldIn
+	 */
 	public static void setLore(ItemStack stack, World worldIn) {
 		setLore(stack, "", worldIn);
 	}
@@ -113,7 +103,7 @@ public boolean isRepairable(ItemStack stack) {
 				TagHelper.addTag(stack, TagHelper.tagMap.get(tags.getString(i)), worldIn);
 			}
 			
-			BaseTool.setIntNBT(stack, "rl_tool_version", ItemFactory.CURRENT_TOOL_VERSION);
+			ToolUtilities.setIntNBT(stack, "rl_tool_version", ItemFactory.CURRENT_TOOL_VERSION);
 
 			tags.clear();
 			nbt.put("rl_tags", tags);
@@ -123,6 +113,12 @@ public boolean isRepairable(ItemStack stack) {
 		
 	}
 
+	/**
+	 * Sets the lore of the tool to contain important information.
+	 * @param stack
+	 * @param addLore
+	 * @param worldIn
+	 */
 	public static void setLore(ItemStack stack, String addLore, World worldIn) {
 
 		stack = updateToNewVersion(stack, worldIn);
@@ -193,17 +189,22 @@ public boolean isRepairable(ItemStack stack) {
 		stack.setTag(nbt);
 	}
 
-	@Override
-	public int getItemStackLimit(ItemStack stack) {
-		return 1;
-	}
 
 
-
+	/**
+	 * Sets the tools name using nbt data.
+	 * @param stack
+	 * @param name
+	 */
 	public static void setName(ItemStack stack, String name) {
 		setStringNBT(stack, "name", name);
 	}
 
+	/**
+	 * Returns the tools name stored as nbt data.
+	 * @param stack
+	 * @return
+	 */
 	public static String getName(ItemStack stack) {
 		return getStringNBT(stack, "name");
 	}
@@ -309,7 +310,7 @@ public boolean isRepairable(ItemStack stack) {
 	 * @param tag   String
 	 * @param value float
 	 */
-	protected static void setLongNBT(ItemStack stack, String tag, long value) {
+	public static void setLongNBT(ItemStack stack, String tag, long value) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();
@@ -418,6 +419,11 @@ public boolean isRepairable(ItemStack stack) {
 		setIntNBT(stack, TAG_TEXTURE, textureId);
 	}
 
+	/**
+	 * Deletes string nbt from tool entirely.
+	 * @param stack
+	 * @param string
+	 */
 	public static void deleteStringNBT(ItemStack stack, String string) {
 		CompoundNBT nbt;
 		if (stack.hasTag()) {

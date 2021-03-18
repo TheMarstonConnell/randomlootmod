@@ -2,13 +2,8 @@ package xyz.marstonconnell.randomloot.tags.worldinteract;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-
-
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -22,7 +17,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 
 @Mod.EventBusSubscriber(modid = RandomLootMod.MODID)
 public class ChargingEvent extends WorldInteractEvent {
@@ -49,14 +44,14 @@ public class ChargingEvent extends WorldInteractEvent {
 				time = 0;
 
 				for (ItemStack s : items) {
-					float charge = BaseTool.getFloatNBT(s, "rl_charge") + 1;
+					float charge = ToolUtilities.getFloatNBT(s, "rl_charge") + 1;
 					if (charge > maxCharge) {
 						charge = maxCharge;
 					}
 
-					BaseTool.setFloatNBT(s, "rl_charge", charge);
+					ToolUtilities.setFloatNBT(s, "rl_charge", charge);
 					DecimalFormat df = new DecimalFormat("#0");
-					BaseTool.setLore(s, TextFormatting.AQUA + df.format(charge / maxCharge * 100) + "% charged", null);
+					ToolUtilities.setLore(s, TextFormatting.AQUA + df.format(charge / maxCharge * 100) + "% charged", null);
 				}
 
 			}
@@ -77,14 +72,14 @@ public class ChargingEvent extends WorldInteractEvent {
 			onAdd(level, stack, worldIn, entityLiving, state, pos, target);
 		}
 
-		float chargeLevel = BaseTool.getFloatNBT(stack, "rl_charge");
+		float chargeLevel = ToolUtilities.getFloatNBT(stack, "rl_charge");
 
 		target.hurtResistantTime = 0;
 		target.hurtTime = 0;
 
 		target.attackEntityFrom(new IndirectEntityDamageSource("indirectMagic", entityLiving, null)
 				.setDamageBypassesArmor().setMagicDamage(), chargeLevel);
-		BaseTool.setFloatNBT(stack, "rl_charge", 0.0f);
+		ToolUtilities.setFloatNBT(stack, "rl_charge", 0.0f);
 
 	}
 
@@ -93,7 +88,7 @@ public class ChargingEvent extends WorldInteractEvent {
 			BlockPos pos, Entity target) {
 
 		items.add(stack);
-		BaseTool.setFloatNBT(stack, "rl_charge", 0.0f);
+		ToolUtilities.setFloatNBT(stack, "rl_charge", 0.0f);
 
 	}
 

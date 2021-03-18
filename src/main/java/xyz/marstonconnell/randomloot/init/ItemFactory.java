@@ -9,7 +9,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
-import xyz.marstonconnell.randomloot.tools.BaseTool;
+import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.DataCollection;
@@ -104,18 +104,18 @@ public class ItemFactory {
 
 		((IRLTool) stack.getItem()).updateStats(stack);
 
-		BaseTool.setIntNBT(stack, "rl_tool_version", CURRENT_TOOL_VERSION);
+		ToolUtilities.setIntNBT(stack, "rl_tool_version", CURRENT_TOOL_VERSION);
 		
 		// naming item
-		BaseTool.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));
+		ToolUtilities.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));
 
-		BaseTool.setTexture(stack, rand.nextInt(((IRLTool) stack.getItem()).getVariants() - 1) + 1);
-		BaseTool.setMaxXP(stack, Config.STARTING_XP.get());
+		ToolUtilities.setTexture(stack, rand.nextInt(((IRLTool) stack.getItem()).getVariants() - 1) + 1);
+		ToolUtilities.setMaxXP(stack, Config.STARTING_XP.get());
 
-		BaseTool.setLore(stack, worldIn);
+		ToolUtilities.setLore(stack, worldIn);
 
 		// stack.setDisplayName(new StringTextComponent(color.toString() +
-		// BaseTool.getName(stack)));
+		// ToolUtilities.getName(stack)));
 
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
@@ -126,7 +126,7 @@ public class ItemFactory {
 
 		CompoundNBT display = nbt.getCompound("display");
 		display.putString("Name",
-				"{\"text\":\"" + BaseTool.getName(stack) + "\", \"color\":\"" + color.name().toLowerCase() + "\",\"italic\":false}");
+				"{\"text\":\"" + ToolUtilities.getName(stack) + "\", \"color\":\"" + color.name().toLowerCase() + "\",\"italic\":false}");
 
 		stack.setTag(nbt);
 
