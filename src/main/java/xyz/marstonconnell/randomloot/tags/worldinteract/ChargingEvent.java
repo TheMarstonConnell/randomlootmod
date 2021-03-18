@@ -1,11 +1,11 @@
 package xyz.marstonconnell.randomloot.tags.worldinteract;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import com.ibm.icu.text.DecimalFormat;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
