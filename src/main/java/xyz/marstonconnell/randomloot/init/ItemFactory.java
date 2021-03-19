@@ -41,7 +41,15 @@ public class ItemFactory {
 
 	private static void giftNewTrait(ItemStack stack, World worldIn) {
 
-		List<BasicTag> allTags = TagHelper.getCompatibleTags(stack);		
+		List<BasicTag> allTags = TagHelper.getCompatibleTags(stack);	
+		List<BasicTag> currentTags = TagHelper.getTagList(stack);
+		
+		for(BasicTag tag : currentTags) {
+			BasicTag newTag = TagHelper.copyTag(tag).setLevel(0);
+			allTags.add(newTag);
+
+		}
+		
 
 		BasicTag t = allTags.get(rand.nextInt(allTags.size()));
 

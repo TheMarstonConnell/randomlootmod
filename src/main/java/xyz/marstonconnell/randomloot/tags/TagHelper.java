@@ -544,6 +544,15 @@ public abstract class TagHelper {
 		return tags;
 
 	}
+	
+	/**
+	 * Clones tag.
+	 * @param t
+	 * @return
+	 */
+	public static BasicTag copyTag(BasicTag t) {
+		return convertToTag(convertToNBT(t));
+	}
 
 	/**
 	 * Converts a tools name to title case. 
