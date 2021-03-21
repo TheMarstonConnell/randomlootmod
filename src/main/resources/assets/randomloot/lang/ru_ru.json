@@ -1,0 +1,47 @@
+{
+    "itemGroup.randomloot.randomlootTab": "Random Loot Mod",
+
+
+    "item.randomloot.basic_case": "Базовый ларец",
+    "item.randomloot.golden_case": "§6Золотой ларец",
+    "item.randomloot.titan_case": "§dТитановый ларец",
+    "item.randomloot.sword": "Случайный меч",
+    "item.randomloot.pickaxe": "Случайная кирка",
+    "item.randomloot.shovel": "Случайная лопата",
+    "item.randomloot.axe": "Случайный топор",
+    "item.randomloot.paxel": "Случайный паксель",
+    "item.randomloot.rl_bow": "Случайный лук",
+    "item.randomloot.heavy_helmet": "Случайный шлем",
+    "item.randomloot.heavy_chest": "Случайный нагрудник",
+    "item.randomloot.heavy_legs": "Случайные поножи",
+    "item.randomloot.heavy_boots": "Случайные ботинки",
+    "item.randomloot.titanium_helmet": "Случайный шлем",
+    "item.randomloot.titanium_chest": "Случайный нагрудник",
+    "item.randomloot.titanium_legs": "Случайные поножи",
+    "item.randomloot.titanium_boots": "Случайные ботинки",
+    "item.randomloot.random_shard": "Случайный осколок",
+    "item.randomloot.random_chunk": "Случайный кусок",
+    "item.randomloot.random_cluster": "Случайный сластер",
+    "item.randomloot.trait_holder": "Таинственная эссенция",
+
+
+    "item.randomloot.throwable": "Random Throwable",
+
+    "block.randomloot.random_anvil": "Золотая наковальня",
+    "block.randomloot.repair_station": "Ремонтная мастерская",
+    "block.randomloot.case_opener": "Case Ripper",
+    "block.randomloot.breaker": "Tool Masher",
+    
+    "block.randomloot.editor": "Инструмент редактирования",
+    
+    "entity.minecraft.villager.randomloot.looter": "Сборщик",
+
+    "container.randomloot.breaker": "Измельчитель инструментов",
+    
+    "container.randomloot.edit": "Инструмент редактирования",
+    
+    "button.remove": "Удалить характеристики",
+    
+    "container.editor.removewarning": "Из этого инструмента будут удалены все характеристики, и он будет сильно повреждён."
+    
+}
