@@ -217,38 +217,40 @@ public class RLRepairContainer extends Container {
 
 						boolean hasTag = TagHelper.checkForTag(out, tag);
 
-						BasicTag bt = null;
-						for (BasicTag t : existingTags) {
-							if (t.sameTag(tag)) {
-								bt = t;
+						BasicTag copy = null;
+						if (hasTag) {
+							BasicTag bt = null;
+							for (BasicTag t : existingTags) {
+								if (t.sameTag(tag)) {
+									bt = t;
+								}
 							}
 
-							if (hasTag && bt == null) {
-								toShrinkMod = 1;
+							if (bt == null) {
 								craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
 								return;
 							}
 
-							BasicTag copy = hasTag ? TagHelper.convertToTag(TagHelper.convertToNBT(bt))
-									: TagHelper.convertToTag(TagHelper.convertToNBT(tag)).setLevel(-1);
-
-							Pair<Boolean, Integer> p = copy.canMaterialsCauseLevelUp(mod);
-							if (p.getLeft()) {
-								System.out.println("Adding trait! " + (hasTag ? "Already had it..." : "Adding new!"));
-								TagHelper.addTag(out, tag, worldIn);
-								foundMaterial = true;
-								toShrinkMod = p.getRight();
-								break;
-							}
+							copy = TagHelper.convertToTag(TagHelper.convertToNBT(bt));
 
 						}
+
+						copy = TagHelper.convertToTag(TagHelper.convertToNBT(tag)).setLevel(-1);
+
+						Pair<Boolean, Integer> p = copy.canMaterialsCauseLevelUp(mod);
+						if (p.getLeft()) {
+							System.out.println("Adding trait! " + (hasTag ? "Already had it..." : "Adding new!"));
+							TagHelper.addTag(out, tag, worldIn);
+							toShrinkMod = p.getRight();
+							if (!Config.TRAIT_CRAFTING.get()) {
+								craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
+								return;
+							}
+						}
+
 					}
 
-					if (!foundMaterial && Config.TRAIT_CRAFTING.get()) {
-						toShrinkMod = 1;
-						craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
-						return;
-					}
+					
 
 				}
 
@@ -268,7 +270,8 @@ public class RLRepairContainer extends Container {
 					}
 
 					int oldXp = ToolUtilities.getXP(out);
-					ToolUtilities.changeXP(out, ToolUtilities.getMaxXP(out), player.getEntityWorld(), player.getPosition());
+					ToolUtilities.changeXP(out, ToolUtilities.getMaxXP(out), player.getEntityWorld(),
+							player.getPosition());
 					ToolUtilities.changeXP(out, oldXp, player.getEntityWorld(), player.getPosition());
 
 					CompoundNBT nbt;
@@ -318,7 +321,9 @@ public class RLRepairContainer extends Container {
 
 			craftResult.setInventorySlotContents(0, out);
 			return;
-		} else {
+		} else
+
+		{
 			craftResult.setInventorySlotContents(0, new ItemStack(Items.AIR));
 		}
 

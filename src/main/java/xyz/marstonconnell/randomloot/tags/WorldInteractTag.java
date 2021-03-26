@@ -37,6 +37,7 @@ public class WorldInteractTag extends BasicTag{
 		this.forTools = clone.forTools;
 		this.forArmor = clone.forArmor;
 		this.forWeapons = clone.forWeapons;
+		this.forBows = clone.forBows;
 		
 
 	}
@@ -48,6 +49,7 @@ public class WorldInteractTag extends BasicTag{
 		this.forTools = forTools;
 		this.forWeapons = forWeapons;
 		this.forArmor = forArmor;
+		this.forBows = false;
 		
 		
 		for(int i = 1 ;i < namesIn.length; i ++) {

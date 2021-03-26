@@ -45,6 +45,10 @@ public class ItemFactory {
 		List<BasicTag> currentTags = TagHelper.getTagList(stack);
 		
 		for(BasicTag tag : currentTags) {
+			if(!tag.natural) {
+				continue;
+			}
+			
 			BasicTag newTag = TagHelper.copyTag(tag).setLevel(0);
 			allTags.add(newTag);
 

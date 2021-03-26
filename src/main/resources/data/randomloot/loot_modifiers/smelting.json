@@ -4,7 +4,7 @@
     {
       "condition": "minecraft:match_tool",
       "predicate": {
-      	"nbt": "{rl_tag_data:[{tag_name:\"auto-smelt\"}]}"
+      	"nbt": "{rl_tag_data:[{tag_name:\"auto_smelt\"}]}"
       }
     }
   ]

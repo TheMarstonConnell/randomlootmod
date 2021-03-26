@@ -43,6 +43,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.SleepingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.UnbreakingEvent;
 import xyz.marstonconnell.randomloot.tools.ToolUtilities;
+import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.tools.IRLTool;
 
 /**
@@ -50,7 +51,7 @@ import xyz.marstonconnell.randomloot.tools.IRLTool;
  * @author marston connell
  *
  */
-public abstract class TagHelper {
+public abstract class TagHelper {	
 
 	private static final String TAG_LIST = "rl_tag_data";
 	private static final String TAG_LEVEL = "tag_level";
@@ -118,7 +119,8 @@ public abstract class TagHelper {
 	public static final BasicTag MULTI_SHOT;
 	public static final BasicTag LASER_ARROW;
 	public static final BasicTag PLACE_LIGHT;
-	public static final BasicTag SLEEPING;
+	public static final BasicTag LOCKED;
+	//public static final BasicTag SLEEPING;
 
 	/**
 	 * Every tags assignment.
@@ -234,6 +236,30 @@ public abstract class TagHelper {
 		//SLEEPING = new WorldInteractTag(new String[] {"drowsy"}, TextFormatting.RED, new SleepingEvent(), true, false, true).setActive();
 		
 		PLACE_LIGHT = new WorldInteractTag(new String[] {"illuminated"}, TextFormatting.YELLOW, new PlaceLightEvent(), true, false, false).setActive();
+	
+		LOCKED = new BasicTag("locked", TextFormatting.WHITE).addCraftMaterial(Items.NETHER_STAR, 1, 0).setUniversal().setUnnatural();
+	
+	}
+	
+	public static void finalizeActiveTraits() {
+		for(BasicTag t : allTags) {
+			
+			if(!t.equals(LOCKED)) {
+				LOCKED.addBlackTags(t.name);
+			}
+			
+			if(t.active) {
+				for(BasicTag t2 : allTags) {
+					if(t2.active) {
+						if(t2 != t) {
+							t.addBlackTags(t2.name);
+						}
+					}
+				}
+			}
+		}
+		
+		
 	}
 
 	/**
@@ -392,6 +418,9 @@ public abstract class TagHelper {
 			nbt = new CompoundNBT();
 		}
 		
+		if(!Config.traitsEnabled.get(tag.name).get()) {
+			return stack;
+		}
 	
 		
 
@@ -591,6 +620,10 @@ public abstract class TagHelper {
 		}
 
 		return converted.toString();
+	}
+	
+	public static void main(String[] args) {
+		
 	}
 
 }

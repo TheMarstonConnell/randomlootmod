@@ -75,21 +75,8 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 	public List<BasicTag> getAllowedTags() {
 		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 		for (BasicTag tag : TagHelper.allTags) {
-			if (tag instanceof EffectTag) {
-				EffectTag eTag = (EffectTag) tag;
-				if (eTag.forWeapons) {
-					allowedTags.add(eTag);
-				}
-			} else if (tag instanceof WorldInteractTag) {
-				WorldInteractTag eTag = (WorldInteractTag) tag;
-				if (eTag.forWeapons) {
-					allowedTags.add(eTag);
-				}
-			}else if (tag instanceof StatBoostTag) {
-				StatBoostTag eTag = (StatBoostTag) tag;
-				if (eTag.forWeapons) {
-					allowedTags.add(eTag);
-				}
+			if(tag.forWeapons) {
+				allowedTags.add(tag);
 			}
 
 		}

@@ -310,21 +310,8 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 		for (BasicTag tag : TagHelper.allTags) {
 			
-			if (tag instanceof EffectTag) {
-				EffectTag eTag = (EffectTag) tag;
-				if (eTag.forWeapons) {
-					allowedTags.add(eTag);
-				}
-			}else if (tag instanceof StatBoostTag) {
-				StatBoostTag eTag = (StatBoostTag) tag;
-				if (eTag.forWeapons) {
-					allowedTags.add(eTag);
-				}
-			}else if (tag instanceof WorldInteractTag) {
-				WorldInteractTag eTag = (WorldInteractTag) tag;
-				if (eTag.forWeapons || eTag.forBows) {
-					allowedTags.add(eTag);
-				}
+			if(tag.forBows) {
+				allowedTags.add(tag);
 			}
 
 		}

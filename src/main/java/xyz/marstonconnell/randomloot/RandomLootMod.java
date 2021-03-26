@@ -119,6 +119,8 @@ public class RandomLootMod {
 		new ItemUtils();
 		rand = new Random();
 		wc = new WeightedChooser<Item>();
+		
+		TagHelper.finalizeActiveTraits();
 
 		GLM.register(FMLJavaModLoadingContext.get().getModEventBus());
 

@@ -138,21 +138,8 @@ public class RLShovelItem extends RLToolItem implements IRLTool{
 	public List<BasicTag> getAllowedTags() {
 		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 		for (BasicTag tag : TagHelper.allTags) {
-			if (tag instanceof EffectTag) {
-				EffectTag eTag = (EffectTag) tag;
-				if (eTag.forTools) {
-					allowedTags.add(eTag);
-				}
-			} else if (tag instanceof WorldInteractTag) {
-				WorldInteractTag eTag = (WorldInteractTag) tag;
-				if (eTag.forTools) {
-					allowedTags.add(eTag);
-				}
-			}else if (tag instanceof StatBoostTag) {
-				StatBoostTag eTag = (StatBoostTag) tag;
-				if (eTag.forTools) {
-					allowedTags.add(eTag);
-				}
+			if(tag.forTools) {
+				allowedTags.add(tag);
 			}
 
 		}

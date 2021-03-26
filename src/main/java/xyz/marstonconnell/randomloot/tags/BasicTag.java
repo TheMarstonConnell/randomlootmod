@@ -24,11 +24,15 @@ public class BasicTag {
 	public int maxLevel;
 	public List<String> incompatibleTags;
 	
+	public String description;
+	
 	public boolean offensive = false;
 	public boolean forWeapons = false;
 	public boolean forTools = false;
 	public boolean forArmor = false;
 	public boolean forBows = false;
+	
+	public boolean natural = true;
 	
 	public boolean active = false;
 	
@@ -42,6 +46,16 @@ public class BasicTag {
 		}
 		
 		return true;
+	}
+	
+	public BasicTag setDescription(String desc) {
+		description = desc;
+		return this;
+	}
+
+	public BasicTag setUnnatural() {
+		natural = false;
+		return this;
 	}
 	
 	public BasicTag setActive() {
@@ -96,6 +110,7 @@ public class BasicTag {
 		this.level = 0;
 		this.maxLevel = 0;
 		this.incompatibleTags = new ArrayList<String>();
+
 		
 		TagHelper.allTags.add(this);
 		TagHelper.tagNames.add(name);
@@ -104,6 +119,19 @@ public class BasicTag {
 		extraValues = new HashMap<String, Float>();
 		levelingMaterials = new HashMap<Integer, Pair<Item, Integer>>();
 
+	}
+	
+	public BasicTag setUniversal() {
+		return forObjects(true, true, true, true);
+	}
+	
+	public BasicTag forObjects(boolean forWeaponsIn, boolean forToolsIn, boolean forArmorIn, boolean forBowsIn) {
+		forWeapons = forWeaponsIn;
+		forTools = forToolsIn;
+		forArmor = forArmorIn;
+		forBows = forBowsIn;
+		
+		return this;
 	}
 	
 	
@@ -131,7 +159,8 @@ public class BasicTag {
 		forTools = clone.forTools;
 		forWeapons = clone.forWeapons;
 		offensive = clone.offensive;
-		
+		forBows = clone.forBows;
+
 
 	}
 	
