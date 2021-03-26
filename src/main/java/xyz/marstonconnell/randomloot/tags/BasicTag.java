@@ -30,6 +30,8 @@ public class BasicTag {
 	public boolean forArmor = false;
 	public boolean forBows = false;
 	
+	public boolean active = false;
+	
 	private Map<Integer, Pair<Item, Integer>> levelingMaterials;
 	
 	Map<String, Float> extraValues;
@@ -40,6 +42,11 @@ public class BasicTag {
 		}
 		
 		return true;
+	}
+	
+	public BasicTag setActive() {
+		this.active = true;
+		return this;
 	}
 	
 	public BasicTag setBowTag() {
@@ -119,6 +126,12 @@ public class BasicTag {
 		this.incompatibleTags = clone.incompatibleTags;
 		extraValues = clone.extraValues;
 		levelingMaterials = clone.levelingMaterials;
+		active = clone.active;
+		forArmor = clone.forArmor;
+		forTools = clone.forTools;
+		forWeapons = clone.forWeapons;
+		offensive = clone.offensive;
+		
 
 	}
 	

@@ -26,7 +26,9 @@ import net.minecraft.item.Items;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.item.crafting.Ingredient.IItemList;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -165,6 +167,61 @@ public class RLToolItem extends ToolItem {
 		});
 		return true;
 	}
+	
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		
+		System.out.println("Activating Active Trait.");
+		
+		ItemStack stack = playerIn.getHeldItem(handIn);
+		
+		List<BasicTag> tags = TagHelper.getTagList(stack);
+
+		for (int i = 0; i < tags.size(); i++) {
+			if(!tags.get(i).active) {
+				continue;
+			}
+			
+			System.out.println("\t" + tags.get(i).name);
+			
+			
+			if (tags.get(i) instanceof EffectTag) {
+				
+				EffectTag eTag = (EffectTag) tags.get(i);
+				
+				if(!eTag.offensive) {
+					eTag.runEffect(stack, worldIn, playerIn);
+				}
+
+
+			}else if (tags.get(i) instanceof WorldInteractTag) {
+				WorldInteractTag eTag = (WorldInteractTag) tags.get(i);
+
+				if(eTag.forTools) {
+					eTag.runEffect(stack, worldIn, playerIn, worldIn.getBlockState(playerIn.getPosition()), playerIn.getPosition(), null);
+
+				}
+
+			
+			}else if (tags.get(i) instanceof StatBoostTag) {
+				StatBoostTag eTag = (StatBoostTag) tags.get(i);
+				if(eTag.forTools) {
+
+					eTag.undoEffect(stack, worldIn, playerIn, playerIn.getPosition(), null);
+					eTag.runEffect(stack, worldIn, playerIn, playerIn.getPosition(), null);
+				}
+
+			}
+			
+			
+		}
+		
+		
+		
+		
+		
+		return super.onItemRightClick(worldIn, playerIn, handIn);
+	}
 
 	/**
 	 * Called when a Block is destroyed using this Item. Return true to trigger the
@@ -190,9 +247,10 @@ public class RLToolItem extends ToolItem {
 			List<BasicTag> tags = TagHelper.getTagList(stack);
 
 			for (int i = 0; i < tags.size(); i++) {
+				if(tags.get(i).active) {
+					continue;
+				}
 				if (tags.get(i) instanceof EffectTag) {
-					
-					
 					
 					EffectTag eTag = (EffectTag) tags.get(i);
 					

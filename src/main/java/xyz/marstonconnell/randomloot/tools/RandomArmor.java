@@ -205,6 +205,10 @@ public class RandomArmor extends ArmorItem implements IRLTool{
 		
 		
 		for (int i = 0; i < tags.size(); i++) {
+			if(tags.get(i).active) {
+				continue;
+			}
+			
 			if (tags.get(i) instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tags.get(i);
 				eTag.runEffect(stack, world, player);

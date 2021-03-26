@@ -145,6 +145,9 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 		List<BasicTag> tags = TagHelper.getTagList(stack);
 
 		for (int i = 0; i < tags.size(); i++) {
+			if(tags.get(i).active) {
+				continue;
+			}
 			if (tags.get(i) instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tags.get(i);
 				if (eTag.offensive) {

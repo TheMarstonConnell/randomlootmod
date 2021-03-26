@@ -36,8 +36,10 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.LowDurabilityAttackEvent
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiBreakEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiShotEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.OreFindEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.PlaceLightEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.RaisingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ReplenishEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.SleepingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.TeleportItemsEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.UnbreakingEvent;
 import xyz.marstonconnell.randomloot.tools.ToolUtilities;
@@ -115,6 +117,8 @@ public abstract class TagHelper {
 	public static final BasicTag AUTOSMELT;
 	public static final BasicTag MULTI_SHOT;
 	public static final BasicTag LASER_ARROW;
+	public static final BasicTag PLACE_LIGHT;
+	public static final BasicTag SLEEPING;
 
 	/**
 	 * Every tags assignment.
@@ -218,7 +222,6 @@ public abstract class TagHelper {
 		ChargingEvent ce = new ChargingEvent();
 		
 		CHARGING = new WorldInteractTag(new String[] {"charged"}, TextFormatting.AQUA, ce, false, false, true).addValue("rl_charge", 0.0f);
-		ce.addExtras(CHARGING.extraValues);
 		
 		STEPPING = new WorldInteractTag(new String[] {"long_legged", "elastic_legs", "stilted"}, TextFormatting.DARK_GREEN, new LongLeggedEvent(), false, true, false).setMaxLevel(2);
 		
@@ -227,6 +230,10 @@ public abstract class TagHelper {
 		MULTI_SHOT = new WorldInteractTag(new String[] {"twin_shooter", "triple_shot"}, TextFormatting.DARK_BLUE, new MultiShotEvent(), false, false, false).setBowTag().setMaxLevel(1);
 	
 		LASER_ARROW = new WorldInteractTag(new String[] {"end_arrows"}, TextFormatting.LIGHT_PURPLE, new LaserArrowEvent(), false, false, false).setBowTag();
+	
+		//SLEEPING = new WorldInteractTag(new String[] {"drowsy"}, TextFormatting.RED, new SleepingEvent(), true, false, true).setActive();
+		
+		PLACE_LIGHT = new WorldInteractTag(new String[] {"illuminated"}, TextFormatting.YELLOW, new PlaceLightEvent(), true, false, false).setActive();
 	}
 
 	/**

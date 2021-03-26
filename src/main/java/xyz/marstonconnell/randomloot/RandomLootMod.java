@@ -2,6 +2,8 @@ package xyz.marstonconnell.randomloot;
 
 import net.minecraft.block.BlockEventData;
 import net.minecraft.block.Blocks;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.data.loot.BlockLootTables;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.boss.WitherEntity;
@@ -146,6 +148,8 @@ public class RandomLootMod {
 
 		TextureProxy.init();
 
+		
+	    RenderTypeLookup.setRenderLayer(Registration.LIGHT_BALL.get(), RenderType.getCutout());
 	}
 
 	@SubscribeEvent

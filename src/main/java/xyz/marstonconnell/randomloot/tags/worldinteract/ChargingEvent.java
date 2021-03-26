@@ -2,8 +2,13 @@ package xyz.marstonconnell.randomloot.tags.worldinteract;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+
+
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
@@ -17,6 +22,7 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.tags.WorldInteractEvent;
+import xyz.marstonconnell.randomloot.tools.IRLTool;
 import xyz.marstonconnell.randomloot.tools.ToolUtilities;
 
 @Mod.EventBusSubscriber(modid = RandomLootMod.MODID)
@@ -44,6 +50,11 @@ public class ChargingEvent extends WorldInteractEvent {
 				time = 0;
 
 				for (ItemStack s : items) {
+					
+					if(!(s.getItem() instanceof IRLTool)) {
+						continue;
+					}
+					
 					float charge = ToolUtilities.getFloatNBT(s, "rl_charge") + 1;
 					if (charge > maxCharge) {
 						charge = maxCharge;

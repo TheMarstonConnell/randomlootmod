@@ -147,6 +147,9 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				List<BasicTag> tags = TagHelper.getTagList(stack);
 
 				for (int p = 0; p < tags.size(); p++) {
+					if(tags.get(i).active) {
+						continue;
+					}
 					if (tags.get(p) instanceof WorldInteractTag) {
 						WorldInteractTag eTag = (WorldInteractTag) tags.get(p);
 						eTag.runEffect(stack, worldIn, entityLiving, null, entityLiving.getPosition(), abstractarrowentity);
@@ -242,6 +245,9 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 		List<BasicTag> tags = TagHelper.getTagList(stack);
 
 		for (int i = 0; i < tags.size(); i++) {
+			if(tags.get(i).active) {
+				continue;
+			}
 			if (tags.get(i) instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tags.get(i);
 				if (eTag.offensive) {
@@ -303,6 +309,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 		List<BasicTag> allowedTags = new ArrayList<BasicTag>();
 		for (BasicTag tag : TagHelper.allTags) {
+			
 			if (tag instanceof EffectTag) {
 				EffectTag eTag = (EffectTag) tag;
 				if (eTag.forWeapons) {

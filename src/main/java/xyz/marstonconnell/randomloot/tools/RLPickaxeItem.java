@@ -21,6 +21,8 @@ import net.minecraft.nbt.IntArrayNBT;
 import net.minecraft.nbt.IntNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.nbt.StringNBT;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -38,7 +40,7 @@ public class RLPickaxeItem extends RLToolItem implements IRLTool {
 
 	   @Override
 	public Set<Block> getEffectiveOn() {
-		return this.EFFECTIVE_ON;
+		return EFFECTIVE_ON;
 	}
 	   
 	public RLPickaxeItem(String name) {
@@ -83,9 +85,13 @@ public class RLPickaxeItem extends RLToolItem implements IRLTool {
 		float speedBonus = nbt.getFloat("rl_dig_speed");
 		
 		Material material = state.getMaterial();
+		
+		float f = (getToolTypes(stack).stream().anyMatch(e -> state.isToolEffective(e)) ? efficiency :
+	    (EFFECTIVE_ON.contains(state.getBlock()) ? this.efficiency : 1.0F));
+		
 		return material != Material.IRON && material != Material.ANVIL && material != Material.ROCK
-				? super.getDestroySpeed(stack, state)
-				: super.getDestroySpeed(stack, state) + speedBonus - 1;
+				? f
+				: efficiency + speedBonus - 1;
 	}
 	
 	@Override
@@ -247,5 +253,10 @@ DecimalFormat f = new DecimalFormat("#0.00");
 		// TODO Auto-generated method stub
 		return 17;
 	}
+	
+	
+	
+	
+	 
 
 }
