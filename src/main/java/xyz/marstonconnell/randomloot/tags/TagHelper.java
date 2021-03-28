@@ -207,7 +207,7 @@ public abstract class TagHelper {
 		
 		SUN_BEAMS = new WorldInteractTag(new String[] {"sun_bathing"}, TextFormatting.YELLOW, new LightBoostEvent(), true, false, true);
 		
-		RAINY_DAY = new StatBoostTag(new String[] {"rained_out"}, TextFormatting.DARK_AQUA, new WeatherBoostEvent(), true, false, true);
+		RAINY_DAY = new StatBoostTag(new String[] {"rained_out"}, TextFormatting.DARK_AQUA, new WeatherBoostEvent(), true, false, false);
 		
 		GROUP_HARM = new WorldInteractTag(new String[] {"crowd_pleaser"}, TextFormatting.DARK_PURPLE, new GangBangEvent(), false, false, true);
 		
