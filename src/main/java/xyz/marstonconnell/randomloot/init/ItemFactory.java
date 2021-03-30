@@ -1,5 +1,6 @@
 package xyz.marstonconnell.randomloot.init;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -41,6 +42,9 @@ public class ItemFactory {
 
 	private static void giftNewTrait(ItemStack stack, World worldIn) {
 
+		List<BasicTag> choosingFrom = new ArrayList<BasicTag>();
+		
+		
 		List<BasicTag> allTags = TagHelper.getCompatibleTags(stack);	
 		List<BasicTag> currentTags = TagHelper.getTagList(stack);
 		
@@ -50,12 +54,20 @@ public class ItemFactory {
 			}
 			
 			BasicTag newTag = TagHelper.copyTag(tag).setLevel(0);
-			allTags.add(newTag);
+			choosingFrom.add(newTag);
 
 		}
 		
+		for(BasicTag tag : allTags) {
+			if(!tag.natural) {
+				continue;
+			}
+			
+			choosingFrom.add(tag);
+		}
+		
 
-		BasicTag t = allTags.get(rand.nextInt(allTags.size()));
+		BasicTag t = choosingFrom.get(rand.nextInt(choosingFrom.size()));
 
 		TagHelper.addTag(stack, t, worldIn);
 
