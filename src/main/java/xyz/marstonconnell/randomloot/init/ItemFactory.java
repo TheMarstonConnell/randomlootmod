@@ -21,6 +21,8 @@ public class ItemFactory {
 
 	public static final int CURRENT_TOOL_VERSION = 1;
 	public static final String RL_FOUND_IN = "rl_found_in";
+	public final static String[] FOUND_IN_TEXTS = {"Found in the heart of the", "Discovered deep in the", "Found in the", "Rightfully claimed at the", "Taken from the", "Gifted by the gods in the", "Uncovered at the", "Found deep in the"};
+
 	
 	static Random rand = new Random();
 
@@ -49,7 +51,7 @@ public class ItemFactory {
 		List<BasicTag> currentTags = TagHelper.getTagList(stack);
 		
 		for(BasicTag tag : currentTags) {
-			if(!tag.natural) {
+			if(!tag.natural || !tag.enabled) {
 				continue;
 			}
 			
@@ -59,7 +61,7 @@ public class ItemFactory {
 		}
 		
 		for(BasicTag tag : allTags) {
-			if(!tag.natural) {
+			if(!tag.natural || !tag.enabled) {
 				continue;
 			}
 			
@@ -132,7 +134,7 @@ public class ItemFactory {
 
 		ToolUtilities.setIntNBT(stack, "rl_tool_version", CURRENT_TOOL_VERSION);
 		
-		ToolUtilities.setStringNBT(stack, RL_FOUND_IN, TagHelper.convertToTitleCaseIteratingChars(worldIn.getBiome(pos).getRegistryName().getPath()));
+		ToolUtilities.setStringNBT(stack, RL_FOUND_IN, FOUND_IN_TEXTS[(int) (Math.random() * FOUND_IN_TEXTS.length)] +  " " + TagHelper.convertToTitleCaseIteratingChars(worldIn.getBiome(pos).getRegistryName().getPath()));
 		
 		// naming item
 		ToolUtilities.setName(stack, ItemUtils.nameItem(((IRLTool) stack.getItem()).getItemType()));

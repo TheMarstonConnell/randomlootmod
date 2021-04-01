@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import xyz.marstonconnell.randomloot.utils.Config;
 
 public class StatBoostTag extends BasicTag{
 
@@ -38,9 +39,10 @@ public class StatBoostTag extends BasicTag{
 	
 	public void runEffect(ItemStack stack, World worldIn,
 			LivingEntity entityLiving, BlockPos pos, LivingEntity target) {
-		
+		if(Config.traitsEnabled.get(name).get() && this.enabled) {
+
 		sbe.effect(this.level + 1, stack, worldIn, entityLiving, pos, target);
-		
+		}
 	}
 	
 	public void undoEffect(ItemStack stack, World worldIn,

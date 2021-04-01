@@ -1,5 +1,7 @@
 package xyz.marstonconnell.randomloot.tags;
 
+import java.util.Date;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -8,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import xyz.marstonconnell.randomloot.utils.Config;
 
 public class WorldInteractTag extends BasicTag{
 
@@ -60,7 +63,12 @@ public class WorldInteractTag extends BasicTag{
 	public void runEffect(ItemStack stack, World worldIn,
 			LivingEntity entityLiving, BlockState state, BlockPos pos, Entity target) {
 		
-		wie.effect(this.level + 1, stack, worldIn, entityLiving, state, pos, target);
+		if(Config.traitsEnabled.get(name).get() && this.enabled) {
+			wie.effect(this.level + 1, stack, worldIn, entityLiving, state, pos, target);
+
+		}
+		
+		
 		
 	}
 	
@@ -70,7 +78,14 @@ public class WorldInteractTag extends BasicTag{
 	public String toString() {
 		String newName = this.names[level].replaceAll("_", " ");
 		newName = TagHelper.convertToTitleCaseIteratingChars(newName);
+		
+		if(!this.enabled) {
+			newName = newName + " [disabled]";
+		}
+		
 		return newName;
 	}
+
+	
 
 }

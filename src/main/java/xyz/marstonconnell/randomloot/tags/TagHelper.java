@@ -1,6 +1,7 @@
 package xyz.marstonconnell.randomloot.tags;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.BurningEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ChargingEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.CriticalStrikeEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.DamageEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.EasterEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.ExplosionEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FindEntitiesEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.FloatEvent;
@@ -120,6 +122,7 @@ public abstract class TagHelper {
 	public static final BasicTag LASER_ARROW;
 	public static final BasicTag PLACE_LIGHT;
 	public static final BasicTag LOCKED;
+	public static final BasicTag EASTER;
 	//public static final BasicTag SLEEPING;
 
 	/**
@@ -239,6 +242,7 @@ public abstract class TagHelper {
 	
 		LOCKED = new BasicTag("locked", TextFormatting.WHITE).addCraftMaterial(Items.NETHER_STAR, 1, 0).setUniversal().setUnnatural();
 	
+		EASTER = new WorldInteractTag(new String[] {"egg_hunt"}, TextFormatting.GREEN, new EasterEvent(), true, false, true).setLimited(2021, 4, 2, 4);
 	}
 	
 	public static void finalizeActiveTraits() {

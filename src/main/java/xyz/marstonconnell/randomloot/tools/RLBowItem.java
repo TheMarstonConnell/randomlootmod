@@ -147,9 +147,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 				List<BasicTag> tags = TagHelper.getTagList(stack);
 
 				for (int p = 0; p < tags.size(); p++) {
-					if(tags.get(i).active) {
-						continue;
-					}
+					
 					if (tags.get(p) instanceof WorldInteractTag) {
 						WorldInteractTag eTag = (WorldInteractTag) tags.get(p);
 						eTag.runEffect(stack, worldIn, entityLiving, null, entityLiving.getPosition(), abstractarrowentity);

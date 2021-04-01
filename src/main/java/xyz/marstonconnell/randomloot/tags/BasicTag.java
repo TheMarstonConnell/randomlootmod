@@ -1,6 +1,8 @@
 package xyz.marstonconnell.randomloot.tags;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +37,8 @@ public class BasicTag {
 	public boolean natural = true;
 	
 	public boolean active = false;
+	
+	public boolean enabled = true;
 	
 	private Map<Integer, Pair<Item, Integer>> levelingMaterials;
 	
@@ -160,6 +164,7 @@ public class BasicTag {
 		forWeapons = clone.forWeapons;
 		offensive = clone.offensive;
 		forBows = clone.forBows;
+		enabled = clone.enabled;
 
 
 	}
@@ -205,6 +210,11 @@ public class BasicTag {
 			String roman = RomanNumber.toRoman(this.level + 1);
 			newName = newName + " " + roman;
 		}
+		
+		if(!this.enabled) {
+			newName = newName + " [disabled]";
+		}
+		
 		return newName;
 	}
 
@@ -218,5 +228,27 @@ public class BasicTag {
 			LivingEntity target) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	
+	public BasicTag setLimited(int y, int m, int d, int i) {
+		
+		
+		
+		LocalDate min = LocalDate.of( y , m , d ); 
+		
+		LocalDate max = LocalDate.of( y , m , d);
+		max = max.plusDays(i);
+		
+		LocalDate date = LocalDate.now();          // the date in question
+
+		
+		
+		this.enabled = date.isAfter(min) && date.isBefore(max);
+		
+		
+		
+		
+		return this;
 	}
 }

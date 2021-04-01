@@ -22,6 +22,7 @@ import xyz.marstonconnell.randomloot.init.ItemFactory;
 import xyz.marstonconnell.randomloot.init.RLItems;
 import xyz.marstonconnell.randomloot.tags.BasicTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
+import xyz.marstonconnell.randomloot.utils.Config;
 
 /**
  * An abstract class to adjust tool data.
@@ -30,7 +31,6 @@ import xyz.marstonconnell.randomloot.tags.TagHelper;
  */
 public abstract class ToolUtilities {
 	
-	public final static String[] FOUND_IN_TEXTS = {"Found in the heart of the", "Discovered deep in the", "Found in the", "Rightfully claimed at the", "Taken from the", "Gifted by the gods in the", "Uncovered at the", "Found deep in the"};
 
 	public final static String TAG_XP = "xp";
 	public final static String TAG_MAX_XP = "max_xp";
@@ -142,7 +142,7 @@ public abstract class ToolUtilities {
 
 		String location = ToolUtilities.getStringNBT(stack, ItemFactory.RL_FOUND_IN);
 		if(location.length() > 0) {
-			lore.add(StringNBT.valueOf("{\"text\":\"" + TextFormatting.GRAY + FOUND_IN_TEXTS[(int) (Math.random() * FOUND_IN_TEXTS.length)] + " " + location + "\"}"));
+			lore.add(StringNBT.valueOf("{\"text\":\"" + TextFormatting.GRAY + location + "\"}"));
 
 		}
 
@@ -246,7 +246,7 @@ public abstract class ToolUtilities {
 	 * 
 	 * @param stack
 	 * @param tag   String
-	 * @return
+	 * @return string tag or empty string if not found.
 	 */
 	public static String getStringNBT(ItemStack stack, String tag) {
 		CompoundNBT nbt;

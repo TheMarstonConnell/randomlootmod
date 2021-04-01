@@ -42,8 +42,6 @@ public class DataCollection{
 			
 		};
 
-		task.run();
-
 		Thread thread = new Thread(task);
 		thread.start();
 
