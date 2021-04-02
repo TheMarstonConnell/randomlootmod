@@ -19,7 +19,9 @@ public class RaisingEvent extends WorldInteractEvent{
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
 			BlockPos pos, Entity targete) {
-		
+		if(targete == null) {
+			return;
+		}
 		if(!(targete instanceof MonsterEntity)) {
 			return;
 		}

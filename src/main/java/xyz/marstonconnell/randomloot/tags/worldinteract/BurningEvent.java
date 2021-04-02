@@ -22,7 +22,9 @@ public class BurningEvent extends WorldInteractEvent{
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
 			BlockPos pos, Entity target) {
-		
+		if(target == null) {
+			return;
+		}
 		float f = ToolUtilities.getFloatNBT(stack, "rl_burn_timer");
 		
 		if(f < ticks) {

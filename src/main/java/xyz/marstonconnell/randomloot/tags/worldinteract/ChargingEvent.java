@@ -73,6 +73,10 @@ public class ChargingEvent extends WorldInteractEvent {
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
 			BlockPos pos, Entity t) {
+		
+		if(t == null) {
+			return;
+		}
 		if (!(t instanceof LivingEntity)) {
 			return;
 		}

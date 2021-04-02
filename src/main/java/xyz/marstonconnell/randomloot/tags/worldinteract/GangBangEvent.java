@@ -18,7 +18,9 @@ public class GangBangEvent extends WorldInteractEvent {
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
 			BlockPos pos, Entity t) {
 		// TODO Auto-generated method stub
-
+		if(t == null) {
+			return;
+		}
 		if(!(t instanceof LivingEntity)) {
 			return;
 		}

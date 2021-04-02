@@ -74,7 +74,9 @@ public class BeanStalkEvent extends WorldInteractEvent {
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state,
 			BlockPos pos, Entity target) {
-
+		if(target == null) {
+			return;
+		}
 		spots.add(target.getPosition());
 		heights.add(-1);
 		worlds.add(worldIn);
