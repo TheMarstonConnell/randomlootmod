@@ -16,6 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import xyz.marstonconnell.randomloot.tools.ToolUtilities;
+import xyz.marstonconnell.randomloot.utils.Config;
 import xyz.marstonconnell.randomloot.utils.Pair;
 import xyz.marstonconnell.randomloot.utils.RomanNumber;
 
@@ -211,7 +212,7 @@ public class BasicTag {
 			newName = newName + " " + roman;
 		}
 		
-		if(!this.enabled) {
+		if(!Config.traitsEnabled.get(name).get()) {
 			newName = newName + " [disabled]";
 		}
 		

@@ -63,7 +63,7 @@ public class WorldInteractTag extends BasicTag{
 	public void runEffect(ItemStack stack, World worldIn,
 			LivingEntity entityLiving, BlockState state, BlockPos pos, Entity target) {
 		
-		if(Config.traitsEnabled.get(name).get() && this.enabled) {
+		if(Config.traitsEnabled.get(name).get()) {
 			wie.effect(this.level + 1, stack, worldIn, entityLiving, state, pos, target);
 
 		}
@@ -79,7 +79,7 @@ public class WorldInteractTag extends BasicTag{
 		String newName = this.names[level].replaceAll("_", " ");
 		newName = TagHelper.convertToTitleCaseIteratingChars(newName);
 		
-		if(!this.enabled) {
+		if(!Config.traitsEnabled.get(name).get()) {
 			newName = newName + " [disabled]";
 		}
 		
