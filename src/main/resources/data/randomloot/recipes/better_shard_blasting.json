@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "randomloot:golden_case"
+  },
+  "result": "randomloot:random_chunk",
+  "experience": 0,
+  "cookingtime": 100
+}

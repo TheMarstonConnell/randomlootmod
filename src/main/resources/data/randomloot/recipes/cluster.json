@@ -1,0 +1,16 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "##",
+        "##"
+    ],
+    "key": {
+        "#": {
+            "item": "randomloot:random_chunk"
+        }
+    },
+    "result": {
+        "item": "randomloot:random_cluster",
+        "count": 1
+    }
+}

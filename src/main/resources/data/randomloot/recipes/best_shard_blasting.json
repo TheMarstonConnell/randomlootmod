@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "randomloot:titan_case"
+  },
+  "result": "randomloot:random_cluster",
+  "experience": 0,
+  "cookingtime": 100
+}

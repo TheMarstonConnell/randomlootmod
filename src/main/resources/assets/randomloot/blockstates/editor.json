@@ -1,0 +1,5 @@
+{
+    "variants": {
+        "": { "model": "randomloot:block/editor" }
+    }
+}

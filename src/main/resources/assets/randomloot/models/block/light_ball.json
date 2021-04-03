@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "randomloot:blocks/glow_ball"
+  }
+}
