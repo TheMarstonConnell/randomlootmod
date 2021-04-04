@@ -415,6 +415,12 @@ public abstract class TagHelper {
 	 * @return
 	 */
 	public static ItemStack addTag(ItemStack stack, BasicTag tag, World worldIn) {
+		
+		if(tag == null) {
+			return stack;
+		}
+		
+		
 		CompoundNBT nbt;
 		if (stack.hasTag()) {
 			nbt = stack.getTag();

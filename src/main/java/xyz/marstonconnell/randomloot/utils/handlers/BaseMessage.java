@@ -67,7 +67,9 @@ public class BaseMessage {
 		playerIn.addItemStackToInventory(s);
 		
 		
-		LootSystem.getPersonalItem(playerIn);
+		//ToolUtilities.runFunEffect(s);
+		
+		
 
 		return s;
 

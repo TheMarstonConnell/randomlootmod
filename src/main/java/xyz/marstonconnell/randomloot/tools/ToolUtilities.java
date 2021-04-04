@@ -450,4 +450,34 @@ public abstract class ToolUtilities {
 		
 	}
 
+	public static void runFunEffect(ItemStack s) {
+		IRLTool tool = (IRLTool) s.getItem();
+		int maxVar = tool.getVariants();
+		
+		Runnable task = () -> {
+			
+			int i = 0;
+			while(i < 20) {
+				try {
+					Thread.sleep(3);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				ToolUtilities.setTexture(s, (int) (Math.random() * (maxVar + 1) + 1));
+				i ++;
+			}
+			
+		};
+		
+		Thread effectThread = new Thread(task);
+		
+		effectThread.start();
+
+		
+		
+		
+	}
+	
+	
+
 }
