@@ -12,7 +12,6 @@ public class DataCollection{
 	
 	public static void makeRequest(URI v) {
 		Runnable task = () -> {
-			   
 			if(!Config.DATA_COLLECT.get()) {
 				return;
 			}
@@ -49,6 +48,10 @@ public class DataCollection{
 	}
 	
 	public static void goOffline(int count) {
+		if(true) {
+			return;
+		}
+		
 		try {
 			URI v = new URI("http", "marstonconnell.xyz", "/randomloot/api/disconnect", "key=RANDOMLOOT_SECRET_KEY&count=" + count, null);
 			makeRequest(v);
@@ -71,6 +74,10 @@ public class DataCollection{
 	}
 	
 	public static void uploadTool(ItemStack stack) {
+		
+		if(true) {
+			return;
+		}
 		
 			try {
 				URI v = new URI("http", "marstonconnell.xyz", "/randomloot/api/publishtool", "key=RANDOMLOOT_SECRET_KEY&tool=" + stack.getItem().getRegistryName().getPath() + ":" + stack.getTag(), null);

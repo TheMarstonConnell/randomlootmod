@@ -1,6 +1,7 @@
 package xyz.marstonconnell.randomloot.tags.worldinteract;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -77,15 +78,27 @@ public class OreFindEvent extends WorldInteractEvent{
 					if(name.contains("ore") || name.contains("Ore")) {
 						System.out.println("Block is Ore!");
 						
+						
+						List<ShulkerEntity> shulkersInBlock = worldIn.getEntitiesWithinAABB(ShulkerEntity.class, new AxisAlignedBB(p), null);
+						if(!shulkersInBlock.isEmpty()) {
+							continue;
+						}
+						
+						
 						ShulkerEntity se = new ShulkerEntity(EntityType.SHULKER, worldIn);
 						se.setGlowing(true);
 						se.setInvulnerable(true);
 						se.setInvisible(true);
 						se.setPositionAndRotation(p.getX(), p.getY(), p.getZ(), 0, 0);
 						se.setNoAI(true);
+						
+						
+						
+						
 						worldIn.addEntity(se);
 						se.addPotionEffect(new EffectInstance(Effects.INVISIBILITY, 1200, 0, false ,false));
 
+						
 
 						shulkers.add(se);
 						timings.add(-1);

@@ -1,0 +1,46 @@
+{
+    "itemGroup.randomloot.randomlootTab": "Random Loot Mod",
+
+
+    "item.randomloot.basic_case": "Caixa Básica",
+    "item.randomloot.golden_case": "§6Caixa Dourada",
+    "item.randomloot.titan_case": "§dCaixa do Titã",
+    "item.randomloot.sword": "Espada Aleatória",
+    "item.randomloot.pickaxe": "Picareta Aleatória",
+    "item.randomloot.shovel": "Pá Aleatória",
+    "item.randomloot.axe": "Machado Aleatório",
+    "item.randomloot.paxel": "Paxel Aleatório",
+    "item.randomloot.rl_bow": "Arco Aleatório",
+    "item.randomloot.heavy_helmet": "Capacete Aleatório",
+    "item.randomloot.heavy_chest": "Peitoral Aleatório",
+    "item.randomloot.heavy_legs": "Calças Aleatórias",
+    "item.randomloot.heavy_boots": "Botas Aleatórias",
+    "item.randomloot.titanium_helmet": "Capacete Aleatório",
+    "item.randomloot.titanium_chest": "Peitoral Aleatório",
+    "item.randomloot.titanium_legs": "Calças Aleatórias",
+    "item.randomloot.titanium_boots": "Botas Aleatórias",
+    "item.randomloot.random_shard": "Shard Aleatório",
+    "item.randomloot.random_cluster": "Cluster Aleatório",
+    "item.randomloot.trait_holder": "Essência Misteriosa",
+
+
+    "item.randomloot.throwable": "Jogável Aleatório",
+
+    "block.randomloot.random_anvil": "Bigorna Dourada",
+    "block.randomloot.repair_station": "Estação de Reparo",
+    "block.randomloot.case_opener": "Abridor de Caixa",
+    "block.randomloot.breaker": "Triturador de Ferramentas",
+    
+    "block.randomloot.editor": "Editor de Ferramentas",
+    
+    "entity.minecraft.villager.randomloot.looter": "Coletor",
+
+    "container.randomloot.breaker": "Triturador de Ferramentas",
+    
+    "container.randomloot.edit": "Editor de Ferramentas",
+    
+    "button.remove": "Remover Traços",
+    
+    "container.editor.removewarning": "Todos os traços serão retirados desta ferramenta e ela será fortemente danificada."
+    
+}
