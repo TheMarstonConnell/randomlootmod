@@ -35,6 +35,7 @@ import xyz.marstonconnell.randomloot.tags.EffectTag;
 import xyz.marstonconnell.randomloot.tags.StatBoostTag;
 import xyz.marstonconnell.randomloot.tags.TagHelper;
 import xyz.marstonconnell.randomloot.tags.WorldInteractTag;
+import xyz.marstonconnell.randomloot.utils.Config;
 
 public class RLBowItem extends RLShootableItem implements IRLTool {
 
@@ -299,7 +300,7 @@ public class RLBowItem extends RLShootableItem implements IRLTool {
 
 	@Override
 	public int getVariants() {
-		return 6;
+		return Config.TEXTURES_BOW.get();
 	}
 
 	@Override

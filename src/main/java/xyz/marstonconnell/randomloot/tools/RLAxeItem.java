@@ -298,6 +298,6 @@ public class RLAxeItem extends RLToolItem implements IRLTool {
 	@Override
 	public int getVariants() {
 		// TODO Auto-generated method stub
-		return 11;
+		return Config.TEXTURES_AXE.get();
 	}
 }

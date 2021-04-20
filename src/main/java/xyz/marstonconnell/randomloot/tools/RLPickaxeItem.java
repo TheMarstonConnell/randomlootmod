@@ -238,7 +238,7 @@ DecimalFormat f = new DecimalFormat("#0.00");
 	@Override
 	public int getVariants() {
 		// TODO Auto-generated method stub
-		return 17;
+		return Config.TEXTURES_PICKAXE.get();
 	}
 	
 	

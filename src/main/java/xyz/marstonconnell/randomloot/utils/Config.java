@@ -1,6 +1,8 @@
 package xyz.marstonconnell.randomloot.utils;
 
 import java.util.HashMap;
+
+import net.minecraftforge.common.ForgeConfig.Common;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.DoubleValue;
 import net.minecraftforge.common.ForgeConfigSpec.IntValue;
@@ -16,7 +18,8 @@ public class Config {
 	public static final String CATEGORY_TOOLS = "tools";
 	public static final String CATEGORY_TRAITS = "traits";
 	public static final String CATEGORY_CASES = "cases";
-	
+	public static final String CATEGORY_TEXTURES = "textures";
+
 	
 	public static IntValue BASE_PICKAXE_DAMAGE;
 	public static DoubleValue BASE_PICKAXE_ATTACK_SPEED;
@@ -77,6 +80,14 @@ public class Config {
 	public static IntValue TITAN_RARE;
 	public static IntValue TITAN_LEGEND;
 
+	public static IntValue TEXTURES_SWORD;
+	public static IntValue TEXTURES_PICKAXE;
+	public static IntValue TEXTURES_AXE;
+	public static IntValue TEXTURES_SHOVEL;
+	public static IntValue TEXTURES_BOW;
+
+
+	
 	public static HashMap<String, ForgeConfigSpec.BooleanValue> traitsEnabled = new HashMap<String, ForgeConfigSpec.BooleanValue>();
 
 	static {
@@ -121,6 +132,16 @@ public class Config {
 		
 		DATA_COLLECT = COMMON_BUILDER.comment("Allow anonymous data collection?").define("data", true);
 		TRAIT_CRAFTING = COMMON_BUILDER.comment("Enable certain traits to be craftable.").define("crafting_traits", true);
+
+		COMMON_BUILDER.pop();
+		
+		COMMON_BUILDER.comment("Textures").push(CATEGORY_TEXTURES);
+		
+		TEXTURES_SWORD = COMMON_BUILDER.comment("Sword Textures").defineInRange("sword_textures", 35, 1, 1000);
+		TEXTURES_PICKAXE = COMMON_BUILDER.comment("Pickaxe Textures").defineInRange("pickaxe_textures", 17, 1, 1000);
+		TEXTURES_AXE = COMMON_BUILDER.comment("Axe Textures").defineInRange("axe_textures", 11, 1, 1000);
+		TEXTURES_SHOVEL = COMMON_BUILDER.comment("Shovel Textures").defineInRange("shovel_textures", 8, 1, 1000);
+		TEXTURES_BOW = COMMON_BUILDER.comment("Bow Textures").defineInRange("bow_textures", 6, 1, 1000);
 
 		COMMON_BUILDER.pop();
 		

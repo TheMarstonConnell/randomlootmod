@@ -278,6 +278,6 @@ DecimalFormat f = new DecimalFormat("#0.00");
 	@Override
 	public int getVariants() {
 		// TODO Auto-generated method stub
-		return 8;
+		return Config.TEXTURES_SHOVEL.get();
 	}
 }

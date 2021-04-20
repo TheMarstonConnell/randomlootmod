@@ -48,7 +48,7 @@ public class RLSwordItem extends SwordItem implements IRLTool{
 
 	
 	public int getVariants() {
-		return 35;
+		return Config.TEXTURES_SWORD.get();
 	}
 	
 	@Override
