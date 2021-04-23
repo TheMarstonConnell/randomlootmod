@@ -137,7 +137,7 @@ public class Config {
 		
 		COMMON_BUILDER.comment("Textures").push(CATEGORY_TEXTURES);
 		
-		TEXTURES_SWORD = COMMON_BUILDER.comment("Sword Textures").defineInRange("sword_textures", 35, 1, 1000);
+		TEXTURES_SWORD = COMMON_BUILDER.comment("Sword Textures").defineInRange("sword_textures", 47, 1, 1000);
 		TEXTURES_PICKAXE = COMMON_BUILDER.comment("Pickaxe Textures").defineInRange("pickaxe_textures", 17, 1, 1000);
 		TEXTURES_AXE = COMMON_BUILDER.comment("Axe Textures").defineInRange("axe_textures", 11, 1, 1000);
 		TEXTURES_SHOVEL = COMMON_BUILDER.comment("Shovel Textures").defineInRange("shovel_textures", 8, 1, 1000);

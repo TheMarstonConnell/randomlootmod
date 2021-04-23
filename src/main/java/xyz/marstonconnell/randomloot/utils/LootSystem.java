@@ -88,11 +88,11 @@ public class LootSystem {
 		ServerStatisticsManager ssm = playerIn.getStats();
 
 		
-		float swordsUsed = 0;
-		float axesUsed = 0;
-		float bowsUsed = 0;
-		float picksUsed = 0;
-		float shovelsUsed = 0;
+		float swordsUsed = 1;
+		float axesUsed = 1;
+		float bowsUsed = 1;
+		float picksUsed = 1;
+		float shovelsUsed = 1;
 		
 		for(Item i : allSwords) {
 			swordsUsed += ssm.getValue(Stats.ITEM_USED.get(i));

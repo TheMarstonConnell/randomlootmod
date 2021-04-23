@@ -213,7 +213,78 @@
 				"model": 35
 			},
 			"model": "randomloot:item/sword/35"
+		},
+		{
+			"predicate": {
+				"model": 36
+			},
+			"model": "randomloot:item/sword/36"
+		},
+		{
+			"predicate": {
+				"model": 37
+			},
+			"model": "randomloot:item/sword/37"
+		},
+		{
+			"predicate": {
+				"model": 38
+			},
+			"model": "randomloot:item/sword/38"
+		},
+		{
+			"predicate": {
+				"model": 39
+			},
+			"model": "randomloot:item/sword/39"
+		},
+		{
+			"predicate": {
+				"model": 40
+			},
+			"model": "randomloot:item/sword/40"
+		},
+		{
+			"predicate": {
+				"model": 41
+			},
+			"model": "randomloot:item/sword/41"
+		},
+		{
+			"predicate": {
+				"model": 42
+			},
+			"model": "randomloot:item/sword/42"
+		},
+		{
+			"predicate": {
+				"model": 43
+			},
+			"model": "randomloot:item/sword/43"
+		},
+		{
+			"predicate": {
+				"model": 44
+			},
+			"model": "randomloot:item/sword/44"
+		},
+		{
+			"predicate": {
+				"model": 45
+			},
+			"model": "randomloot:item/sword/45"
+		},
+		{
+			"predicate": {
+				"model": 46
+			},
+			"model": "randomloot:item/sword/46"
+		},
+		{
+			"predicate": {
+				"model": 47
+			},
+			"model": "randomloot:item/sword/47"
 		}
-		
 	]
 }

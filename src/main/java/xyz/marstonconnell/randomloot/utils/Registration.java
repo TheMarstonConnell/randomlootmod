@@ -15,6 +15,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.marstonconnell.randomloot.RandomLootMod;
 import xyz.marstonconnell.randomloot.blocks.LightBall;
+import xyz.marstonconnell.randomloot.blocks.MovingLightBlock;
 import xyz.marstonconnell.randomloot.blocks.RLAnvil;
 import xyz.marstonconnell.randomloot.container.RLRepairContainer;
 import net.minecraftforge.common.extensions.IForgeContainerType;
@@ -50,7 +51,8 @@ public class Registration {
     
     public static final RegistryObject<RLAnvil> EDITOR = BLOCKS.register("editor", RLAnvil::new);
     public static final RegistryObject<LightBall> LIGHT_BALL = BLOCKS.register("light_ball", LightBall::new);
-    
+    public static final RegistryObject<MovingLightBlock> MOVING_LIGHT = BLOCKS.register("moving_light", MovingLightBlock::new);
+
     
     public static final RegistryObject<Item> EDITOR_ITEM = ITEMS.register("editor", () -> new BlockItem(EDITOR.get(), new Item.Properties().group(ItemGroup.DECORATIONS)));
 
