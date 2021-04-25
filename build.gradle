@@ -14,7 +14,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 
-version = '1.16.5-2.3.8'
+version = '1.16.5-2.3.9'
 group = 'xyz.marstonconnell.randomloot' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'randomloot'
 
@@ -92,7 +92,7 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    maven { url 'https://maven.blamejared.com' }
+    //maven { url 'https://maven.blamejared.com' }
 }
 
 
@@ -121,8 +121,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     // 1.14+
-    compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50:api")
-    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
+    //compileOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50:api")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:1.16.4-50")
 
 }
 

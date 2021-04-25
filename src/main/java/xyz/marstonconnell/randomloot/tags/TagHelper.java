@@ -35,6 +35,7 @@ import xyz.marstonconnell.randomloot.tags.worldinteract.LaserArrowEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LightBoostEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LongLeggedEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.LowDurabilityAttackEvent;
+import xyz.marstonconnell.randomloot.tags.worldinteract.MovingLightEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiBreakEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.MultiShotEvent;
 import xyz.marstonconnell.randomloot.tags.worldinteract.OreFindEvent;
@@ -123,6 +124,7 @@ public abstract class TagHelper {
 	public static final BasicTag PLACE_LIGHT;
 	public static final BasicTag LOCKED;
 	public static final BasicTag EASTER;
+	public static final BasicTag MOVING_LIGHT;
 	//public static final BasicTag SLEEPING;
 
 	/**
@@ -243,6 +245,8 @@ public abstract class TagHelper {
 		LOCKED = new BasicTag("locked", TextFormatting.WHITE).addCraftMaterial(Items.NETHER_STAR, 1, 0).setUniversal().setUnnatural();
 	
 		EASTER = new WorldInteractTag(new String[] {"egg_hunt"}, TextFormatting.GREEN, new EasterEvent(), true, false, true).setLimited(2021, 4, 2, 4);
+	
+		MOVING_LIGHT = new WorldInteractTag(new String[] {"glowing"}, TextFormatting.GOLD, new MovingLightEvent(), false, true, true);
 	}
 	
 	public static void finalizeActiveTraits() {

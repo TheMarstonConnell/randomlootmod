@@ -21,6 +21,7 @@ import net.minecraft.loot.LootEntryManager;
 import net.minecraft.loot.LootFunction;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.functions.LootFunctionManager;
+import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.EntityDamageSource;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
@@ -61,6 +62,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import xyz.marstonconnell.randomloot.blocks.MovingLightBlock;
 import xyz.marstonconnell.randomloot.entity.RLPointOfInterestTypes;
 import xyz.marstonconnell.randomloot.entity.RLVillagerProfession;
 import xyz.marstonconnell.randomloot.init.ItemUtils;
@@ -263,6 +265,8 @@ public class RandomLootMod {
 	// Event bus for receiving Registry Events)
 	@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 	public static class RegistryEvents {
+	
+		
 		@SubscribeEvent
 		public static void onItemRegistry(RegistryEvent.Register<Item> event) {
 

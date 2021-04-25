@@ -1,0 +1,11 @@
+{
+  "conditions": [
+    {
+      "condition": "minecraft:match_tool",
+      "predicate": {
+        "nbt": "{tag_name:\"auto_smelt\",tag_level:0}"
+      }
+    }
+  ],
+  "type": "randomloot:smelting"
+}
