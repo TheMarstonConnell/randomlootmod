@@ -16,7 +16,7 @@ public class FloatEvent extends WorldInteractEvent {
 
 	@Override
 	public void effect(int level, ItemStack stack, World worldIn, LivingEntity entityLiving, BlockState state, BlockPos pos, Entity target) {
-		System.out.println("Making " + entityLiving.getName() + " float.");
+//		System.out.println("Making " + entityLiving.getName() + " float.");
 		
 		
 		

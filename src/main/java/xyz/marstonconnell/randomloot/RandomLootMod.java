@@ -250,7 +250,7 @@ public class RandomLootMod {
 			ItemStack stack = player.inventory.getStackInSlot(i);
 
 			if (stack.getItem() instanceof IRLTool) {
-				System.out.println("Found a tool.");
+				//System.out.println("Found a tool.");
 				List<BasicTag> tags = TagHelper.getTagList(stack);
 				for (BasicTag tag : tags) {
 					tag.onTagAdded(stack, world, player);
