@@ -15,12 +15,7 @@ out
 
 # gradle
 build
-*.gradle
-*.bat
-*.txt
-*.gitattributes
-gradlew
-*.properties
+.gradle
 
 # other
 eclipse
