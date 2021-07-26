@@ -1,33 +1,16 @@
 package xyz.marstonconnell.randomloot;
 
-import net.minecraft.block.BlockEventData;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.data.loot.BlockLootTables;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.MerchantOffer;
-import net.minecraft.loot.LootEntry;
-import net.minecraft.loot.LootEntryManager;
-import net.minecraft.loot.LootFunction;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.functions.LootFunctionManager;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.EntityDamageSource;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.trading.MerchantOffer;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
@@ -46,20 +29,19 @@ import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartedEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
-import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
+import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
+import net.minecraftforge.fmlserverevents.FMLServerStoppingEvent;
+import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import xyz.marstonconnell.randomloot.blocks.MovingLightBlock;
@@ -153,29 +135,30 @@ public class RandomLootMod {
 		TextureProxy.init();
 
 		
-	    RenderTypeLookup.setRenderLayer(Registration.LIGHT_BALL.get(), RenderType.getCutout());
+	    RenderType.setRenderLayer(Registration.LIGHT_BALL.get(), RenderType.getCutout());
 	}
 
 	@SubscribeEvent
 	public void entityDrop(LivingDropsEvent event) {
-		if (event.getEntity().getEntityWorld().getGameRules().getBoolean(GameRules.DO_ENTITY_DROPS)) {
+		if (event.getEntity().getEntityWorld().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
 			if (!(event.getSource() instanceof EntityDamageSource)
-					|| !(((EntityDamageSource) event.getSource()).getTrueSource() instanceof PlayerEntity)
-					|| !(((EntityDamageSource) event.getSource()).getTrueSource() instanceof PlayerEntity))
+					|| !(((EntityDamageSource) event.getSource()).getTrueSource() instanceof Player)
+					|| !(((EntityDamageSource) event.getSource()).getTrueSource() instanceof Player))
 				return;
 
 			int choice = RandomLootMod.rand.nextInt(1000);
 			int range = 0;
 
-			if (event.getEntity() instanceof MonsterEntity) {
+			if (event.getEntity() instanceof Monster) {
 				range = Config.MONSTERS_DROP.get();
-			} else if (event.getEntity() instanceof AnimalEntity) {
+			} else if (event.getEntity() instanceof Animal) {
 				range = Config.ANIMAL_DROP.get();
 			}
 
-			if (!event.getEntity().isNonBoss()) {
-				range = Config.BOSS_DROP.get();
-			}
+			//TODO: Boss events
+//			if (!event.getEntity()) {
+//				range = Config.BOSS_DROP.get();
+//			}
 
 			if (choice < range) {
 				WeightedChooser<Item> cases = new WeightedChooser<Item>();
@@ -195,7 +178,7 @@ public class RandomLootMod {
 		// do something when the server starts
 		LOGGER.info("HELLO from server starting");
 
-		RLCommands.register(event.getServer().getCommandManager().getDispatcher());
+		RLCommands.register(event.getServer().getCommandStorage());
 		LootSystem.init();
 	}
 	
@@ -204,7 +187,7 @@ public class RandomLootMod {
 	@SubscribeEvent
 	public void onServerStopping(FMLServerStoppingEvent event) {
 		
-		DataCollection.goOffline(event.getServer().getCurrentPlayerCount());
+		DataCollection.goOffline(event.getServer().getPlayerCount());
 
 		
 	}
@@ -214,11 +197,11 @@ public class RandomLootMod {
 	
 	@SubscribeEvent
 	public void onPlayerLeave(EntityLeaveWorldEvent event) {
-		if (!(event.getEntity() instanceof PlayerEntity)) {
+		if (!(event.getEntity() instanceof Player)) {
 			return;
 		}
 		
-		if(!event.getWorld().isRemote()) {
+		if(event.getWorld().isClientSide()) {
 			DataCollection.goOffline(1);
 		}
 		
@@ -227,11 +210,11 @@ public class RandomLootMod {
 	@SubscribeEvent
 	public void onPlayerJoin(EntityJoinWorldEvent event) {
 
-		if (!(event.getEntity() instanceof PlayerEntity)) {
+		if (!(event.getEntity() instanceof Player)) {
 			return;
 		}
 		
-		if(!event.getWorld().isRemote()) {
+		if(event.getWorld().isClientSide()) {
 
 			DataCollection.goOnline();
 		}
@@ -239,15 +222,15 @@ public class RandomLootMod {
 		
 		System.out.println("Player joined world");
 
-		PlayerEntity player = (PlayerEntity) event.getEntity();
+		Player player = (Player) event.getEntity();
 
 		// do something when the server starts
 		LOGGER.info("HELLO from server starting");
 
-		World world = event.getWorld();
+		Level world = event.getWorld();
 
-		for (int i = 0; i < player.inventory.getSizeInventory(); i++) {
-			ItemStack stack = player.inventory.getStackInSlot(i);
+		for (int i = 0; i < player.getInventory().size; i++) {
+			ItemStack stack = player.getInventory().getStackInSlot(i);
 
 			if (stack.getItem() instanceof IRLTool) {
 				//System.out.println("Found a tool.");
