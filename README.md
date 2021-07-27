@@ -4,7 +4,8 @@ Introducing Looting like you've never seen it before! Have you ever felt that Mi
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed under the GNU GPL3 License.
+https://choosealicense.com/licenses/gpl-3.0/
 
 ## Acknowledgments
 
