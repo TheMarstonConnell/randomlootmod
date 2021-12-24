@@ -15,33 +15,33 @@
     "item.randomloot.heavy_chest": "Zufällige Brustplatte",
     "item.randomloot.heavy_legs": "Zufällige Hose",
     "item.randomloot.heavy_boots": "Zufällige Schuhe",
-    "item.randomloot.titanium_helmet": "Random Helmet",
-    "item.randomloot.titanium_chest": "Random Chestplate",
-    "item.randomloot.titanium_legs": "Random Leggings",
-    "item.randomloot.titanium_boots": "Random Boots",
-    "item.randomloot.random_shard": "Random Shard",
-    "item.randomloot.random_chunk": "Random Chunk",
-    "item.randomloot.random_cluster": "Random Cluster",
-    "item.randomloot.trait_holder": "Mysterious Essence",
+    "item.randomloot.titanium_helmet": "Zufälliger Helm",
+    "item.randomloot.titanium_chest": "Zufällige Brustplate",
+    "item.randomloot.titanium_legs": "Zufällige Hose",
+    "item.randomloot.titanium_boots": "Zufällige Schuhe",
+    "item.randomloot.random_shard": "Zufällige Scherbe",
+    "item.randomloot.random_chunk": "Zufälliges Brocken",
+    "item.randomloot.random_cluster": "Zufälliger Cluster",
+    "item.randomloot.trait_holder": "Mysteriose Essenz",
 
 
-    "item.randomloot.throwable": "Random Throwable",
+    "item.randomloot.throwable": "Zufälliges Werfbares",
 
-    "block.randomloot.random_anvil": "Golden Anvil",
-    "block.randomloot.repair_station": "Repair Station",
-    "block.randomloot.case_opener": "Case Ripper",
-    "block.randomloot.breaker": "Tool Masher",
+    "block.randomloot.random_anvil": "Goldener Amboss",
+    "block.randomloot.repair_station": "Reparatursstation",
+    "block.randomloot.case_opener": "Beutetruhe Aufreißer",
+    "block.randomloot.breaker": "Werkzeugzerstörer",
     
-    "block.randomloot.editor": "Tool Editor",
+    "block.randomloot.editor": "Werkzeugeditor",
     
-    "entity.minecraft.villager.randomloot.looter": "Collector",
+    "entity.minecraft.villager.randomloot.looter": "Einsammler",
 
-    "container.randomloot.breaker": "Tool Masher",
+    "container.randomloot.breaker": "Werkzeugzerstörer",
     
-    "container.randomloot.edit": "Tool Editor",
+    "container.randomloot.edit": "Werkeuzgeditor",
     
-    "button.remove": "Remove Traits",
+    "button.remove": "Entferne Merkmale",
     
-    "container.editor.removewarning": "All traits will be popped from this tool and it will be heavily damaged."
+    "container.editor.removewarning": "Alle Merkmale werden von diesem Werkzeug herausgeholt und es wird stark geschadet."
     
 }
