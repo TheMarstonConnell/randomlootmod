@@ -2,28 +2,26 @@ package xyz.marstonconnell.randomloot.blocks;
 
 import java.util.function.ToIntFunction;
 
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
 
 public class LightBall extends Block{
 
 	public LightBall() {
-		super(AbstractBlock.Properties.create(Material.ROCK).zeroHardnessAndResistance().doesNotBlockMovement().notSolid().setOpaque(LightBall::isntSolid));
+		super(BlockBehaviour.Properties.of(Material.STONE).explosionResistance(0).instabreak().noCollission());
 	
 	}
 	
 	@Override
-	public int getLightValue(BlockState state, IBlockReader world, BlockPos pos) {
+	public int getLightEmission(BlockState state, BlockGetter world, BlockPos pos) {
 		return 8;
 	}
 	
-	private static boolean isntSolid(BlockState state, IBlockReader reader, BlockPos pos) {
-	      return false;
-	}
+	
 	
 }
 
