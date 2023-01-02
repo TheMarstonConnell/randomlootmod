@@ -1,0 +1,47 @@
+{
+    "itemGroup.randomloot.randomlootTab": "Zufällige Beute Mod",
+
+
+    "item.randomloot.basic_case": "Basische Beutetruhe",
+    "item.randomloot.golden_case": "§6Goldene Beutetruhe",
+    "item.randomloot.titan_case": "§dTiitan Beutetruhe",
+    "item.randomloot.sword": "Zufälliges Schwert",
+    "item.randomloot.pickaxe": "Zufällige Spitzhacke",
+    "item.randomloot.shovel": "Zufällige Schaufel",
+    "item.randomloot.axe": "Zufällige Axt",
+    "item.randomloot.paxel": "Zufällige Paxel",
+    "item.randomloot.rl_bow": "Zufälliger Bogen",
+    "item.randomloot.heavy_helmet": "Zufälliger Helm",
+    "item.randomloot.heavy_chest": "Zufällige Brustplatte",
+    "item.randomloot.heavy_legs": "Zufällige Hose",
+    "item.randomloot.heavy_boots": "Zufällige Schuhe",
+    "item.randomloot.titanium_helmet": "Zufälliger Helm",
+    "item.randomloot.titanium_chest": "Zufällige Brustplate",
+    "item.randomloot.titanium_legs": "Zufällige Hose",
+    "item.randomloot.titanium_boots": "Zufällige Schuhe",
+    "item.randomloot.random_shard": "Zufällige Scherbe",
+    "item.randomloot.random_chunk": "Zufälliges Brocken",
+    "item.randomloot.random_cluster": "Zufälliger Cluster",
+    "item.randomloot.trait_holder": "Mysteriose Essenz",
+
+
+    "item.randomloot.throwable": "Zufälliges Werfbares",
+
+    "block.randomloot.random_anvil": "Goldener Amboss",
+    "block.randomloot.repair_station": "Reparatursstation",
+    "block.randomloot.case_opener": "Beutetruhe Aufreißer",
+    "block.randomloot.breaker": "Werkzeugzerstörer",
+    
+    "block.randomloot.editor": "Werkzeugeditor",
+    
+    "entity.minecraft.villager.randomloot.looter": "Einsammler",
+
+    "container.randomloot.breaker": "Werkzeugzerstörer",
+    
+    "container.randomloot.edit": "Werkeuzgeditor",
+    
+    "button.remove": "Entferne Merkmale",
+    
+    "container.editor.removewarning": "Alle Merkmale werden von diesem Werkzeug herausgeholt und es wird stark geschadet."
+    
+}
